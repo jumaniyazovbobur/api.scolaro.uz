@@ -1,5 +1,5 @@
 package api.scolaro.uz.enums;
 
-public enum AppLang {
+public enum AppLanguage {
     uz, en, ru
 }

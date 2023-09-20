@@ -1,7 +1,6 @@
 package api.scolaro.uz.service;
 
 
-
 import api.scolaro.uz.entity.PersonRoleEntity;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.repository.PersonRoleRepository;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 
 @Service
 @AllArgsConstructor

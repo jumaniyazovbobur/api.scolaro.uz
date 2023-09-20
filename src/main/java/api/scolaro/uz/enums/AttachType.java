@@ -2,7 +2,7 @@ package api.scolaro.uz.enums;
 
 public enum AttachType {
     PASSPORT("Passport", "Passport", "Паспорт"),
-    REGISTRATION("Кo'yxatdan o'tgan joy", "Registration", "Прописка"),
+    REGISTRATION("Ro'yxatdan o'tgan joy", "Registration", "Прописка"),
     OTHER("Boshqa", "Other", "Другой");
 
     private String nameUz;

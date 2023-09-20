@@ -22,11 +22,13 @@ public interface CountryRepository extends JpaRepository<CountryEntity, Long> {
 
     Optional<CountryEntity> findByIdAndVisibleTrue(Long id);
 
-    @Query("SELECT  cou.id as cou_id,cou.visible as cou_visible,cou.createdDate as cou_createdDate," +
-            " cou.nameEn as nameEn,cou.nameUz as nameUz," +
-            " cou.nameRu as nameRu from CountryEntity as cou " +
-            " WHERE cou.id=:id and cou.visible = true ")
-    Optional<CountryMapper> getCountryByKey(@Param("id") Long id);
+
+//    @Query("SELECT  cou.id as cou_id,cou.visible as cou_visible,cou.createdDate as cou_createdDate," +
+//            " cou.nameEn as nameEn,cou.nameUz as nameUz," +
+//            " cou.nameRu as nameRu from CountryEntity as cou " +
+//            " WHERE cou.id=:id and cou.visible = true ")
+//    Optional<CountryMapper> getCountryByKey(@Param("id") Long id);
+
 
 
     @Modifying

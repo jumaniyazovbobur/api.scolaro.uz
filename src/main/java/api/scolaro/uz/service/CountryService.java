@@ -3,6 +3,7 @@ package api.scolaro.uz.service;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.country.*;
 import api.scolaro.uz.entity.CountryEntity;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.CountryRepository;
@@ -88,13 +89,13 @@ public class CountryService {
 
 
     public ApiResponse<CountryResponseDTO> getById(Long id, AppLanguage language) {
-        CountryMapper mapper = countryRepository.getCountryByKey(id).orElseThrow(() -> {
-            log.warn("Country not found");
-            return new ItemNotFoundException("Country not found");
-        });
-
-        return new ApiResponse<>(200, false, toDTO(mapper, language));
-
+//        CountryMapper mapper = countryRepository.getCountryByKey(id).orElseThrow(() -> {
+//            log.warn("Country not found");
+//            return new ItemNotFoundException("Country not found");
+//        });
+//
+//        return new ApiResponse<>(200, false, toDTO(mapper, language));
+        return null;
     }
 
     public CountryPaginationDTO pagination(int page, int size) {
@@ -146,24 +147,24 @@ public class CountryService {
     }
 
 
-    private CountryResponseDTO toDTO(CountryMapper mapper, AppLanguage lang) {
-        CountryResponseDTO dto = new CountryResponseDTO();
-        dto.setId(mapper.getCou_id());
-
-        switch (lang) {
-            case ru:
-                dto.setName(mapper.getNameRu());
-                break;
-            case en:
-                dto.setName(mapper.getNameEn());
-                break;
-            case uz:
-                dto.setName(mapper.getNameUz());
-                break;
-        }
-        return dto;
-
-    }
+//    private CountryResponseDTO toDTO(CountryMapper mapper, AppLanguage lang) {
+//        CountryResponseDTO dto = new CountryResponseDTO();
+//        dto.setId(mapper.getCou_id());
+//
+//        switch (lang) {
+//            case ru:
+//                dto.setName(mapper.getNameRu());
+//                break;
+//            case en:
+//                dto.setName(mapper.getNameEn());
+//                break;
+//            case uz:
+//                dto.setName(mapper.getNameUz());
+//                break;
+//        }
+//        return dto;
+//
+//    }
 
     private CountryResponseDTO toDTO(CountryEntity entity) {
         CountryResponseDTO dto = new CountryResponseDTO();

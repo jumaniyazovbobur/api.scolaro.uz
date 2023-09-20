@@ -2,6 +2,7 @@ package api.scolaro.uz.controller;
 
 
 import api.scolaro.uz.dto.profile.*;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.ProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -75,7 +76,7 @@ public class ProfileController {
     public ResponseEntity<Page<ProfileDTO>> filter(@RequestBody ProfileFilterRequestDTO dto,
                                                    @RequestParam(value = "page", defaultValue = "1") int page,
                                                    @RequestParam(value = "size", defaultValue = "30") int size,
-                                                   @RequestParam(value = "lang", defaultValue = "uz") AppLang lang) {
+                                                   @RequestParam(value = "lang", defaultValue = "uz") AppLanguage lang) {
         return ResponseEntity.ok(profileService.filter(dto));
     }
 
