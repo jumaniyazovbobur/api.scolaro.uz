@@ -1,8 +1,9 @@
 package api.scolaro.uz.config.jwt;
 
-import api.dean.db.config.SecurityConfiguration;
-import api.dean.db.dto.JwtDTO;
-import api.dean.db.util.JwtUtil;
+
+import api.scolaro.uz.config.SecurityConfiguration;
+import api.scolaro.uz.dto.JwtDTO;
+import api.scolaro.uz.util.JwtUtil;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

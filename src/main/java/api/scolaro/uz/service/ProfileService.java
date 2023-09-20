@@ -1,15 +1,16 @@
 package api.scolaro.uz.service;
 
-import api.dean.db.config.details.EntityDetails;
-import api.dean.db.dto.ApiResponse;
-import api.dean.db.dto.profile.*;
-import api.dean.db.entity.GeneralStatus;
-import api.dean.db.entity.ProfileEntity;
-import api.dean.db.enums.RoleEnum;
-import api.dean.db.exp.AppBadRequestException;
-import api.dean.db.exp.ItemNotFoundException;
-import api.dean.db.repository.ProfileRepository;
-import api.dean.db.util.MD5Util;
+
+import api.scolaro.uz.config.details.EntityDetails;
+import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.profile.*;
+import api.scolaro.uz.entity.ProfileEntity;
+import api.scolaro.uz.enums.GeneralStatus;
+import api.scolaro.uz.enums.RoleEnum;
+import api.scolaro.uz.exp.AppBadRequestException;
+import api.scolaro.uz.exp.ItemNotFoundException;
+import api.scolaro.uz.repository.ProfileRepository;
+import api.scolaro.uz.util.MD5Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;

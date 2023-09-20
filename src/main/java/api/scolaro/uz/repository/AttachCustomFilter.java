@@ -1,11 +1,6 @@
 package api.scolaro.uz.repository;
 
-import api.dean.db.dto.attach.AttachFilterDTO;
-import api.dean.db.dto.attach.AttachResponseDTO;
-import api.dean.db.enums.AttachType;
-import api.dean.db.enums.CommentType;
-import api.dean.db.enums.FileType;
-import api.dean.db.util.MapperUtil;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;

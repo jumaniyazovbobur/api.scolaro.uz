@@ -1,8 +1,8 @@
 package api.scolaro.uz.controller;
 
-import api.dean.db.dto.profile.*;
-import api.dean.db.enums.AppLang;
-import api.dean.db.service.ProfileService;
+
+import api.scolaro.uz.dto.profile.*;
+import api.scolaro.uz.service.ProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

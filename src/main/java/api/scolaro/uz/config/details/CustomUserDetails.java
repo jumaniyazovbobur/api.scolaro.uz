@@ -1,8 +1,9 @@
 package api.scolaro.uz.config.details;
 
-import api.dean.db.entity.GeneralStatus;
-import api.dean.db.entity.ProfileEntity;
-import api.dean.db.enums.RoleEnum;
+
+import api.scolaro.uz.entity.ProfileEntity;
+import api.scolaro.uz.enums.GeneralStatus;
+import api.scolaro.uz.enums.RoleEnum;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

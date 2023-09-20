@@ -1,6 +1,7 @@
 package api.scolaro.uz.entity;
 
-import api.dean.db.enums.RoleEnum;
+
+import api.scolaro.uz.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,8 +1,9 @@
 package api.scolaro.uz.controller.hadler;
 
-import api.dean.db.exp.AppBadRequestException;
-import api.dean.db.exp.ItemNotFoundException;
-import api.dean.db.exp.SmsLimitOverException;
+
+import api.scolaro.uz.exp.AppBadRequestException;
+import api.scolaro.uz.exp.ItemNotFoundException;
+import api.scolaro.uz.exp.SmsLimitOverException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;

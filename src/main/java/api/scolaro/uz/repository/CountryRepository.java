@@ -1,5 +1,6 @@
- package api.scolaro.uz.repository;
+package api.scolaro.uz.repository;
 
+import api.scolaro.uz.entity.CountryEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,16 +8,17 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
-import uz.dachatop.entity.CountryEntity;
-import uz.dachatop.mapper.CountryMapper;
+
 
 import java.util.Optional;
 
-public interface CountryRepository extends JpaRepository<CountryEntity,Long> {
+public interface CountryRepository extends JpaRepository<CountryEntity, Long> {
 
     Iterable<CountryEntity> findAllByVisibleOrderByNameUzAsc(boolean b);
-Iterable<CountryEntity> findAllByVisibleOrderByNameRuAsc(boolean b);
-Iterable<CountryEntity> findAllByVisibleOrderByNameEnAsc(boolean b);
+
+    Iterable<CountryEntity> findAllByVisibleOrderByNameRuAsc(boolean b);
+
+    Iterable<CountryEntity> findAllByVisibleOrderByNameEnAsc(boolean b);
 
     Optional<CountryEntity> findByIdAndVisibleTrue(Long id);
 
@@ -24,7 +26,7 @@ Iterable<CountryEntity> findAllByVisibleOrderByNameEnAsc(boolean b);
             " cou.nameEn as nameEn,cou.nameUz as nameUz," +
             " cou.nameRu as nameRu from CountryEntity as cou " +
             " WHERE cou.id=:id and cou.visible = true ")
-    Optional<CountryMapper> getCountryByKey(@Param("id") Long  id);
+    Optional<CountryMapper> getCountryByKey(@Param("id") Long id);
 
 
     @Modifying

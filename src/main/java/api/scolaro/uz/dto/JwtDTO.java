@@ -1,7 +1,8 @@
 package api.scolaro.uz.dto;
 
 
-import api.dean.db.enums.RoleEnum;
+
+import api.scolaro.uz.enums.RoleEnum;
 import lombok.Getter;
 import lombok.Setter;
 

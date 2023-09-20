@@ -1,6 +1,7 @@
 package api.scolaro.uz.repository;
 
-import api.dean.db.entity.ProfileEntity;
+
+import api.scolaro.uz.entity.ProfileEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

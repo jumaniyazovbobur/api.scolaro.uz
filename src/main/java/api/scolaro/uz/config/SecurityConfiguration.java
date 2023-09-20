@@ -1,7 +1,8 @@
 package api.scolaro.uz.config;
 
-import api.dean.db.config.jwt.JwtAuthenticationFilter;
-import api.dean.db.util.MD5Util;
+
+import api.scolaro.uz.config.jwt.JwtAuthenticationFilter;
+import api.scolaro.uz.util.MD5Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

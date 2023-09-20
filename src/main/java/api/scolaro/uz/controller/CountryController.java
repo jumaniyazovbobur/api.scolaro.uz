@@ -4,18 +4,20 @@ package api.scolaro.uz.controller;
 // MONTH -> 07
 // DAY -> 30
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+
+import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.country.CountryDTO;
+import api.scolaro.uz.dto.country.CountryPaginationDTO;
+import api.scolaro.uz.dto.country.CountryRequestDTO;
+import api.scolaro.uz.dto.country.CountryResponseDTO;
+import api.scolaro.uz.service.CountryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import uz.dachatop.dto.country.*;
-import uz.dachatop.dto.response.ApiResponse;
-import uz.dachatop.enums.AppLanguage;
-import uz.dachatop.service.CountryService;
+
 
 import java.util.List;
 

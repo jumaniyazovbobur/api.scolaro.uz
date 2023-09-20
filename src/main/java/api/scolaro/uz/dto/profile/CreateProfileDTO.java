@@ -1,6 +1,7 @@
 package api.scolaro.uz.dto.profile;
 
-import api.dean.db.enums.RoleEnum;
+
+import api.scolaro.uz.enums.RoleEnum;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;

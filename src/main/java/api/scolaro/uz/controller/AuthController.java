@@ -1,12 +1,11 @@
 package api.scolaro.uz.controller;
 
 
-import api.dean.db.dto.ResetPasswordConfirmDTO;
-import api.dean.db.dto.ResetPasswordRequestDTO;
-import api.dean.db.dto.auth.AuthDTO;
-import api.dean.db.dto.response.ProfileResponseDTO;
-import api.dean.db.service.AuthService;
-import api.dean.db.service.ProfileService;
+
+import api.scolaro.uz.dto.ResetPasswordConfirmDTO;
+import api.scolaro.uz.dto.ResetPasswordRequestDTO;
+import api.scolaro.uz.service.AuthService;
+import api.scolaro.uz.service.ProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

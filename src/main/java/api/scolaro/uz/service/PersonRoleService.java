@@ -1,9 +1,10 @@
 package api.scolaro.uz.service;
 
 
-import api.dean.db.entity.PersonRoleEntity;
-import api.dean.db.enums.RoleEnum;
-import api.dean.db.repository.PersonRoleRepository;
+
+import api.scolaro.uz.entity.PersonRoleEntity;
+import api.scolaro.uz.enums.RoleEnum;
+import api.scolaro.uz.repository.PersonRoleRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

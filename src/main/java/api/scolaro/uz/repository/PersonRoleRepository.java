@@ -1,7 +1,7 @@
 package api.scolaro.uz.repository;
 
-import api.dean.db.entity.PersonRoleEntity;
-import api.dean.db.enums.RoleEnum;
+import api.scolaro.uz.entity.PersonRoleEntity;
+import api.scolaro.uz.enums.RoleEnum;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

@@ -1,8 +1,9 @@
 package api.scolaro.uz.entity.sms;
 
 
-import api.dean.db.enums.sms.SmsStatus;
-import api.dean.db.enums.sms.SmsType;
+
+import api.scolaro.uz.enums.sms.SmsStatus;
+import api.scolaro.uz.enums.sms.SmsType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

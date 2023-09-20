@@ -1,7 +1,7 @@
 package api.scolaro.uz.repository;
 
-import api.dean.db.entity.AttachEntity;
-import api.dean.db.enums.FileType;
+
+import api.scolaro.uz.entity.AttachEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

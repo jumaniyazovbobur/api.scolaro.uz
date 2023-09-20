@@ -1,7 +1,8 @@
 package api.scolaro.uz.dto.profile;
 
-import api.dean.db.entity.GeneralStatus;
-import api.dean.db.enums.RoleEnum;
+
+import api.scolaro.uz.enums.GeneralStatus;
+import api.scolaro.uz.enums.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

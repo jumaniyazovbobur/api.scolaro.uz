@@ -1,7 +1,8 @@
 package api.scolaro.uz.util;
 
-import api.dean.db.dto.JwtDTO;
-import api.dean.db.enums.RoleEnum;
+
+import api.scolaro.uz.dto.JwtDTO;
+import api.scolaro.uz.enums.RoleEnum;
 import io.jsonwebtoken.*;
 import org.springframework.stereotype.Service;
 

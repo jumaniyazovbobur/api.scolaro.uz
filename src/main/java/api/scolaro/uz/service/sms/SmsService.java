@@ -1,11 +1,11 @@
 package api.scolaro.uz.service.sms;
 
-import api.dean.db.entity.sms.SmsEntity;
-import api.dean.db.enums.sms.SmsStatus;
-import api.dean.db.enums.sms.SmsType;
-import api.dean.db.exp.SmsLimitOverException;
-import api.dean.db.repository.sms.SmsRepository;
-import api.dean.db.util.RandomUtil;
+
+import api.scolaro.uz.entity.sms.SmsEntity;
+import api.scolaro.uz.enums.sms.SmsStatus;
+import api.scolaro.uz.enums.sms.SmsType;
+import api.scolaro.uz.exp.SmsLimitOverException;
+import api.scolaro.uz.util.RandomUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

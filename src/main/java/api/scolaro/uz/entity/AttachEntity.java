@@ -1,11 +1,11 @@
 package api.scolaro.uz.entity;
 
-import api.dean.db.enums.AttachType;
-import api.dean.db.enums.CommentType;
-import api.dean.db.enums.FileType;
+
+import api.scolaro.uz.enums.AttachType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.yaml.snakeyaml.comments.CommentType;
 
 import java.time.LocalDate;
 

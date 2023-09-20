@@ -1,7 +1,7 @@
 package api.scolaro.uz.service.sms;
 
 
-import api.dean.db.entity.sms.SmsEntity;
+import api.scolaro.uz.entity.sms.SmsEntity;
 
 public interface SmsSenderService {
 

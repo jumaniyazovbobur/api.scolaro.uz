@@ -25,7 +25,5 @@ public class ProfileEntity extends BaseEntity {
     private GeneralStatus status;
     @Column(name = "faculty_id")
     private Integer facultyId;
-    @ManyToOne
-    @JoinColumn(name = "faculty_id", insertable = false, updatable = false)
-    private FacultyEntity faculty;
+
 }

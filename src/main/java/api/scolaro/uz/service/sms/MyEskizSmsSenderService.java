@@ -1,9 +1,9 @@
 package api.scolaro.uz.service.sms;
 
 
-import api.dean.db.entity.sms.SmsEntity;
-import api.dean.db.entity.sms.SmsTokenEntity;
-import api.dean.db.repository.sms.SmsTokenRepository;
+
+import api.scolaro.uz.entity.sms.SmsEntity;
+import api.scolaro.uz.entity.sms.SmsTokenEntity;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.json.JSONObject;

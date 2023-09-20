@@ -1,11 +1,11 @@
 package api.scolaro.uz.controller;
 
 
-import api.dean.db.dto.attach.AttachDTO;
-import api.dean.db.dto.attach.AttachFilterDTO;
-import api.dean.db.dto.attach.AttachResponseDTO;
-import api.dean.db.enums.FileType;
-import api.dean.db.service.AttachService;
+
+import api.scolaro.uz.dto.attach.AttachDTO;
+import api.scolaro.uz.dto.attach.AttachFilterDTO;
+import api.scolaro.uz.dto.attach.AttachResponseDTO;
+import api.scolaro.uz.service.AttachService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

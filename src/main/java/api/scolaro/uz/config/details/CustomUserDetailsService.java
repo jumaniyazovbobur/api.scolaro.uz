@@ -1,9 +1,10 @@
 package api.scolaro.uz.config.details;
 
-import api.dean.db.entity.ProfileEntity;
-import api.dean.db.enums.RoleEnum;
-import api.dean.db.repository.PersonRoleRepository;
-import api.dean.db.repository.ProfileRepository;
+
+import api.scolaro.uz.entity.ProfileEntity;
+import api.scolaro.uz.enums.RoleEnum;
+import api.scolaro.uz.repository.PersonRoleRepository;
+import api.scolaro.uz.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
