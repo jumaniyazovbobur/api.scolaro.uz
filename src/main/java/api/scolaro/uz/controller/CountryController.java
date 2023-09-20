@@ -6,11 +6,10 @@ package api.scolaro.uz.controller;
 
 
 import api.scolaro.uz.dto.ApiResponse;
-import api.scolaro.uz.dto.country.CountryDTO;
-import api.scolaro.uz.dto.country.CountryPaginationDTO;
-import api.scolaro.uz.dto.country.CountryRequestDTO;
-import api.scolaro.uz.dto.country.CountryResponseDTO;
+import api.scolaro.uz.dto.country.*;
 import api.scolaro.uz.service.CountryService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
