@@ -1,0 +1,43 @@
+### GET Country
+GET http://localhost:8081/api/v1/country/public/user
+Accept-Language: ru
+
+
+
+
+###########
+
+###CREATE COUNTRY
+POST http://localhost:8081/api/v1/country
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE4OTQyNDksInBob25lIjoiOTk4OTExMjM0NTY3Iiwicm9sZSI6WyJST0xFX0FETUlOIl0sImV4cCI6MTY4MTk4MDY0OSwiaXNzIjoiZGFzaGF0b3AifQ.2QVgKYYwsfhDGwH1U30fOo0byqri_YnFflkXSAqLY9iDG8nNU8RAtOdUjoyaLUtC2FrWSYX0EWfeSEFBjy4O4w
+
+{
+  "nameUz": "string",
+  "nameRu": "string",
+  "nameEn": "string"
+}
+
+###UPDATE COUNTRY
+PUT http://localhost:8081/api/v1/country/56
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE4OTQyNDksInBob25lIjoiOTk4OTExMjM0NTY3Iiwicm9sZSI6WyJST0xFX0FETUlOIl0sImV4cCI6MTY4MTk4MDY0OSwiaXNzIjoiZGFzaGF0b3AifQ.2QVgKYYwsfhDGwH1U30fOo0byqri_YnFflkXSAqLY9iDG8nNU8RAtOdUjoyaLUtC2FrWSYX0EWfeSEFBjy4O4w
+
+{
+  "nameUz": "Узбек",
+  "nameEn": "Uzbek",
+  "nameRu": "Узбеки"
+}
+
+
+###DELETE COUNTRY
+DELETE http://localhost:8081/api/v1/country/2
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2Nzc0MDA3MjYsInBob25lIjoiOTk4OTM1OTk3ODY0Iiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2Nzc0ODcxMjYsImlzcyI6ImRhc2hhdG9wIn0.2Wn8nV8dI8YmKbIUpR1u52l0CVW3DYw2nJ2IYnp35DPU9Lp5JxlgQ0CcwYWbjmgt21yD17ijoL2gUbiypiS8CA
+
+###COUNTRY PAGINATION
+GET http://localhost:8081/api/v1/country/pagination?page=0&size=1000
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODIxOTM4NDEsInBob25lIjoiOTk4OTExMjM0NTY3Iiwicm9sZSI6WyJST0xFX0FETUlOIl0sImV4cCI6MTY4MjI4MDI0MSwiaXNzIjoiZGFzaGF0b3AifQ.tSg9wwL7eBQRsbrNemPZoDoRN30uyFz6d7i7YkrJnWO1DQpez2sOjsmbvVsHIrGC4AHK8feFnNcbYBwcXPTHSg
+
+
+
+

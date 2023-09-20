@@ -1,0 +1,58 @@
+### Register
+POST http://localhost:8081/api/v1/auth/register
+Content-Type: application/json
+
+
+{
+  "firstname": "Toshmat",
+  "lastname": "Toshmatov",
+  "phone": "998972322903",
+  "password": "123456"
+}
+
+### resend registration sms code
+POST http://localhost:8081/api/v1/auth/register/resend
+Content-Type: application/json
+
+
+{
+  "phone": "998935997864"
+}
+
+### verification
+POST http://localhost:8081/api/v1/auth/verification-sms
+Content-Type: application/json
+
+
+{
+  "phone": "998972322903",
+  "code": "34692"
+}
+
+
+### authenticate ADMIN
+POST http://178.218.207.96:8081/api/v1/auth/authenticate
+Content-Type: application/json
+
+{
+  "phone": "998972322903",
+  "password": "Sarvar03"
+}
+
+### authenticate USER
+POST http://localhost:8081/api/v1/auth/authenticate
+Content-Type: application/json
+
+{
+  "phone": "998900964647",
+  "password": "123456"
+}
+
+### authenticate USER
+POST http://localhost:8081/api/v1/auth/authenticate
+Content-Type: application/json
+
+{
+  "phone": "998915721213",
+  "password": "123456"
+}

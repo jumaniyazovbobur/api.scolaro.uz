@@ -1,0 +1,110 @@
+### get Current User Info
+GET http://localhost:8081/api/v1/profile/current
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NzY4MzA4OTksInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2NzY5MTcyOTksImlzcyI6ImRhc2hhdG9wIn0.6804xZ_uHqzqwCT1rCWWZFx_WD-239PDbL_myTsDbQp0pS-svYfuwRBg1f8vo3vxiRqE8Qh5f5X2Ox8cr-4xnA
+
+### update profile detail
+PUT http://localhost:8081/api/v1/profile/current
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NzY4MjE5NTgsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZSI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjkwODM1OCwiaXNzIjoiZGFzaGF0b3AifQ.Qe6HI6LoKZVZOkvng0ELZBP11i9LP6LtsQOGXBqBmABmSAe8JtMsQh1RIA-a7ZdQndhf51UOlkOmxYNT1KHRAg
+Content-Type: application/json
+
+
+{
+  "firstName": "Toshmat",
+  "lastName": "Toshmatov"
+}
+
+
+
+### change password
+PUT http://localhost:8081/api/v1/profile/password/change
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NzY4MjUwMTgsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZSI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjkxMTQxOCwiaXNzIjoiZGFzaGF0b3AifQ.c7N_ptKv7RuKIV-FTuLBZJuIC94LB_9glF-8khb2CDgmRs01qp9irRwBpj9T9oLSP0hVbJo9sL83a6ttBazWMA
+Content-Type: application/json
+
+
+{
+  "oldPassword": "777063",
+  "newPassword": "123456"
+}
+
+
+###create
+POST  http://localhost:8081/api/v1/profile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2Nzc1MTc3NjUsInBob25lIjoiOTk4OTAwOTY0NjQ4Iiwicm9sZSI6W251bGxdLCJleHAiOjE2Nzc2MDQxNjUsImlzcyI6ImRhc2hhdG9wIn0.iUcYfxrHoCqNUFC0tG0VaVMOB8dlWfh2q9xOf7zZIad2_kBDOq3w3F-76ZXXs8q07oLT0dZOUv65rVMbYCewVg
+
+{
+  "firstName": "Bahodir",
+  "lastName": "Hurramov",
+  "phone": "998900964649",
+  "password": "123456",
+  "roleList": ["ROLE_USER"]
+
+}
+
+### reset password request
+PUT http://localhost:8081/api/v1/profile/password/reset/request
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NzY4MjE5NTgsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZSI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjkwODM1OCwiaXNzIjoiZGFzaGF0b3AifQ.Qe6HI6LoKZVZOkvng0ELZBP11i9LP6LtsQOGXBqBmABmSAe8JtMsQh1RIA-a7ZdQndhf51UOlkOmxYNT1KHRAg
+
+
+### reset password confirm
+PUT http://localhost:8081/api/v1/profile/password/reset/confirm
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NzY4MjE5NTgsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZSI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjkwODM1OCwiaXNzIjoiZGFzaGF0b3AifQ.Qe6HI6LoKZVZOkvng0ELZBP11i9LP6LtsQOGXBqBmABmSAe8JtMsQh1RIA-a7ZdQndhf51UOlkOmxYNT1KHRAg
+
+
+{
+  "code": "777063"
+}
+
+
+
+### change phone request
+PUT http://localhost:8081/api/v1/profile/phone/change/request
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NzY4MzA4OTksInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2NzY5MTcyOTksImlzcyI6ImRhc2hhdG9wIn0.6804xZ_uHqzqwCT1rCWWZFx_WD-239PDbL_myTsDbQp0pS-svYfuwRBg1f8vo3vxiRqE8Qh5f5X2Ox8cr-4xnA
+
+{
+  "newPhone": "998997795710"
+}
+
+
+### change phone confirm
+PUT http://localhost:8081/api/v1/profile/phone/change/confirm
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NzY4MzEzNTMsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2NzY5MTc3NTMsImlzcyI6ImRhc2hhdG9wIn0.OnmPONZQrfyMQO-j72Tkn9lMWxM-e_8Dn8cPymWgaLN4OjVSCacvjNr8gDLgdAj3ZrHKwanM5bEPEmrtGR1wcQ
+
+{
+  "code": "90830"
+}
+
+
+###get By Id
+GET http://localhost:8081/api/v1/profile/admin/3f1bd185-25f3-4d8c-b9a7-b5764d49c6a1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NzY4Mjc3NDYsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2NzY5MTQxNDYsImlzcyI6ImRhc2hhdG9wIn0.WhtYHpW6Y-dh6R_wJln1sP02ZonvTq2ot5TuU3Sg-nR_BfNRxrjQ-7OIidmOB6GZ3gEDvCOQxwfWtLk3yJG0NA
+
+
+###delete
+DELETE http://localhost:8081/api/v1/profile/admin/3f1bd185-25f3-4d8c-b9a7-b5764d49c6a1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NzY4Mjc3NDYsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2NzY5MTQxNDYsImlzcyI6ImRhc2hhdG9wIn0.WhtYHpW6Y-dh6R_wJln1sP02ZonvTq2ot5TuU3Sg-nR_BfNRxrjQ-7OIidmOB6GZ3gEDvCOQxwfWtLk3yJG0NA
+
+
+###block
+PUT http://localhost:8081/api/v1/profile/admin/block
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI3NDgxODYsInBob25lIjoiOTk4OTExMjM0NTY3Iiwicm9sZSI6WyJST0xFX0FETUlOIl0sImV4cCI6MTY4MjgzNDU4NiwiaXNzIjoiZGFzaGF0b3AifQ.8h9-1ORbLWM_1L1aDA34R98gHtmIfwNJ_RlmQrhTy8nZ9F7vzlZbB4YCp9uURzhxuYyCJpIFEbMi4gasOxNYww
+
+{
+  "id": "5c224c20-4c12-466c-a0b6-ae7eca1dfe8f",
+  "status": "ACTIVE"
+}
+
+### get Profile Pageable
+POST http://localhost:8081/api/v1/profile/admin/filter?page=0&size=10
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI3NDgxODYsInBob25lIjoiOTk4OTExMjM0NTY3Iiwicm9sZSI6WyJST0xFX0FETUlOIl0sImV4cCI6MTY4MjgzNDU4NiwiaXNzIjoiZGFzaGF0b3AifQ.8h9-1ORbLWM_1L1aDA34R98gHtmIfwNJ_RlmQrhTy8nZ9F7vzlZbB4YCp9uURzhxuYyCJpIFEbMi4gasOxNYww
+Content-Type: application/json
+
+{
+  "firstName": "Toshmat"
+}

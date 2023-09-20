@@ -1,0 +1,23 @@
+POST http://178.218.207.75:8081/api/v1/attach/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="40580.jpg"
+
+< C:\Users\Admin\Pictures\AgroBank_mini.png
+
+###
+
+POST http://localhost:8081/api/v1/attach/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiaWdtYW4iLCJpYXQiOjE2NjU0NzE2MzksImlzcyI6Im1hemdpIHByb2R1Y3Rpb24ifQ.FDe0wdAO7Oz-76dF_bYax1kr4jRtQ46Pt7RqDFH7Py8
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="wifi.jpg"
+
+< /Users/abdulazizkhurramov/Downloads/Photos/wifi
+
+###
+
+
