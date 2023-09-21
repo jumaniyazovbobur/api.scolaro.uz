@@ -1,6 +1,7 @@
 package api.scolaro.uz.entity;
 
 
+import api.scolaro.uz.entity.BaseEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,8 +10,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "profile")
-public class ProfileEntity extends BaseEntity {
+@Table(name = "user")
+public class UserEntity extends BaseEntity {
+
 
     @Column(name = "name")
     private String name;
@@ -23,6 +25,7 @@ public class ProfileEntity extends BaseEntity {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private GeneralStatus status;
-
+    @Column(name = "faculty_id")
+    private Integer facultyId;
 
 }

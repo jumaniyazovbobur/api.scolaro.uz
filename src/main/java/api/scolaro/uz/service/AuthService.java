@@ -5,7 +5,7 @@ import api.scolaro.uz.dto.auth.AuthRequestDTO;
 import api.scolaro.uz.dto.ResetPasswordConfirmDTO;
 import api.scolaro.uz.dto.ResetPasswordRequestDTO;
 import api.scolaro.uz.dto.profile.ProfileResponseDTO;
-import api.scolaro.uz.entity.ProfileEntity;
+import api.scolaro.uz.entity.profile.UserEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.PersonRoleRepository;
@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,7 +27,7 @@ public class AuthService {
     @Autowired
     private PersonRoleRepository personRoleRepository;
 
-    public ProfileResponseDTO login(AuthRequestDTO dto) {
+    public ProfileResponseDTO login(AuthDTO dto) {
 //        Optional<ProfileEntity> optional = profileRepository.findByPhone(dto.getPhone());
 //        if (optional.isEmpty()) {
 //            log.info("User not found.");
@@ -56,12 +57,12 @@ public class AuthService {
             log.info("Not valid phone number");
             throw new ItemNotFoundException("Not valid phone number");
         }
-        Optional<ProfileEntity> optional = profileRepository.findByPhone(dto.getPhone());
+        Optional<UserEntity> optional = profileRepository.findByPhone(dto.getPhone());
         if (optional.isEmpty()) {
             log.info("Phone number not found");
             throw new ItemNotFoundException("Phone number not found");
         }
-        ProfileEntity profile = optional.get();
+        UserEntity profile = optional.get();
         if (!profile.getStatus().equals(GeneralStatus.ACTIVE)) {
             log.info("Profile not active.");
             throw new ItemNotFoundException("Profile not active.");
@@ -74,12 +75,12 @@ public class AuthService {
 //            log.info("Not valid phone number");
 //            throw new ItemNotFoundException("Not valid phone number");
 //        }
-//        Optional<ProfileEntity> optional = profileRepository.findByPhone(dto.getPhone());
+//        Optional<UserEntity> optional = profileRepository.findByPhone(dto.getPhone());
 //        if (optional.isEmpty()) {
 //            log.info("Phone number not found");
 //            throw new ItemNotFoundException("Phone number not found");
 //        }
-//        ProfileEntity profile = optional.get();
+//        UserEntity profile = optional.get();
 //        if (!profile.getStatus().equals(GeneralStatus.ACTIVE)) {
 //            log.info("Profile not active.");
 //            throw new ItemNotFoundException("Profile not active.");

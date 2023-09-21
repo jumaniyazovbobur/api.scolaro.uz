@@ -1,9 +1,13 @@
 package api.scolaro.uz.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+
+import java.time.LocalDateTime;
 
 
 @Getter
@@ -22,6 +26,7 @@ public class CountryEntity {
     private String nameRu;
     @Column(name = "name_en")
     private String nameEn;
+    private LocalDateTime created_date;
     @Column(name = "visible")
     private Boolean visible;
 

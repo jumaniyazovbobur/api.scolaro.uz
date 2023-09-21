@@ -13,8 +13,6 @@ import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.ProfileRepository;
 import api.scolaro.uz.service.sms.SmsHistoryService;
 import api.scolaro.uz.util.MD5Util;
-import api.scolaro.uz.util.PhoneUtil;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
@@ -28,73 +26,39 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 public class ProfileService {
+    @Autowired
+    private ProfileRepository profileRepository;
 
-    private final ProfileRepository profileRepository;
-
-
-    private final PersonRoleService personRoleService;
-
-    private final ResourceMessageService resourceMessageService;
-
-    private final SmsHistoryService smsHistoryService;
+    @Autowired
+    private PersonRoleService personRoleService;
 
     public ProfileDTO getCurrentProfileDetail() {
-        ProfileEntity profile = get(EntityDetails.getCurrentUserId());
+        UserEntity profile = get(EntityDetails.getCurrentUserId());
         return toDto(profile);
     }
 
-    public ApiResponse<?> registration(ClientRequestDTO dto) {
-        boolean validate = PhoneUtil.isValidPhone(dto.getPhoneNumber());
-        //validate phone number
-        if (!validate) {
-            log.info("Phone not valid! phone={}", dto.getPhoneNumber());
-            return new ApiResponse<>(resourceMessageService.getMessage("phone.validation.not-valid"), 400, true);
-        }
-
-        Optional<ProfileEntity> profileEntity = profileRepository.findByPhone(dto.getPhoneNumber());
-
-        if (profileEntity.isPresent()){
-            if (profileEntity.get().getStatus().equals(GeneralStatus.ACTIVE) || profileEntity.get().getStatus().equals(GeneralStatus.BLOCK)){
-                log.warn("PhoneNumber already exist {}", dto.getPhoneNumber());
-                return new ApiResponse<>(resourceMessageService.getMessage("phone.already.exists"), 400, true);
-            }
-
-            if (profileEntity.get().getStatus().equals(GeneralStatus.NOT_ACTIVE)) {
-                // send sms for complete registration
-                smsHistoryService.sendRegistrationSms(dto.getPhoneNumber());
-                return new ApiResponse<>(200, false);
-            }
-
-
-
-
-
-        }
-
-
-       /* ProfileEntity entity = new ProfileEntity();
+    public ProfileDTO addProfile(CreateProfileDTO dto) {
+        UserEntity entity = new UserEntity();
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
         entity.setPassword(MD5Util.getMd5(dto.getPassword()));
         entity.setPhone(dto.getPhone());
-        if (hasRole(dto.getRoles(), RoleEnum.ROLE_FACULTY)) {
-            if (dto.getFacultyId() == null) {
-                log.info("Faculty required");
-                throw new ItemNotFoundException("Faculty required");
-            }
-            entity.setFacultyId(dto.getFacultyId());
-        }
+//        if (hasRole(dto.getRoles(), RoleEnum.ROLE_FACULTY)) {
+//            if (dto.getFacultyId() == null) {
+//                log.info("Faculty required");
+//                throw new ItemNotFoundException("Faculty required");
+//            }
+//            entity.setFacultyId(dto.getFacultyId());
+//        }
         entity.setStatus(GeneralStatus.ACTIVE);
         entity.setCreatedDate(LocalDateTime.now());
         profileRepository.save(entity);// save profile
         personRoleService.create(entity.getId(), dto.getRoles()); // save profile roles
-        return toDto(entity);*/
-
-            return null;
+        return toDto(entity);
     }
 
     public ProfileDTO getById(String id) {
-        ProfileEntity entity = get(id);
+        UserEntity entity = get(id);
         if (entity == null) {
             log.info("Such id not" + id);
             throw new ItemNotFoundException("Such id not" + id);
@@ -105,35 +69,35 @@ public class ProfileService {
     }
 
     public Boolean deleteById(String id) {
-        Optional<ProfileEntity> optional = profileRepository.findById(id);
+        Optional<UserEntity> optional = profileRepository.findById(id);
         if (optional.isEmpty()) {
             log.info("Profile not found");
             throw new ItemNotFoundException("Bunaqa profile mavjud emas");
         }
-        ProfileEntity entity = optional.get();
+        UserEntity entity = optional.get();
         entity.setVisible(false);
         profileRepository.save(entity);
         return true;
     }
 
     public ProfileDTO updateProfile(String id, CreateProfileDTO dto) {
-        ProfileEntity entity = get(id);
+        UserEntity entity = get(id);
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
         entity.setPhone(dto.getPhone());
-        if (hasRole(dto.getRoles(), RoleEnum.ROLE_FACULTY)) {
-            if (dto.getFacultyId() == null) {
-                throw new ItemNotFoundException("Faculty required");
-            }
-            entity.setFacultyId(dto.getFacultyId());
-        }
+//        if (hasRole(dto.getRoles(), RoleEnum.ROLE_FACULTY)) {
+//            if (dto.getFacultyId() == null) {
+//                throw new ItemNotFoundException("Faculty required");
+//            }
+//            entity.setFacultyId(dto.getFacultyId());
+//        }
         profileRepository.save(entity);
         return toDto(entity);
     }
 
     public ApiResponse<?> updateDetail(UpdateProfileDetailDTO dto) {
         String profileId = EntityDetails.getCurrentUserId();
-        Optional<ProfileEntity> optional = profileRepository.findById(profileId);
+        Optional<UserEntity> optional = profileRepository.findById(profileId);
         if (optional.isEmpty()) {
             log.info("Profile not found.");
             throw new ItemNotFoundException("Profile not found.");
@@ -144,7 +108,7 @@ public class ProfileService {
 
     public ApiResponse<?> updatePassword(UpdatePasswordDTO dto) {
         String profileId = EntityDetails.getCurrentUserId();
-        ProfileEntity entity = get(profileId);
+        UserEntity entity = get(profileId);
         if (!entity.getPassword().equals(MD5Util.getMd5(dto.getOldPassword()))) {
             log.info("Wrong password");
             throw new AppBadRequestException("Wrong password");
@@ -159,8 +123,8 @@ public class ProfileService {
         return null;
     }
 
-    public ProfileEntity get(String id) {
-        Optional<ProfileEntity> optional = profileRepository.findById(id);
+    public UserEntity get(String id) {
+        Optional<UserEntity> optional = profileRepository.findById(id);
         if (optional.isEmpty()) {
             log.info("Profile not found: " + id);
             throw new ItemNotFoundException("Profile not found: " + id);
@@ -168,7 +132,7 @@ public class ProfileService {
         return optional.get();
     }
 
-    public ProfileDTO toDto(ProfileEntity profileEntity) {
+    public ProfileDTO toDto(UserEntity profileEntity) {
         ProfileDTO profileDTO = new ProfileDTO();
         profileDTO.setId(profileEntity.getId());
         profileDTO.setName(profileEntity.getName());
@@ -188,5 +152,8 @@ public class ProfileService {
             }
         }
         return false;
+    }
+
+    public void registration(ClientRequestDTO dto) {
     }
 }

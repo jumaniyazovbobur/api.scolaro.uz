@@ -49,5 +49,5 @@ values (7, 'Fransiya', 'France', 'Франция', now(), true),
        (54, 'Namibiya', 'Namibia', 'Намибия', now(), true),
        (55, 'Avstraliya', 'Australia', 'Австралия', now(), true)
 ON CONFLICT (id) DO NOTHING;
-SELECT setval('country_id_seq', max(id))
-FROM country;
+-- SELECT setval('country_id_seq', max(id))
+-- FROM country;

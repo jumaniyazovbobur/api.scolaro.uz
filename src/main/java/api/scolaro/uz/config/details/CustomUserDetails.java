@@ -1,7 +1,7 @@
 package api.scolaro.uz.config.details;
 
 
-import api.scolaro.uz.entity.ProfileEntity;
+import api.scolaro.uz.entity.profile.UserEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
 import lombok.Getter;
@@ -25,7 +25,7 @@ public class CustomUserDetails implements UserDetails {
     private List<SimpleGrantedAuthority> roleList = new LinkedList<>();
     private GeneralStatus status;
 
-    public CustomUserDetails(ProfileEntity entity, List<RoleEnum> roles) {
+    public CustomUserDetails(UserEntity entity, List<RoleEnum> roles) {
         this.id = entity.getId();
         this.name = entity.getName();
         this.surname = entity.getSurname();

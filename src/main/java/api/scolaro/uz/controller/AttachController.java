@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;;
@@ -19,12 +20,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/v1/attach")
-@RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Attach api list", description = "Api list for attach")
 public class AttachController {
-
-    private final AttachService attachService;
+    @Autowired
+    private AttachService attachService;
 
     @PostMapping("/upload")
     @Operation(summary = "upload api", description = "")
@@ -60,7 +60,7 @@ public class AttachController {
     public ResponseEntity<Page<AttachResponseDTO>> filter(@RequestBody AttachFilterDTO dto,
                                                           @RequestParam(value = "page", defaultValue = "1") int page,
                                                           @RequestParam(value = "size", defaultValue = "15") int size) {
-        Page<AttachResponseDTO> response = attachService.filter(dto, page-1, size);
+        Page<AttachResponseDTO> response = attachService.filter(dto, page - 1, size);
         return ResponseEntity.ok(response);
     }
 
