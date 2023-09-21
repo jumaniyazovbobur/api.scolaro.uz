@@ -1,5 +1,6 @@
 package api.scolaro.uz.service;
 
+import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.dto.attach.AttachFilterDTO;
 import api.scolaro.uz.dto.attach.AttachResponseDTO;
@@ -60,6 +61,7 @@ public class AttachService {
             Files.write(path, bytes);
             AttachEntity entity = new AttachEntity();
             entity.setId(key);
+            entity.setCreateId(EntityDetails.getCurrentUserId());
             entity.setPath(pathFolder);
             entity.setSize(file.getSize());
             entity.setOrigenName(file.getOriginalFilename());
@@ -68,7 +70,6 @@ public class AttachService {
 
             AttachDTO attachDTO = new AttachDTO();
             attachDTO.setId(key);
-            //TODO created id
             attachDTO.setOriginName(entity.getOrigenName());
             attachDTO.setSize(entity.getSize());
             attachDTO.setExtension(entity.getExtension());
