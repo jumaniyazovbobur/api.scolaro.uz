@@ -3,6 +3,7 @@ package api.scolaro.uz.service;
 
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.client.ClientRequestDTO;
 import api.scolaro.uz.dto.profile.*;
 import api.scolaro.uz.entity.profile.UserEntity;
 import api.scolaro.uz.enums.GeneralStatus;
@@ -149,5 +150,8 @@ public class ProfileService {
             }
         }
         return false;
+    }
+
+    public void registration(ClientRequestDTO dto) {
     }
 }
