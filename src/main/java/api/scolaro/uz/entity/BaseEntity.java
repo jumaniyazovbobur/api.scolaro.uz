@@ -28,15 +28,7 @@ public class BaseEntity {
     @Column(name = "deleted_date")
     private LocalDateTime deletedDate;
 
-    @Column(name = "updated_date")
-    private LocalDateTime updatedDate;
-
     @Column(name = "create_id")
     private String createId;
 
-    @Column(name = "update_id")
-    private String updateId;
-
-    @Column(name = "delete_id")
-    private String deleteId;
 }

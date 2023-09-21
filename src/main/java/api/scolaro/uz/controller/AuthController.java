@@ -41,6 +41,6 @@ public class AuthController {
         authService.resetPasswordConfirm(dto);
         return ResponseEntity.ok().build();
     }
-    // TODO registration
+
 
 }

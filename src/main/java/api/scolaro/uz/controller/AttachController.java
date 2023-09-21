@@ -3,7 +3,6 @@ package api.scolaro.uz.controller;
 import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.dto.attach.AttachFilterDTO;
 import api.scolaro.uz.dto.attach.AttachResponseDTO;
-import api.scolaro.uz.enums.FileType;
 import api.scolaro.uz.service.AttachService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,9 +28,9 @@ public class AttachController {
 
     @PostMapping("/upload")
     @Operation(summary = "upload api", description = "")
-    public ResponseEntity<AttachDTO> create(@RequestParam("file") MultipartFile file, @RequestParam FileType fileType) {
+    public ResponseEntity<AttachDTO> create(@RequestParam("file") MultipartFile file) {
         log.info("upload attach  ={}", file.getOriginalFilename());
-        return ResponseEntity.ok(attachService.upload(file, fileType));
+        return ResponseEntity.ok(attachService.upload(file));
     }
 
     @GetMapping(value = "/open/{fileName}", produces = MediaType.IMAGE_PNG_VALUE)
@@ -42,14 +41,21 @@ public class AttachController {
     }
 
     @GetMapping("/download/{fileName}")
+    @Operation(summary = "download file api", description = "")
     public ResponseEntity<Resource> download(@PathVariable("fileName") String fileName) {
         log.info("download attach  ={}", fileName);
         return attachService.download(fileName);
     }
 
+    @DeleteMapping("/delete/{fileName}")
+    @Operation(summary = "delete file api", description = "")
+    public ResponseEntity<Resource> delete(@PathVariable("fileName") String fileName) {
+        log.info("delete attach  ={}", fileName);
+        return attachService.delete(fileName);
+    }
 
     @PostMapping("/filter")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_FACULTY')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Attach filter", description = "")
     public ResponseEntity<Page<AttachResponseDTO>> filter(@RequestBody AttachFilterDTO dto,
                                                           @RequestParam(value = "page", defaultValue = "1") int page,

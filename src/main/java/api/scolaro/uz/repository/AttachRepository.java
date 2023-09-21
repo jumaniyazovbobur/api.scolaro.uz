@@ -11,13 +11,18 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 
 @Repository
 public interface AttachRepository extends JpaRepository<AttachEntity, String> {
+
+    Optional<AttachEntity> findByIdAndVisibleTrue(String id);
 
     @Modifying
     @Transactional
     @Query("delete from AttachEntity where id = ?1 ")
     void delete(String id);
-    Page<AttachEntity>  findAllByFileType(Pageable pageable, FileType fileType);
+
+    Page<AttachEntity> findAllByFileType(Pageable pageable, FileType fileType);
 }
