@@ -11,6 +11,7 @@ import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.ProfileRepository;
+import api.scolaro.uz.service.sms.SmsHistoryService;
 import api.scolaro.uz.util.MD5Util;
 import api.scolaro.uz.util.PhoneUtil;
 import lombok.RequiredArgsConstructor;
@@ -27,13 +28,15 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 public class ProfileService {
-    @Autowired
-    private ProfileRepository profileRepository;
 
-    @Autowired
-    private PersonRoleService personRoleService;
+    private final ProfileRepository profileRepository;
+
+
+    private final PersonRoleService personRoleService;
 
     private final ResourceMessageService resourceMessageService;
+
+    private final SmsHistoryService smsHistoryService;
 
     public ProfileDTO getCurrentProfileDetail() {
         ProfileEntity profile = get(EntityDetails.getCurrentUserId());
@@ -42,11 +45,31 @@ public class ProfileService {
 
     public ApiResponse<?> registration(ClientRequestDTO dto) {
         boolean validate = PhoneUtil.isValidPhone(dto.getPhoneNumber());
-        if (!validate){
+        //validate phone number
+        if (!validate) {
             log.info("Phone not valid! phone={}", dto.getPhoneNumber());
             return new ApiResponse<>(resourceMessageService.getMessage("phone.validation.not-valid"), 400, true);
         }
 
+        Optional<ProfileEntity> profileEntity = profileRepository.findByPhone(dto.getPhoneNumber());
+
+        if (profileEntity.isPresent()){
+            if (profileEntity.get().getStatus().equals(GeneralStatus.ACTIVE) || profileEntity.get().getStatus().equals(GeneralStatus.BLOCK)){
+                log.warn("PhoneNumber already exist {}", dto.getPhoneNumber());
+                return new ApiResponse<>(resourceMessageService.getMessage("phone.already.exists"), 400, true);
+            }
+
+            if (profileEntity.get().getStatus().equals(GeneralStatus.NOT_ACTIVE)) {
+                // send sms for complete registration
+                smsHistoryService.sendRegistrationSms(dto.getPhoneNumber());
+                return new ApiResponse<>(200, false);
+            }
+
+
+
+
+
+        }
 
 
        /* ProfileEntity entity = new ProfileEntity();
@@ -67,7 +90,7 @@ public class ProfileService {
         personRoleService.create(entity.getId(), dto.getRoles()); // save profile roles
         return toDto(entity);*/
 
-        return null;
+            return null;
     }
 
     public ProfileDTO getById(String id) {

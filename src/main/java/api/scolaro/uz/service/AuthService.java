@@ -1,23 +1,20 @@
 package api.scolaro.uz.service;
 
 
-import api.scolaro.uz.dto.AuthDTO;
+import api.scolaro.uz.dto.auth.AuthRequestDTO;
 import api.scolaro.uz.dto.ResetPasswordConfirmDTO;
 import api.scolaro.uz.dto.ResetPasswordRequestDTO;
 import api.scolaro.uz.dto.profile.ProfileResponseDTO;
 import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.enums.GeneralStatus;
-import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.PersonRoleRepository;
 import api.scolaro.uz.repository.ProfileRepository;
-import api.scolaro.uz.util.MD5Util;
 import api.scolaro.uz.util.PhoneUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,7 +26,7 @@ public class AuthService {
     @Autowired
     private PersonRoleRepository personRoleRepository;
 
-    public ProfileResponseDTO login(AuthDTO dto) {
+    public ProfileResponseDTO login(AuthRequestDTO dto) {
 //        Optional<ProfileEntity> optional = profileRepository.findByPhone(dto.getPhone());
 //        if (optional.isEmpty()) {
 //            log.info("User not found.");

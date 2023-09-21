@@ -11,9 +11,9 @@ import lombok.Setter;
 @Entity
 @Table(name = "profile")
 public class ProfileEntity extends BaseEntity {
+
     @Column(name = "name")
     private String name;
-
     @Column(name = "surname")
     private String surname;
     @Column(name = "phone")
@@ -23,7 +23,6 @@ public class ProfileEntity extends BaseEntity {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private GeneralStatus status;
-    @Column(name = "faculty_id")
-    private Integer facultyId;
+
 
 }

@@ -24,5 +24,6 @@ public interface AttachRepository extends JpaRepository<AttachEntity, String> {
     @Query("delete from AttachEntity where id = ?1 ")
     void delete(String id);
 
-    Page<AttachEntity> findAllByFileType(Pageable pageable, FileType fileType);
+//    Page<AttachEntity> findAllByFileType(Pageable pageable, FileType fileType);
+    Page<AttachEntity> fin(Pageable pageable, FileType fileType);
 }
