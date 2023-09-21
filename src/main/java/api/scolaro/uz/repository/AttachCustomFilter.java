@@ -17,8 +17,8 @@ import java.util.Map;
 
 @Repository
 public class AttachCustomFilter {
-    @Autowired
-    private EntityManager entityManager;
+//    @Autowired
+//    private EntityManager entityManager;
 
 //    public PageImpl<AttachResponseDTO> filter(AttachFilterDTO filterDTO, int page, int size) {
 //        StringBuilder builder = new StringBuilder();

@@ -2,15 +2,15 @@ package api.scolaro.uz.repository;
 
 import api.scolaro.uz.entity.PersonRoleEntity;
 import api.scolaro.uz.enums.RoleEnum;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface PersonRoleRepository extends CrudRepository<PersonRoleEntity, String> {
+public interface PersonRoleRepository extends JpaRepository<PersonRoleEntity, String> {
     @Query(value = "SELECT t.role FROM PersonRoleEntity t where t.personId=?1 and t.visible = true")
     List<RoleEnum> findPersonRoleEnumList(String profileId);
 

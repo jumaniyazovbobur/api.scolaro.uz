@@ -1,7 +1,7 @@
 package api.scolaro.uz.repository;
 
 
-import api.scolaro.uz.entity.ProfileEntity;
+import api.scolaro.uz.entity.profile.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -12,19 +12,19 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Repository
-public interface ProfileRepository extends JpaRepository<ProfileEntity, String> {
+public interface ProfileRepository extends JpaRepository<UserEntity, String> {
 
-    Optional<ProfileEntity> findByPhone(String phone);
+    Optional<UserEntity> findByPhone(String phone);
 
-    Optional<ProfileEntity> findByPhoneAndPassword(String phone, String username);
+    Optional<UserEntity> findByPhoneAndPassword(String phone, String username);
 
     @Transactional
     @Modifying
-    @Query("update ProfileEntity set password =:nPswd where id =:id")
+    @Query("update UserEntity set password =:nPswd where id =:id")
     int updatePassword(@Param("id") String id, @Param("nPswd") String nPswd);
 
     @Transactional
     @Modifying
-    @Query("update ProfileEntity set name =:name, surname=:surname where id =:id")
+    @Query("update UserEntity set name =:name, surname=:surname where id =:id")
     int updateDetail(@Param("id") String id, @Param("name") String name, @Param("surname") String surname);
 }

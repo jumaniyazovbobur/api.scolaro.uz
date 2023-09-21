@@ -5,19 +5,16 @@ import api.scolaro.uz.dto.AuthDTO;
 import api.scolaro.uz.dto.ResetPasswordConfirmDTO;
 import api.scolaro.uz.dto.ResetPasswordRequestDTO;
 import api.scolaro.uz.dto.profile.ProfileResponseDTO;
-import api.scolaro.uz.entity.ProfileEntity;
+import api.scolaro.uz.entity.profile.UserEntity;
 import api.scolaro.uz.enums.GeneralStatus;
-import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.PersonRoleRepository;
 import api.scolaro.uz.repository.ProfileRepository;
-import api.scolaro.uz.util.MD5Util;
 import api.scolaro.uz.util.PhoneUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,19 +27,19 @@ public class AuthService {
     private PersonRoleRepository personRoleRepository;
 
     public ProfileResponseDTO login(AuthDTO dto) {
-//        Optional<ProfileEntity> optional = profileRepository.findByPhone(dto.getPhone());
+//        Optional<UserEntity> optional = profileRepository.findByPhone(dto.getPhone());
 //        if (optional.isEmpty()) {
-//            log.info("User not found.");
-//            throw new ItemNotFoundException("User not found.");
+//            log.info("UserEntity not found.");
+//            throw new ItemNotFoundException("UserEntity not found.");
 //        }
-//        ProfileEntity entity = optional.get();
+//        UserEntity entity = optional.get();
 //        if (!entity.getStatus().equals(GeneralStatus.ACTIVE)) {
 //            log.info("Wrong status!");
 //            throw new ArithmeticException("Wrong status!");
 //        }
 //        if (!entity.getPassword().equals(MD5Util.getMd5(dto.getPassword()))) {
-//            log.info("User not found.");
-//            throw new ItemNotFoundException("User not found.");
+//            log.info("UserEntity not found.");
+//            throw new ItemNotFoundException("UserEntity not found.");
 //        }
 //        ProfileResponseDTO response = new ProfileResponseDTO();
 //        response.setName(entity.getName());
@@ -59,12 +56,12 @@ public class AuthService {
             log.info("Not valid phone number");
             throw new ItemNotFoundException("Not valid phone number");
         }
-        Optional<ProfileEntity> optional = profileRepository.findByPhone(dto.getPhone());
+        Optional<UserEntity> optional = profileRepository.findByPhone(dto.getPhone());
         if (optional.isEmpty()) {
             log.info("Phone number not found");
             throw new ItemNotFoundException("Phone number not found");
         }
-        ProfileEntity profile = optional.get();
+        UserEntity profile = optional.get();
         if (!profile.getStatus().equals(GeneralStatus.ACTIVE)) {
             log.info("Profile not active.");
             throw new ItemNotFoundException("Profile not active.");
@@ -77,12 +74,12 @@ public class AuthService {
 //            log.info("Not valid phone number");
 //            throw new ItemNotFoundException("Not valid phone number");
 //        }
-//        Optional<ProfileEntity> optional = profileRepository.findByPhone(dto.getPhone());
+//        Optional<UserEntity> optional = profileRepository.findByPhone(dto.getPhone());
 //        if (optional.isEmpty()) {
 //            log.info("Phone number not found");
 //            throw new ItemNotFoundException("Phone number not found");
 //        }
-//        ProfileEntity profile = optional.get();
+//        UserEntity profile = optional.get();
 //        if (!profile.getStatus().equals(GeneralStatus.ACTIVE)) {
 //            log.info("Profile not active.");
 //            throw new ItemNotFoundException("Profile not active.");
