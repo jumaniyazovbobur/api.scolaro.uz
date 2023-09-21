@@ -3,6 +3,7 @@ package api.scolaro.uz.service;
 
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.client.ClientRequestDTO;
 import api.scolaro.uz.dto.profile.*;
 import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.enums.GeneralStatus;
@@ -11,6 +12,8 @@ import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.ProfileRepository;
 import api.scolaro.uz.util.MD5Util;
+import api.scolaro.uz.util.PhoneUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
@@ -22,6 +25,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ProfileService {
     @Autowired
     private ProfileRepository profileRepository;
@@ -29,13 +33,23 @@ public class ProfileService {
     @Autowired
     private PersonRoleService personRoleService;
 
+    private final ResourceMessageService resourceMessageService;
+
     public ProfileDTO getCurrentProfileDetail() {
         ProfileEntity profile = get(EntityDetails.getCurrentUserId());
         return toDto(profile);
     }
 
-    public ProfileDTO addProfile(CreateProfileDTO dto) {
-        ProfileEntity entity = new ProfileEntity();
+    public ApiResponse<?> registration(ClientRequestDTO dto) {
+        boolean validate = PhoneUtil.isValidPhone(dto.getPhoneNumber());
+        if (!validate){
+            log.info("Phone not valid! phone={}", dto.getPhoneNumber());
+            return new ApiResponse<>(resourceMessageService.getMessage("phone.validation.not-valid"), 400, true);
+        }
+
+
+
+       /* ProfileEntity entity = new ProfileEntity();
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
         entity.setPassword(MD5Util.getMd5(dto.getPassword()));
@@ -51,7 +65,9 @@ public class ProfileService {
         entity.setCreatedDate(LocalDateTime.now());
         profileRepository.save(entity);// save profile
         personRoleService.create(entity.getId(), dto.getRoles()); // save profile roles
-        return toDto(entity);
+        return toDto(entity);*/
+
+        return null;
     }
 
     public ProfileDTO getById(String id) {
