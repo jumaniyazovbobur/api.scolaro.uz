@@ -5,6 +5,9 @@ package api.scolaro.uz.controller;
 import api.scolaro.uz.dto.AuthDTO;
 import api.scolaro.uz.dto.ResetPasswordConfirmDTO;
 import api.scolaro.uz.dto.ResetPasswordRequestDTO;
+import api.scolaro.uz.dto.client.ClientRequestDTO;
+import api.scolaro.uz.dto.profile.CreateProfileDTO;
+import api.scolaro.uz.dto.profile.ProfileRequestDTO;
 import api.scolaro.uz.dto.profile.ProfileResponseDTO;
 import api.scolaro.uz.service.AuthService;
 import api.scolaro.uz.service.ProfileService;
@@ -42,5 +45,13 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
+
+    @Operation(summary = "Client registration", description = "Method client for  Registration")
+    @PostMapping("/client/registration")
+    public ResponseEntity<?> registration(@RequestBody ClientRequestDTO dto){
+
+        profileService.registration(dto);
+        return null;
+    }
 
 }

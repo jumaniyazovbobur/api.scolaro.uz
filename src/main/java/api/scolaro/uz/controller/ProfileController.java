@@ -42,13 +42,13 @@ public class ProfileController {
     /**
      * Admin
      */
-    @PostMapping("")
+   /* @PostMapping("")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Add profile", description = "Access for admin only")
     public ResponseEntity<ProfileDTO> addProfile(@RequestBody CreateProfileDTO dto) {
         return ResponseEntity.ok(profileService.addProfile(dto));
     }
-
+*/
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Get profile by id", description = "Access for admin only")
