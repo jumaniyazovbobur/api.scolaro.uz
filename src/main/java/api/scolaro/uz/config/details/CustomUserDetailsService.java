@@ -1,7 +1,8 @@
 package api.scolaro.uz.config.details;
 
 
-import api.scolaro.uz.entity.profile.UserEntity;
+
+import api.scolaro.uz.entity.UserEntity;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.repository.PersonRoleRepository;
 import api.scolaro.uz.repository.ProfileRepository;

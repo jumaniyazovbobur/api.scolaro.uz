@@ -5,7 +5,8 @@ import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.client.ClientRequestDTO;
 import api.scolaro.uz.dto.profile.*;
-import api.scolaro.uz.entity.ProfileEntity;
+
+import api.scolaro.uz.entity.UserEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.exp.AppBadRequestException;
@@ -13,9 +14,11 @@ import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.ProfileRepository;
 import api.scolaro.uz.service.sms.SmsHistoryService;
 import api.scolaro.uz.util.MD5Util;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -154,6 +157,9 @@ public class ProfileService {
         return false;
     }
 
-    public void registration(ClientRequestDTO dto) {
+    public ResponseEntity<?> registration(ClientRequestDTO dto) {
+
+        return null;
+
     }
 }

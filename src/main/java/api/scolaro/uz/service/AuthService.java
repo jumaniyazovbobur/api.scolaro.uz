@@ -1,11 +1,12 @@
 package api.scolaro.uz.service;
 
 
-import api.scolaro.uz.dto.auth.AuthRequestDTO;
+
 import api.scolaro.uz.dto.ResetPasswordConfirmDTO;
 import api.scolaro.uz.dto.ResetPasswordRequestDTO;
 import api.scolaro.uz.dto.profile.ProfileResponseDTO;
-import api.scolaro.uz.entity.profile.UserEntity;
+
+import api.scolaro.uz.entity.UserEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.PersonRoleRepository;
@@ -27,7 +28,7 @@ public class AuthService {
     @Autowired
     private PersonRoleRepository personRoleRepository;
 
-    public ProfileResponseDTO login(AuthDTO dto) {
+//    public ProfileResponseDTO login(AuthDTO dto) {
 //        Optional<ProfileEntity> optional = profileRepository.findByPhone(dto.getPhone());
 //        if (optional.isEmpty()) {
 //            log.info("User not found.");
@@ -49,8 +50,8 @@ public class AuthService {
 //        List<RoleEnum> roleList = personRoleRepository.findPersonRoleEnumList(entity.getId());
 //        response.setRoles(roleList);
 //        response.setJwt(JwtUtil.encode(entity.getId(), entity.getPhone(), roleList));
-        return null;
-    }
+//        return null;
+//    }
 
     public void resetPasswordRequest(ResetPasswordRequestDTO dto) {
         if (!PhoneUtil.isValidPhone(dto.getPhone())) {
