@@ -1,11 +1,11 @@
-POST http://178.218.207.75:8081/api/v1/attach/upload
+POST http://localhost:8081/api/v1/attach/upload
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 
 
 --WebAppBoundary
-Content-Disposition: form-data; name="file"; filename="40580.jpg"
+Content-Disposition: form-data; name="file"; filename="edureka.jpg"
 
-< C:\Users\Admin\Pictures\AgroBank_mini.png
+< C:\Users\lenovo\Pictures\Camera Roll\edureka.jpg
 
 ###
 

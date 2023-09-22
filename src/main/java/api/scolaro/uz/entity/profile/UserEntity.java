@@ -13,7 +13,6 @@ import lombok.Setter;
 @Table(name = "user")
 public class UserEntity extends BaseEntity {
 
-
     @Column(name = "name")
     private String name;
     @Column(name = "surname")
@@ -25,7 +24,5 @@ public class UserEntity extends BaseEntity {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private GeneralStatus status;
-    @Column(name = "faculty_id")
-    private Integer facultyId;
 
 }
