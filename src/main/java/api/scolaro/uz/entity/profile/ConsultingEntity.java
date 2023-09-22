@@ -1,20 +1,30 @@
 package api.scolaro.uz.entity.profile;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import api.scolaro.uz.entity.BaseEntity;
+import api.scolaro.uz.enums.GeneralStatus;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "consulting")
-public class ConsultingEntity {
+public class ConsultingEntity extends BaseEntity {
 
-    @Id
-    private Long id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "inn")
     private Integer INN;
-
+    @Column(name = "phone")
+    private String phone;
+    @Column(name = "password")
+    private String password;
+    @Column(name = "address")
+    private String address;
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private GeneralStatus status;
 }

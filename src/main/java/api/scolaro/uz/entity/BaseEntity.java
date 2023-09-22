@@ -1,9 +1,6 @@
 package api.scolaro.uz.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -15,8 +12,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public class BaseEntity {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @Column(nullable = true)
@@ -27,8 +23,5 @@ public class BaseEntity {
 
     @Column(name = "deleted_date")
     private LocalDateTime deletedDate;
-
-    @Column(name = "create_id")
-    private String createId;
 
 }
