@@ -1,6 +1,7 @@
 package api.scolaro.uz.entity.profile;
 
 
+
 import api.scolaro.uz.entity.BaseEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import jakarta.persistence.*;

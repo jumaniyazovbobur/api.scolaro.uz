@@ -1,7 +1,4 @@
 package api.scolaro.uz.repository.profile;
-
-
-
 import api.scolaro.uz.entity.profile.UserEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, String> {
+public interface UserRepository extends JpaRepository<UserEntity,String> {
 
     Optional<UserEntity> findByPhone(String phoneNumber);
 
