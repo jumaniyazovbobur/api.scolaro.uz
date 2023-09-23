@@ -1,13 +1,13 @@
-package api.scolaro.uz.service.profile;
+package api.scolaro.uz.service;
 
 import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.consulting.ConsultingDTO;
 import api.scolaro.uz.dto.consulting.ConsultingFilterDTO;
 import api.scolaro.uz.dto.consulting.ConsultingRegDTO;
-import api.scolaro.uz.entity.profile.ConsultingEntity;
+import api.scolaro.uz.entity.ConsultingEntity;
 import api.scolaro.uz.exp.ItemNotFoundException;
-import api.scolaro.uz.repository.profile.ConsultingRepository;
-import api.scolaro.uz.repository.profile.CustomConsultingRepository;
+import api.scolaro.uz.repository.consulting.ConsultingRepository;
+import api.scolaro.uz.repository.consulting.CustomConsultingRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 
@@ -26,7 +27,17 @@ public class ConsultingService {
     private ConsultingRepository consultingRepository;
     @Autowired
     private CustomConsultingRepository customRepository;
-    public ConsultingDTO update(String id, ConsultingRegDTO dto) {
+
+
+    public ConsultingDTO create(ConsultingRegDTO dto) {
+
+
+
+        return null;
+    }
+
+
+    public ConsultingDTO update(ConsultingRegDTO dto) {
         //TODO UPDATE
         return null;
     }
@@ -58,7 +69,7 @@ public class ConsultingService {
             log.info("Exception : {} consulting not found", id);
             throw new ItemNotFoundException("Not found");
         }
-        consultingRepository.deleted(id);
+        consultingRepository.deleted(id,LocalDateTime.now());
         return toDTO(optional.get());
 
     }

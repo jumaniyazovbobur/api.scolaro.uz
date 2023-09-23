@@ -3,16 +3,15 @@ package api.scolaro.uz.service;
 
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.SmsDTO;
-import api.scolaro.uz.dto.attach.AttachResponseDTO;
 import api.scolaro.uz.dto.auth.AuthResponseDTO;
 import api.scolaro.uz.dto.client.AuthRequestDTO;
 
 
-import api.scolaro.uz.entity.profile.UserEntity;
+import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.exp.ItemNotFoundException;
-import api.scolaro.uz.repository.profile.UserRepository;
+import api.scolaro.uz.repository.profile.ProfileRepository;
 import api.scolaro.uz.service.sms.SmsHistoryService;
 import api.scolaro.uz.util.JwtUtil;
 import api.scolaro.uz.util.MD5Util;
@@ -28,7 +27,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final UserRepository userRepository;
+    private final ProfileRepository userRepository;
     private final PersonRoleService personRoleService;
     private final ResourceMessageService resourceMessageService;
     private final SmsHistoryService smsHistoryService;
@@ -43,7 +42,7 @@ public class AuthService {
             return new ApiResponse<>(resourceMessageService.getMessage("phone.validation.not-valid"), 400, true);
         }
 
-        Optional<UserEntity> profileEntity = userRepository.findByPhone(dto.getPhoneNumber());
+        Optional<ProfileEntity> profileEntity = userRepository.findByPhone(dto.getPhoneNumber());
 
         if (profileEntity.isPresent()) {
             if (profileEntity.get().getStatus().equals(GeneralStatus.ACTIVE) || profileEntity.get().getStatus().equals(GeneralStatus.BLOCK)) {
@@ -59,7 +58,7 @@ public class AuthService {
         }
 
         //user create
-        UserEntity userEntity = new UserEntity();
+        ProfileEntity userEntity = new ProfileEntity();
         userEntity.setName(dto.getName());
         userEntity.setSurname(dto.getSurname());
         userEntity.setPhone(dto.getPhoneNumber());
@@ -81,7 +80,7 @@ public class AuthService {
             return new ApiResponse<>(resourceMessageService.getMessage("phone.validation.not-valid"), 400, true);
         }
 
-        Optional<UserEntity> userOptional = userRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
+        Optional<ProfileEntity> userOptional = userRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
 
         if (userOptional.isEmpty()) {
             throw new ItemNotFoundException(resourceMessageService.getMessage("client.not.found"));
@@ -102,7 +101,7 @@ public class AuthService {
 
     }
 
-    private AuthResponseDTO getClientAuthorizationResponse(UserEntity entity) {
+    private AuthResponseDTO getClientAuthorizationResponse(ProfileEntity entity) {
         AuthResponseDTO dto = new AuthResponseDTO();
         dto.setSurname(entity.getSurname());
         dto.setName(entity.getName());

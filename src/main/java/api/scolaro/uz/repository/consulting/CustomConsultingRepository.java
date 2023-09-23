@@ -1,8 +1,8 @@
-package api.scolaro.uz.repository.profile;
+package api.scolaro.uz.repository.consulting;
 
 import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.consulting.ConsultingFilterDTO;
-import api.scolaro.uz.entity.profile.ConsultingEntity;
+import api.scolaro.uz.entity.ConsultingEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;

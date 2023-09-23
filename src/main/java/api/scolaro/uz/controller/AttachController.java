@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,13 +35,18 @@ public class AttachController {
         return ResponseEntity.ok(attachService.upload(file));
     }
 
+    /**
+     * PUBLIC
+     */
     @GetMapping(value = "/open/{fileName}", produces = MediaType.IMAGE_PNG_VALUE)
     @Operation(summary = "open file api", description = "")
     public byte[] open_general(@PathVariable("fileName") String fileName) {
         log.info("open attach  ={}", fileName);
         return attachService.open_general(fileName);
     }
-
+    /**
+     * PUBLIC
+     */
     @GetMapping("/download/{fileName}")
     @Operation(summary = "download file api", description = "")
     public ResponseEntity<Resource> download(@PathVariable("fileName") String fileName) {
@@ -49,24 +54,23 @@ public class AttachController {
         return attachService.download(fileName);
     }
 
+
     @DeleteMapping("/delete/{fileName}")
     @Operation(summary = "delete file api", description = "")
-    public ResponseEntity<Resource> delete(@PathVariable("fileName") String fileName) {
+    public ResponseEntity<Boolean> delete(@PathVariable("fileName") String fileName) {
         log.info("delete attach  ={}", fileName);
-        return attachService.delete(fileName);
+        return ResponseEntity.ok(attachService.delete(fileName));
     }
 
     /**
      * FOR ADMIN
      */
-    @PostMapping("/filter")
+    @PostMapping("/get-all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @Operation(summary = "File filter api", description = "")
-    public ResponseEntity<Page<AttachResponseDTO>> filter(@RequestBody AttachFilterDTO dto,
-                                                          @RequestParam(value = "page", defaultValue = "1") int page,
-                                                          @RequestParam(value = "size", defaultValue = "15") int size) {
-        Page<AttachResponseDTO> response = attachService.filter(dto, page - 1, size);
-        return ResponseEntity.ok(response);
+    @Operation(summary = "File get all api", description = "")
+    public ResponseEntity<PageImpl<AttachDTO>> getAll(@RequestParam(value = "page", defaultValue = "1") int page,
+                                                      @RequestParam(value = "size", defaultValue = "15") int size) {
+        return ResponseEntity.ok(attachService.getAll(page - 1, size));
     }
 
 

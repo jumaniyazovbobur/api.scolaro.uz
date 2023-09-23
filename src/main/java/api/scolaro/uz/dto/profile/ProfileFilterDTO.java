@@ -11,6 +11,7 @@ public class ProfileFilterDTO {
 
     private String name;
     private String surname;
+    private String phone;
     private LocalDate fromCreatedDate;
     private LocalDate toCreatedDate;
 }
