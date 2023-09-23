@@ -3,22 +3,23 @@ package api.scolaro.uz.service;
 
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.SmsDTO;
-import api.scolaro.uz.dto.attach.AttachResponseDTO;
+import api.scolaro.uz.dto.auth.AuthRequestProfileDTO;
 import api.scolaro.uz.dto.auth.AuthResponseDTO;
 import api.scolaro.uz.dto.client.AuthRequestDTO;
 
 
-import api.scolaro.uz.entity.profile.UserEntity;
+import api.scolaro.uz.entity.profile.ProfileEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.exp.ItemNotFoundException;
-import api.scolaro.uz.repository.profile.UserRepository;
+import api.scolaro.uz.repository.profile.ProfileRepository;
 import api.scolaro.uz.service.sms.SmsHistoryService;
 import api.scolaro.uz.util.JwtUtil;
 import api.scolaro.uz.util.MD5Util;
 import api.scolaro.uz.util.PhoneUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -28,10 +29,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final UserRepository userRepository;
+    private final ProfileRepository profileRepository;
     private final PersonRoleService personRoleService;
     private final ResourceMessageService resourceMessageService;
     private final SmsHistoryService smsHistoryService;
+    private final PasswordEncoder passwordEncoder;
 
     private final AttachService attachService;
 
@@ -43,7 +45,7 @@ public class AuthService {
             return new ApiResponse<>(resourceMessageService.getMessage("phone.validation.not-valid"), 400, true);
         }
 
-        Optional<UserEntity> profileEntity = userRepository.findByPhone(dto.getPhoneNumber());
+        Optional<ProfileEntity> profileEntity = profileRepository.findByPhone(dto.getPhoneNumber());
 
         if (profileEntity.isPresent()) {
             if (profileEntity.get().getStatus().equals(GeneralStatus.ACTIVE) || profileEntity.get().getStatus().equals(GeneralStatus.BLOCK)) {
@@ -59,13 +61,13 @@ public class AuthService {
         }
 
         //user create
-        UserEntity userEntity = new UserEntity();
+        ProfileEntity userEntity = new ProfileEntity();
         userEntity.setName(dto.getName());
         userEntity.setSurname(dto.getSurname());
         userEntity.setPhone(dto.getPhoneNumber());
         userEntity.setPassword(MD5Util.getMd5(dto.getPassword()));
         userEntity.setStatus(GeneralStatus.NOT_ACTIVE);
-        userRepository.save(userEntity);
+        profileRepository.save(userEntity);
         // send sms verification code
         smsHistoryService.sendRegistrationSms(dto.getPhoneNumber());
         //client role
@@ -74,14 +76,14 @@ public class AuthService {
         return new ApiResponse<>(200, false);
     }
 
-    public ApiResponse<?> userRegistrationVerification(SmsDTO dto) {
+    public ApiResponse<?> profileRegistrationVerification(SmsDTO dto) {
         boolean validate = PhoneUtil.validatePhone(dto.getPhone());
         if (!validate) {
             log.info("Phone not Valid! phone = {}", dto.getPhone());
             return new ApiResponse<>(resourceMessageService.getMessage("phone.validation.not-valid"), 400, true);
         }
 
-        Optional<UserEntity> userOptional = userRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
+        Optional<ProfileEntity> userOptional = profileRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
 
         if (userOptional.isEmpty()) {
             throw new ItemNotFoundException(resourceMessageService.getMessage("client.not.found"));
@@ -96,13 +98,40 @@ public class AuthService {
             return smsResponse;
         }
         // change client status
-        userRepository.updateStatus(dto.getPhone(), GeneralStatus.ACTIVE);
+        profileRepository.updateStatus(dto.getPhone(), GeneralStatus.ACTIVE);
         AuthResponseDTO responseDTO = getClientAuthorizationResponse(userOptional.get());
         return new ApiResponse<>(200, false, responseDTO);
 
     }
 
-    private AuthResponseDTO getClientAuthorizationResponse(UserEntity entity) {
+
+    public Object profileLogin(AuthRequestProfileDTO dto) {
+        boolean validate = PhoneUtil.validatePhone(dto.getPhone());
+        if (!validate) {
+            log.info("Phone not valid! phone = {}", dto.getPhone());
+            return new ApiResponse<>(resourceMessageService.getMessage("phone.validation.not-valid"), 400, true);
+        }
+        Optional<ProfileEntity> optional = profileRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
+        if (optional.isEmpty()) {
+            log.warn("Client not found! phone = {}", dto.getPhone());
+            return new ApiResponse<>(resourceMessageService.getMessage("client.not.found"), 400, true);
+        }
+        ProfileEntity profile = optional.get();
+        if (!profile.getStatus().equals(GeneralStatus.ACTIVE)) {
+            log.warn("Profile Status Blocked! Phone = {}", dto.getPhone());
+            return new ApiResponse<>(resourceMessageService.getMessage("client.status.blocked"), 400, true);
+        }
+
+        if (!passwordEncoder.matches(dto.getPassword(), profile.getPassword())) {
+            log.warn("Password wrong! username = {}", dto.getPassword());
+            return new ApiResponse<>(resourceMessageService.getMessage("username.password.wrong"), 400, true);
+        }
+
+        return new ApiResponse<>(200, false,getClientAuthorizationResponse(profile));
+    }
+
+
+    private AuthResponseDTO getClientAuthorizationResponse(ProfileEntity entity) {
         AuthResponseDTO dto = new AuthResponseDTO();
         dto.setSurname(entity.getSurname());
         dto.setName(entity.getName());
@@ -111,6 +140,7 @@ public class AuthService {
         dto.setJwt(jwt);
         return dto;
     }
+
 
 //    public ProfileResponseDTO login(AuthDTO dto) {
 //        Optional<ProfileEntity> optional = profileRepository.findByPhone(dto.getPhone());

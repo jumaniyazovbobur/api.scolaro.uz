@@ -7,12 +7,12 @@ import api.scolaro.uz.dto.client.AuthRequestDTO;
 import api.scolaro.uz.dto.profile.*;
 
 
-import api.scolaro.uz.entity.profile.UserEntity;
+import api.scolaro.uz.entity.profile.ProfileEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
-import api.scolaro.uz.repository.ProfileRepository;
+import api.scolaro.uz.repository.profile.ProfileRepository;
 import api.scolaro.uz.util.MD5Util;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,12 +36,12 @@ public class ProfileService {
     private PersonRoleService personRoleService;
 
     public ProfileDTO getCurrentProfileDetail() {
-        UserEntity profile = get(EntityDetails.getCurrentUserId());
+        ProfileEntity profile = get(EntityDetails.getCurrentUserId());
         return toDto(profile);
     }
 
     public ProfileDTO addProfile(CreateProfileDTO dto) {
-        UserEntity entity = new UserEntity();
+        ProfileEntity entity = new ProfileEntity();
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
         entity.setPassword(MD5Util.getMd5(dto.getPassword()));
@@ -61,7 +61,7 @@ public class ProfileService {
     }
 
     public ProfileDTO getById(String id) {
-        UserEntity entity = get(id);
+        ProfileEntity entity = get(id);
         if (entity == null) {
             log.info("Such id not" + id);
             throw new ItemNotFoundException("Such id not" + id);
@@ -72,19 +72,19 @@ public class ProfileService {
     }
 
     public Boolean deleteById(String id) {
-        Optional<UserEntity> optional = profileRepository.findById(id);
+        Optional<ProfileEntity> optional = profileRepository.findById(id);
         if (optional.isEmpty()) {
             log.info("Profile not found");
             throw new ItemNotFoundException("Bunaqa profile mavjud emas");
         }
-        UserEntity entity = optional.get();
+        ProfileEntity entity = optional.get();
         entity.setVisible(false);
         profileRepository.save(entity);
         return true;
     }
 
     public ProfileDTO updateProfile(String id, CreateProfileDTO dto) {
-        UserEntity entity = get(id);
+        ProfileEntity entity = get(id);
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
         entity.setPhone(dto.getPhone());
@@ -100,7 +100,7 @@ public class ProfileService {
 
     public ApiResponse<?> updateDetail(UpdateProfileDetailDTO dto) {
         String profileId = EntityDetails.getCurrentUserId();
-        Optional<UserEntity> optional = profileRepository.findById(profileId);
+        Optional<ProfileEntity> optional = profileRepository.findById(profileId);
         if (optional.isEmpty()) {
             log.info("Profile not found.");
             throw new ItemNotFoundException("Profile not found.");
@@ -111,7 +111,7 @@ public class ProfileService {
 
     public ApiResponse<?> updatePassword(UpdatePasswordDTO dto) {
         String profileId = EntityDetails.getCurrentUserId();
-        UserEntity entity = get(profileId);
+        ProfileEntity entity = get(profileId);
         if (!entity.getPassword().equals(MD5Util.getMd5(dto.getOldPassword()))) {
             log.info("Wrong password");
             throw new AppBadRequestException("Wrong password");
@@ -126,8 +126,8 @@ public class ProfileService {
         return null;
     }
 
-    public UserEntity get(String id) {
-        Optional<UserEntity> optional = profileRepository.findById(id);
+    public ProfileEntity get(String id) {
+        Optional<ProfileEntity> optional = profileRepository.findById(id);
         if (optional.isEmpty()) {
             log.info("Profile not found: " + id);
             throw new ItemNotFoundException("Profile not found: " + id);
@@ -135,7 +135,7 @@ public class ProfileService {
         return optional.get();
     }
 
-    public ProfileDTO toDto(UserEntity profileEntity) {
+    public ProfileDTO toDto(ProfileEntity profileEntity) {
         ProfileDTO profileDTO = new ProfileDTO();
         profileDTO.setId(profileEntity.getId());
         profileDTO.setName(profileEntity.getName());

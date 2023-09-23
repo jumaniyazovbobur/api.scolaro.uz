@@ -10,26 +10,24 @@ Content-Type: application/json
   "password": "123456"
 }
 
-### resend registration sms code
-POST http://localhost:8081/api/v1/auth/user/registration/verification
+### Profile login
+POST http://localhost:8081/api/v1/auth/profile/login
 Content-Type: application/json
 
 
 {
   "phone": "+998972322903",
-  "code": "85452"
+  "password": "123456"
 }
 
-### verification
-POST http://localhost:8081/api/v1/auth/verification-sms
+### authenticate USER
+POST http://localhost:8081/api/v1/auth/authenticate
 Content-Type: application/json
 
-
 {
-  "phone": "998972322903",
-  "code": "34692"
+  "phone": "998915721213",
+  "password": "123456"
 }
-
 
 ### authenticate ADMIN
 POST http://178.218.207.96:8081/api/v1/auth/authenticate
@@ -49,11 +47,4 @@ Content-Type: application/json
   "password": "123456"
 }
 
-### authenticate USER
-POST http://localhost:8081/api/v1/auth/authenticate
-Content-Type: application/json
 
-{
-  "phone": "998915721213",
-  "password": "123456"
-}
