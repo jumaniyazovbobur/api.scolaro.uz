@@ -1,6 +1,7 @@
 package api.scolaro.uz.repository.profile;
 
 
+import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -50,6 +51,6 @@ public interface ProfileRepository extends JpaRepository<ProfileEntity, String> 
 
 
 
-    Optional<ProfileEntity> findByPhoneAndVisibleIsTrue(String phone);
+
 
 }

@@ -1,5 +1,4 @@
-package api.scolaro.uz.entity.profile;
-
+package api.scolaro.uz.entity;
 
 
 import api.scolaro.uz.entity.BaseEntity;

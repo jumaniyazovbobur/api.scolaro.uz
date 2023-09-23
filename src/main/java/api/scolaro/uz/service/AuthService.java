@@ -8,11 +8,11 @@ import api.scolaro.uz.dto.auth.AuthResponseDTO;
 import api.scolaro.uz.dto.client.AuthRequestDTO;
 
 
-import api.scolaro.uz.entity.profile.ProfileEntity;
+import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.exp.ItemNotFoundException;
-import api.scolaro.uz.repository.profile.UserRepository;
+import api.scolaro.uz.repository.profile.ProfileRepository;
 import api.scolaro.uz.service.sms.SmsHistoryService;
 import api.scolaro.uz.util.JwtUtil;
 import api.scolaro.uz.util.MD5Util;
