@@ -1,7 +1,76 @@
 package api.scolaro.uz.service.profile;
 
+import api.scolaro.uz.dto.FilterResultDTO;
+import api.scolaro.uz.dto.profile.ConsultingDTO;
+import api.scolaro.uz.dto.profile.ConsultingFilterDTO;
+import api.scolaro.uz.dto.profile.ConsultingUpdateDTO;
+import api.scolaro.uz.entity.profile.ConsultingEntity;
+import api.scolaro.uz.exp.ItemNotFoundException;
+import api.scolaro.uz.repository.profile.ConsultingRepository;
+import api.scolaro.uz.repository.profile.CustomConsultingRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
+
+@Slf4j
 @Service
 public class ConsultingService {
+    @Autowired
+    private ConsultingRepository consultingRepository;
+    @Autowired
+    private CustomConsultingRepository customRepository;
+    public ConsultingDTO update(String id, ConsultingUpdateDTO updateDTO) {
+        //TODO UPDATE
+        return null;
+    }
+
+    public ConsultingDTO getId(String id) {
+        Optional<ConsultingEntity> optional = consultingRepository.findByIdAndVisibleTrue(id);
+        if (optional.isEmpty()) {
+            log.info("Exception : {} consulting not found", id);
+            throw new ItemNotFoundException("Not found");
+        }
+        return toDTO(optional.get());
+    }
+
+    public PageImpl<ConsultingDTO> getAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<ConsultingEntity> entityPages = consultingRepository.findAll(pageable);
+        return new PageImpl<>(entityPages.getContent().stream().map(this::toDTO)
+                .toList(), pageable, entityPages.getTotalPages());
+
+    }
+    public  PageImpl<ConsultingDTO>  filter(ConsultingFilterDTO consultingFilterDTO, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        FilterResultDTO<ConsultingEntity> filterResultDTO = customRepository.filterPagination(consultingFilterDTO, page, size);
+        return new PageImpl<>(filterResultDTO.getContent().stream().map(this::toDTO).toList(), pageable, filterResultDTO.getTotalElement());
+    }
+    public ConsultingDTO deleted(String id) {
+        Optional<ConsultingEntity> optional = consultingRepository.findByIdAndVisibleTrue(id);
+        if (optional.isEmpty()) {
+            log.info("Exception : {} consulting not found", id);
+            throw new ItemNotFoundException("Not found");
+        }
+        consultingRepository.deleted(id);
+        return toDTO(optional.get());
+
+    }
+    private ConsultingDTO toDTO(ConsultingEntity entity){
+       ConsultingDTO dto=new ConsultingDTO();
+       dto.setId(entity.getId());
+       dto.setName(entity.getName());
+       dto.setInn(entity.getInn());
+       dto.setAddress(entity.getAddress());
+       dto.setPhone(entity.getPhone());
+       dto.setCreatedDate(entity.getCreatedDate());
+        return dto;
+    }
+
 }
