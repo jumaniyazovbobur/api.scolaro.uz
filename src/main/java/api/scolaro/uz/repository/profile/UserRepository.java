@@ -19,5 +19,13 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
     @Modifying
     @Query("update UserEntity set visible=true , deletedDate=now() where id=:id")
     void deleted(@Param("id") String id);
+public interface UserRepository extends JpaRepository<UserEntity,String> {
 
+    Optional<UserEntity> findByPhone(String phoneNumber);
+
+    Optional<UserEntity> findByPhoneAndVisibleIsTrue(String phone);
+    @Modifying
+    @Transactional
+    @Query("update UserEntity set status = ?2 where  phone = ?1")
+    void updateStatus(String phone, GeneralStatus active);
 }

@@ -1,6 +1,8 @@
 package api.scolaro.uz.config.details;
 
 
+
+
 import api.scolaro.uz.entity.profile.UserEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;

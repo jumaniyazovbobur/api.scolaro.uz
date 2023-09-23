@@ -12,7 +12,8 @@ import lombok.Setter;
 @Setter
 public class PersonRoleEntity extends BaseEntity {
     @Column(name = "person_id")
-    private String personId; // client or profile
+    private String personId; // user or profile
+
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
 }

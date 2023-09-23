@@ -19,4 +19,5 @@ public class JwtDTO {
         this.id = id;
         this.phone = phone;
     }
+
 }
