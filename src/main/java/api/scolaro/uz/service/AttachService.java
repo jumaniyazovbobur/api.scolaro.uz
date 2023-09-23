@@ -3,11 +3,11 @@ package api.scolaro.uz.service;
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.dto.attach.AttachFilterDTO;
-import api.scolaro.uz.dto.attach.AttachResponseDTO;
 import api.scolaro.uz.entity.AttachEntity;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.AttachRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -31,6 +31,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
+@RequiredArgsConstructor
+@Slf4j
 @Service
 public class AttachService {
 
@@ -38,11 +40,12 @@ public class AttachService {
     private String folderName;
     @Value("${attach.url}")
     private String attachUrl;
-    @Autowired
-    private AttachRepository attachRepository;
+
+    private final AttachRepository attachRepository;
 
     public AttachDTO upload(MultipartFile file) {
         if (file.isEmpty()) {
+            log.warn("Attach error : file not found");
             throw new ItemNotFoundException("File not found");
         }
 
@@ -77,6 +80,7 @@ public class AttachService {
             attachDTO.setUrl(getUrl(entity.getId()));
             return attachDTO;
         } catch (IOException e) {
+            log.warn("Attach error : {}", e.getMessage());
             e.printStackTrace();
             throw new RuntimeException(e);
         }
@@ -94,6 +98,7 @@ public class AttachService {
             boas.close();
             return imageInByte;
         } catch (Exception e) {
+            log.warn("Attach error : {}", e.getMessage());
             return new byte[0];
         }
     }
@@ -107,9 +112,11 @@ public class AttachService {
                 return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"" + entity.getOrigenName() + "\"").body(resource);
             } else {
+                log.warn("Attach error : file not found");
                 throw new RuntimeException("Could not read the file!");
             }
         } catch (MalformedURLException e) {
+            log.warn("Attach error : {}", e.getMessage());
             throw new RuntimeException("Error: " + e.getMessage());
         }
     }
@@ -140,7 +147,10 @@ public class AttachService {
 
     private AttachEntity getEntity(String fileName) {
         Optional<AttachEntity> optional = attachRepository.findByIdAndVisibleTrue(fileName);
-        if (optional.isEmpty()) throw new ItemNotFoundException("File not found");
+        if (optional.isEmpty()) {
+            log.warn("Attach error : file not found");
+            throw new ItemNotFoundException("File not found");
+        }
         return optional.get();
     }
 

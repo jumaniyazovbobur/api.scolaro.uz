@@ -4,7 +4,6 @@ package api.scolaro.uz.service;
 import api.scolaro.uz.dto.AuthDTO;
 import api.scolaro.uz.dto.ResetPasswordConfirmDTO;
 import api.scolaro.uz.dto.ResetPasswordRequestDTO;
-import api.scolaro.uz.dto.profile.ProfileResponseDTO;
 import api.scolaro.uz.entity.profile.UserEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.exp.ItemNotFoundException;

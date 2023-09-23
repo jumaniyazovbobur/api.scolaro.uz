@@ -1,4 +1,4 @@
-package api.scolaro.uz.dto.profile;
+package api.scolaro.uz.dto.consulting;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,15 +1,14 @@
 package api.scolaro.uz.service.profile;
 
 import api.scolaro.uz.dto.FilterResultDTO;
-import api.scolaro.uz.dto.profile.UserDTO;
-import api.scolaro.uz.dto.profile.UserFilterDTO;
-import api.scolaro.uz.dto.profile.UserUpdateDTO;
+import api.scolaro.uz.dto.profile.ProfileDTO;
+import api.scolaro.uz.dto.profile.ProfileFilterDTO;
+import api.scolaro.uz.dto.profile.ProfileRegDTO;
 import api.scolaro.uz.entity.profile.UserEntity;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.profile.CustomUserRepository;
 import api.scolaro.uz.repository.profile.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -28,7 +27,7 @@ public class UserService {
     @Autowired
     private CustomUserRepository customUserRepository;
 
-    public UserDTO update(String id, UserUpdateDTO updateDTO) {
+    public ProfileDTO update(String id, ProfileRegDTO dto) {
         Optional<UserEntity> optional = userRepository.findByIdAndVisibleTrue(id);
         if (optional.isEmpty()) {
             log.info("Exception : {} user not found", id);
@@ -38,7 +37,7 @@ public class UserService {
         return null;
     }
 
-    public UserDTO getId(String id) {
+    public ProfileDTO getId(String id) {
         Optional<UserEntity> optional = userRepository.findByIdAndVisibleTrue(id);
         if (optional.isEmpty()) {
             log.info("Exception : {} user not found", id);
@@ -47,20 +46,20 @@ public class UserService {
         return toDTO(optional.get());
     }
 
-    public PageImpl<UserDTO> filter(UserFilterDTO userFilterDTO, int page, int size) {
+    public PageImpl<ProfileDTO> filter(ProfileFilterDTO dto, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        FilterResultDTO<UserEntity> filterResultDTO = customUserRepository.filterPagination(userFilterDTO, page, size);
+        FilterResultDTO<UserEntity> filterResultDTO = customUserRepository.filterPagination(dto, page, size);
         return new PageImpl<>(filterResultDTO.getContent().stream().map(this::toDTO).toList(), pageable, filterResultDTO.getTotalElement());
     }
 
-    public PageImpl<UserDTO> getAll(int page, int size) {
+    public PageImpl<ProfileDTO> getAll(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<UserEntity> entityPages = userRepository.findAll(pageable);
         return new PageImpl<>(entityPages.getContent().stream().map(this::toDTO)
                 .toList(), pageable, entityPages.getTotalPages());
     }
 
-    public UserDTO deleted(String id) {
+    public ProfileDTO deleted(String id) {
         Optional<UserEntity> optional = userRepository.findByIdAndVisibleTrue(id);
         if (optional.isEmpty()) {
             log.info("Exception : {} user not found", id);
@@ -70,8 +69,8 @@ public class UserService {
         return toDTO(optional.get());
     }
 
-    private UserDTO toDTO(UserEntity entity) {
-        UserDTO dto = new UserDTO();
+    private ProfileDTO toDTO(UserEntity entity) {
+        ProfileDTO dto = new ProfileDTO();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setSurname(entity.getSurname());

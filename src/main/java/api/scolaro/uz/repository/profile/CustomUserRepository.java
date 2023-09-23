@@ -1,7 +1,7 @@
 package api.scolaro.uz.repository.profile;
 
 import api.scolaro.uz.dto.FilterResultDTO;
-import api.scolaro.uz.dto.profile.UserFilterDTO;
+import api.scolaro.uz.dto.profile.ProfileFilterDTO;
 import api.scolaro.uz.entity.profile.UserEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -19,7 +19,7 @@ public class CustomUserRepository {
     @Autowired
     private EntityManager entityManager;
 
-    public FilterResultDTO<UserEntity> filterPagination(UserFilterDTO dto, Integer page, Integer size) {
+    public FilterResultDTO<UserEntity> filterPagination(ProfileFilterDTO dto, Integer page, Integer size) {
         StringBuilder selectBuilder=new StringBuilder("from UserEntity as u");
         StringBuilder countBuilder=new StringBuilder("select count(u) from UserEntity as u");
         StringBuilder builder=new StringBuilder(" where e.visible=true");

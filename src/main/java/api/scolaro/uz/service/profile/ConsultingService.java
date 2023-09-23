@@ -1,9 +1,9 @@
 package api.scolaro.uz.service.profile;
 
 import api.scolaro.uz.dto.FilterResultDTO;
-import api.scolaro.uz.dto.profile.ConsultingDTO;
-import api.scolaro.uz.dto.profile.ConsultingFilterDTO;
-import api.scolaro.uz.dto.profile.ConsultingUpdateDTO;
+import api.scolaro.uz.dto.consulting.ConsultingDTO;
+import api.scolaro.uz.dto.consulting.ConsultingFilterDTO;
+import api.scolaro.uz.dto.consulting.ConsultingRegDTO;
 import api.scolaro.uz.entity.profile.ConsultingEntity;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.profile.ConsultingRepository;
@@ -26,7 +26,7 @@ public class ConsultingService {
     private ConsultingRepository consultingRepository;
     @Autowired
     private CustomConsultingRepository customRepository;
-    public ConsultingDTO update(String id, ConsultingUpdateDTO updateDTO) {
+    public ConsultingDTO update(String id, ConsultingRegDTO dto) {
         //TODO UPDATE
         return null;
     }
@@ -47,9 +47,9 @@ public class ConsultingService {
                 .toList(), pageable, entityPages.getTotalPages());
 
     }
-    public  PageImpl<ConsultingDTO>  filter(ConsultingFilterDTO consultingFilterDTO, int page, int size) {
+    public  PageImpl<ConsultingDTO>  filter(ConsultingFilterDTO dto, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        FilterResultDTO<ConsultingEntity> filterResultDTO = customRepository.filterPagination(consultingFilterDTO, page, size);
+        FilterResultDTO<ConsultingEntity> filterResultDTO = customRepository.filterPagination(dto, page, size);
         return new PageImpl<>(filterResultDTO.getContent().stream().map(this::toDTO).toList(), pageable, filterResultDTO.getTotalElement());
     }
     public ConsultingDTO deleted(String id) {

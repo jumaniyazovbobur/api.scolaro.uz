@@ -2,13 +2,11 @@ package api.scolaro.uz.controller;
 
 import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.dto.attach.AttachFilterDTO;
-import api.scolaro.uz.dto.attach.AttachResponseDTO;
 import api.scolaro.uz.service.AttachService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;;
@@ -20,16 +18,20 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/v1/attach")
+@RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Attach api list", description = "Api list for attach")
 public class AttachController {
-    @Autowired
-    private AttachService attachService;
 
+    private final AttachService attachService;
+
+    /**
+     * FOR PUBLIC AUTH
+     */
     @PostMapping("/upload")
     @Operation(summary = "upload api", description = "")
     public ResponseEntity<AttachDTO> create(@RequestParam("file") MultipartFile file) {
-        log.info("upload attach  ={}", file.getOriginalFilename());
+        log.info("upload attach  = {}", file.getOriginalFilename());
         return ResponseEntity.ok(attachService.upload(file));
     }
 
@@ -54,15 +56,19 @@ public class AttachController {
         return attachService.delete(fileName);
     }
 
+    /**
+     * FOR ADMIN
+     */
     @PostMapping("/filter")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @Operation(summary = "Attach filter", description = "")
+    @Operation(summary = "File filter api", description = "")
     public ResponseEntity<Page<AttachResponseDTO>> filter(@RequestBody AttachFilterDTO dto,
                                                           @RequestParam(value = "page", defaultValue = "1") int page,
                                                           @RequestParam(value = "size", defaultValue = "15") int size) {
         Page<AttachResponseDTO> response = attachService.filter(dto, page - 1, size);
         return ResponseEntity.ok(response);
     }
+
 
  /*   @GetMapping(value = "/open/general/{fileName}", produces = MediaType.APPLICATION_PDF_VALUE)
     public byte[] open_pdf(@PathVariable("fileName") String fileName) {

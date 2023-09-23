@@ -3,12 +3,14 @@ package api.scolaro.uz.dto.profile;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
-public class ProfileFilterRequestDTO {
-    private String id;
+public class ProfileFilterDTO {
+
     private String name;
     private String surname;
-    private String phone;
-    private Integer facultyId;
+    private LocalDate fromCreatedDate;
+    private LocalDate toCreatedDate;
 }

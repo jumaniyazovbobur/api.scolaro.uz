@@ -1,7 +1,7 @@
 package api.scolaro.uz.controller.profile;
 
-import api.scolaro.uz.dto.profile.ConsultingFilterDTO;
-import api.scolaro.uz.dto.profile.ConsultingUpdateDTO;
+import api.scolaro.uz.dto.consulting.ConsultingFilterDTO;
+import api.scolaro.uz.dto.consulting.ConsultingRegDTO;
 import api.scolaro.uz.service.profile.ConsultingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,9 +20,9 @@ public class ConsultingController {
     @PutMapping("/{id}")
     @Operation(summary = "Update api", description = "")
     public ResponseEntity<?> update(@PathVariable("id") String id,
-                                    @RequestBody ConsultingUpdateDTO updateDTO){
+                                    @RequestBody ConsultingRegDTO dto){
         log.info("Update consulting {}", id);
-        return ResponseEntity.ok(consultingService.update(id, updateDTO));
+        return ResponseEntity.ok(consultingService.update(id, dto));
     }
 
     @GetMapping("/{id}")

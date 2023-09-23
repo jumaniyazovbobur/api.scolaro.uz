@@ -5,11 +5,10 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class UserRegDTO {
+public class ProfileRegDTO {
 
     @NotBlank(message = "Name is required")
     private String name;

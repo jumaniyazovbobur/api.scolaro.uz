@@ -6,6 +6,7 @@ import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.ProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -13,11 +14,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/profile")
 @Tag(name = "Profile Api list", description = "Api list for profiles")
 public class ProfileController {
-    @Autowired
-    private ProfileService profileService;
+
+    private final ProfileService profileService;
 
     /**
      * Current

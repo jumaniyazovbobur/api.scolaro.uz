@@ -5,7 +5,6 @@ package api.scolaro.uz.controller;
 import api.scolaro.uz.dto.AuthDTO;
 import api.scolaro.uz.dto.ResetPasswordConfirmDTO;
 import api.scolaro.uz.dto.ResetPasswordRequestDTO;
-import api.scolaro.uz.dto.profile.ProfileResponseDTO;
 import api.scolaro.uz.service.AuthService;
 import api.scolaro.uz.service.ProfileService;
 import io.swagger.v3.oas.annotations.Operation;
