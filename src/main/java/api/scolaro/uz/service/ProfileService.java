@@ -3,16 +3,16 @@ package api.scolaro.uz.service;
 
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
-import api.scolaro.uz.dto.client.ClientRequestDTO;
+import api.scolaro.uz.dto.client.AuthRequestDTO;
 import api.scolaro.uz.dto.profile.*;
 
-import api.scolaro.uz.entity.UserEntity;
+
+import api.scolaro.uz.entity.profile.UserEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.ProfileRepository;
-import api.scolaro.uz.service.sms.SmsHistoryService;
 import api.scolaro.uz.util.MD5Util;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -157,7 +157,7 @@ public class ProfileService {
         return false;
     }
 
-    public ResponseEntity<?> registration(ClientRequestDTO dto) {
+    public ResponseEntity<?> registration(AuthRequestDTO dto) {
 
         return null;
 

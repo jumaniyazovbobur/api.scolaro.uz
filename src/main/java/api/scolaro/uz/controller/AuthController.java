@@ -1,8 +1,7 @@
 package api.scolaro.uz.controller;
 
 
-import api.scolaro.uz.dto.auth.AuthRequestDTO;
-import api.scolaro.uz.dto.client.ClientRequestDTO;
+import api.scolaro.uz.dto.client.AuthRequestDTO;
 import api.scolaro.uz.service.AuthService;
 import api.scolaro.uz.service.ProfileService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
-    private final ProfileService profileService;
+
    /* @PostMapping("/login")
     @Operation(summary = "Login api", description = "")
     public ResponseEntity<ProfileResponseDTO> goToLogin(@RequestBody AuthDTO dto) {
@@ -44,16 +43,16 @@ public class AuthController {
     /**
      * Client
      */
-    @Operation(summary = "Client registration", description = "Method client for  Registration")
-    @PostMapping("/client/registration")
-    public ResponseEntity<?> registration(@RequestBody @Valid ClientRequestDTO dto) {
+    @Operation(summary = "user registration", description = "Method user for  Registration")
+    @PostMapping("/user/registration")
+    public ResponseEntity<?> registration(@RequestBody @Valid AuthRequestDTO dto) {
         log.info("Registration {}", dto);
-        return ResponseEntity.ok(profileService.registration(dto));
+        return ResponseEntity.ok(authService.registration(dto));
     }
 
     @Operation(summary = "Profile login", description = "Method profile for  Login")
     @PostMapping("/profile/login")
-    public ResponseEntity<?> profileLogin(@RequestBody @Valid AuthRequestDTO dto) {
+    public ResponseEntity<?> profileLogin(@RequestBody @Valid api.scolaro.uz.dto.auth.AuthRequestDTO dto) {
         return null;
     }
 
@@ -61,7 +60,7 @@ public class AuthController {
 
     @Operation(summary = "Consulting login", description = "Method consulting for  Login")
     @PostMapping("/consulting/login")
-    public ResponseEntity<?> consultingLogin(@RequestBody @Valid AuthRequestDTO dto) {
+    public ResponseEntity<?> consultingLogin(@RequestBody @Valid api.scolaro.uz.dto.auth.AuthRequestDTO dto) {
         return null;
     }
 }

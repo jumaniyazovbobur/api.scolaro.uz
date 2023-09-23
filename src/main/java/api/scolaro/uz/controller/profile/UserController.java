@@ -45,7 +45,7 @@ public class UserController {
         return null;
     }
 
-    @GetMapping("/{id}")
+    @DeleteMapping("/{id}")
     @Operation(summary = "Deleted user api", description = "")
     public ResponseEntity<?> deleted(@PathVariable("id") String id) {
         return null;

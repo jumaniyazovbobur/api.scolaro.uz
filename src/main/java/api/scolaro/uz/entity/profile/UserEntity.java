@@ -1,4 +1,4 @@
-package api.scolaro.uz.entity;
+package api.scolaro.uz.entity.profile;
 
 
 import api.scolaro.uz.entity.BaseEntity;
@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class UserEntity extends BaseEntity {
 
     @Column(name = "name")

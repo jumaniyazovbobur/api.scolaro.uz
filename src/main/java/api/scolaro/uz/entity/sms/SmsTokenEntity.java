@@ -19,6 +19,6 @@ public class SmsTokenEntity {
     private String email;
     @Column(columnDefinition = "TEXT")
     private String token;
-    //    @Column()
+        @Column()
     private LocalDate createdDate;
 }
