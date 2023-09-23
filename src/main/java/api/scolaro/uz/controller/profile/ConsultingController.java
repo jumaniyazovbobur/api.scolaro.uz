@@ -2,17 +2,16 @@ package api.scolaro.uz.controller.profile;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/consulting")
+@RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Consulting api list", description = "Api list for consulting")
+@RequestMapping("/api/v1/consulting")
 public class ConsultingController {
 
     @PutMapping("/{consulId}")
@@ -20,7 +19,7 @@ public class ConsultingController {
     public ResponseEntity<?> update(@PathVariable("consulId") String consulId){
         return null;
     }
-    @PutMapping("/{consulId}")
+    @GetMapping("/{consulId}")
     @Operation(summary = "Get by id api", description = "")
     public ResponseEntity<?> getId(@PathVariable("consulId")String consulId){
         return null;
@@ -35,7 +34,7 @@ public class ConsultingController {
     public ResponseEntity<?> filter(){
         return null;
     }
-    @PutMapping("/{consulId}")
+    @DeleteMapping("/{consulId}")
     @Operation(summary = "Deleted consulting api", description = "")
     public ResponseEntity<?> deleted(@PathVariable("consulId") String consulId){
         return null;

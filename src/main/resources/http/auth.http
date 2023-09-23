@@ -1,22 +1,23 @@
 ### Register
-POST http://localhost:8081/api/v1/auth/register
+POST http://localhost:8081/api/v1/auth/user/registration
 Content-Type: application/json
 
 
 {
-  "firstname": "Toshmat",
-  "lastname": "Toshmatov",
-  "phone": "998972322903",
+  "name": "Maxmud",
+  "surname": "Maxmudov",
+  "phoneNumber": "+998972322903",
   "password": "123456"
 }
 
 ### resend registration sms code
-POST http://localhost:8081/api/v1/auth/register/resend
+POST http://localhost:8081/api/v1/auth/user/registration/verification
 Content-Type: application/json
 
 
 {
-  "phone": "998935997864"
+  "phone": "+998972322903",
+  "code": "85452"
 }
 
 ### verification

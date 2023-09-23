@@ -1,8 +1,20 @@
 package api.scolaro.uz.util;
 
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class PhoneUtil {
-    public static boolean isValidPhone(String phone) {
-        String pattern = "^998[0-9]{9}$";
-        return phone.matches(pattern);
+    private static final
+    String PHONE_PATTERN = "(?:\\+\\d{12})";
+
+    public static boolean validatePhone(String phone) {
+        Pattern pattern = Pattern.compile(PHONE_PATTERN);
+
+        if (Optional.ofNullable(phone).isPresent()) {
+            Matcher matcher = pattern.matcher(phone);
+            return matcher.matches();
+        }
+        return false;
     }
 }

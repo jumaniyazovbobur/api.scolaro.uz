@@ -4,7 +4,7 @@
 //
 //import api.scolaro.uz.entity.sms.SmsEntity;
 //import api.scolaro.uz.entity.sms.SmsTokenEntity;
-//import api.scolaro.uz.repository.SmsTokenRepository;
+//import api.scolaro.uz.repository.sms.SmsTokenRepository;
 //import lombok.extern.slf4j.Slf4j;
 //import okhttp3.*;
 //import org.json.JSONObject;

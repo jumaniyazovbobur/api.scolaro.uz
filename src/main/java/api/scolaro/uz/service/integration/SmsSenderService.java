@@ -1,7 +1,7 @@
-package api.scolaro.uz.service.sms;
+package api.scolaro.uz.service.integration;
 
 
-import api.scolaro.uz.entity.sms.SmsEntity;
+
 import api.scolaro.uz.entity.sms.SmsHistoryEntity;
 
 public interface SmsSenderService {
@@ -10,5 +10,5 @@ public interface SmsSenderService {
 
     String getSmsToken();
 
-    public String myEskizUzLogin();
+     String myEskizUzLogin();
 }

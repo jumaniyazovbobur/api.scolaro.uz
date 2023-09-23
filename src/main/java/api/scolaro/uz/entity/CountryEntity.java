@@ -17,9 +17,8 @@ import java.time.LocalDateTime;
 public class CountryEntity {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private Long id;
+
     @Column(name = "name_uz")
     private String nameUz;
     @Column(name = "name_ru")

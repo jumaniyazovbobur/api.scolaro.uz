@@ -1,4 +1,4 @@
-package api.scolaro.uz.repository;
+package api.scolaro.uz.repository.sms;
 
 import api.scolaro.uz.entity.sms.SmsHistoryEntity;
 import api.scolaro.uz.enums.sms.SmsStatus;
