@@ -1,6 +1,8 @@
 package api.scolaro.uz.controller;
 
 
+import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.client.AuthRequestDTO;
 import api.scolaro.uz.service.AuthService;
 import api.scolaro.uz.service.ProfileService;
@@ -50,9 +52,16 @@ public class AuthController {
         return ResponseEntity.ok(authService.registration(dto));
     }
 
+    @Operation(summary = "User registration verification", description = "Method used for user registration verification")
+    @PostMapping("/user/registration/verification")
+    public ResponseEntity<ApiResponse<?>> registrationVerification(@RequestBody @Valid SmsDTO dto) {
+        log.info("Registration verification {}", dto);
+        return ResponseEntity.ok(authService.userRegistrationVerification(dto));
+    }
+
     @Operation(summary = "Profile login", description = "Method profile for  Login")
-    @PostMapping("/profile/login")
-    public ResponseEntity<?> profileLogin(@RequestBody @Valid api.scolaro.uz.dto.auth.AuthRequestDTO dto) {
+    @PostMapping("/user/login")
+    public ResponseEntity<?> profileLogin(@RequestBody @Valid AuthRequestDTO dto) {
         return null;
     }
 
@@ -60,7 +69,7 @@ public class AuthController {
 
     @Operation(summary = "Consulting login", description = "Method consulting for  Login")
     @PostMapping("/consulting/login")
-    public ResponseEntity<?> consultingLogin(@RequestBody @Valid api.scolaro.uz.dto.auth.AuthRequestDTO dto) {
+    public ResponseEntity<?> consultingLogin(@RequestBody @Valid AuthRequestDTO dto) {
         return null;
     }
 }

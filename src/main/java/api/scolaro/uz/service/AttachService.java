@@ -152,4 +152,8 @@ public class AttachService {
         return attachUrl + "/open/" + fileName;
     }
 
+    public String toOpenUrl(String id) {
+        return attachUrl + "/api/v1/attach/open/" + id;
+    }
+
 }

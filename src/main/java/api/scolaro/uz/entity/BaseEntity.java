@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
@@ -12,11 +14,13 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public class BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private String id;
 
-    @Column(nullable = true)
-    private Boolean visible = true;
+    @Column(name = "visible")
+    private Boolean visible = Boolean.TRUE;
 
     @Column(name = "created_date")
     private LocalDateTime createdDate = LocalDateTime.now();

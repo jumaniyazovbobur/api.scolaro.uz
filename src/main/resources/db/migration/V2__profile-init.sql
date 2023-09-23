@@ -1,5 +1,5 @@
 -- default password 123456
-INSERT INTO profile (id, name, surname, password,status, phone,visible,created_date)
+INSERT INTO users (id, name, surname, password,status, phone,visible,created_date)
 VALUES ('909133fe-81ad-4aa1-b5fe-30d42d75bb3d', 'Adminjon', 'Adminov', 'e10adc3949ba59abbe56e057f20f883e','ACTIVE',
         '998938080831', true, now()) ON CONFLICT (id) DO NOTHING;
 

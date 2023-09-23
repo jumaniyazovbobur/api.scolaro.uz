@@ -2,14 +2,19 @@ package api.scolaro.uz.service;
 
 
 import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.SmsDTO;
+import api.scolaro.uz.dto.attach.AttachResponseDTO;
+import api.scolaro.uz.dto.auth.AuthResponseDTO;
 import api.scolaro.uz.dto.client.AuthRequestDTO;
 
 
 import api.scolaro.uz.entity.profile.UserEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
+import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.profile.UserRepository;
 import api.scolaro.uz.service.sms.SmsHistoryService;
+import api.scolaro.uz.util.JwtUtil;
 import api.scolaro.uz.util.MD5Util;
 import api.scolaro.uz.util.PhoneUtil;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +33,10 @@ public class AuthService {
     private final ResourceMessageService resourceMessageService;
     private final SmsHistoryService smsHistoryService;
 
+    private final AttachService attachService;
+
     public ApiResponse<?> registration(AuthRequestDTO dto) {
-        boolean validate = PhoneUtil.isValidPhone(dto.getPhoneNumber());
+        boolean validate = PhoneUtil.validatePhone(dto.getPhoneNumber());
         //validate phone number
         if (!validate) {
             log.info("Phone not valid! phone={}", dto.getPhoneNumber());
@@ -64,7 +71,45 @@ public class AuthService {
         //client role
         personRoleService.create(userEntity.getId(), RoleEnum.ROLE_STUDENT);
 
-        return new ApiResponse<>(200,false);
+        return new ApiResponse<>(200, false);
+    }
+
+    public ApiResponse<?> userRegistrationVerification(SmsDTO dto) {
+        boolean validate = PhoneUtil.validatePhone(dto.getPhone());
+        if (!validate) {
+            log.info("Phone not Valid! phone = {}", dto.getPhone());
+            return new ApiResponse<>(resourceMessageService.getMessage("phone.validation.not-valid"), 400, true);
+        }
+
+        Optional<UserEntity> userOptional = userRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
+
+        if (userOptional.isEmpty()) {
+            throw new ItemNotFoundException(resourceMessageService.getMessage("client.not.found"));
+        }
+
+        if (!userOptional.get().getStatus().equals(GeneralStatus.NOT_ACTIVE)) {
+            return new ApiResponse<>(resourceMessageService.getMessage("wrong.client.status"), 400, true);
+        }
+
+        ApiResponse<?> smsResponse = smsHistoryService.checkSmsCode(dto.getPhone(), dto.getCode());
+        if (smsResponse.getIsError()) {
+            return smsResponse;
+        }
+        // change client status
+        userRepository.updateStatus(dto.getPhone(), GeneralStatus.ACTIVE);
+        AuthResponseDTO responseDTO = getClientAuthorizationResponse(userOptional.get());
+        return new ApiResponse<>(200, false, responseDTO);
+
+    }
+
+    private AuthResponseDTO getClientAuthorizationResponse(UserEntity entity) {
+        AuthResponseDTO dto = new AuthResponseDTO();
+        dto.setSurname(entity.getSurname());
+        dto.setName(entity.getName());
+        dto.setRoleList(personRoleService.getProfileRoleList(entity.getId()));
+        String jwt = JwtUtil.encode(entity.getId(), entity.getPhone(), dto.getRoleList());
+        dto.setJwt(jwt);
+        return dto;
     }
 
 //    public ProfileResponseDTO login(AuthDTO dto) {
