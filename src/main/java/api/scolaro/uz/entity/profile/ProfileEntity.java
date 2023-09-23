@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "users")
-public class UserEntity extends BaseEntity {
+public class ProfileEntity extends BaseEntity {
 
     @Column(name = "name")
     private String name;
