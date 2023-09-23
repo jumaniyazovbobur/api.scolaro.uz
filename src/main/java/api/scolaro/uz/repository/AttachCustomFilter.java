@@ -1,19 +1,7 @@
 package api.scolaro.uz.repository;
 
 
-import api.scolaro.uz.dto.attach.AttachFilterDTO;
-import api.scolaro.uz.dto.attach.AttachResponseDTO;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
-
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 @Repository
 public class AttachCustomFilter {

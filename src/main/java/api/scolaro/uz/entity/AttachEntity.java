@@ -38,13 +38,7 @@ public class AttachEntity {
     @Column(name = "size")
     private Long size;
 
-    @Column(nullable = true)
-    private Boolean visible = true;
 
     @Column(name = "created_date")
     private LocalDateTime createdDate = LocalDateTime.now();
-
-    @Column(name = "deleted_date")
-    private LocalDateTime deletedDate;
-
 }

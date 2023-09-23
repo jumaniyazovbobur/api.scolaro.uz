@@ -2,16 +2,18 @@ package api.scolaro.uz.service;
 
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.attach.AttachDTO;
-import api.scolaro.uz.dto.attach.AttachFilterDTO;
-import api.scolaro.uz.dto.attach.AttachResponseDTO;
 import api.scolaro.uz.entity.AttachEntity;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.AttachRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
+@RequiredArgsConstructor
+@Slf4j
 @Service
 public class AttachService {
 
@@ -38,11 +42,12 @@ public class AttachService {
     private String folderName;
     @Value("${attach.url}")
     private String attachUrl;
-    @Autowired
-    private AttachRepository attachRepository;
+
+    private final AttachRepository attachRepository;
 
     public AttachDTO upload(MultipartFile file) {
         if (file.isEmpty()) {
+            log.warn("Attach error : file not found");
             throw new ItemNotFoundException("File not found");
         }
 
@@ -52,7 +57,7 @@ public class AttachService {
             boolean t = folder.mkdirs();
         }
         String key = UUID.randomUUID().toString();
-        String extension = getExtension(Objects.requireNonNull(file.getOriginalFilename()));   // jpg
+        String extension = getExtension(Objects.requireNonNull(file.getOriginalFilename()));
 
         try {
             byte[] bytes = file.getBytes();
@@ -68,15 +73,9 @@ public class AttachService {
             entity.setExtension(extension);
             attachRepository.save(entity);
 
-            AttachDTO attachDTO = new AttachDTO();
-            attachDTO.setId(key);
-            attachDTO.setOriginName(entity.getOrigenName());
-            attachDTO.setSize(entity.getSize());
-            attachDTO.setExtension(entity.getExtension());
-            attachDTO.setCreatedData(entity.getCreatedDate());
-            attachDTO.setUrl(getUrl(entity.getId()));
-            return attachDTO;
+            return toDTO(entity);
         } catch (IOException e) {
+            log.warn("Attach error : {}", e.getMessage());
             e.printStackTrace();
             throw new RuntimeException(e);
         }
@@ -94,6 +93,7 @@ public class AttachService {
             boas.close();
             return imageInByte;
         } catch (Exception e) {
+            log.warn("Attach error : {}", e.getMessage());
             return new byte[0];
         }
     }
@@ -107,22 +107,31 @@ public class AttachService {
                 return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"" + entity.getOrigenName() + "\"").body(resource);
             } else {
+                log.warn("Attach error : Could not read the file!");
                 throw new RuntimeException("Could not read the file!");
             }
         } catch (MalformedURLException e) {
+            log.warn("Attach error : {}", e.getMessage());
             throw new RuntimeException("Error: " + e.getMessage());
         }
     }
 
 
-    public ResponseEntity<Resource> delete(String fileName) {
-        //TODO deleted
-        return null;
+    public boolean delete(String fileName) {
+        AttachEntity entity = getEntity(fileName);
+        attachRepository.delete(entity);
+        File file = new File(getPath(entity));
+        boolean b = false;
+        if (file.exists()) {
+            b = file.delete();
+        }
+        return b;
     }
 
-    public Page<AttachResponseDTO> filter(AttachFilterDTO dto, int i, int size) {
-        //TODO filter
-        return null;
+    public PageImpl<AttachDTO> getAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<AttachEntity> entityPages = attachRepository.findAll(pageable);
+        return new PageImpl<>(entityPages.stream().map(this::toDTO).toList(), pageable, entityPages.getTotalElements());
     }
 
 
@@ -139,8 +148,11 @@ public class AttachService {
     }
 
     private AttachEntity getEntity(String fileName) {
-        Optional<AttachEntity> optional = attachRepository.findByIdAndVisibleTrue(fileName);
-        if (optional.isEmpty()) throw new ItemNotFoundException("File not found");
+        Optional<AttachEntity> optional = attachRepository.findById(fileName);
+        if (optional.isEmpty()) {
+            log.warn("Attach error : file not found");
+            throw new ItemNotFoundException("File not found");
+        }
         return optional.get();
     }
 
@@ -154,6 +166,17 @@ public class AttachService {
 
     public String toOpenUrl(String id) {
         return attachUrl + "/api/v1/attach/open/" + id;
+    }
+
+    private AttachDTO toDTO(AttachEntity entity) {
+        AttachDTO attachDTO = new AttachDTO();
+        attachDTO.setId(entity.getId());
+        attachDTO.setOriginName(entity.getOrigenName());
+        attachDTO.setSize(entity.getSize());
+        attachDTO.setExtension(entity.getExtension());
+        attachDTO.setCreatedData(entity.getCreatedDate());
+        attachDTO.setUrl(getUrl(entity.getId()));
+        return attachDTO;
     }
 
 }

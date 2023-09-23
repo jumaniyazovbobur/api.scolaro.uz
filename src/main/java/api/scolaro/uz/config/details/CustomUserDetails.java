@@ -27,7 +27,7 @@ public class CustomUserDetails implements UserDetails {
     private List<SimpleGrantedAuthority> roleList = new LinkedList<>();
     private GeneralStatus status;
 
-    public CustomUserDetails(ProfileEntity entity, List<RoleEnum> roles) {
+    public CustomUserDetails(UserEntity entity, List<RoleEnum> roles) {
         this.id = entity.getId();
         this.name = entity.getName();
         this.surname = entity.getSurname();
