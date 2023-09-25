@@ -15,8 +15,8 @@ public class ConsultingEntity extends BaseEntity {
 
     @Column(name = "name")
     private String name;
-    @Column(name = "inn")
-    private Integer inn;
+//    @Column(name = "inn")
+//    private Integer inn;
     @Column(name = "phone")
     private String phone;
     @Column(name = "password")

@@ -34,7 +34,8 @@ public class CountryController {
      */
     @ApiOperation(value = "Get Country List", notes = "Get Country List with Language")
     @GetMapping("/public/user")
-    public ResponseEntity<ApiResponse<List<CountryDTO>>> getCountryListByLanguage(@RequestHeader(value = "Accept-Language", defaultValue = "LATIN") AppLanguage language) {
+    public ResponseEntity<ApiResponse<List<CountryDTO>>> getCountryListByLanguage(@RequestHeader(value = "Accept-Language",
+            defaultValue = "LATIN") AppLanguage language) {
         log.info("get country");
         return ResponseEntity.ok().body(countryService.getList(language));
     }

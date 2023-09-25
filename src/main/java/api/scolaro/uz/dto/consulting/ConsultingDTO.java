@@ -7,9 +7,10 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class ConsultingDTO {
+
     private String id;
     private String name;
-    private Integer inn;
+//    private Integer inn;
     private String phone;
     private String address;
     private LocalDateTime createdDate;

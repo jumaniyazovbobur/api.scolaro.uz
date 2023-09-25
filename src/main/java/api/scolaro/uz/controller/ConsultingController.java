@@ -8,8 +8,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,6 +21,11 @@ public class ConsultingController {
 
     private final ConsultingService consultingService;
 
+    /**
+     * FOR ADMIN   // Can updated
+     */
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/")
     @Operation(summary = "Create api", description = "")
     public ResponseEntity<?> create(@Valid @RequestBody ConsultingRegDTO dto) {
@@ -28,6 +33,10 @@ public class ConsultingController {
         return ResponseEntity.ok(consultingService.create(dto));
     }
 
+    /**
+     * OWNER CONSULTING
+     */
+    @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @PutMapping("/")
     @Operation(summary = "Update api", description = "")
     public ResponseEntity<?> update(@Valid @RequestBody ConsultingRegDTO dto) {
@@ -35,6 +44,10 @@ public class ConsultingController {
         return ResponseEntity.ok(consultingService.update(dto));
     }
 
+    /**
+     * FOR ADMIN
+     */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
     @Operation(summary = "Get by id api", description = "")
     public ResponseEntity<?> getId(@PathVariable("id") String id) {
@@ -43,7 +56,10 @@ public class ConsultingController {
 
     }
 
-
+    /**
+     * FOR ADMIN
+     */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/filter")
     @Operation(summary = "Filter api", description = "")
     public ResponseEntity<?> filter(@RequestBody ConsultingFilterDTO consultingFilterDTO,
@@ -52,7 +68,10 @@ public class ConsultingController {
         return ResponseEntity.ok(consultingService.filter(consultingFilterDTO, page - 1, size));
     }
 
-
+    /**
+     * FOR ADMIN
+     */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Deleted consulting api", description = "")
     public ResponseEntity<?> deleted(@PathVariable("id") String id) {

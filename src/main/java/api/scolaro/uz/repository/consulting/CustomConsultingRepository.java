@@ -32,6 +32,11 @@ public class CustomConsultingRepository {
             builder.append(" and c.address like :address");
             params.put("address","'%"+dto.getAddress()+"%'");
         }
+
+        if(dto.getPhone()!=null && !dto.getPhone().isBlank()){
+            builder.append(" and c.phone = :phone");
+            params.put("phone",dto.getPhone());
+        }
         if(dto.getFromCreatedDate()!=null){
             builder.append(" and c.createdDate>=:from");
             params.put("from", LocalDateTime.of(dto.getFromCreatedDate(), LocalTime.MIN));

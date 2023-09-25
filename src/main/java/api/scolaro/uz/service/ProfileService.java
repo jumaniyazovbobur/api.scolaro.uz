@@ -58,13 +58,6 @@ public class ProfileService {
         return new PageImpl<>(filterResultDTO.getContent().stream().map(this::toDTO).toList(), pageable, filterResultDTO.getTotalElement());
     }
 
-    public PageImpl<ProfileDTO> getAll(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<ProfileEntity> entityPages = profileRepository.findAll(pageable);
-        return new PageImpl<>(entityPages.getContent().stream().map(this::toDTO)
-                .toList(), pageable, entityPages.getTotalPages());
-    }
-
     public ProfileDTO deleted(String id) {
         Optional<ProfileEntity> optional = profileRepository.findByIdAndVisibleTrue(id);
         if (optional.isEmpty()) {

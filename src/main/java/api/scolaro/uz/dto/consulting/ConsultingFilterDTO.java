@@ -9,6 +9,7 @@ import java.time.LocalDate;
 public class ConsultingFilterDTO{
     private String name;
     private String address;
+    private String phone;
     private LocalDate fromCreatedDate;
     private LocalDate toCreatedDate;
 }

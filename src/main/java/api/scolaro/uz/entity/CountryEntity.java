@@ -25,7 +25,7 @@ public class CountryEntity {
     private String nameRu;
     @Column(name = "name_en")
     private String nameEn;
-    private LocalDateTime created_date;
+    private LocalDateTime created_date=LocalDateTime.now();
     @Column(name = "visible")
     private Boolean visible;
 
