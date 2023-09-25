@@ -43,12 +43,6 @@ public class ConsultingController {
 
     }
 
-    @GetMapping("/all")
-    @Operation(summary = "Get all api", description = "")
-    public ResponseEntity<?> getAll(@RequestParam(value = "page", defaultValue = "1") int page,
-                                    @RequestParam(value = "size", defaultValue = "30") int size) {
-        return ResponseEntity.ok(consultingService.getAll(page - 1, size));
-    }
 
     @GetMapping("/filter")
     @Operation(summary = "Filter api", description = "")

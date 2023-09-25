@@ -1,5 +1,6 @@
 package api.scolaro.uz.dto.consulting;
 
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -18,4 +19,5 @@ public class ConsultingRegDTO {
     private String password;
     @NotBlank(message = "Address is required")
     private String address; // text
+
 }
