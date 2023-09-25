@@ -2,6 +2,7 @@ package api.scolaro.uz.entity;
 
 import api.scolaro.uz.entity.BaseEntity;
 import api.scolaro.uz.enums.GeneralStatus;
+import api.scolaro.uz.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,4 +27,7 @@ public class ConsultingEntity extends BaseEntity {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private GeneralStatus status;
+    @Enumerated(EnumType.STRING)
+    private RoleEnum role;
+
 }

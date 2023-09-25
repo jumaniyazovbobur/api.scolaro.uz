@@ -7,12 +7,14 @@ import api.scolaro.uz.dto.consulting.ConsultingFilterDTO;
 import api.scolaro.uz.dto.consulting.ConsultingRegDTO;
 import api.scolaro.uz.entity.ConsultingEntity;
 import api.scolaro.uz.enums.GeneralStatus;
+import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.consulting.ConsultingRepository;
 import api.scolaro.uz.repository.consulting.CustomConsultingRepository;
 import api.scolaro.uz.util.MD5Util;
 import api.scolaro.uz.util.PhoneUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,11 +29,14 @@ import java.util.Optional;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class ConsultingService {
-    @Autowired
-    private ConsultingRepository consultingRepository;
-    @Autowired
-    private CustomConsultingRepository customRepository;
+
+    private final ConsultingRepository consultingRepository;
+
+    private final CustomConsultingRepository customRepository;
+
+    private final PersonRoleService personRoleService;
 
 
     public ConsultingDTO create(ConsultingRegDTO dto) {
@@ -49,9 +54,11 @@ public class ConsultingService {
         entity.setAddress(dto.getAddress());
         entity.setPassword(MD5Util.getMd5(dto.getPassword()));
         entity.setPhone(dto.getPhone());
-        entity.setStatus(GeneralStatus.REG);
+        entity.setStatus(GeneralStatus.ACTIVE);
+        entity.setRole(RoleEnum.ROLE_CONSULTING);
         // save
         consultingRepository.save(entity);
+        personRoleService.create(entity.getId(), RoleEnum.ROLE_CONSULTING);
         // response
         return toDTO(entity);
     }

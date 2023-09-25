@@ -15,9 +15,12 @@ import java.util.Optional;
 public interface ConsultingRepository extends JpaRepository<ConsultingEntity, String> {
 
     Optional<ConsultingEntity> findByIdAndVisibleTrue(String id);
+
     @Transactional
     @Modifying
     @Query("update ConsultingEntity set visible=true , deletedDate=:date where id=:id")
     void deleted(@Param("id") String id,
                  @Param("date") LocalDateTime date);
+
+    Optional<ConsultingEntity> findByPhoneAndVisibleIsTrue(String phone);
 }

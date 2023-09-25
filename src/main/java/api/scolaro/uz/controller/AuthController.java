@@ -45,7 +45,7 @@ public class AuthController {
     /**
      * Client
      */
-    @Operation(summary = "user registration", description = "Method user for  Registration")
+    @Operation(summary = "profile registration", description = "Method user for  Registration")
     @PostMapping("/profile/registration")
     public ResponseEntity<?> registration(@RequestBody @Valid AuthRequestDTO dto) {
         log.info("Registration {}", dto);
@@ -70,7 +70,8 @@ public class AuthController {
 
     @Operation(summary = "Consulting login", description = "Method consulting for  Login")
     @PostMapping("/consulting/login")
-    public ResponseEntity<?> consultingLogin(@RequestBody @Valid AuthRequestDTO dto) {
-        return null;
+    public ResponseEntity<?> consultingLogin(@RequestBody @Valid AuthRequestProfileDTO dto) {
+        log.warn("Client login {}", dto);
+        return ResponseEntity.ok(authService.consultingLogin(dto));
     }
 }
