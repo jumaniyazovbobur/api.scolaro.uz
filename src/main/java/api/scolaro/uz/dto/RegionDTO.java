@@ -1,7 +1,6 @@
 package api.scolaro.uz.dto;
 
 
-
 import lombok.Getter;
 import lombok.Setter;
 

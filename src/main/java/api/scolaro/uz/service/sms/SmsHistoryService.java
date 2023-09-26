@@ -29,7 +29,7 @@ public class SmsHistoryService {
     public void sendRegistrationSms(String phoneNumber) {
         String smsCode = RandomUtil.getRandomSmsCode();
         String text = "Scolaro ro'yhatdan o'tish tasdiqlash kodi: \n" + smsCode;
-        sendMessage(phoneNumber, text, SmsType.CHANGE_PHONE, smsCode);
+        sendMessage(phoneNumber, text, SmsType.REGISTRATION, smsCode);
     }
 
 
@@ -71,6 +71,7 @@ public class SmsHistoryService {
         if (!entity.getSmsCode().equals(code)) {
             return new ApiResponse<>(resourceMessageService.getMessage("sms.code.incorrect"), 400, true);
         }
+        smsHistoryRepository.updateStatus(entity.getId(), SmsStatus.USED_WITH_TIMEOUT);
         return new ApiResponse<>("Success!", 200, false);
     }
 }

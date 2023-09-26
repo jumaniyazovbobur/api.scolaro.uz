@@ -2,6 +2,7 @@ package api.scolaro.uz.service;
 
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.attach.AttachDTO;
+import api.scolaro.uz.dto.attach.AttachResponseDTO;
 import api.scolaro.uz.entity.AttachEntity;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.AttachRepository;
@@ -177,6 +178,10 @@ public class AttachService {
         attachDTO.setCreatedData(entity.getCreatedDate());
         attachDTO.setUrl(getUrl(entity.getId()));
         return attachDTO;
+    }
+
+    public AttachResponseDTO getResponseAttach(String id){
+       return new AttachResponseDTO(id,getUrl(id));
     }
 
 }

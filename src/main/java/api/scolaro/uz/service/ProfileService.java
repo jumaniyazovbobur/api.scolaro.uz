@@ -1,15 +1,26 @@
 package api.scolaro.uz.service;
 
 
+import api.scolaro.uz.config.details.CustomUserDetails;
 import api.scolaro.uz.config.details.EntityDetails;
+import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.FilterResultDTO;
+import api.scolaro.uz.dto.SmsDTO;
+import api.scolaro.uz.dto.attach.AttachResponseDTO;
 import api.scolaro.uz.dto.profile.*;
 
 
 import api.scolaro.uz.entity.ProfileEntity;
+import api.scolaro.uz.enums.GeneralStatus;
+import api.scolaro.uz.enums.sms.SmsType;
+import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.profile.CustomProfileRepository;
 import api.scolaro.uz.repository.profile.ProfileRepository;
+import api.scolaro.uz.service.sms.SmsHistoryService;
+import api.scolaro.uz.util.MD5Util;
+import api.scolaro.uz.util.PhoneUtil;
+import api.scolaro.uz.util.RandomUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
@@ -25,61 +36,156 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProfileService {
 
-
-
     private final ProfileRepository profileRepository;
 
     private final CustomProfileRepository customProfileRepository;
 
-    public ProfileDTO update(ProfileUpdateDTO dto) { // TODO ProfileUpdateDTO
-        String profileId = EntityDetails.getCurrentUserId();
-        Optional<ProfileEntity> optional = profileRepository.findByIdAndVisibleTrue(profileId);
-        if (optional.isEmpty()) {
-            log.info("Exception : {} user not found", profileId);
-            throw new ItemNotFoundException("Not found");
-        }
-        //TODO update name and surname
-        return null;
+    private final AttachService attachService;
+
+    private final SmsHistoryService smsService;
+
+    public ApiResponse<?> update(ProfileUpdateDTO dto) {
+        ProfileDTO currentProfile = getCurrentProfileDetail();
+        int result = profileRepository.updateDetail(currentProfile.getId(), dto.getName(), dto.getSurname());
+        if (result == 0) return ApiResponse.bad("Try again !");
+        return ApiResponse.ok();
     }
 
-    public ProfileDTO getId(String id) {
-        Optional<ProfileEntity> optional = profileRepository.findByIdAndVisibleTrue(id);
-        if (optional.isEmpty()) {
-            log.info("Exception : {} user not found", id);
-            throw new ItemNotFoundException("Not found");
-        }
-        return toDTO(optional.get());
+    public ApiResponse<ProfileResponseDTO> getId(String id) {
+        ProfileEntity entity = get(id);
+        return ApiResponse.ok(getResponseDto(entity));
     }
 
-    public PageImpl<ProfileDTO> filter(ProfileFilterDTO dto, int page, int size) {
+    public ApiResponse<PageImpl<ProfileResponseDTO>> filter(ProfileFilterDTO dto, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         FilterResultDTO<ProfileEntity> filterResultDTO = customProfileRepository.filterPagination(dto, page, size);
-        return new PageImpl<>(filterResultDTO.getContent().stream().map(this::toDTO).toList(), pageable, filterResultDTO.getTotalElement());
+        return ApiResponse.ok(new PageImpl<>(filterResultDTO
+                .getContent()
+                .stream()
+                .map(this::getResponseDto)
+                .toList(), pageable, filterResultDTO.getTotalElement()));
     }
 
-    public ProfileDTO deleted(String id) {
+    public ApiResponse<?> deleted(String id) {
+        ProfileEntity entity = get(id);
+        int result = profileRepository.deleted(entity.getId(), getCurrentProfileDetail().getId(), LocalDateTime.now());
+        if (result == 0) return ApiResponse.bad("Try again !");
+        return ApiResponse.ok();
+    }
+
+
+    public ApiResponse<?> updatePassword(UpdatePasswordDTO dto) {
+        ProfileDTO currentProfile = getCurrentProfileDetail();
+        if (!dto.getNewPassword().equals(dto.getConfirmPassword())) {
+            log.info("Confirmed password is incorrect !");
+            return ApiResponse.bad("Confirmed password is incorrect !");
+        }
+        if (!currentProfile.getPassword().equals(MD5Util.getMd5(dto.getOldPassword()))) {
+            log.info("Old password error !");
+            return ApiResponse.bad("Old password error !");
+        }
+        int result = profileRepository.updatePassword(currentProfile.getId(), MD5Util.getMd5(dto.getNewPassword()));
+        if (result == 0) return ApiResponse.bad("Try again !");
+        return ApiResponse.ok();
+    }
+
+    public ApiResponse<?> changeStatus(String id, GeneralStatus status) {
+        ProfileEntity entity = get(id);
+        int result = profileRepository.changeStatus(entity.getId(), status);
+        if (result == 0) return ApiResponse.bad("Try again !");
+        return ApiResponse.ok();
+    }
+
+    public ApiResponse<?> updatePhone(String newPhone) {
+        if (!PhoneUtil.validatePhone(newPhone)) {
+            log.info("Phone not valid");
+            return ApiResponse.bad("Phone not valid");
+        }
+        Optional<ProfileEntity> optional = profileRepository.findByPhoneAndVisibleIsTrue(newPhone);
+        if (optional.isPresent()) {
+            log.info("{} Phone exist", newPhone);
+            return ApiResponse.bad("Phone exist !");
+        }
+        // random sms code
+        String smsCode = RandomUtil.getRandomSmsCode();
+        profileRepository.changeNewPhone(getCurrentProfileDetail().getId(), newPhone, smsCode);
+        // send new phone sms code
+        String text = "Scolaro.uz tasdiqlash kodi: \n" + smsCode;
+        smsService.sendMessage(newPhone, text, SmsType.CHANGE_PHONE, smsCode);
+
+        return ApiResponse.ok("Tasdiqlash kodi yuborildi.");
+    }
+
+    public ApiResponse<?> verification(SmsDTO dto) {
+        if (!PhoneUtil.validatePhone(dto.getPhone())) {
+            log.info("Phone not valid");
+            return ApiResponse.bad("Phone not valid");
+        }
+        Optional<ProfileEntity> optional = profileRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
+        if (optional.isPresent()) {
+            log.info("{} Phone exist", dto.getPhone());
+            return ApiResponse.bad("Phone exist !");
+        }
+        ApiResponse<?> smsResponse = smsService.checkSmsCode(dto.getPhone(), dto.getCode());
+        if (smsResponse.getIsError()) {
+            log.info(smsResponse.getMessage());
+            return ApiResponse.bad(smsResponse.getMessage());
+        }
+        ProfileEntity currentUser = get(getCurrentProfileDetail().getId());
+        if (!currentUser.getTempPhone().substring(1).equals(dto.getPhone())) {
+            log.info("Phone not valid");
+            return ApiResponse.bad("Phone not valid");
+        }
+        if (!currentUser.getSmsCode().equals(dto.getCode())) {
+            log.info("Sms code not valid");
+            return ApiResponse.bad("Sms code not valid");
+        }
+        int result = profileRepository.changePhone(currentUser.getId(), currentUser.getTempPhone());
+        if (result == 0) return ApiResponse.bad("Try again !");
+        return ApiResponse.ok();
+
+    }
+
+    private ProfileDTO getCurrentProfileDetail() {
+        CustomUserDetails details = EntityDetails.getCurrentUserDetail();
+        if (details == null) {
+            log.info("No permission");
+            throw new AppBadRequestException("No permission !");
+        }
+        ProfileDTO currentProfile = new ProfileDTO();
+        currentProfile.setId(details.getId());
+        currentProfile.setName(details.getName());
+        currentProfile.setSurname(details.getSurname());
+        currentProfile.setPassword(details.getPassword());
+        currentProfile.setPhone(details.getPhone());
+        return currentProfile;
+    }
+
+    private ProfileEntity get(String id) {
         Optional<ProfileEntity> optional = profileRepository.findByIdAndVisibleTrue(id);
         if (optional.isEmpty()) {
-            log.info("Exception : {} user not found", id);
-            throw new ItemNotFoundException("Not found");
+            log.info(" {} user not found", id);
+            throw new ItemNotFoundException("Profile not found");
         }
-        profileRepository.deleted(id, LocalDateTime.now());
-        return toDTO(optional.get());
+        return optional.get();
     }
 
-    private ProfileDTO toDTO(ProfileEntity entity) {
-        ProfileDTO dto = new ProfileDTO();
-        dto.setId(entity.getId());
-        dto.setName(entity.getName());
-        dto.setSurname(entity.getSurname());
-        dto.setPhone(entity.getPhone());
-        dto.setCreatedDate(entity.getCreatedDate());
-        return dto;
+    private ProfileResponseDTO getResponseDto(ProfileEntity entity) {
+        ProfileResponseDTO responseDTO = new ProfileResponseDTO();
+        responseDTO.setId(entity.getId());
+        responseDTO.setName(entity.getName());
+        responseDTO.setSurname(entity.getSurname());
+        responseDTO.setPhone(entity.getPhone());
+        responseDTO.setCreatedDate(entity.getCreatedDate());
+        if (entity.getPhotoId() != null) responseDTO.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
+        return responseDTO;
     }
+
+
     // TODO update phone 2 api
     // TODO update password 1 api (oldPassword, newPassword, confirmNewPassword)
     // TODO block profile only admin
-   // TODO getCurrentProfileDetail() (id,name,surname,phone)
+    // TODO getCurrentProfileDetail() (id,name,surname,phone)
 
 
 //    public ProfileDTO getCurrentProfileDetail() {

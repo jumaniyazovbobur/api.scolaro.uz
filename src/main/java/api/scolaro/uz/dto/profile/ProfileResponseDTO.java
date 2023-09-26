@@ -1,20 +1,18 @@
 package api.scolaro.uz.dto.profile;
 
-import api.scolaro.uz.dto.attach.AttachDTO;
+
+import api.scolaro.uz.dto.attach.AttachResponseDTO;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-
 @Getter
 @Setter
-public class ProfileDTO {
-
+public class ProfileResponseDTO {
     private String id;
     private String name;
     private String surname;
     private String phone;
-    private String password;
-    private AttachDTO photo;
+    private AttachResponseDTO photo;
     private LocalDateTime createdDate;
 }

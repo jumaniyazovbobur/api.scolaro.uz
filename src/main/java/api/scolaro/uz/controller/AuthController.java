@@ -47,7 +47,7 @@ public class AuthController {
         return ResponseEntity.ok(authService.profileLogin(dto));
     }
 
-    // TODO -> reset password,(2ta api) for profile
+    //TODO -> reset password,(2ta api) for profile
 
     /**
      * Consulting
@@ -59,6 +59,6 @@ public class AuthController {
         return ResponseEntity.ok(authService.consultingLogin(dto));
     }
 
-    // TODO rest password for consulting. 2 api.
+    //TODO rest password for consulting. 2 api.
 
 }

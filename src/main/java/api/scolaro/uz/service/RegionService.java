@@ -1,10 +1,11 @@
 package api.scolaro.uz.service;
 
-import api.dean.db.dto.RegionDTO;
-import api.dean.db.entity.RegionEntity;
-import api.dean.db.exp.ItemNotFoundException;
-import api.dean.db.repository.DistrictRepository;
-import api.dean.db.repository.RegionRepository;
+
+import api.scolaro.uz.dto.RegionDTO;
+import api.scolaro.uz.entity.RegionEntity;
+import api.scolaro.uz.exp.ItemNotFoundException;
+import api.scolaro.uz.repository.DistrictRepository;
+import api.scolaro.uz.repository.RegionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 @Slf4j
