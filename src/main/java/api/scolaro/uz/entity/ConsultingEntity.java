@@ -15,8 +15,6 @@ public class ConsultingEntity extends BaseEntity {
 
     @Column(name = "name")
     private String name;
-    //    @Column(name = "inn")
-//    private Integer inn;
     @Column(name = "phone")
     private String phone;
     @Column(name = "password")
@@ -26,16 +24,10 @@ public class ConsultingEntity extends BaseEntity {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private GeneralStatus status;
-    //    @Enumerated(EnumType.STRING)
-//    @Column(name = "role")
-//    private RoleEnum role;
     @Column(name = "temp_phone")
     private String tempPhone;
     @Column(name = "sms_code")
     private String smsCode;
-
-    // TODO phone
-    // TODO about (text)
-
-
+    @Column(name = "about",columnDefinition = "TEXT")
+    private String about;
 }

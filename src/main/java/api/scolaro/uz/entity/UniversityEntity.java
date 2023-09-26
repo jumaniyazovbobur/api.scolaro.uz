@@ -1,19 +1,28 @@
 package api.scolaro.uz.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "university")
-public class UniversityEntity {
-
-    @Id
-    private Long id;
+public class UniversityEntity extends BaseIdentityEntity {
+    @Column(name = "name")
     private String name;
+    @Column(name = "country_id")
     private Long countryId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id", insertable = false, updatable = false)
+    private CountryEntity country;
+    @Column(name = "web_site")
     private String webSite;
-    private String Description; // text
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+    @Column(name = "photo_id")
     private String photoId;
-
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "photo_id", insertable = false, updatable = false)
+    private AttachEntity photo;
 }
