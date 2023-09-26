@@ -82,6 +82,7 @@ public class SmsHistoryService {
         if (!entity.getSmsCode().equals(code)) {
             return new ApiResponse<>(resourceMessageService.getMessage("sms.code.incorrect"), 400, true);
         }
+        smsHistoryRepository.updateStatus(entity.getId(), SmsStatus.USED_WITH_TIMEOUT);
         return new ApiResponse<>("Success!", 200, false);
     }
 

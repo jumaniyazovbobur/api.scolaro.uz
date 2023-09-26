@@ -1,7 +1,9 @@
 package api.scolaro.uz.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.OnDelete;
@@ -24,6 +26,6 @@ public class BaseEntity {
     @Column(name = "deleted_date")
     private LocalDateTime deletedDate;
     @Column(name = "deletedId")
-    private String deletedId; // TODO use
+    private String deletedId;
 
 }

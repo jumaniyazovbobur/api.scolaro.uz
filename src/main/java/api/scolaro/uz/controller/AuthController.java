@@ -75,6 +75,6 @@ public class AuthController {
         return ResponseEntity.ok(authService.consultingLogin(dto));
     }
 
-    // TODO rest password for consulting. 2 api.
+    //TODO rest password for consulting. 2 api.
 
 }
