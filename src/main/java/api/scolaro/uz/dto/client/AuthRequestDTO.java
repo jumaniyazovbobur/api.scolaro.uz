@@ -14,12 +14,11 @@ import lombok.ToString;
 public class AuthRequestDTO {
     @NotBlank(message = "Name required")
     private String name;
+    @NotBlank(message = "Surname required")
+    private String surname;
     @NotBlank(message = "phoneNumber required")
     @Size(min = 9, max = 13, message = "phoneNumber not valid")
     private String phoneNumber;
-    @NotBlank(message = "Surname required")
-    private String surname;
     @NotBlank(message = "Password required")
     private String password;
-
 }

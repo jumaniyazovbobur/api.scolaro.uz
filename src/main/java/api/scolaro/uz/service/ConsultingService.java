@@ -4,18 +4,18 @@ import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.consulting.ConsultingDTO;
 import api.scolaro.uz.dto.consulting.ConsultingFilterDTO;
-import api.scolaro.uz.dto.consulting.ConsultingRegDTO;
+import api.scolaro.uz.dto.consulting.ConsultingCreateDTO;
 import api.scolaro.uz.entity.ConsultingEntity;
 import api.scolaro.uz.enums.GeneralStatus;
+import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.consulting.ConsultingRepository;
 import api.scolaro.uz.repository.consulting.CustomConsultingRepository;
 import api.scolaro.uz.util.MD5Util;
 import api.scolaro.uz.util.PhoneUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,37 +27,40 @@ import java.util.Optional;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class ConsultingService {
-    @Autowired
-    private ConsultingRepository consultingRepository;
-    @Autowired
-    private CustomConsultingRepository customRepository;
+
+    private final ConsultingRepository consultingRepository;
+
+    private final CustomConsultingRepository customRepository;
+
+    private final PersonRoleService personRoleService;
 
 
-    public ConsultingDTO create(ConsultingRegDTO dto) {
+    public ConsultingDTO create(ConsultingCreateDTO dto) {
         if (!PhoneUtil.validatePhone(dto.getPhone())) {
             log.warn("Exception : Phone not format");
             throw new AppBadRequestException("Phone not format");
         }
-
-
-        //TODO  PHONE  SMS SEND ?
-
-
+        // TODO generate phone (5 raqamli sonlar va harflar ) (0oO)
+        //TODO send password as SMS ?
+        //
         ConsultingEntity entity = new ConsultingEntity();
         entity.setName(dto.getName());
         entity.setAddress(dto.getAddress());
         entity.setPassword(MD5Util.getMd5(dto.getPassword()));
         entity.setPhone(dto.getPhone());
-        entity.setStatus(GeneralStatus.REG);
+        entity.setStatus(GeneralStatus.ACTIVE);
+//        entity.setRole(RoleEnum.ROLE_CONSULTING);
         // save
         consultingRepository.save(entity);
+        personRoleService.create(entity.getId(), RoleEnum.ROLE_CONSULTING);
         // response
         return toDTO(entity);
     }
 
 
-    public ConsultingDTO update(ConsultingRegDTO dto) {
+    public ConsultingDTO update(ConsultingCreateDTO dto) {
         //TODO PHONE SMS SEND ?
         String id = EntityDetails.getCurrentUserId();
         Optional<ConsultingEntity> optional = consultingRepository.findByIdAndVisibleTrue(id);
@@ -65,12 +68,21 @@ public class ConsultingService {
         ConsultingEntity entity = optional.get();
         entity.setName(dto.getName());
         entity.setAddress(dto.getAddress());
-        entity.setPassword(MD5Util.getMd5(dto.getPassword()));
-        entity.setPhone(dto.getPhone());
         // update
         consultingRepository.save(entity);
         // response
         return toDTO(entity);
+    }
+
+    // TODO api for update password (old and newPassword , confirmNewPassword)
+
+
+    public ConsultingDTO updatePhone(String tempPhone) {
+        // TODO update hone throw sms verification
+        // setTempPhone(tempPhone)
+        // 1. send sms to tempPhone
+        // 2. confirm alohida api
+        return null;
     }
 
     public ConsultingDTO getId(String id) {
@@ -94,10 +106,14 @@ public class ConsultingService {
             log.info("Exception : {} consulting not found", id);
             throw new ItemNotFoundException("Not found");
         }
+        // deletedId; // TODO use
         consultingRepository.deleted(id, LocalDateTime.now());
         return toDTO(optional.get());
 
     }
+
+    // TODO getCurrentConsultingDetail()  (id,name,surname,phone, description, phone)
+
 
     private ConsultingDTO toDTO(ConsultingEntity entity) {
         ConsultingDTO dto = new ConsultingDTO();

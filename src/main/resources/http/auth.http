@@ -1,12 +1,31 @@
 ### Register
-POST http://localhost:8081/api/v1/auth/user/registration
+POST http://localhost:8081/api/v1/auth/profile/registration
 Content-Type: application/json
 
 
 {
   "name": "Maxmud",
   "surname": "Maxmudov",
-  "phoneNumber": "+998972322903",
+  "phoneNumber": "+998997795710",
+  "password": "123456"
+}
+
+### Profile sms verification login
+POST http://localhost:8081/api/v1/auth/profile/registration/verification
+Content-Type: application/json
+
+
+{
+  "phone": "+998997795710",
+  "password": "45876"
+}
+### Consulting login
+POST http://localhost:8081/api/v1/auth/consulting/login
+Content-Type: application/json
+
+
+{
+  "phone": "+998972322903",
   "password": "123456"
 }
 
@@ -19,7 +38,6 @@ Content-Type: application/json
   "phone": "+998972322903",
   "password": "123456"
 }
-
 ### authenticate USER
 POST http://localhost:8081/api/v1/auth/authenticate
 Content-Type: application/json

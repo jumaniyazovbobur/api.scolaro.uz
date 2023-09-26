@@ -1,0 +1,12 @@
+### Register
+POST http://localhost:8081/api/v1/auth/user/registration
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiaWdtYW4iLCJpYXQiOjE2NjU0NzE2MzksImlzcyI6Im1hemdpIHByb2R1Y3Rpb24ifQ.FDe0wdAO7Oz-76dF_bYax1kr4jRtQ46Pt7RqDFH7Py8
+
+
+{
+  "name": "Brain consulting",
+  "phone": "+998997795710",
+  "password": "123456",
+  "address": "Toshkent shahri"
+}

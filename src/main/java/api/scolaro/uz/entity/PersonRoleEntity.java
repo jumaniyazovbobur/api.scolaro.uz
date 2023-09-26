@@ -15,5 +15,6 @@ public class PersonRoleEntity extends BaseEntity {
     private String personId; // user or profile
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "role")
     private RoleEnum role;
 }

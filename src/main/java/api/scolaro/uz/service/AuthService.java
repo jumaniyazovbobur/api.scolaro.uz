@@ -8,10 +8,13 @@ import api.scolaro.uz.dto.auth.AuthResponseDTO;
 import api.scolaro.uz.dto.client.AuthRequestDTO;
 
 
+import api.scolaro.uz.entity.ConsultingEntity;
+import api.scolaro.uz.entity.CountryEntity;
 import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.exp.ItemNotFoundException;
+import api.scolaro.uz.repository.consulting.ConsultingRepository;
 import api.scolaro.uz.repository.profile.ProfileRepository;
 import api.scolaro.uz.service.sms.SmsHistoryService;
 import api.scolaro.uz.util.JwtUtil;
@@ -34,6 +37,7 @@ public class AuthService {
     private final ResourceMessageService resourceMessageService;
     private final SmsHistoryService smsHistoryService;
     private final PasswordEncoder passwordEncoder;
+    private final ConsultingRepository consultingRepository;
 
     private final AttachService attachService;
 
@@ -59,7 +63,6 @@ public class AuthService {
                 return new ApiResponse<>(200, false);
             }
         }
-
         //user create
         ProfileEntity userEntity = new ProfileEntity();
         userEntity.setName(dto.getName());
@@ -72,7 +75,6 @@ public class AuthService {
         smsHistoryService.sendRegistrationSms(dto.getPhoneNumber());
         //client role
         personRoleService.create(userEntity.getId(), RoleEnum.ROLE_STUDENT);
-
         return new ApiResponse<>(200, false);
     }
 
@@ -105,7 +107,7 @@ public class AuthService {
     }
 
 
-    public Object profileLogin(AuthRequestProfileDTO dto) {
+    public ApiResponse<?> profileLogin(AuthRequestProfileDTO dto) {
         boolean validate = PhoneUtil.validatePhone(dto.getPhone());
         if (!validate) {
             log.info("Phone not valid! phone = {}", dto.getPhone());
@@ -127,7 +129,7 @@ public class AuthService {
             return new ApiResponse<>(resourceMessageService.getMessage("username.password.wrong"), 400, true);
         }
 
-        return new ApiResponse<>(200, false,getClientAuthorizationResponse(profile));
+        return new ApiResponse<>(200, false, getClientAuthorizationResponse(profile));
     }
 
 
@@ -139,6 +141,44 @@ public class AuthService {
         String jwt = JwtUtil.encode(entity.getId(), entity.getPhone(), dto.getRoleList());
         dto.setJwt(jwt);
         return dto;
+    }
+
+    private AuthResponseDTO getClientAuthorizationResponse(ConsultingEntity entity) {
+        AuthResponseDTO dto = new AuthResponseDTO();
+        dto.setName(entity.getName());
+        dto.setRoleList(personRoleService.getProfileRoleList(entity.getId()));
+        String jwt = JwtUtil.encode(entity.getId(), entity.getPhone(), dto.getRoleList());
+        dto.setJwt(jwt);
+        return dto;
+    }
+
+    public ApiResponse<?> consultingLogin(AuthRequestProfileDTO dto) {
+        boolean validate = PhoneUtil.validatePhone(dto.getPhone());
+        if (!validate) {
+            log.info("Phone not valid! phone = {}", dto.getPhone());
+            return new ApiResponse<>(resourceMessageService.getMessage("phone.validation.not-valid"), 400, true);
+        }
+
+        Optional<ConsultingEntity> optional = consultingRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
+        if (optional.isEmpty()) {
+            log.warn("Consulting not found! phone = {}", dto.getPhone());
+            return new ApiResponse<>(resourceMessageService.getMessage("consulting.not.found"), 400, true);
+        }
+
+        ConsultingEntity entity = optional.get();
+
+        if (!entity.getStatus().equals(GeneralStatus.ACTIVE)) {
+            log.warn("Consulting Status Blocked! Phone = {}", dto.getPhone());
+            return new ApiResponse<>(resourceMessageService.getMessage("consulting.status.blocked"), 400, true);
+        }
+
+        if (!passwordEncoder.matches(entity.getPassword(), dto.getPassword())) {
+            log.warn("Password wrong! username = {}", dto.getPassword());
+            return new ApiResponse<>(resourceMessageService.getMessage("username.password.wrong"), 400, true);
+        }
+        AuthResponseDTO response = getClientAuthorizationResponse(entity);
+
+        return new ApiResponse<>(200, false, response);
     }
 
 
@@ -166,7 +206,8 @@ public class AuthService {
 //        response.setJwt(JwtUtil.encode(entity.getId(), entity.getPhone(), roleList));
 //        return null;
 //    }
-
+    // TODO forgot password for student
+    // TODO forgot password for consulting.
    /* public void resetPasswordRequest(ResetPasswordRequestDTO dto) {
         if (!PhoneUtil.isValidPhone(dto.getPhone())) {
             log.info("Not valid phone number");

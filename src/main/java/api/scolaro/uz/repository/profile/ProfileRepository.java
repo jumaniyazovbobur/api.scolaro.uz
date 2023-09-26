@@ -47,7 +47,7 @@ public interface ProfileRepository extends JpaRepository<ProfileEntity, String> 
     @Modifying
     @Query("update ProfileEntity set visible=false ,deletedDate=:date where id=:id")
     void deleted(@Param("id") String id,
-                 @Param("date") LocalDateTime date);
+                 @Param("date") LocalDateTime date); // TODO deletedId
 
 
 
