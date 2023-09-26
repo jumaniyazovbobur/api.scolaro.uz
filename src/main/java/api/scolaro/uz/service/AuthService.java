@@ -63,7 +63,6 @@ public class AuthService {
                 return new ApiResponse<>(200, false);
             }
         }
-
         //user create
         ProfileEntity userEntity = new ProfileEntity();
         userEntity.setName(dto.getName());
@@ -76,7 +75,6 @@ public class AuthService {
         smsHistoryService.sendRegistrationSms(dto.getPhoneNumber());
         //client role
         personRoleService.create(userEntity.getId(), RoleEnum.ROLE_STUDENT);
-
         return new ApiResponse<>(200, false);
     }
 
@@ -208,7 +206,8 @@ public class AuthService {
 //        response.setJwt(JwtUtil.encode(entity.getId(), entity.getPhone(), roleList));
 //        return null;
 //    }
-
+    // TODO forgot password for student
+    // TODO forgot password for consulting.
    /* public void resetPasswordRequest(ResetPasswordRequestDTO dto) {
         if (!PhoneUtil.isValidPhone(dto.getPhone())) {
             log.info("Not valid phone number");

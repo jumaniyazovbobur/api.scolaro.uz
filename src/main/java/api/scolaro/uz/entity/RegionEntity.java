@@ -2,29 +2,33 @@ package api.scolaro.uz.entity;
 
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 
-@Getter
-@Setter
+@Data
 @Entity
-@Table(name = "country")
-public class CountryEntity {
+@Table(name = "region")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class RegionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     @Column(name = "name_uz")
     private String nameUz;
     @Column(name = "name_ru")
     private String nameRu;
     @Column(name = "name_en")
     private String nameEn;
-    private LocalDateTime created_date = LocalDateTime.now();
-    @Column(name = "visible")
-    private Boolean visible;
-
+    @Column
+    private LocalDateTime createdDate;
+    @Column
+    private boolean visible;
 }
+

@@ -16,16 +16,14 @@ public class BaseEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private String id;
-
     @Column(name = "visible")
     private Boolean visible = Boolean.TRUE;
-
     @Column(name = "created_date")
     private LocalDateTime createdDate = LocalDateTime.now();
-
     @Column(name = "deleted_date")
     private LocalDateTime deletedDate;
+    @Column(name = "deletedId")
+    private String deletedId; // TODO use
 
 }

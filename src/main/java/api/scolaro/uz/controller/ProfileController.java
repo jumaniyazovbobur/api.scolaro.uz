@@ -23,6 +23,9 @@ public class ProfileController {
 
     private final ProfileService profileService;
 
+
+    // TODO update phone
+
     /**
      * FOR OWNER USER
      */
@@ -68,9 +71,8 @@ public class ProfileController {
         return ResponseEntity.ok(profileService.deleted(id));
     }
 
-
-
-
+    //  TODO api for update password (old and newPassword , confirmNewPassword)
+    // TODO update phone
 
 //    @GetMapping("/current")
 //    @Operation(summary = "Get current profile detail", description = "")

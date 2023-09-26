@@ -23,25 +23,6 @@ public class AuthController {
 
     private final AuthService authService;
 
-   /* @PostMapping("/login")
-    @Operation(summary = "Login api", description = "")
-    public ResponseEntity<ProfileResponseDTO> goToLogin(@RequestBody AuthDTO dto) {
-        return ResponseEntity.ok(authService.login(dto));
-    }
-
-    @PutMapping("/pswd/reset")
-    public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordRequestDTO dto) {
-        authService.resetPasswordRequest(dto);
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/pswd/reset/confirm")
-    public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordConfirmDTO dto) {
-        authService.resetPasswordConfirm(dto);
-        return ResponseEntity.ok().build();
-    }*/
-
-
     /**
      * Client
      */
@@ -62,16 +43,22 @@ public class AuthController {
     @Operation(summary = "Profile login", description = "Method profile for  Login")
     @PostMapping("/profile/login")
     public ResponseEntity<?> profileLogin(@RequestBody @Valid AuthRequestProfileDTO dto) {
-        log.warn("Client login {}", dto);
+        log.info("Client login {}", dto);
         return ResponseEntity.ok(authService.profileLogin(dto));
     }
 
-//    consulting
+    // TODO -> reset password,(2ta api) for profile
 
+    /**
+     * Consulting
+     */
     @Operation(summary = "Consulting login", description = "Method consulting for  Login")
     @PostMapping("/consulting/login")
     public ResponseEntity<?> consultingLogin(@RequestBody @Valid AuthRequestProfileDTO dto) {
-        log.warn("Client login {}", dto);
+        log.info("Client login {}", dto);
         return ResponseEntity.ok(authService.consultingLogin(dto));
     }
+
+    // TODO rest password for consulting. 2 api.
+
 }

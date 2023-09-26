@@ -1,4 +1,4 @@
-package api.scolaro.uz.dto;
+package api.scolaro.uz.dto.auth;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

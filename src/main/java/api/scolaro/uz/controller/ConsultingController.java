@@ -1,7 +1,7 @@
 package api.scolaro.uz.controller;
 
 import api.scolaro.uz.dto.consulting.ConsultingFilterDTO;
-import api.scolaro.uz.dto.consulting.ConsultingRegDTO;
+import api.scolaro.uz.dto.consulting.ConsultingCreateDTO;
 import api.scolaro.uz.service.ConsultingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,13 +22,12 @@ public class ConsultingController {
     private final ConsultingService consultingService;
 
     /**
-     * FOR ADMIN   // Can updated
+     * FOR ADMIN
      */
-
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/")
-    @Operation(summary = "Create api", description = "")
-    public ResponseEntity<?> create(@Valid @RequestBody ConsultingRegDTO dto) {
+    @Operation(summary = "Create consulting", description = "")
+    public ResponseEntity<?> create(@Valid @RequestBody ConsultingCreateDTO dto) {
         log.info("Create consulting {}", dto.getName());
         return ResponseEntity.ok(consultingService.create(dto));
     }
@@ -39,7 +38,7 @@ public class ConsultingController {
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @PutMapping("/")
     @Operation(summary = "Update api", description = "")
-    public ResponseEntity<?> update(@Valid @RequestBody ConsultingRegDTO dto) {
+    public ResponseEntity<?> update(@Valid @RequestBody ConsultingCreateDTO dto) {
         log.info("Update consulting {}", dto.getName());
         return ResponseEntity.ok(consultingService.update(dto));
     }
