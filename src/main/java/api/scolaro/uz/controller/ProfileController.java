@@ -29,7 +29,7 @@ public class ProfileController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/update")
     @Operation(summary = "Update api", description = "")
-    public ResponseEntity<ProfileDTO> update(@Valid @RequestBody ProfileRegDTO dto) {
+    public ResponseEntity<ProfileDTO> update(@Valid @RequestBody ProfileUpdateDTO dto) {
         log.info("Update user ");
         return ResponseEntity.ok(profileService.update(dto));
     }

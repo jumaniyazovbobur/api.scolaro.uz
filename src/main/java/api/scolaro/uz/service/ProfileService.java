@@ -12,7 +12,6 @@ import api.scolaro.uz.repository.profile.CustomProfileRepository;
 import api.scolaro.uz.repository.profile.ProfileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,14 +31,14 @@ public class ProfileService {
 
     private final CustomProfileRepository customProfileRepository;
 
-    public ProfileDTO update(ProfileRegDTO dto) {
+    public ProfileDTO update(ProfileUpdateDTO dto) { // TODO ProfileUpdateDTO
         String profileId = EntityDetails.getCurrentUserId();
         Optional<ProfileEntity> optional = profileRepository.findByIdAndVisibleTrue(profileId);
         if (optional.isEmpty()) {
             log.info("Exception : {} user not found", profileId);
             throw new ItemNotFoundException("Not found");
         }
-        //TODO update
+        //TODO update name and surname
         return null;
     }
 
@@ -77,7 +76,10 @@ public class ProfileService {
         dto.setCreatedDate(entity.getCreatedDate());
         return dto;
     }
-
+    // TODO update phone 2 api
+    // TODO update password 1 api (oldPassword, newPassword, confirmNewPassword)
+    // TODO block profile only admin
+   // TODO getCurrentProfileDetail() (id,name,surname,phone)
 
 
 //    public ProfileDTO getCurrentProfileDetail() {
