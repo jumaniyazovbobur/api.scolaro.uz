@@ -1,8 +1,9 @@
 package api.scolaro.uz.controller;
 
-import api.dean.db.dto.DistrictDTO;
-import api.dean.db.enums.AppLang;
-import api.dean.db.service.DistrictService;
+
+import api.scolaro.uz.dto.DistrictDTO;
+import api.scolaro.uz.enums.AppLanguage;
+import api.scolaro.uz.service.DistrictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,13 +35,13 @@ public class DistrictRestController {
     @GetMapping("/region/{id}")
     public List<DistrictDTO> getDistrictByRegionId(@PathVariable("id") Integer regionId) {
         // get profile selected lang from security
-        List<DistrictDTO> dtoList = districtService.findAllByRegionId(regionId, AppLang.uz);
+        List<DistrictDTO> dtoList = districtService.findAllByRegionId(regionId, AppLanguage.uz);
         return dtoList;
     }
     @GetMapping("/region/permanent/{id}")
     public List<DistrictDTO> getPermanentDistrictByRegionId(@PathVariable("id") Integer regionId) {
         // get profile selected lang from security
-        List<DistrictDTO> dtoList = districtService.findAllByRegionId(regionId, AppLang.uz);
+        List<DistrictDTO> dtoList = districtService.findAllByRegionId(regionId, AppLanguage.uz);
         return dtoList;
     }
 }

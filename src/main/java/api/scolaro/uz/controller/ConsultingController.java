@@ -27,7 +27,7 @@ public class ConsultingController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/")
     @Operation(summary = "Create consulting", description = "")
-    public ResponseEntity<?> create(@Valid @RequestBody ConsultingCreateDTO dto) {
+    public ResponseEntity<?> create(@RequestBody @Valid ConsultingCreateDTO dto) {
         log.info("Create consulting {}", dto.getName());
         return ResponseEntity.ok(consultingService.create(dto));
     }

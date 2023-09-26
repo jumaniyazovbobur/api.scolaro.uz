@@ -1,6 +1,7 @@
 package api.scolaro.uz.repository;
 
-import api.dean.db.entity.DistrictEntity;
+
+import api.scolaro.uz.entity.DistrictEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

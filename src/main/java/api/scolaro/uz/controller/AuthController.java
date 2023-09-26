@@ -4,6 +4,9 @@ package api.scolaro.uz.controller;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.auth.AuthRequestProfileDTO;
+import api.scolaro.uz.dto.auth.AuthResetProfileDTO;
+import api.scolaro.uz.dto.auth.ResetPasswordConfirmDTO;
+import api.scolaro.uz.dto.auth.ResetPasswordRequestDTO;
 import api.scolaro.uz.dto.client.AuthRequestDTO;
 import api.scolaro.uz.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,7 +50,20 @@ public class AuthController {
         return ResponseEntity.ok(authService.profileLogin(dto));
     }
 
+    @PostMapping("/profile/reset-password")
+    @Operation(summary = "Profile reset password", description = "Method profile for  reset password")
+    public ResponseEntity<?> resetPassword(@RequestBody @Valid AuthResetProfileDTO dto) {
+        log.info("Profile reset password {}", dto);
+        return ResponseEntity.ok(authService.resetPasswordRequest(dto));
+    }
+
     // TODO -> reset password,(2ta api) for profile
+    @PutMapping("/profile/reset/confirm")
+    @Operation(summary = "Profile reset password confirm", description = "Method profile for  reset password confirm")
+    public ResponseEntity<?> resetPasswordConfirm(@Valid @RequestBody ResetPasswordConfirmDTO dto) {
+        log.info("Client Reset password confirm {}", dto);
+        return ResponseEntity.ok(authService.resetPasswordConfirm(dto));
+    }
 
     /**
      * Consulting

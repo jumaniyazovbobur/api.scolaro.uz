@@ -1,7 +1,8 @@
 package api.scolaro.uz.controller;
 
-import api.dean.db.dto.RegionDTO;
-import api.dean.db.service.RegionService;
+
+import api.scolaro.uz.dto.RegionDTO;
+import api.scolaro.uz.service.RegionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

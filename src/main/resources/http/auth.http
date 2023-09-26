@@ -2,11 +2,10 @@
 POST http://localhost:8081/api/v1/auth/profile/registration
 Content-Type: application/json
 
-
 {
   "name": "Maxmud",
   "surname": "Maxmudov",
-  "phoneNumber": "+998997795710",
+  "phoneNumber": "998997795710",
   "password": "123456"
 }
 
@@ -16,16 +15,15 @@ Content-Type: application/json
 
 
 {
-  "phone": "+998997795710",
-  "password": "45876"
+  "phone": "998997795710",
+  "code": "72781"
 }
 ### Consulting login
 POST http://localhost:8081/api/v1/auth/consulting/login
 Content-Type: application/json
 
-
 {
-  "phone": "+998972322903",
+  "phone": "998997795710",
   "password": "123456"
 }
 
@@ -35,8 +33,28 @@ Content-Type: application/json
 
 
 {
-  "phone": "+998972322903",
-  "password": "123456"
+  "phone": "998997795710",
+  "password": "123457"
+}
+
+### Reset password for profile
+POST http://localhost:8081/api/v1/auth/profile/reset-password
+Content-Type: application/json
+
+{
+  "phone": "998997795710"
+}
+
+### Reset password confirm for profile
+PUT http://localhost:8081/api/v1/auth/profile/reset/confirm
+Content-Type: application/json
+
+{
+  "phone": "998997795710",
+  "smsCode": "71824",
+  "newPassword": "123457",
+  "repeatNewPassword": "123457"
+
 }
 ### authenticate USER
 POST http://localhost:8081/api/v1/auth/authenticate
