@@ -13,9 +13,9 @@ public class ResetPasswordConfirmDTO {
     @NotBlank(message = "Sms code required")
     private String smsCode;
     @NotBlank(message = "Password required")
-    @Size(message = "Password size min 6 chars.")
+    @Size(min = 6, message = "Password size min 6 chars.")
     private String newPassword;
     @NotBlank(message = "Confirm password required")
-    @Size(message = "Password size min 6 chars.")
+    @Size(min = 6, message = "Password size min 6 chars.")
     private String repeatNewPassword;
 }

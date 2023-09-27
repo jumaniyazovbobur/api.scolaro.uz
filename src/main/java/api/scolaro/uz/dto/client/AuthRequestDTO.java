@@ -20,5 +20,6 @@ public class AuthRequestDTO {
     @Size(min = 9, max = 13, message = "phoneNumber not valid")
     private String phoneNumber;
     @NotBlank(message = "Password required")
+    @Size(min = 6, message = "Password size min 6 chars.")
     private String password;
 }

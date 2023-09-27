@@ -236,7 +236,7 @@ public class AuthService {
             return smsResponse;
         }
 
-        if (!dto.getNewPassword().equals(dto.getRepeatNewPassword()) || dto.getNewPassword().length() < 5) {
+        if (!dto.getNewPassword().equals(dto.getRepeatNewPassword())) {
             log.info("Not valid password");
             return new ApiResponse<>(resourceMessageService.getMessage("password.not.matched"), 400, true);
         }
