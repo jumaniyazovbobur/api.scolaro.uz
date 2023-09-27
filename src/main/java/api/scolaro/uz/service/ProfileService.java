@@ -18,6 +18,7 @@ import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.profile.CustomProfileRepository;
 import api.scolaro.uz.repository.profile.ProfileRepository;
 import api.scolaro.uz.service.sms.SmsHistoryService;
+import api.scolaro.uz.util.JwtUtil;
 import api.scolaro.uz.util.MD5Util;
 import api.scolaro.uz.util.PhoneUtil;
 import api.scolaro.uz.util.RandomUtil;
@@ -44,11 +45,13 @@ public class ProfileService {
 
     private final SmsHistoryService smsService;
 
+    private final PersonRoleService personRoleService;
+
     public ApiResponse<?> update(ProfileUpdateDTO dto) {
         ProfileDTO currentProfile = getCurrentProfileDetail();
         int result = profileRepository.updateDetail(currentProfile.getId(), dto.getName(), dto.getSurname());
         if (result == 0) return ApiResponse.bad("Try again !");
-        return ApiResponse.ok();
+        return ApiResponse.ok("Success");
     }
 
     public ApiResponse<ProfileResponseDTO> getId(String id) {
@@ -70,9 +73,8 @@ public class ProfileService {
         ProfileEntity entity = get(id);
         int result = profileRepository.deleted(entity.getId(), getCurrentProfileDetail().getId(), LocalDateTime.now());
         if (result == 0) return ApiResponse.bad("Try again !");
-        return ApiResponse.ok();
+        return ApiResponse.ok("Success");
     }
-
 
     public ApiResponse<?> updatePassword(UpdatePasswordDTO dto) {
         ProfileDTO currentProfile = getCurrentProfileDetail();
@@ -93,10 +95,13 @@ public class ProfileService {
         ProfileEntity entity = get(id);
         int result = profileRepository.changeStatus(entity.getId(), status);
         if (result == 0) return ApiResponse.bad("Try again !");
-        return ApiResponse.ok();
+        return ApiResponse.ok("Success");
     }
 
     public ApiResponse<?> updatePhone(String newPhone) {
+        if (newPhone.startsWith("+")) {
+            newPhone = newPhone.substring(1);
+        }
         if (!PhoneUtil.validatePhone(newPhone)) {
             log.info("Phone not valid");
             return ApiResponse.bad("Phone not valid");
@@ -117,6 +122,10 @@ public class ProfileService {
     }
 
     public ApiResponse<?> verification(SmsDTO dto) {
+        if (dto.getPhone().startsWith("+")) {
+            dto.setPhone(dto.getPhone().substring(1));
+        }
+
         if (!PhoneUtil.validatePhone(dto.getPhone())) {
             log.info("Phone not valid");
             return ApiResponse.bad("Phone not valid");
@@ -129,10 +138,10 @@ public class ProfileService {
         ApiResponse<?> smsResponse = smsService.checkSmsCode(dto.getPhone(), dto.getCode());
         if (smsResponse.getIsError()) {
             log.info(smsResponse.getMessage());
-            return ApiResponse.bad(smsResponse.getMessage());
+            return smsResponse;
         }
         ProfileEntity currentUser = get(getCurrentProfileDetail().getId());
-        if (!currentUser.getTempPhone().substring(1).equals(dto.getPhone())) {
+        if (!currentUser.getTempPhone().equals(dto.getPhone())) {
             log.info("Phone not valid");
             return ApiResponse.bad("Phone not valid");
         }
@@ -142,7 +151,9 @@ public class ProfileService {
         }
         int result = profileRepository.changePhone(currentUser.getId(), currentUser.getTempPhone());
         if (result == 0) return ApiResponse.bad("Try again !");
-        return ApiResponse.ok();
+
+        String jwt = JwtUtil.encode(currentUser.getId(), currentUser.getPhone(), personRoleService.getProfileRoleList(currentUser.getId()));
+        return ApiResponse.ok(jwt);
 
     }
 
@@ -180,139 +191,4 @@ public class ProfileService {
         if (entity.getPhotoId() != null) responseDTO.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
         return responseDTO;
     }
-
-
-    // TODO update phone 2 api
-    // TODO update password 1 api (oldPassword, newPassword, confirmNewPassword)
-    // TODO block profile only admin
-    // TODO getCurrentProfileDetail() (id,name,surname,phone)
-
-
-//    public ProfileDTO getCurrentProfileDetail() {
-//        UserEntity profile = get(EntityDetails.getCurrentUserId());
-//        return toDto(profile);
-//    }
-//
-//    public ProfileDTO addProfile(CreateProfileDTO dto) {
-//        UserEntity entity = new UserEntity();
-//        entity.setName(dto.getName());
-//        entity.setSurname(dto.getSurname());
-//        entity.setPassword(MD5Util.getMd5(dto.getPassword()));
-//        entity.setPhone(dto.getPhone());
-//        if (hasRole(dto.getRoles(), RoleEnum.ROLE_FACULTY)) {
-//            if (dto.getFacultyId() == null) {
-//                log.info("Faculty required");
-//                throw new ItemNotFoundException("Faculty required");
-//            }
-//            entity.setFacultyId(dto.getFacultyId());
-//        }
-//        entity.setStatus(GeneralStatus.ACTIVE);
-//        entity.setCreatedDate(LocalDateTime.now());
-//        profileRepository.save(entity);// save profile
-//        personRoleService.create(entity.getId(), dto.getRoles()); // save profile roles
-//        return toDto(entity);
-//    }
-//
-//    public ProfileDTO getById(String id) {
-//        UserEntity entity = get(id);
-//        if (entity == null) {
-//            log.info("Such id not" + id);
-//            throw new ItemNotFoundException("Such id not" + id);
-//        }
-//        ProfileDTO dto = toDto(entity);
-//        dto.setRoles(personRoleService.getProfileRoleList(id));
-//        return dto;
-//    }
-//
-//    public Boolean deleteById(String id) {
-//        Optional<UserEntity> optional = profileRepository.findById(id);
-//        if (optional.isEmpty()) {
-//            log.info("Profile not found");
-//            throw new ItemNotFoundException("Bunaqa profile mavjud emas");
-//        }
-//        UserEntity entity = optional.get();
-//        entity.setVisible(false);
-//        profileRepository.save(entity);
-//        return true;
-//    }
-//
-//    public ProfileDTO updateProfile(String id, CreateProfileDTO dto) {
-//        UserEntity entity = get(id);
-//        entity.setName(dto.getName());
-//        entity.setSurname(dto.getSurname());
-//        entity.setPhone(dto.getPhone());
-//        if (hasRole(dto.getRoles(), RoleEnum.ROLE_FACULTY)) {
-//            if (dto.getFacultyId() == null) {
-//                throw new ItemNotFoundException("Faculty required");
-//            }
-//            entity.setFacultyId(dto.getFacultyId());
-//        }
-//        profileRepository.save(entity);
-//        return toDto(entity);
-//    }
-//
-//    public ApiResponse<?> updateDetail(UpdateProfileDetailDTO dto) {
-//        String profileId = EntityDetails.getCurrentUserId();
-//        Optional<UserEntity> optional = profileRepository.findById(profileId);
-//        if (optional.isEmpty()) {
-//            log.info("Profile not found.");
-//            throw new ItemNotFoundException("Profile not found.");
-//        }
-//        profileRepository.updateDetail(profileId, dto.getName(), dto.getSurname());
-//        return ApiResponse.ok();
-//    }
-//
-//    public ApiResponse<?> updatePassword(UpdatePasswordDTO dto) {
-//        String profileId = EntityDetails.getCurrentUserId();
-//        UserEntity entity = get(profileId);
-//        if (!entity.getPassword().equals(MD5Util.getMd5(dto.getOldPassword()))) {
-//            log.info("Wrong password");
-//            throw new AppBadRequestException("Wrong password");
-//        }
-//        profileRepository.updatePassword(profileId, MD5Util.getMd5(dto.getOldPassword()));
-//        return ApiResponse.ok();
-//    }
-//
-//    public PageImpl<ProfileDTO> filter(ProfileFilterRequestDTO dto) {
-//        // bitta sql queryda profile role larni ham olib kelish kerka. ularni , bilan ajratish kerak. ROLE_ADMIN, ROLE_FACULTY ...
-//        // builder.append(" ,(select string_agg(role,', ') from profile_role where profile_id = p.id) as roleList");
-//        return null;
-//    }
-//
-//    public UserEntity get(String id) {
-//        Optional<UserEntity> optional = profileRepository.findById(id);
-//        if (optional.isEmpty()) {
-//            log.info("Profile not found: " + id);
-//            throw new ItemNotFoundException("Profile not found: " + id);
-//        }
-//        return optional.get();
-//    }
-//
-//    public ProfileDTO toDto(UserEntity profileEntity) {
-//        ProfileDTO profileDTO = new ProfileDTO();
-//        profileDTO.setId(profileEntity.getId());
-//        profileDTO.setName(profileEntity.getName());
-//        profileDTO.setSurname(profileEntity.getSurname());
-//        profileDTO.setPhone(profileEntity.getPhone());
-//        profileDTO.setCreatedDate(profileEntity.getCreatedDate());
-//        return profileDTO;
-//    }
-//
-//    private boolean hasRole(List<RoleEnum> roleList, RoleEnum requiredRole) {
-//        if (roleList == null || roleList.isEmpty()) {
-//            return false;
-//        }
-//        for (RoleEnum roleEnum : roleList) {
-//            if (roleEnum.equals(requiredRole)) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-//
-//    public ResponseEntity<?> registration(AuthRequestDTO dto) {
-//
-//        return null;
-//
-//    }
 }

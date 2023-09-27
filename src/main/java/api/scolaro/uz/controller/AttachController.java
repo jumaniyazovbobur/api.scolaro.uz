@@ -54,7 +54,7 @@ public class AttachController {
         return attachService.download(fileName);
     }
 
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/delete/{fileName}")
     @Operation(summary = "delete file api", description = "")
     public ResponseEntity<Boolean> delete(@PathVariable("fileName") String fileName) {
@@ -65,7 +65,7 @@ public class AttachController {
     /**
      * FOR ADMIN
      */
-    @PostMapping("/get-all")
+    @GetMapping("/get-all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "File get all api", description = "")
     public ResponseEntity<PageImpl<AttachDTO>> getAll(@RequestParam(value = "page", defaultValue = "1") int page,
@@ -73,10 +73,4 @@ public class AttachController {
         return ResponseEntity.ok(attachService.getAll(page - 1, size));
     }
 
-
- /*   @GetMapping(value = "/open/general/{fileName}", produces = MediaType.APPLICATION_PDF_VALUE)
-    public byte[] open_pdf(@PathVariable("fileName") String fileName) {
-        log.info("open attach  ={}", fileName);
-        return attachService.open_general(fileName);
-    }*/
 }

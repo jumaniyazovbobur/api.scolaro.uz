@@ -32,7 +32,7 @@ public class ProfileController {
     /**
      * FOR OWNER USER
      */
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
     @PutMapping("/update")
     @Operation(summary = "Update api", description = "")
     public ResponseEntity<ApiResponse<?>> update(@Valid @RequestBody ProfileUpdateDTO dto) {
@@ -69,7 +69,7 @@ public class ProfileController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Deleted profile api", description = "for admin")
-    public ResponseEntity<ApiResponse> deleted(@PathVariable("id") String id) {
+    public ResponseEntity<ApiResponse<?>> deleted(@PathVariable("id") String id) {
         log.info("Deleted profile {}", id);
         return ResponseEntity.ok(profileService.deleted(id));
     }
@@ -77,7 +77,7 @@ public class ProfileController {
     /**
      * FOR USER
      */
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
     @PutMapping("/update-phone")
     @Operation(summary = "Update  profile phone  api", description = "for user")
     public ResponseEntity<ApiResponse<?>> updatePhone(@RequestParam("phone") String phone ) {
@@ -87,7 +87,7 @@ public class ProfileController {
     /**
      * FOR USER
      */
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
     @PutMapping("/phone-verification")
     @Operation(summary = "Update  profile phone verification api", description = "for user")
     public ResponseEntity<ApiResponse<?>> updatePhoneVerification(@RequestBody SmsDTO dto) {
@@ -99,7 +99,7 @@ public class ProfileController {
     /**
      * FOR USER
      */
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
     @PutMapping("/update-password")
     @Operation(summary = "Update profile password api", description = "for user")
     public ResponseEntity<?> updatePassword(@Valid @RequestBody UpdatePasswordDTO dto) {
@@ -120,9 +120,6 @@ public class ProfileController {
     }
 
 
-
-    //  TODO api for update password (old and newPassword , confirmNewPassword)
-    // TODO update phone
 
 
 //    @GetMapping("/current")
