@@ -4,7 +4,9 @@ package api.scolaro.uz.service;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.auth.AuthRequestProfileDTO;
+import api.scolaro.uz.dto.auth.AuthResetProfileDTO;
 import api.scolaro.uz.dto.auth.AuthResponseDTO;
+import api.scolaro.uz.dto.auth.ResetPasswordConfirmDTO;
 import api.scolaro.uz.dto.client.AuthRequestDTO;
 
 
@@ -13,6 +15,7 @@ import api.scolaro.uz.entity.CountryEntity;
 import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
+import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.consulting.ConsultingRepository;
 import api.scolaro.uz.repository.profile.ProfileRepository;
@@ -22,6 +25,7 @@ import api.scolaro.uz.util.MD5Util;
 import api.scolaro.uz.util.PhoneUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -88,10 +92,12 @@ public class AuthService {
         Optional<ProfileEntity> userOptional = profileRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
 
         if (userOptional.isEmpty()) {
+            log.warn("Client not found! phone = {}", dto.getPhone());
             throw new ItemNotFoundException(resourceMessageService.getMessage("client.not.found"));
         }
 
         if (!userOptional.get().getStatus().equals(GeneralStatus.NOT_ACTIVE)) {
+            log.warn("Profile Status Blocked! Phone = {}", dto.getPhone());
             return new ApiResponse<>(resourceMessageService.getMessage("wrong.client.status"), 400, true);
         }
 
@@ -172,7 +178,7 @@ public class AuthService {
             return new ApiResponse<>(resourceMessageService.getMessage("consulting.status.blocked"), 400, true);
         }
 
-        if (!passwordEncoder.matches(entity.getPassword(), dto.getPassword())) {
+        if (!passwordEncoder.matches(dto.getPassword(), entity.getPassword())) {
             log.warn("Password wrong! username = {}", dto.getPassword());
             return new ApiResponse<>(resourceMessageService.getMessage("username.password.wrong"), 400, true);
         }
@@ -181,6 +187,119 @@ public class AuthService {
         return new ApiResponse<>(200, false, response);
     }
 
+    public ApiResponse<?> resetPasswordRequest(AuthResetProfileDTO dto) {
+        boolean validate = PhoneUtil.validatePhone(dto.getPhone());
+        //validate phone number
+        if (!validate) {
+            log.info("Phone not valid! phone={}", dto.getPhone());
+            return new ApiResponse<>(resourceMessageService.getMessage("phone.validation.not-valid"), 400, true);
+        }
+
+        Optional<ProfileEntity> optional = profileRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
+        if (optional.isEmpty()) {
+            log.warn("Client not found! phone = {}", dto.getPhone());
+            return new ApiResponse<>(resourceMessageService.getMessage("client.not.found"), 400, true);
+        }
+        ProfileEntity profile = optional.get();
+        if (!profile.getStatus().equals(GeneralStatus.ACTIVE)) {
+            log.warn("Profile Status Blocked! Phone = {}", dto.getPhone());
+            return new ApiResponse<>(resourceMessageService.getMessage("client.status.blocked"), 400, true);
+        }
+
+        smsHistoryService.sendResetSms(dto.getPhone());
+
+        return new ApiResponse<>(200, false);
+
+    }
+
+    public ApiResponse<?> resetPasswordConfirm(ResetPasswordConfirmDTO dto) {
+        boolean validate = PhoneUtil.validatePhone(dto.getPhone());
+        //validate phone number
+        if (!validate) {
+            log.info("Phone not valid! phone={}", dto.getPhone());
+            return new ApiResponse<>(resourceMessageService.getMessage("phone.validation.not-valid"), 400, true);
+        }
+
+        Optional<ProfileEntity> optional = profileRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
+        if (optional.isEmpty()) {
+            log.warn("Client not found! phone = {}", dto.getPhone());
+            return new ApiResponse<>(resourceMessageService.getMessage("client.not.found"), 400, true);
+        }
+        ProfileEntity profile = optional.get();
+        if (!profile.getStatus().equals(GeneralStatus.ACTIVE)) {
+            log.warn("Profile Status Blocked! Phone = {}", dto.getPhone());
+            return new ApiResponse<>(resourceMessageService.getMessage("client.status.blocked"), 400, true);
+        }
+
+        ApiResponse<?> smsResponse = smsHistoryService.checkSmsCode(dto.getPhone(), dto.getSmsCode());
+        if (smsResponse.getIsError()) {
+            return smsResponse;
+        }
+
+        if (!dto.getNewPassword().equals(dto.getRepeatNewPassword()) || dto.getNewPassword().length() < 5) {
+            log.info("Not valid password");
+            return new ApiResponse<>(resourceMessageService.getMessage("password.not.matched"), 400, true);
+        }
+
+        profileRepository.updatePassword(profile.getId(), MD5Util.getMd5(dto.getNewPassword()));
+        return new ApiResponse<>(200, false, getClientAuthorizationResponse(profile));
+    }
+
+    /*
+        *CONSULTING RESET PASSWORD
+    */
+    public ApiResponse<?> resetPasswordConsultingRequest(AuthResetProfileDTO dto) {
+        boolean validate = PhoneUtil.validatePhone(dto.getPhone());
+        //validate phone number
+        if (!validate) {
+            log.info("Phone not valid! phone={}", dto.getPhone());
+            return new ApiResponse<>(resourceMessageService.getMessage("phone.validation.not-valid"), 400, true);
+        }
+        Optional<ConsultingEntity> optional = consultingRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
+        if (optional.isEmpty()) {
+            log.info("Consulting not found! phone = {}", dto.getPhone());
+            return new ApiResponse<>(resourceMessageService.getMessage("consulting.not.found"), 400, true);
+        }
+        ConsultingEntity profile = optional.get();
+        if (!profile.getStatus().equals(GeneralStatus.ACTIVE)) {
+            log.info("Consulting Status Blocked! Phone = {}", dto.getPhone());
+            return new ApiResponse<>(resourceMessageService.getMessage("consulting.status.blocked"), 400, true);
+        }
+        smsHistoryService.sendResetSms(dto.getPhone());
+        return new ApiResponse<>(200, false);
+    }
+
+
+    public ApiResponse<?> resetPasswordConsultingConfirm(ResetPasswordConfirmDTO dto) {
+        boolean validate = PhoneUtil.validatePhone(dto.getPhone());
+        //validate phone number
+        if (!validate) {
+            log.info("Phone not valid! phone={}", dto.getPhone());
+            return new ApiResponse<>(resourceMessageService.getMessage("phone.validation.not-valid"), 400, true);
+        }
+        Optional<ConsultingEntity> optional = consultingRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
+        if (optional.isEmpty()) {
+            log.info("Consulting not found! phone = {}", dto.getPhone());
+            return new ApiResponse<>(resourceMessageService.getMessage("consulting.not.found"), 400, true);
+        }
+        ConsultingEntity profile = optional.get();
+        if (!profile.getStatus().equals(GeneralStatus.ACTIVE)) {
+            log.info("Consulting Status Blocked! Phone = {}", dto.getPhone());
+            return new ApiResponse<>(resourceMessageService.getMessage("consulting.status.blocked"), 400, true);
+        }
+        ApiResponse<?> smsResponse = smsHistoryService.checkSmsCode(dto.getPhone(), dto.getSmsCode());
+        if (smsResponse.getIsError()) {
+            return smsResponse;
+        }
+
+        if (!dto.getNewPassword().equals(dto.getRepeatNewPassword())) {
+            log.info("Not valid password");
+            return new ApiResponse<>(resourceMessageService.getMessage("password.not.matched"), 400, true);
+        }
+
+        consultingRepository.updatePassword(profile.getId(), MD5Util.getMd5(dto.getNewPassword()));
+        return new ApiResponse<>(200, false, getClientAuthorizationResponse(profile));
+    }
 
 //    public ProfileResponseDTO login(AuthDTO dto) {
 //        Optional<ProfileEntity> optional = profileRepository.findByPhone(dto.getPhone());

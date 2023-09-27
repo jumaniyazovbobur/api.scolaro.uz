@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class PhoneUtil {
     private static final
-    String PHONE_PATTERN = "(?:\\+\\d{12})";
+    String PHONE_PATTERN = "(?:\\d{12})";
 
     public static boolean validatePhone(String phone) {
         Pattern pattern = Pattern.compile(PHONE_PATTERN);

@@ -38,17 +38,28 @@ public class SmsHistoryService {
                 LocalDateTime.now().minusMinutes(2),
                 LocalDateTime.now());
         if (countSms < smsCountLimit) {
-            SmsHistoryEntity build = SmsHistoryEntity
+
+            SmsHistoryEntity smsHistory = new SmsHistoryEntity();
+            smsHistory.setSmsCode(smsCode);
+            smsHistory.setType(type);
+            smsHistory.setSmsCount(0);
+            smsHistory.setStatus(SmsStatus.SEND);
+            smsHistory.setPhone(phone);
+            smsHistory.setSmsText(text);
+            smsHistory.setSmsCount(0);
+            /*SmsHistoryEntity build = SmsHistoryEntity
                     .builder()
                     .smsCode(smsCode)
                     .type(type)
                     .status(SmsStatus.SEND)
-                    .phone(phone)
+                    .phone(newPhone)
                     .smsText(text)
                     .smsCount(0)
-                    .build();
-            SmsHistoryEntity smsHistory = smsHistoryRepository.save(build);
-            smsSenderService.sendSmsHTTP(smsHistory);
+                    .build();*/
+            SmsHistoryEntity sms = smsHistoryRepository.save(smsHistory);
+            String sendPhone= "+"+sms.getPhone();
+            sms.setPhone(sendPhone);
+            smsSenderService.sendSmsHTTP(sms);
             return;
         }
         throw new SmsLimitOverException(resourceMessageService.getMessage("sms.limit.over"));
@@ -73,5 +84,11 @@ public class SmsHistoryService {
         }
         smsHistoryRepository.updateStatus(entity.getId(), SmsStatus.IS_USED);
         return new ApiResponse<>("Success!", 200, false);
+    }
+
+    public void sendResetSms(String phone) {
+        String smsCode = RandomUtil.getRandomSmsCode();
+        String text = "Scolarodan passwordni qayta tiklash uchun tasdiqlash kodi: \n" + smsCode;
+        sendMessage(phone, text, SmsType.RESET_PASSWORD, smsCode);
     }
 }
