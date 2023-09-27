@@ -88,7 +88,7 @@ public class SmsHistoryService {
 
     public void sendResetSms(String phone) {
         String smsCode = RandomUtil.getRandomSmsCode();
-        String text = "Scolaro ro'yhatdan o'tish tasdiqlash kodi: \n" + smsCode;
-        sendMessage(phone, text, SmsType.CHANGE_PASSWORD, smsCode);
+        String text = "Scolarodan passwordni qayta tiklash uchun tasdiqlash kodi: \n" + smsCode;
+        sendMessage(phone, text, SmsType.RESET_PASSWORD, smsCode);
     }
 }

@@ -23,4 +23,9 @@ public interface ConsultingRepository extends JpaRepository<ConsultingEntity, St
                  @Param("date") LocalDateTime date);
 
     Optional<ConsultingEntity> findByPhoneAndVisibleIsTrue(String phone);
+
+    @Transactional
+    @Modifying
+    @Query("update ConsultingEntity set password =:nPswd where id =:id")
+    int updatePassword(@Param("id") String id, @Param("nPswd") String nPswd);
 }
