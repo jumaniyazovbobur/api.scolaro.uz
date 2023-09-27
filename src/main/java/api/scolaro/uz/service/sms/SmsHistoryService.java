@@ -27,7 +27,7 @@ public class SmsHistoryService {
     private static final int smsCountLimit = 3;
 
     public void sendRegistrationSms(String phoneNumber) {
-        String smsCode = RandomUtil.getRandomSmsCode();
+        String smsCode = "11111";//RandomUtil.getRandomSmsCode();
         String text = "Scolaro ro'yhatdan o'tish tasdiqlash kodi: \n" + smsCode;
         sendMessage(phoneNumber, text, SmsType.REGISTRATION, smsCode);
     }
@@ -46,7 +46,6 @@ public class SmsHistoryService {
             smsHistory.setStatus(SmsStatus.SEND);
             smsHistory.setPhone(phone);
             smsHistory.setSmsText(text);
-            smsHistory.setSmsCount(0);
             /*SmsHistoryEntity build = SmsHistoryEntity
                     .builder()
                     .smsCode(smsCode)
@@ -57,8 +56,6 @@ public class SmsHistoryService {
                     .smsCount(0)
                     .build();*/
             SmsHistoryEntity sms = smsHistoryRepository.save(smsHistory);
-            String sendPhone= "+"+sms.getPhone();
-            sms.setPhone(sendPhone);
             smsSenderService.sendSmsHTTP(sms);
             return;
         }
@@ -78,7 +75,6 @@ public class SmsHistoryService {
             smsHistoryRepository.updateStatus(entity.getId(), SmsStatus.USED_WITH_TIMEOUT);
             return new ApiResponse<>(resourceMessageService.getMessage("sms.time-out"), 400, true);
         }
-
         if (!entity.getSmsCode().equals(code)) {
             return new ApiResponse<>(resourceMessageService.getMessage("sms.code.incorrect"), 400, true);
         }

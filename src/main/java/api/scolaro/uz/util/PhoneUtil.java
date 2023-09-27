@@ -17,4 +17,11 @@ public class PhoneUtil {
         }
         return false;
     }
+
+    public static String checkAndRemovePlus(String phone) {
+        if (phone.startsWith("+")) {
+            return phone.substring(1);
+        }
+        return phone;
+    }
 }
