@@ -121,9 +121,6 @@ public class ProfileController {
 
 
 
-    //  TODO api for update password (old and newPassword , confirmNewPassword)
-    // TODO update phone
-
 
 //    @GetMapping("/current")
 //    @Operation(summary = "Get current profile detail", description = "")

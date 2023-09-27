@@ -119,7 +119,7 @@ public class AuthService {
             log.info("Phone not valid! phone = {}", dto.getPhone());
             return new ApiResponse<>(resourceMessageService.getMessage("phone.validation.not-valid"), 400, true);
         }
-        Optional<ProfileEntity> optional = profileRepository.findByPhoneAndVisibleIsTrue(dto.getPhone().substring(1));
+        Optional<ProfileEntity> optional = profileRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
         if (optional.isEmpty()) {
             log.warn("Client not found! phone = {}", dto.getPhone());
             return new ApiResponse<>(resourceMessageService.getMessage("client.not.found"), 400, true);

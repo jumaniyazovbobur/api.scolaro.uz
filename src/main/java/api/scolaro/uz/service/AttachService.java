@@ -57,22 +57,20 @@ public class AttachService {
         if (!folder.exists()) {
             boolean t = folder.mkdirs();
         }
-        String key = UUID.randomUUID().toString();
+
         String extension = getExtension(Objects.requireNonNull(file.getOriginalFilename()));
-
         try {
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(folderName + "/" + pathFolder + "/" + key + "." + extension);
-
-            Files.write(path, bytes);
             AttachEntity entity = new AttachEntity();
-            entity.setId(key);
             entity.setCreateId(EntityDetails.getCurrentUserId());
             entity.setPath(pathFolder);
             entity.setSize(file.getSize());
             entity.setOrigenName(file.getOriginalFilename());
             entity.setExtension(extension);
             attachRepository.save(entity);
+
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(folderName + "/" + pathFolder + "/" + entity.getId() + "." + extension);
+            Files.write(path, bytes);
 
             return toDTO(entity);
         } catch (IOException e) {
@@ -163,10 +161,6 @@ public class AttachService {
 
     private String getUrl(String fileName) {
         return attachUrl + "/open/" + fileName;
-    }
-
-    public String toOpenUrl(String id) {
-        return attachUrl + "/api/v1/attach/open/" + id;
     }
 
     private AttachDTO toDTO(AttachEntity entity) {

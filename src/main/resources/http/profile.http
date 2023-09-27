@@ -1,7 +1,7 @@
 ### Update profile
 PUT http://localhost:8081/api/v1/profile/update
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDUyNTUsImlkIjoiNDAyODgwZTg4YWQ1ZGMyZTAxOGFkNWRlNDQyNTAwMDAiLCJwaG9uZSI6Iis5OTg5NDQ0OTczOTciLCJyb2xlcyI6IlJPTEVfU1RVREVOVCIsImV4cCI6MTY5NjQxMDA1NSwiaXNzIjoiSmF2YSBiYWNrZW5kIn0.6g0Vy-tuFrnRLL4zfqRRuJepcz6nVS5QvIUSwZAC0iLkUg8tly0TOSGlvN24QVUPZDs71knrccwn75miGh-FrA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MjQ0NTAsImlkIjoiNDAyODgwZTg4YWQ1ZGMyZTAxOGFkNWRlNDQyNTAwMDAiLCJwaG9uZSI6Ijk5ODk0NDQ5NzM5NyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNjk2NDI5MjUwLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.w4rcDDov1b53HB2bQQi-QaLWhvljm0fU--z_0TJ0B36X8lb6qodAZHnXtEofcPmNNu9ij7Ffrjm761g3kqLHVw
 
 {
   "name": "Bekzodjon",
@@ -11,7 +11,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDUyNTUsImlkIjoiNDAyO
 
 
 ### Get profile by id
-GET http://localhost:8081/api/v1/profile/402880e88ad5dc2e018ad5de4425000
+GET http://localhost:8081/api/v1/profile/402880e88ad5dc2e018ad5de44250000
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDYxMjYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY0MTA5MjYsImlzcyI6IkphdmEgYmFja2VuZCJ9.5i-zp9w0jxobonVZyh5ZjTVEVsHEkVUH0i7dLW19SDD60DVsYGpADR-QmzSBvbG3VHNVw6OncApX_JGf5S405g
 
 
@@ -36,8 +36,8 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDYxMjYsImlkIjoiOTA5M
 
 
 ### Update profile phone
-PUT http://localhost:8081/api/v1/profile/update-phone?phone=998949092299
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDUyNTUsImlkIjoiNDAyODgwZTg4YWQ1ZGMyZTAxOGFkNWRlNDQyNTAwMDAiLCJwaG9uZSI6Iis5OTg5NDQ0OTczOTciLCJyb2xlcyI6IlJPTEVfU1RVREVOVCIsImV4cCI6MTY5NjQxMDA1NSwiaXNzIjoiSmF2YSBiYWNrZW5kIn0.6g0Vy-tuFrnRLL4zfqRRuJepcz6nVS5QvIUSwZAC0iLkUg8tly0TOSGlvN24QVUPZDs71knrccwn75miGh-FrA
+PUT http://localhost:8081/api/v1/profile/update-phone?phone=998944497397
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MjQ0NTAsImlkIjoiNDAyODgwZTg4YWQ1ZGMyZTAxOGFkNWRlNDQyNTAwMDAiLCJwaG9uZSI6Ijk5ODk0NDQ5NzM5NyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNjk2NDI5MjUwLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.w4rcDDov1b53HB2bQQi-QaLWhvljm0fU--z_0TJ0B36X8lb6qodAZHnXtEofcPmNNu9ij7Ffrjm761g3kqLHVw
 
 
 
@@ -48,91 +48,36 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDUyNTUsImlkIjoiNDAyODgwZTg4YWQ1ZGMyZTAxOGFkNWRlNDQyNTAwMDAiLCJwaG9uZSI6Iis5OTg5NDQ0OTczOTciLCJyb2xlcyI6IlJPTEVfU1RVREVOVCIsImV4cCI6MTY5NjQxMDA1NSwiaXNzIjoiSmF2YSBiYWNrZW5kIn0.6g0Vy-tuFrnRLL4zfqRRuJepcz6nVS5QvIUSwZAC0iLkUg8tly0TOSGlvN24QVUPZDs71knrccwn75miGh-FrA
 
 {
-  "phone": "+998949092299",
-  "code": "28755"
+  "phone": "998908070176",
+  "code": "41111"
 
 }
 
 
-
-###create
-POST  http://localhost:8081/api/v1/profile
+### Update password
+PUT http://localhost:8081/api/v1/profile/update-password
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2Nzc1MTc3NjUsInBob25lIjoiOTk4OTAwOTY0NjQ4Iiwicm9sZSI6W251bGxdLCJleHAiOjE2Nzc2MDQxNjUsImlzcyI6ImRhc2hhdG9wIn0.iUcYfxrHoCqNUFC0tG0VaVMOB8dlWfh2q9xOf7zZIad2_kBDOq3w3F-76ZXXs8q07oLT0dZOUv65rVMbYCewVg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MjQ0NTAsImlkIjoiNDAyODgwZTg4YWQ1ZGMyZTAxOGFkNWRlNDQyNTAwMDAiLCJwaG9uZSI6Ijk5ODk0NDQ5NzM5NyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNjk2NDI5MjUwLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.w4rcDDov1b53HB2bQQi-QaLWhvljm0fU--z_0TJ0B36X8lb6qodAZHnXtEofcPmNNu9ij7Ffrjm761g3kqLHVw
 
 {
-  "firstName": "Bahodir",
-  "lastName": "Hurramov",
-  "phone": "998900964649",
-  "password": "123456",
-  "roleList": ["ROLE_USER"]
+  "oldPassword": "123456",
+  "newPassword": "111111",
+  "confirmPassword": "111111"
 
 }
 
-### reset password request
-PUT http://localhost:8081/api/v1/profile/password/reset/request
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NzY4MjE5NTgsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZSI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjkwODM1OCwiaXNzIjoiZGFzaGF0b3AifQ.Qe6HI6LoKZVZOkvng0ELZBP11i9LP6LtsQOGXBqBmABmSAe8JtMsQh1RIA-a7ZdQndhf51UOlkOmxYNT1KHRAg
 
-
-### reset password confirm
-PUT http://localhost:8081/api/v1/profile/password/reset/confirm
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NzY4MjE5NTgsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZSI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjkwODM1OCwiaXNzIjoiZGFzaGF0b3AifQ.Qe6HI6LoKZVZOkvng0ELZBP11i9LP6LtsQOGXBqBmABmSAe8JtMsQh1RIA-a7ZdQndhf51UOlkOmxYNT1KHRAg
-
-
-{
-  "code": "777063"
-}
+### Change status
+PUT http://localhost:8081/api/v1/profile/change-status/402880e88ad5dc2e018ad5de44250000?status=ACTIVE
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDYxMjYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY0MTA5MjYsImlzcyI6IkphdmEgYmFja2VuZCJ9.5i-zp9w0jxobonVZyh5ZjTVEVsHEkVUH0i7dLW19SDD60DVsYGpADR-QmzSBvbG3VHNVw6OncApX_JGf5S405g
 
 
 
-### change phone request
-PUT http://localhost:8081/api/v1/profile/phone/change/request
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NzY4MzA4OTksInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2NzY5MTcyOTksImlzcyI6ImRhc2hhdG9wIn0.6804xZ_uHqzqwCT1rCWWZFx_WD-239PDbL_myTsDbQp0pS-svYfuwRBg1f8vo3vxiRqE8Qh5f5X2Ox8cr-4xnA
-
-{
-  "newPhone": "998997795710"
-}
 
 
-### change phone confirm
-PUT http://localhost:8081/api/v1/profile/phone/change/confirm
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NzY4MzEzNTMsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2NzY5MTc3NTMsImlzcyI6ImRhc2hhdG9wIn0.OnmPONZQrfyMQO-j72Tkn9lMWxM-e_8Dn8cPymWgaLN4OjVSCacvjNr8gDLgdAj3ZrHKwanM5bEPEmrtGR1wcQ
-
-{
-  "code": "90830"
-}
 
 
-###get By Id
-GET http://localhost:8081/api/v1/profile/admin/3f1bd185-25f3-4d8c-b9a7-b5764d49c6a1
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NzY4Mjc3NDYsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2NzY5MTQxNDYsImlzcyI6ImRhc2hhdG9wIn0.WhtYHpW6Y-dh6R_wJln1sP02ZonvTq2ot5TuU3Sg-nR_BfNRxrjQ-7OIidmOB6GZ3gEDvCOQxwfWtLk3yJG0NA
 
 
-###delete
-DELETE http://localhost:8081/api/v1/profile/admin/3f1bd185-25f3-4d8c-b9a7-b5764d49c6a1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NzY4Mjc3NDYsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2NzY5MTQxNDYsImlzcyI6ImRhc2hhdG9wIn0.WhtYHpW6Y-dh6R_wJln1sP02ZonvTq2ot5TuU3Sg-nR_BfNRxrjQ-7OIidmOB6GZ3gEDvCOQxwfWtLk3yJG0NA
 
 
-###block
-PUT http://localhost:8081/api/v1/profile/admin/block
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI3NDgxODYsInBob25lIjoiOTk4OTExMjM0NTY3Iiwicm9sZSI6WyJST0xFX0FETUlOIl0sImV4cCI6MTY4MjgzNDU4NiwiaXNzIjoiZGFzaGF0b3AifQ.8h9-1ORbLWM_1L1aDA34R98gHtmIfwNJ_RlmQrhTy8nZ9F7vzlZbB4YCp9uURzhxuYyCJpIFEbMi4gasOxNYww
-
-{
-  "id": "5c224c20-4c12-466c-a0b6-ae7eca1dfe8f",
-  "status": "ACTIVE"
-}
-
-### get Profile Pageable
-POST http://localhost:8081/api/v1/profile/admin/filter?page=0&size=10
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI3NDgxODYsInBob25lIjoiOTk4OTExMjM0NTY3Iiwicm9sZSI6WyJST0xFX0FETUlOIl0sImV4cCI6MTY4MjgzNDU4NiwiaXNzIjoiZGFzaGF0b3AifQ.8h9-1ORbLWM_1L1aDA34R98gHtmIfwNJ_RlmQrhTy8nZ9F7vzlZbB4YCp9uURzhxuYyCJpIFEbMi4gasOxNYww
-Content-Type: application/json
-
-{
-  "firstName": "Toshmat"
-}
