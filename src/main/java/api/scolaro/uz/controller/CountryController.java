@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j
-@Api(tags = "Country")
+@Api(tags = "Country api")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/country")

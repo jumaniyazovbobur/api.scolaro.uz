@@ -1,7 +1,10 @@
 package api.scolaro.uz.controller;
 
+import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.consulting.ConsultingDTO;
 import api.scolaro.uz.dto.consulting.ConsultingFilterDTO;
 import api.scolaro.uz.dto.consulting.ConsultingCreateDTO;
+import api.scolaro.uz.dto.consulting.ConsultingUpdateDTO;
 import api.scolaro.uz.service.ConsultingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,7 +30,7 @@ public class ConsultingController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/")
     @Operation(summary = "Create consulting", description = "")
-    public ResponseEntity<?> create(@RequestBody @Valid ConsultingCreateDTO dto) {
+    public ResponseEntity<ApiResponse<ConsultingDTO>> create(@RequestBody @Valid ConsultingCreateDTO dto) {
         log.info("Create consulting {}", dto.getName());
         return ResponseEntity.ok(consultingService.create(dto));
     }
@@ -38,9 +41,9 @@ public class ConsultingController {
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @PutMapping("/")
     @Operation(summary = "Update api", description = "")
-    public ResponseEntity<?> update(@Valid @RequestBody ConsultingCreateDTO dto) {
+    public ResponseEntity<ApiResponse<?>> update(@Valid @RequestBody ConsultingUpdateDTO dto) {
         log.info("Update consulting {}", dto.getName());
-        return ResponseEntity.ok(consultingService.update(dto));
+        return ResponseEntity.ok(consultingService.updateDetail(dto));
     }
 
     /**
@@ -49,7 +52,7 @@ public class ConsultingController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
     @Operation(summary = "Get by id api", description = "")
-    public ResponseEntity<?> getId(@PathVariable("id") String id) {
+    public ResponseEntity<ApiResponse<ConsultingDTO>> getId(@PathVariable("id") String id) {
         log.info("Get consulting {}", id);
         return ResponseEntity.ok(consultingService.getId(id));
 

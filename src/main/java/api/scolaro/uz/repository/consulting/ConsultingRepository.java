@@ -18,9 +18,10 @@ public interface ConsultingRepository extends JpaRepository<ConsultingEntity, St
 
     @Transactional
     @Modifying
-    @Query("update ConsultingEntity set visible=true , deletedDate=:date where id=:id")
-    void deleted(@Param("id") String id,
-                 @Param("date") LocalDateTime date);
+    @Query("update ConsultingEntity set visible=false , deletedId=:deletedId, deletedDate=:date where id=:id")
+    int deleted(@Param("id") String id,
+                @Param("deletedId") String deleteId,
+                @Param("date") LocalDateTime date);
 
     Optional<ConsultingEntity> findByPhoneAndVisibleIsTrue(String phone);
 
@@ -28,4 +29,17 @@ public interface ConsultingRepository extends JpaRepository<ConsultingEntity, St
     @Modifying
     @Query("update ConsultingEntity set password =:nPswd where id =:id")
     int updatePassword(@Param("id") String id, @Param("nPswd") String nPswd);
+
+    @Transactional
+    @Modifying
+    @Query("update ConsultingEntity set tempPhone = :newPhone, smsCode=:code where id=:id")
+    void changeNewPhone(@Param("id") String id,
+                        @Param("newPhone") String newPhone,
+                        @Param("code") String code);
+
+    @Transactional
+    @Modifying
+    @Query("update ConsultingEntity set phone = :phone where id=:id")
+    int changePhone(@Param("id") String id,
+                    @Param("phone") String phone);
 }
