@@ -35,8 +35,23 @@ DELETE http://localhost:8081/api/v1/profile/402880e88ad5dc2e018ad5de44250000
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDYxMjYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY0MTA5MjYsImlzcyI6IkphdmEgYmFja2VuZCJ9.5i-zp9w0jxobonVZyh5ZjTVEVsHEkVUH0i7dLW19SDD60DVsYGpADR-QmzSBvbG3VHNVw6OncApX_JGf5S405g
 
 
+### Update profile phone
+PUT http://localhost:8081/api/v1/profile/update-phone?phone=998949092299
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDUyNTUsImlkIjoiNDAyODgwZTg4YWQ1ZGMyZTAxOGFkNWRlNDQyNTAwMDAiLCJwaG9uZSI6Iis5OTg5NDQ0OTczOTciLCJyb2xlcyI6IlJPTEVfU1RVREVOVCIsImV4cCI6MTY5NjQxMDA1NSwiaXNzIjoiSmF2YSBiYWNrZW5kIn0.6g0Vy-tuFrnRLL4zfqRRuJepcz6nVS5QvIUSwZAC0iLkUg8tly0TOSGlvN24QVUPZDs71knrccwn75miGh-FrA
 
 
+
+
+### Update phone verification
+PUT http://localhost:8081/api/v1/profile/phone-verification
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDUyNTUsImlkIjoiNDAyODgwZTg4YWQ1ZGMyZTAxOGFkNWRlNDQyNTAwMDAiLCJwaG9uZSI6Iis5OTg5NDQ0OTczOTciLCJyb2xlcyI6IlJPTEVfU1RVREVOVCIsImV4cCI6MTY5NjQxMDA1NSwiaXNzIjoiSmF2YSBiYWNrZW5kIn0.6g0Vy-tuFrnRLL4zfqRRuJepcz6nVS5QvIUSwZAC0iLkUg8tly0TOSGlvN24QVUPZDs71knrccwn75miGh-FrA
+
+{
+  "phone": "+998949092299",
+  "code": "28755"
+
+}
 
 
 

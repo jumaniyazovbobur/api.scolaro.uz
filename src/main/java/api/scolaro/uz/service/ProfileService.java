@@ -70,7 +70,7 @@ public class ProfileService {
         ProfileEntity entity = get(id);
         int result = profileRepository.deleted(entity.getId(), getCurrentProfileDetail().getId(), LocalDateTime.now());
         if (result == 0) return ApiResponse.bad("Try again !");
-        return ApiResponse.ok();
+        return ApiResponse.ok("Success");
     }
 
 
@@ -129,7 +129,7 @@ public class ProfileService {
         ApiResponse<?> smsResponse = smsService.checkSmsCode(dto.getPhone(), dto.getCode());
         if (smsResponse.getIsError()) {
             log.info(smsResponse.getMessage());
-            return ApiResponse.bad(smsResponse.getMessage());
+            return smsResponse;
         }
         ProfileEntity currentUser = get(getCurrentProfileDetail().getId());
         if (!currentUser.getTempPhone().substring(1).equals(dto.getPhone())) {
