@@ -22,20 +22,20 @@ public class CustomProfileRepository {
 
     public FilterResultDTO<ProfileEntity> filterPagination(ProfileFilterDTO dto, Integer page, Integer size) {
         StringBuilder selectBuilder = new StringBuilder("from ProfileEntity as p");
-        StringBuilder countBuilder = new StringBuilder("select count(u) from ProfileEntity as p");
-        StringBuilder builder = new StringBuilder(" where e.visible=true");
+        StringBuilder countBuilder = new StringBuilder("select count(p) from ProfileEntity as p");
+        StringBuilder builder = new StringBuilder(" where p.visible=true");
         Map<String, Object> params = new LinkedHashMap<>();
         if (dto.getName() != null && !dto.getName().isBlank()) {
             builder.append(" and p.name like :name");
-            params.put("name", "'%" + dto.getName() + "%'");
+            params.put("name", "%" + dto.getName() + "%");
         }
         if (dto.getSurname() != null && !dto.getSurname().isBlank()) {
             builder.append(" and p.surname like :surname");
-            params.put("surname", "'%" + dto.getSurname() + "%'");
+            params.put("surname", "%" + dto.getSurname() + "%");
         }
         if (dto.getPhone() != null && !dto.getPhone().isBlank()) {
             builder.append(" and p.phone = :phone");
-            params.put("surname", dto.getPhone());
+            params.put("phone", dto.getPhone());
         }
         if (dto.getFromCreatedDate() != null) {
             builder.append(" and p.createdDate>=:from");

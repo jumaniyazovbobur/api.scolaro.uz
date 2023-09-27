@@ -30,7 +30,7 @@ public class ProfileEntity extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_id", insertable = false, updatable = false)
     private AttachEntity photo;
-    @Column(name = "temp_photo")
+    @Column(name = "temp_phone")
     private String tempPhone;
     @Column(name = "sms_code")
     private String smsCode;

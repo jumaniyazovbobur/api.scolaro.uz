@@ -61,7 +61,7 @@ public class SecurityConfiguration {
         // authorization
         http.authorizeHttpRequests(auth ->
                         auth.requestMatchers(AUTH_WHITELIST).permitAll()
-                                .requestMatchers("/api/v1/student", "/api/v1/student/**").hasAnyRole("ADMIN", "MODERATOR")
+                                .requestMatchers( "/api/v1/attach/upload**").hasAnyRole("ADMIN", "STUDENT")
 //                        .requestMatchers("/api/v1/profile", "/api/v1/profile/**").hasAnyRole("ADMIN")
 //                        .requestMatchers("/api/v1/faculty", "/api/v1/faculty/**").hasAnyRole("ADMIN")
                                 .anyRequest().authenticated()
