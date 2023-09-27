@@ -1,30 +1,43 @@
-### get Current User Info
-GET http://localhost:8081/api/v1/profile/current
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NzY4MzA4OTksInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2NzY5MTcyOTksImlzcyI6ImRhc2hhdG9wIn0.6804xZ_uHqzqwCT1rCWWZFx_WD-239PDbL_myTsDbQp0pS-svYfuwRBg1f8vo3vxiRqE8Qh5f5X2Ox8cr-4xnA
+### Update profile
+PUT http://localhost:8081/api/v1/profile/update
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDUyNTUsImlkIjoiNDAyODgwZTg4YWQ1ZGMyZTAxOGFkNWRlNDQyNTAwMDAiLCJwaG9uZSI6Iis5OTg5NDQ0OTczOTciLCJyb2xlcyI6IlJPTEVfU1RVREVOVCIsImV4cCI6MTY5NjQxMDA1NSwiaXNzIjoiSmF2YSBiYWNrZW5kIn0.6g0Vy-tuFrnRLL4zfqRRuJepcz6nVS5QvIUSwZAC0iLkUg8tly0TOSGlvN24QVUPZDs71knrccwn75miGh-FrA
 
-### update profile detail
-PUT http://localhost:8081/api/v1/profile/current
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NzY4MjE5NTgsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZSI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjkwODM1OCwiaXNzIjoiZGFzaGF0b3AifQ.Qe6HI6LoKZVZOkvng0ELZBP11i9LP6LtsQOGXBqBmABmSAe8JtMsQh1RIA-a7ZdQndhf51UOlkOmxYNT1KHRAg
+{
+  "name": "Bekzodjon",
+  "surname": "Nosirovvv"
+
+}
+
+
+### Get profile by id
+GET http://localhost:8081/api/v1/profile/402880e88ad5dc2e018ad5de4425000
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDYxMjYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY0MTA5MjYsImlzcyI6IkphdmEgYmFja2VuZCJ9.5i-zp9w0jxobonVZyh5ZjTVEVsHEkVUH0i7dLW19SDD60DVsYGpADR-QmzSBvbG3VHNVw6OncApX_JGf5S405g
+
+
+
+
+
+### Get profile filter
+GET http://localhost:8081/api/v1/profile/filter
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDYxMjYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY0MTA5MjYsImlzcyI6IkphdmEgYmFja2VuZCJ9.5i-zp9w0jxobonVZyh5ZjTVEVsHEkVUH0i7dLW19SDD60DVsYGpADR-QmzSBvbG3VHNVw6OncApX_JGf5S405g
 Content-Type: application/json
 
 
 {
-  "firstName": "Toshmat",
-  "lastName": "Toshmatov"
+  "fromCreatedDate": "2023-08-08",
+  "toCreatedDate": "2023-09-28"
 }
 
 
-
-### change password
-PUT http://localhost:8081/api/v1/profile/password/change
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NzY4MjUwMTgsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZSI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjkxMTQxOCwiaXNzIjoiZGFzaGF0b3AifQ.c7N_ptKv7RuKIV-FTuLBZJuIC94LB_9glF-8khb2CDgmRs01qp9irRwBpj9T9oLSP0hVbJo9sL83a6ttBazWMA
-Content-Type: application/json
+### Delete profile
+DELETE http://localhost:8081/api/v1/profile/402880e88ad5dc2e018ad5de44250000
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDYxMjYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY0MTA5MjYsImlzcyI6IkphdmEgYmFja2VuZCJ9.5i-zp9w0jxobonVZyh5ZjTVEVsHEkVUH0i7dLW19SDD60DVsYGpADR-QmzSBvbG3VHNVw6OncApX_JGf5S405g
 
 
-{
-  "oldPassword": "777063",
-  "newPassword": "123456"
-}
+
+
+
 
 
 ###create

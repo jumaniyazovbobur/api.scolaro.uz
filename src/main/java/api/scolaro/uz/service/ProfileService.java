@@ -48,7 +48,7 @@ public class ProfileService {
         ProfileDTO currentProfile = getCurrentProfileDetail();
         int result = profileRepository.updateDetail(currentProfile.getId(), dto.getName(), dto.getSurname());
         if (result == 0) return ApiResponse.bad("Try again !");
-        return ApiResponse.ok();
+        return ApiResponse.ok("Success");
     }
 
     public ApiResponse<ProfileResponseDTO> getId(String id) {
