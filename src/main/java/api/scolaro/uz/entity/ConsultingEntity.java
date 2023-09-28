@@ -12,9 +12,12 @@ import lombok.Setter;
 @Entity
 @Table(name = "consulting")
 public class ConsultingEntity extends BaseEntity {
-
     @Column(name = "name")
-    private String name;
+    private String name; // consulting firm name
+    @Column(name = "owner_name")
+    private String ownerName;
+    @Column(name = "owner_surname")
+    private String ownerSurname;
     @Column(name = "phone")
     private String phone;
     @Column(name = "password")

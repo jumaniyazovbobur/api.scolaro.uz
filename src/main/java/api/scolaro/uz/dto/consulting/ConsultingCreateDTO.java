@@ -14,6 +14,10 @@ public class ConsultingCreateDTO {
     private String phone;
     @NotBlank(message = "Address is required")
     private String address; // text
+    @NotBlank(message = "Owner name is required")
+    private String ownerName;
+    @NotBlank(message = "Owner surname is required")
+    private String ownerSurname;
     private String photoId;
     private String about;
 

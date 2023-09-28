@@ -1,6 +1,8 @@
 package api.scolaro.uz.repository.consulting;
 
 import api.scolaro.uz.entity.ConsultingEntity;
+import api.scolaro.uz.entity.ProfileEntity;
+import api.scolaro.uz.enums.GeneralStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -42,4 +44,12 @@ public interface ConsultingRepository extends JpaRepository<ConsultingEntity, St
     @Query("update ConsultingEntity set phone = :phone where id=:id")
     int changePhone(@Param("id") String id,
                     @Param("phone") String phone);
+
+    Optional<ConsultingEntity> findByPhone(String username);
+
+    @Transactional
+    @Modifying
+    @Query("update ConsultingEntity set status = :status where id=:id")
+    int changeStatus(@Param("id") String id,
+                     @Param("status") GeneralStatus status);
 }

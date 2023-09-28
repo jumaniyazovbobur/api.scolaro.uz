@@ -6,6 +6,8 @@ import api.scolaro.uz.enums.RoleEnum;
 import io.jsonwebtoken.*;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,7 +38,8 @@ public class JwtUtil {
         Claims claims = jws.getBody();
         String id = (String) claims.get("id");
         String phone = (String) claims.get("phone");
-        return new JwtDTO(id, phone);
+        String roleStr = (String) claims.get("roles");
+        return new JwtDTO(id, phone, Arrays.asList(roleStr.split(",")));
     }
 
 }

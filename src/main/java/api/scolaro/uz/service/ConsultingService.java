@@ -1,21 +1,17 @@
 package api.scolaro.uz.service;
 
-import api.scolaro.uz.config.details.CustomUserDetails;
+
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.SmsDTO;
-import api.scolaro.uz.dto.consulting.ConsultingDTO;
-import api.scolaro.uz.dto.consulting.ConsultingFilterDTO;
-import api.scolaro.uz.dto.consulting.ConsultingCreateDTO;
-import api.scolaro.uz.dto.consulting.ConsultingUpdateDTO;
-import api.scolaro.uz.dto.profile.ProfileDTO;
+import api.scolaro.uz.dto.consulting.*;
+import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
 import api.scolaro.uz.entity.ConsultingEntity;
 import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.enums.sms.SmsType;
-import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.consulting.ConsultingRepository;
 import api.scolaro.uz.repository.consulting.CustomConsultingRepository;
@@ -24,7 +20,6 @@ import api.scolaro.uz.util.JwtUtil;
 import api.scolaro.uz.util.MD5Util;
 import api.scolaro.uz.util.PhoneUtil;
 import api.scolaro.uz.util.RandomUtil;
-import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
@@ -51,7 +46,7 @@ public class ConsultingService {
 
     private final SmsHistoryService smsService;
 
-    public ApiResponse<ConsultingDTO> create(ConsultingCreateDTO dto) {
+    public ApiResponse<ConsultingResponseDTO> create(ConsultingCreateDTO dto) {
         if (dto.getPhone().startsWith("+")) {
             dto.setPhone(dto.getPhone().substring(1));
         }
@@ -65,17 +60,19 @@ public class ConsultingService {
             return ApiResponse.bad("Phone exist");
         }
         // random sms password
-        String smsPassword = RandomUtil.getRandomString(5);
+        String smsPassword = RandomUtil.getRandomString(6);
         // send sms password
         String text = "Scolaro.uz platformasiga kirish uchun sizning parolingiz: \n" + smsPassword;
         smsService.sendMessage(dto.getPhone(), text, SmsType.CHANGE_PASSWORD, smsPassword);
-        //
+
         ConsultingEntity entity = new ConsultingEntity();
         entity.setName(dto.getName());
         entity.setAddress(dto.getAddress());
         entity.setPhone(dto.getPhone());
         entity.setPassword(MD5Util.getMd5(smsPassword));
         entity.setAbout(dto.getAbout());
+        entity.setOwnerName(dto.getOwnerName());
+        entity.setOwnerSurname(dto.getOwnerSurname());
         entity.setPhotoId(dto.getPhotoId());
         entity.setStatus(GeneralStatus.ACTIVE);
         // save
@@ -88,25 +85,42 @@ public class ConsultingService {
 
     public ApiResponse<?> updateDetail(ConsultingUpdateDTO dto) {
         ConsultingEntity entity = get(EntityDetails.getCurrentUserId());
-
         entity.setName(dto.getName());
         entity.setAddress(dto.getAddress());
         entity.setAbout(dto.getAbout());
+        entity.setOwnerName(dto.getOwnerName());
+        entity.setOwnerSurname(dto.getOwnerSurname());
         // update
         consultingRepository.save(entity);
-        // response
         return ApiResponse.ok(toDTO(entity));
     }
-
-    // TODO api for update password (old and newPassword , confirmNewPassword)
-
+    public ApiResponse<?> changeStatus(String id, GeneralStatus status) {
+        ConsultingEntity entity = get(id);
+        int result = consultingRepository.changeStatus(entity.getId(), status);
+        if (result == 0) return ApiResponse.bad("Try again !");
+        return ApiResponse.ok("Success");
+    }
+    public ApiResponse<?> updatePassword(UpdatePasswordDTO dto) {
+        ConsultingDTO currentConsulting = getCurrentConsultingDetail();
+        if (!dto.getNewPassword().equals(dto.getConfirmPassword())) {
+            log.info("Confirmed password is incorrect !");
+            return ApiResponse.bad("Confirmed password is incorrect !");
+        }
+        if (!currentConsulting.getPassword().equals(MD5Util.getMd5(dto.getOldPassword()))) {
+            log.info("Old password error !");
+            return ApiResponse.bad("Old password error !");
+        }
+        int result = consultingRepository.updatePassword(currentConsulting.getId(), MD5Util.getMd5(dto.getNewPassword()));
+        if (result == 0) return ApiResponse.bad("Try again !");
+        return ApiResponse.ok("Success");
+    }
 
     public ApiResponse<?> updatePhone(String newPhone) {
         if (newPhone.startsWith("+")) {
             newPhone = newPhone.substring(1);
         }
         if (!PhoneUtil.validatePhone(newPhone)) {
-            log.info("Phone not valid");
+            log.info("Phone not valid {}", newPhone);
             return ApiResponse.bad("Phone not valid");
         }
         Optional<ConsultingEntity> optional = consultingRepository.findByPhoneAndVisibleIsTrue(newPhone);
@@ -116,11 +130,11 @@ public class ConsultingService {
         }
         // random sms code
         String smsCode = RandomUtil.getRandomSmsCode();
-//        consultingRepository.changeNewPhone(getCurrentProfileDetail().getId(), newPhone, smsCode);
+        consultingRepository.changeNewPhone(EntityDetails.getCurrentUserId(), newPhone, smsCode);
         // send new phone sms code
         String text = "Scolaro.uz tasdiqlash kodi: \n" + smsCode;
         smsService.sendMessage(newPhone, text, SmsType.CHANGE_PHONE, smsCode);
-
+        // response
         return ApiResponse.ok("Tasdiqlash kodi yuborildi.");
     }
 
@@ -130,7 +144,7 @@ public class ConsultingService {
         }
 
         if (!PhoneUtil.validatePhone(dto.getPhone())) {
-            log.info("Phone not valid");
+            log.info("Phone not valid {}", dto.getPhone());
             return ApiResponse.bad("Phone not valid");
         }
         Optional<ConsultingEntity> optional = consultingRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
@@ -143,7 +157,7 @@ public class ConsultingService {
             log.info(smsResponse.getMessage());
             return smsResponse;
         }
-        ConsultingEntity currentUser = get("");
+        ConsultingEntity currentUser = get(EntityDetails.getCurrentUserId());
         if (!currentUser.getTempPhone().equals(dto.getPhone())) {
             log.info("Phone not valid");
             return ApiResponse.bad("Phone not valid");
@@ -159,12 +173,12 @@ public class ConsultingService {
         return ApiResponse.ok(jwt);
     }
 
-    public ApiResponse<ConsultingDTO> getId(String id) {
+    public ApiResponse<ConsultingResponseDTO> getId(String id) {
         ConsultingEntity entity = get(id);
         return ApiResponse.ok(toDTO(entity));
     }
 
-    public PageImpl<ConsultingDTO> filter(ConsultingFilterDTO dto, int page, int size) {
+    public PageImpl<ConsultingResponseDTO> filter(ConsultingFilterDTO dto, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         FilterResultDTO<ConsultingEntity> filterResultDTO = customRepository.filterPagination(dto, page, size);
         return new PageImpl<>(filterResultDTO.getContent().stream().map(this::toDTO).toList(), pageable, filterResultDTO.getTotalElement());
@@ -178,8 +192,8 @@ public class ConsultingService {
     }
 
 
-    private ConsultingDTO toDTO(ConsultingEntity entity) {
-        ConsultingDTO dto = new ConsultingDTO();
+    private ConsultingResponseDTO toDTO(ConsultingEntity entity) {
+        ConsultingResponseDTO dto = new ConsultingResponseDTO();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setAddress(entity.getAddress());
@@ -190,6 +204,16 @@ public class ConsultingService {
         return dto;
     }
 
+    private ConsultingDTO getCurrentConsultingDetail() {
+        ConsultingEntity details = get(EntityDetails.getCurrentUserId());
+        ConsultingDTO currentConsulting = new ConsultingDTO();
+        currentConsulting.setId(details.getId());
+        currentConsulting.setName(details.getName());
+        currentConsulting.setPhone(details.getPhone());
+        currentConsulting.setPassword(details.getPassword());
+        return currentConsulting;
+    }
+
     private ConsultingEntity get(String id) {
         Optional<ConsultingEntity> optional = consultingRepository.findByIdAndVisibleTrue(id);
         if (optional.isEmpty()) {
@@ -197,20 +221,5 @@ public class ConsultingService {
             throw new ItemNotFoundException("Consulting not found");
         }
         return optional.get();
-    }
-
-    private ProfileDTO getCurrentConsultingDetail() {
-        CustomUserDetails details = EntityDetails.getCurrentUserDetail();
-        if (details == null) {
-            log.info("No permission");
-            throw new AppBadRequestException("No permission !");
-        }
-        ProfileDTO currentProfile = new ProfileDTO();
-        currentProfile.setId(details.getId());
-        currentProfile.setName(details.getName());
-        currentProfile.setSurname(details.getSurname());
-        currentProfile.setPassword(details.getPassword());
-        currentProfile.setPhone(details.getPhone());
-        return currentProfile;
     }
 }

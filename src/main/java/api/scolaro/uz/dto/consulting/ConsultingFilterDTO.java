@@ -10,6 +10,8 @@ public class ConsultingFilterDTO{
     private String name;
     private String address;
     private String phone;
+    private String ownerName;
+    private String ownerSurname;
     private LocalDate fromCreatedDate;
     private LocalDate toCreatedDate;
 }
