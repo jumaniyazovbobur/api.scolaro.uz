@@ -1,12 +1,100 @@
-### Register
+### Create consulting
 POST http://localhost:8081/api/v1/consulting/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MTc2NzQsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY0MjI0NzQsImlzcyI6IkphdmEgYmFja2VuZCJ9.aMV2EuvcUuXQjckcq1Yzzx7GbS4IiyQ0T4-9OU-qtmK-XTlJcuSk1CCJJGdqpuPq0Mli7p3faRyuoE9pZM1ZcA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDYxMjYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY0MTA5MjYsImlzcyI6IkphdmEgYmFja2VuZCJ9.5i-zp9w0jxobonVZyh5ZjTVEVsHEkVUH0i7dLW19SDD60DVsYGpADR-QmzSBvbG3VHNVw6OncApX_JGf5S405g
 
 
 {
   "name": "Brain consulting",
-  "phone": "998997795710",
-  "password": "123456",
-  "address": "Toshkent shahri"
+  "phone": "998944497397",
+  "address": "Toshkent shahri",
+  "ownerName": "Bekzod",
+  "ownerSurname": "Nosirov",
+  "about": "Biz vawe kuchaygan consaltingmiz"
 }
+
+
+
+### Update consilting
+PUT http://localhost:8081/api/v1/consulting/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4OTA1OTEsImlkIjoiNDAyODgwZTQ4YWRhZTQxOTAxOGFkYWU5ZmRmYzAwMDEiLCJwaG9uZSI6Ijk5ODk0NDQ5NzM5NyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk2NDk1MzkxLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.0hXbvfqurH4zUvqbndawW1divphML5qBKEEf3Gg_fF2M0LGyBKVZB7RfhBQA6kFbRHueLUirKbjrCkO3EwGvnQ
+
+{
+  "name": "Bekzodjon",
+  "address": "Qoqon shaxri",
+  "ownerName": "ALi",
+  "ownerSurname": "Aliyev"
+}
+
+
+### Get profile by id
+GET http://localhost:8081/api/v1/consulting/402880e48adae419018adae9fdfc0001
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDYxMjYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY0MTA5MjYsImlzcyI6IkphdmEgYmFja2VuZCJ9.5i-zp9w0jxobonVZyh5ZjTVEVsHEkVUH0i7dLW19SDD60DVsYGpADR-QmzSBvbG3VHNVw6OncApX_JGf5S405g
+
+
+
+
+
+### Get profile filter
+GET http://localhost:8081/api/v1/consulting/filter
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDYxMjYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY0MTA5MjYsImlzcyI6IkphdmEgYmFja2VuZCJ9.5i-zp9w0jxobonVZyh5ZjTVEVsHEkVUH0i7dLW19SDD60DVsYGpADR-QmzSBvbG3VHNVw6OncApX_JGf5S405g
+Content-Type: application/json
+
+
+{
+  "ownerSurname": "Aliyev"
+}
+
+
+### Delete consulting
+DELETE http://localhost:8081/api/v1/consulting/402880e48adae419018adae9fdfc0001
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDYxMjYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY0MTA5MjYsImlzcyI6IkphdmEgYmFja2VuZCJ9.5i-zp9w0jxobonVZyh5ZjTVEVsHEkVUH0i7dLW19SDD60DVsYGpADR-QmzSBvbG3VHNVw6OncApX_JGf5S405g
+
+
+### Update consulting phone
+PUT http://localhost:8081/api/v1/consulting/update-phone?phone=998337926848
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4OTA1OTEsImlkIjoiNDAyODgwZTQ4YWRhZTQxOTAxOGFkYWU5ZmRmYzAwMDEiLCJwaG9uZSI6Ijk5ODk0NDQ5NzM5NyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk2NDk1MzkxLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.0hXbvfqurH4zUvqbndawW1divphML5qBKEEf3Gg_fF2M0LGyBKVZB7RfhBQA6kFbRHueLUirKbjrCkO3EwGvnQ
+
+
+
+
+### Update phone verification
+PUT http://localhost:8081/api/v1/consulting/phone-verification
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4OTA1OTEsImlkIjoiNDAyODgwZTQ4YWRhZTQxOTAxOGFkYWU5ZmRmYzAwMDEiLCJwaG9uZSI6Ijk5ODk0NDQ5NzM5NyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk2NDk1MzkxLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.0hXbvfqurH4zUvqbndawW1divphML5qBKEEf3Gg_fF2M0LGyBKVZB7RfhBQA6kFbRHueLUirKbjrCkO3EwGvnQ
+
+{
+  "phone": "998337926848",
+  "code": "77335"
+
+}
+
+
+### Update password
+PUT http://localhost:8081/api/v1/consulting/update-password
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4OTI5MTQsImlkIjoiNDAyODgwZTQ4YWRhZTQxOTAxOGFkYWU5ZmRmYzAwMDEiLCJwaG9uZSI6Ijk5ODMzNzkyNjg0OCIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk2NDk3NzE0LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.f2A5F7uPI9O2abhqMH9ZNfi9nSdrv8jg30IOxpOuLHQ4ERDVY-iN4DRcg9_q58F1IkVjdI5b6r3NDBQGhjaBBQ
+
+{
+  "oldPassword": "rfr6dk",
+  "newPassword": "111111",
+  "confirmPassword": "111111"
+
+}
+
+
+### Change status
+PUT http://localhost:8081/api/v1/consulting/change-status/402880e48adae419018adae9fdfc0001?status=ACTIVE
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDYxMjYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY0MTA5MjYsImlzcyI6IkphdmEgYmFja2VuZCJ9.5i-zp9w0jxobonVZyh5ZjTVEVsHEkVUH0i7dLW19SDD60DVsYGpADR-QmzSBvbG3VHNVw6OncApX_JGf5S405g
+
+
+
+
+
+
+
+
+
+
+

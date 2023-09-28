@@ -2,9 +2,13 @@ package api.scolaro.uz.config.jwt;
 
 
 import api.scolaro.uz.config.SecurityConfiguration;
+import api.scolaro.uz.config.details.CustomUserDetailsService;
+import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.JwtDTO;
+import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.util.JwtUtil;
 import io.jsonwebtoken.JwtException;
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,7 +30,7 @@ import java.util.Arrays;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
-    private UserDetailsService userDetailsService;
+    private CustomUserDetailsService userDetailsService;
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
@@ -47,9 +51,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             final String token = header.substring(7).trim();
             JwtDTO jwtDTO = JwtUtil.decode(token);
-
+            // load user depending on role
+            UserDetails userDetails;
             String phone = jwtDTO.getPhone();
-            UserDetails userDetails = userDetailsService.loadUserByUsername(phone);
+            if (EntityDetails.hasRole(RoleEnum.ROLE_CONSULTING, jwtDTO.getRoleList())) {  // load consulting
+                userDetails = userDetailsService.loadConsultingByPhone(phone);
+            } else { // load student or admin
+                userDetails = userDetailsService.loadUserByUsername(phone);
+            }
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 

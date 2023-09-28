@@ -48,8 +48,7 @@ public class ProfileService {
     private final PersonRoleService personRoleService;
 
     public ApiResponse<?> update(ProfileUpdateDTO dto) {
-        ProfileDTO currentProfile = getCurrentProfileDetail();
-        int result = profileRepository.updateDetail(currentProfile.getId(), dto.getName(), dto.getSurname());
+        int result = profileRepository.updateDetail(EntityDetails.getCurrentUserId(), dto.getName(), dto.getSurname());
         if (result == 0) return ApiResponse.bad("Try again !");
         return ApiResponse.ok("Success");
     }
@@ -71,7 +70,7 @@ public class ProfileService {
 
     public ApiResponse<?> deleted(String id) {
         ProfileEntity entity = get(id);
-        int result = profileRepository.deleted(entity.getId(), getCurrentProfileDetail().getId(), LocalDateTime.now());
+        int result = profileRepository.deleted(entity.getId(), EntityDetails.getCurrentUserId(), LocalDateTime.now());
         if (result == 0) return ApiResponse.bad("Try again !");
         return ApiResponse.ok("Success");
     }
@@ -158,17 +157,13 @@ public class ProfileService {
     }
 
     private ProfileDTO getCurrentProfileDetail() {
-        CustomUserDetails details = EntityDetails.getCurrentUserDetail();
-        if (details == null) {
-            log.info("No permission");
-            throw new AppBadRequestException("No permission !");
-        }
+        ProfileEntity details =get( EntityDetails.getCurrentUserId());
         ProfileDTO currentProfile = new ProfileDTO();
         currentProfile.setId(details.getId());
         currentProfile.setName(details.getName());
         currentProfile.setSurname(details.getSurname());
-        currentProfile.setPassword(details.getPassword());
         currentProfile.setPhone(details.getPhone());
+        currentProfile.setPassword(details.getPassword());
         return currentProfile;
     }
 

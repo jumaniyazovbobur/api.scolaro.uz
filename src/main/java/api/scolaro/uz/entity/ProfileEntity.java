@@ -32,6 +32,6 @@ public class ProfileEntity extends BaseEntity {
     private AttachEntity photo;
     @Column(name = "temp_phone")
     private String tempPhone;
-    @Column(name = "sms_code")
+    @Column(name = "temp_sms_code")
     private String smsCode;
 }

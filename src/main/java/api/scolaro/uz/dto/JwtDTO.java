@@ -13,11 +13,12 @@ import java.util.List;
 public class JwtDTO {
     private String id;
     private String phone;
-    private List<RoleEnum> role;
+    private List<String> roleList;
 
-    public JwtDTO(String id, String phone) {
+    public JwtDTO(String id, String phone, List<String> roleList) {
         this.id = id;
         this.phone = phone;
+        this.roleList = roleList;
     }
 
 }

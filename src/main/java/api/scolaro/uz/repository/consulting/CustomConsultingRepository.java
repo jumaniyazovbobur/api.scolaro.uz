@@ -21,18 +21,25 @@ public class CustomConsultingRepository {
 
     public FilterResultDTO<ConsultingEntity> filterPagination(ConsultingFilterDTO dto, Integer page, Integer size) {
         StringBuilder selectBuilder=new StringBuilder("from ConsultingEntity as c");
-        StringBuilder countBuilder=new StringBuilder("select count(u) from ConsultingEntity as c");
+        StringBuilder countBuilder=new StringBuilder("select count(c) from ConsultingEntity as c");
         StringBuilder builder=new StringBuilder(" where c.visible=true");
         Map<String,Object> params=new LinkedHashMap<>();
         if(dto.getName()!=null && !dto.getName().isBlank()){
             builder.append(" and c.name like :name");
-            params.put("name","'%"+dto.getName()+"%'");
+            params.put("name","%"+dto.getName()+"%");
         }
         if(dto.getAddress()!=null && !dto.getAddress().isBlank()){
             builder.append(" and c.address like :address");
-            params.put("address","'%"+dto.getAddress()+"%'");
+            params.put("address","%"+dto.getAddress()+"%");
         }
-
+        if(dto.getOwnerName()!=null && !dto.getOwnerName().isBlank()){
+            builder.append(" and c.ownerName like :ownerName");
+            params.put("ownerName","%"+dto.getOwnerName()+"%");
+        }
+        if(dto.getOwnerSurname()!=null && !dto.getOwnerSurname().isBlank()){
+            builder.append(" and c.ownerSurname like :ownerSurname");
+            params.put("ownerSurname","%"+dto.getOwnerSurname()+"%");
+        }
         if(dto.getPhone()!=null && !dto.getPhone().isBlank()){
             builder.append(" and c.phone = :phone");
             params.put("phone",dto.getPhone());

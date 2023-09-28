@@ -3,6 +3,7 @@ package api.scolaro.uz.config.details;
 
 
 
+import api.scolaro.uz.entity.ConsultingEntity;
 import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
@@ -19,8 +20,6 @@ import java.util.List;
 public class CustomUserDetails implements UserDetails {
 
     protected String id;
-    private String name;
-    private String surname;
     private String phone;
     private String password;
     private Boolean visible;
@@ -29,8 +28,17 @@ public class CustomUserDetails implements UserDetails {
 
     public CustomUserDetails(ProfileEntity entity, List<RoleEnum> roles) {
         this.id = entity.getId();
-        this.name = entity.getName();
-        this.surname = entity.getSurname();
+        this.phone = entity.getPhone();
+        this.status = entity.getStatus();
+        this.password = entity.getPassword();
+        this.visible = entity.getVisible();
+        for (RoleEnum role : roles) {
+            roleList.add(new SimpleGrantedAuthority(role.name()));
+        }
+    }
+
+    public CustomUserDetails(ConsultingEntity entity, List<RoleEnum> roles) {
+        this.id = entity.getId();
         this.phone = entity.getPhone();
         this.status = entity.getStatus();
         this.password = entity.getPassword();
