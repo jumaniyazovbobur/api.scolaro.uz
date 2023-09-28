@@ -5,10 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UniversityFilterDTO {
+public class UniversityResponseDTO {
     private String name;
+    private String webSite;
+    private Long rating;
     private Long countryId;
-    private Long beginRating;
-    private Long endRating;
+    private String description;
 
 }

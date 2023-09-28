@@ -11,13 +11,15 @@ import lombok.Setter;
 public class UniversityEntity extends BaseIdentityEntity {
     @Column(name = "name")
     private String name;
+    @Column(name = "web_site")
+    private String webSite;
+    @Column(name = "rating")
+    private Long rating;
     @Column(name = "country_id")
     private Long countryId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id", insertable = false, updatable = false)
     private CountryEntity country;
-    @Column(name = "web_site")
-    private String webSite;
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
     @Column(name = "photo_id")
