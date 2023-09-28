@@ -1,5 +1,6 @@
 package api.scolaro.uz.service;
 
+import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.country.*;
 import api.scolaro.uz.entity.CountryEntity;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,12 +28,8 @@ public class CountryService {
     private final CountryRepository countryRepository;
 
     public ApiResponse<CountryResponseDTO> countryCreate(CountryRequestDTO countryDTO) {
-        /*Optional<CountryEntity> optional = countryRepository.findByIdAndVisibleTrue(countryDTO.getId());
-        if (optional.isPresent()) {
-            log.warn("Country Already exist");
-            throw new ItemAlreadyExistsException("Country Already exist");
-        }*/
         CountryEntity countryEntity = new CountryEntity();
+        countryEntity.setCreatedId(EntityDetails.getCurrentUserId());
         countryEntity.setNameEn(countryDTO.getNameEn());
         countryEntity.setNameUz(countryDTO.getNameUz());
         countryEntity.setNameRu(countryDTO.getNameRu());
@@ -39,28 +37,28 @@ public class CountryService {
         return new ApiResponse<>(200, false, toDTO(countryEntity));
     }
 
-    public ApiResponse<List<CountryDTO>> getList(AppLanguage lang) {
-        List<CountryDTO> dtoList = new LinkedList<>();
+    public ApiResponse<List<CountryResponseDTO>> getList(AppLanguage lang) {
+        List<CountryResponseDTO> dtoList = new LinkedList<>();
         if (lang.equals(AppLanguage.uz)) {
-            Iterable<CountryEntity> all = countryRepository.findAllByVisibleOrderByNameUzAsc(true);
+            Iterable<CountryEntity> all = countryRepository.findAllByVisibleTrueOrderByNameUzAsc();
             all.forEach(country -> {
-                CountryDTO dto = new CountryDTO();
+                CountryResponseDTO dto = new CountryResponseDTO();
                 dto.setId(country.getId());
                 dto.setName(country.getNameUz());
                 dtoList.add(dto);
             });
         } else if (lang.equals(AppLanguage.ru)) {
-            Iterable<CountryEntity> all = countryRepository.findAllByVisibleOrderByNameRuAsc(true);
+            Iterable<CountryEntity> all = countryRepository.findAllByVisibleTrueOrderByNameRuAsc();
             all.forEach(country -> {
-                CountryDTO dto = new CountryDTO();
+                CountryResponseDTO dto = new CountryResponseDTO();
                 dto.setId(country.getId());
                 dto.setName(country.getNameRu());
                 dtoList.add(dto);
             });
         } else if (lang.equals(AppLanguage.en)) {
-            Iterable<CountryEntity> all = countryRepository.findAllByVisibleOrderByNameEnAsc(true);
+            Iterable<CountryEntity> all = countryRepository.findAllByVisibleTrueOrderByNameEnAsc();
             all.forEach(country -> {
-                CountryDTO dto = new CountryDTO();
+                CountryResponseDTO dto = new CountryResponseDTO();
                 dto.setId(country.getId());
                 dto.setName(country.getNameEn());
                 dtoList.add(dto);
@@ -70,71 +68,37 @@ public class CountryService {
     }
 
 
-    private CountryDTO addToListWithSwitch(CountryDTO dto, CountryEntity country, AppLanguage lang) {
-
-        dto.setId(country.getId());
-        switch (lang) {
-            case uz:
-                dto.setName(country.getNameUz());
-                break;
-            case en:
-                dto.setName(country.getNameEn());
-                break;
-            case ru:
-                dto.setName(country.getNameRu());
-                break;
-        }
-        return dto;
-    }
-
-
-    public ApiResponse<CountryResponseDTO> getById(Long id, AppLanguage language) {
-//        CountryMapper mapper = countryRepository.getCountryByKey(id).orElseThrow(() -> {
-//            log.warn("Country not found");
-//            return new ItemNotFoundException("Country not found");
-//        });
-//
-//        return new ApiResponse<>(200, false, toDTO(mapper, language));
-        return null;
-    }
-
     public CountryPaginationDTO pagination(int page, int size) {
-
         PageRequest pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createdDate");
-
         Page<CountryEntity> all = countryRepository.getAllByVisibleTrue(pageable);
-
         long totalElements = all.getTotalElements();
         int totalPages = all.getTotalPages();
-
         List<CountryResponseDTO> dtoList = all.stream().map(this::toDTO).toList();
         return new CountryPaginationDTO(totalElements, totalPages, dtoList);
-
     }
 
-
-    public ApiResponse<CountryResponseDTO> update(Long id, CountryUpdateDTO dto) {
+    public ApiResponse<CountryResponseDTO> update(Long id, CountryRequestDTO dto) {
         CountryEntity entity = get(id);
-
         if (entity.getVisible().equals(Boolean.FALSE)) {
             log.warn("Is visible false");
             throw new AppBadRequestException("Is visible false");
         }
-
         entity.setNameUz(dto.getNameUz());
         entity.setNameEn(dto.getNameEn());
         entity.setNameRu(dto.getNameRu());
-
+        // update
         countryRepository.save(entity);
-
         return new ApiResponse<>(200, false, toDTO(entity));
 
     }
 
     public ApiResponse<Boolean> delete(Long id) {
-
-        int i = countryRepository.deleteStatus(false, id);
-
+        CountryEntity entity = get(id);
+        if (entity.getVisible().equals(Boolean.FALSE)) {
+            log.warn("Is visible false");
+            throw new AppBadRequestException("Is visible false");
+        }
+        int i = countryRepository.deleted(id, EntityDetails.getCurrentUserId(), LocalDateTime.now());
         return new ApiResponse<>(200, false, i > 0);
 
     }
@@ -142,29 +106,9 @@ public class CountryService {
     public CountryEntity get(Long id) {
         return countryRepository.findById(id).orElseThrow(() -> {
             log.warn("Country not found");
-            throw new ItemNotFoundException("Country not found");
+            return new ItemNotFoundException("Country not found");
         });
     }
-
-
-//    private CountryResponseDTO toDTO(CountryMapper mapper, AppLanguage lang) {
-//        CountryResponseDTO dto = new CountryResponseDTO();
-//        dto.setId(mapper.getCou_id());
-//
-//        switch (lang) {
-//            case ru:
-//                dto.setName(mapper.getNameRu());
-//                break;
-//            case en:
-//                dto.setName(mapper.getNameEn());
-//                break;
-//            case uz:
-//                dto.setName(mapper.getNameUz());
-//                break;
-//        }
-//        return dto;
-//
-//    }
 
     private CountryResponseDTO toDTO(CountryEntity entity) {
         CountryResponseDTO dto = new CountryResponseDTO();

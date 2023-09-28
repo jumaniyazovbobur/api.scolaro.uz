@@ -6,10 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 
-// PROJECT NAME -> api.dachatop
-// TIME -> 11:50
-// MONTH -> 08
-// DAY -> 09
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
