@@ -325,8 +325,7 @@ public class AuthService {
 //        response.setJwt(JwtUtil.encode(entity.getId(), entity.getPhone(), roleList));
 //        return null;
 //    }
-    // TODO forgot password for student
-    // TODO forgot password for consulting.
+
    /* public void resetPasswordRequest(ResetPasswordRequestDTO dto) {
         if (!PhoneUtil.isValidPhone(dto.getPhone())) {
             log.info("Not valid phone number");

@@ -57,7 +57,6 @@ public class AuthController {
         return ResponseEntity.ok(authService.resetPasswordRequest(dto));
     }
 
-    // TODO -> reset password,(2ta api) for profile
     @PutMapping("/profile/reset/confirm")
     @Operation(summary = "Profile reset password confirm", description = "Method profile for  reset password confirm")
     public ResponseEntity<?> resetPasswordConfirm(@Valid @RequestBody ResetPasswordConfirmDTO dto) {
@@ -75,7 +74,6 @@ public class AuthController {
         return ResponseEntity.ok(authService.consultingLogin(dto));
     }
 
-    //TODO rest password for consulting. 2 api.
 
     @PostMapping("/consulting/reset-password")
     @Operation(summary = "Consulting reset password", description = "Method consulting for  reset password")
@@ -84,7 +82,6 @@ public class AuthController {
         return ResponseEntity.ok(authService.resetPasswordConsultingRequest(dto));
     }
 
-    // TODO -> reset password,(2ta api) for profile
     @PutMapping("/consulting/reset/confirm")
     @Operation(summary = "Consulting reset password confirm", description = "Method consulting for  reset password confirm")
     public ResponseEntity<?> resetPasswordConfirmConsulting(@Valid @RequestBody ResetPasswordConfirmDTO dto) {
