@@ -43,7 +43,8 @@ public class SecurityConfiguration {
             "/swagger-resources/**",
             "/api/v1/auth/**",
             "/api/v1/attach/open/*",
-            "/api/v1/attach/download/*"
+            "/api/v1/attach/download/*",
+            "/api/v1/country/public/**"
     };
 
 
@@ -61,9 +62,7 @@ public class SecurityConfiguration {
         // authorization
         http.authorizeHttpRequests(auth ->
                         auth.requestMatchers(AUTH_WHITELIST).permitAll()
-                                .requestMatchers( "/api/v1/attach/upload**").hasAnyRole("ADMIN", "STUDENT")
-//                        .requestMatchers("/api/v1/profile", "/api/v1/profile/**").hasAnyRole("ADMIN")
-//                        .requestMatchers("/api/v1/faculty", "/api/v1/faculty/**").hasAnyRole("ADMIN")
+                                .requestMatchers( "/api/v1/attach/upload**").hasAnyRole("ADMIN", "STUDENT","CONSULTING")
                                 .anyRequest().authenticated()
         ).addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         http.csrf(AbstractHttpConfigurer::disable);

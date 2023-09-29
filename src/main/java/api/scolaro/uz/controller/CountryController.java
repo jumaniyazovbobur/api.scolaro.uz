@@ -30,12 +30,12 @@ public class CountryController {
     private final CountryService countryService;
 
     /**
-     * USER
+     * PUBLIC
      */
     @ApiOperation(value = "Get Country List", notes = "Get Country List with Language")
-    @GetMapping("/public/user")
-    public ResponseEntity<ApiResponse<List<CountryDTO>>> getCountryListByLanguage(@RequestHeader(value = "Accept-Language",
-            defaultValue = "LATIN") AppLanguage language) {
+    @GetMapping("/public/get-all")
+    public ResponseEntity<ApiResponse<List<CountryResponseDTO>>> getCountryListByLanguage(@RequestHeader(value = "Accept-Language",
+            defaultValue = "uz") AppLanguage language) {
         log.info("get country");
         return ResponseEntity.ok().body(countryService.getList(language));
     }
@@ -44,7 +44,7 @@ public class CountryController {
      * ADMIN
      */
 
-    @ApiOperation(value = "Country Create", notes = "Country Create")
+    @ApiOperation(value = "Country Create", notes = "Country Create admin")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("")
     public ResponseEntity<ApiResponse<CountryResponseDTO>> create(@RequestBody CountryRequestDTO countryDTO) {
@@ -52,25 +52,38 @@ public class CountryController {
         return ResponseEntity.ok().body(countryService.countryCreate(countryDTO));
     }
 
-    @ApiOperation(value = "Update Country ", notes = "Method : Update Country")
+    /**
+     * FOR ADMIN
+     */
+    @ApiOperation(value = "Update Country ", notes = "Method : Update Country for admin")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<CountryResponseDTO>> update(@PathVariable("id") Long id, @RequestBody @Valid CountryUpdateDTO dto) {
+    public ResponseEntity<ApiResponse<CountryResponseDTO>> update(@PathVariable("id") Long id,
+                                                                  @RequestBody @Valid CountryRequestDTO dto) {
         log.info("Request for Country Update {}", dto);
         return ResponseEntity.ok().body(countryService.update(id, dto));
     }
 
-    @ApiOperation(value = "Delete Country", notes = "Method : Country Delete")
+    /**
+     * FOR ADMIN
+     */
+
+    @ApiOperation(value = "Delete Country", notes = "Method : Country Delete for admin")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Boolean>> delete(@PathVariable("id") Long id) {
+        log.info("Request for Country delete {}", id);
         return ResponseEntity.ok().body(countryService.delete(id));
     }
 
+    /**
+     * FOR ADMIN
+     */
     @ApiOperation(value = "Country Pagination", notes = "Method : Country Pagination for admin", response = CountryPaginationDTO.class)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/pagination")
-    public ResponseEntity<CountryPaginationDTO> pagination(@RequestParam(value = "page", defaultValue = "0") int page, @RequestParam(value = "size", defaultValue = "10") int size) {
-        return ResponseEntity.ok().body(countryService.pagination(page, size));
+    public ResponseEntity<CountryPaginationDTO> pagination(@RequestParam(value = "page", defaultValue = "1") int page,
+                                                           @RequestParam(value = "size", defaultValue = "30") int size) {
+        return ResponseEntity.ok().body(countryService.pagination(page-1, size));
     }
 }

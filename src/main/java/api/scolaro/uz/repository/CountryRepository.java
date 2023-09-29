@@ -10,15 +10,16 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface CountryRepository extends JpaRepository<CountryEntity, Long> {
 
-    Iterable<CountryEntity> findAllByVisibleOrderByNameUzAsc(boolean b);
+    Iterable<CountryEntity> findAllByVisibleTrueOrderByNameUzAsc();
 
-    Iterable<CountryEntity> findAllByVisibleOrderByNameRuAsc(boolean b);
+    Iterable<CountryEntity> findAllByVisibleTrueOrderByNameRuAsc();
 
-    Iterable<CountryEntity> findAllByVisibleOrderByNameEnAsc(boolean b);
+    Iterable<CountryEntity> findAllByVisibleTrueOrderByNameEnAsc();
 
     Optional<CountryEntity> findByIdAndVisibleTrue(Long id);
 
@@ -30,7 +31,6 @@ public interface CountryRepository extends JpaRepository<CountryEntity, Long> {
 //    Optional<CountryMapper> getCountryByKey(@Param("id") Long id);
 
 
-
     @Modifying
     @Transactional
     @Query("Update CountryEntity set visible = :visible where id =:id")
@@ -40,4 +40,11 @@ public interface CountryRepository extends JpaRepository<CountryEntity, Long> {
 
 
     Optional<Object> getCountryByIdAndVisibleTrue(Long id);
+
+    @Modifying
+    @Transactional
+    @Query("Update CountryEntity set visible = false , deletedId=:deletedId, deletedDate=:deletedDate where id =:id")
+    int deleted(@Param("id") Long id,
+                @Param("deletedId") String currentUserId,
+                @Param("deletedDate") LocalDateTime now);
 }
