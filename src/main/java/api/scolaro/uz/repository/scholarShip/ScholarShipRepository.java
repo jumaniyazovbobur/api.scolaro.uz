@@ -1,4 +1,4 @@
-package api.scolaro.uz.repository;
+package api.scolaro.uz.repository.scholarShip;
 
 import api.scolaro.uz.entity.ScholarShipEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

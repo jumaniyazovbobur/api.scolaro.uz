@@ -3,7 +3,7 @@ package api.scolaro.uz.config.details;
 import api.scolaro.uz.entity.ConsultingEntity;
 import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.enums.RoleEnum;
-import api.scolaro.uz.repository.PersonRoleRepository;
+import api.scolaro.uz.repository.profile.PersonRoleRepository;
 
 import api.scolaro.uz.repository.consulting.ConsultingRepository;
 import api.scolaro.uz.repository.profile.ProfileRepository;

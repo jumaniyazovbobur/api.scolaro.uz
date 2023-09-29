@@ -3,8 +3,7 @@ package api.scolaro.uz.service;
 
 import api.scolaro.uz.entity.PersonRoleEntity;
 import api.scolaro.uz.enums.RoleEnum;
-import api.scolaro.uz.repository.PersonRoleRepository;
-import lombok.AllArgsConstructor;
+import api.scolaro.uz.repository.profile.PersonRoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

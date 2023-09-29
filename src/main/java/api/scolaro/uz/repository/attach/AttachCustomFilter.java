@@ -1,4 +1,4 @@
-package api.scolaro.uz.repository;
+package api.scolaro.uz.repository.attach;
 
 
 import org.springframework.stereotype.Repository;

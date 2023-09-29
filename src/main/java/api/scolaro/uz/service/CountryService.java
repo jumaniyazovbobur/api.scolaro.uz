@@ -7,7 +7,7 @@ import api.scolaro.uz.entity.CountryEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
-import api.scolaro.uz.repository.CountryRepository;
+import api.scolaro.uz.repository.place.CountryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

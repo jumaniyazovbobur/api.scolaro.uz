@@ -5,7 +5,7 @@ import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.dto.attach.AttachResponseDTO;
 import api.scolaro.uz.entity.AttachEntity;
 import api.scolaro.uz.exp.ItemNotFoundException;
-import api.scolaro.uz.repository.AttachRepository;
+import api.scolaro.uz.repository.attach.AttachRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +32,6 @@ import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Slf4j

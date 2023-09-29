@@ -1,4 +1,4 @@
-package api.scolaro.uz.repository;
+package api.scolaro.uz.repository.place;
 
 
 import api.scolaro.uz.entity.DistrictEntity;

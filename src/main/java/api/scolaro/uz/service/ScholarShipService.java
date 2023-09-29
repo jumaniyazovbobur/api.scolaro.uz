@@ -2,13 +2,12 @@ package api.scolaro.uz.service;
 
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
-import api.scolaro.uz.dto.attach.AttachResponseDTO;
 import api.scolaro.uz.dto.scholarShip.ScholarShipRequestDTO;
 import api.scolaro.uz.dto.scholarShip.ScholarShipResponseDTO;
 import api.scolaro.uz.dto.scholarShip.ScholarShipUpdateDTO;
 import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.entity.ScholarShipEntity;
-import api.scolaro.uz.repository.ScholarShipRepository;
+import api.scolaro.uz.repository.scholarShip.ScholarShipRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

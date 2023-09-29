@@ -1,4 +1,4 @@
-package api.scolaro.uz.repository;
+package api.scolaro.uz.repository.profile;
 
 import api.scolaro.uz.entity.PersonRoleEntity;
 import api.scolaro.uz.enums.RoleEnum;
