@@ -47,6 +47,8 @@ public class ProfileService {
 
     private final PersonRoleService personRoleService;
 
+    private final ResourceMessageService resourceMessageService;
+
     public ApiResponse<?> update(ProfileUpdateDTO dto) {
         int result = profileRepository.updateDetail(EntityDetails.getCurrentUserId(), dto.getName(), dto.getSurname());
         if (result == 0) return ApiResponse.bad("Try again !");
@@ -157,7 +159,7 @@ public class ProfileService {
     }
 
     private ProfileDTO getCurrentProfileDetail() {
-        ProfileEntity details =get( EntityDetails.getCurrentUserId());
+        ProfileEntity details = get(EntityDetails.getCurrentUserId());
         ProfileDTO currentProfile = new ProfileDTO();
         currentProfile.setId(details.getId());
         currentProfile.setName(details.getName());
@@ -167,13 +169,17 @@ public class ProfileService {
         return currentProfile;
     }
 
-    private ProfileEntity get(String id) {
-        Optional<ProfileEntity> optional = profileRepository.findByIdAndVisibleTrue(id);
+    public ProfileEntity get(String id) {
+       /* Optional<ProfileEntity> optional = profileRepository.findByIdAndVisibleTrue(id);
         if (optional.isEmpty()) {
             log.info(" {} user not found", id);
             throw new ItemNotFoundException("Profile not found");
         }
-        return optional.get();
+        return optional.get();*/
+         return profileRepository.findByIdAndVisibleTrue(id).orElseThrow(() -> {
+            log.warn("Employee not Found");
+            throw new ItemNotFoundException(resourceMessageService.getMessage("profile.not-found"));
+        });
     }
 
     private ProfileResponseDTO getResponseDto(ProfileEntity entity) {

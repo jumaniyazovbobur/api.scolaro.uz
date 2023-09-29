@@ -159,7 +159,8 @@ public class AttachService {
         return folderName + "/" + entity.getPath() + "/" + entity.getId() + "." + entity.getExtension();
     }
 
-    private String getUrl(String fileName) {
+
+    public String getUrl(String fileName) {
         return attachUrl + "/open/" + fileName;
     }
 

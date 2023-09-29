@@ -1,0 +1,35 @@
+### Create
+POST http://localhost:8081/api/v1/scholar-ship
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU5NDk4MDksImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY1NTQ2MDksImlzcyI6IkphdmEgYmFja2VuZCJ9.DYmdX0SLWDRueCwkDxG4ND1fti7E8cwOyOTwreYRw-Rn34fzSyyb8SBasTtGjsMLDhuVuO5hV5hOnmwJRa9i0A
+
+{
+  "name": "MIT grand",
+  "description": "Kuzgi grandlar",
+  "photoId": "1",
+  "expiredDate": "2021-12-07",
+  "degreeType": "BACHELOR"
+}
+
+### Get By Id
+GET http://localhost:8081/api/v1/scholar-ship/402881eb8ade8749018ade89ab490000
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU5NDk4MDksImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY1NTQ2MDksImlzcyI6IkphdmEgYmFja2VuZCJ9.DYmdX0SLWDRueCwkDxG4ND1fti7E8cwOyOTwreYRw-Rn34fzSyyb8SBasTtGjsMLDhuVuO5hV5hOnmwJRa9i0A
+
+### Update
+PUT http://localhost:8081/api/v1/scholar-ship/402881eb8ade8749018ade89ab490000
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU5NDk4MDksImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY1NTQ2MDksImlzcyI6IkphdmEgYmFja2VuZCJ9.DYmdX0SLWDRueCwkDxG4ND1fti7E8cwOyOTwreYRw-Rn34fzSyyb8SBasTtGjsMLDhuVuO5hV5hOnmwJRa9i0A
+
+{
+  "name": "Harward grand",
+  "description": "Kuzgi grandlar",
+  "expiredDate": "2024-10-07",
+  "degreeType": "MASTER"
+}
+
+### Delete By Id
+DELETE http://localhost:8081/api/v1/scholar-ship/402881eb8ade8749018ade89ab490000
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU5NDk4MDksImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY1NTQ2MDksImlzcyI6IkphdmEgYmFja2VuZCJ9.DYmdX0SLWDRueCwkDxG4ND1fti7E8cwOyOTwreYRw-Rn34fzSyyb8SBasTtGjsMLDhuVuO5hV5hOnmwJRa9i0A
+
