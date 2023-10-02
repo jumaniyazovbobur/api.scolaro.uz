@@ -88,7 +88,7 @@ public class MyEskizSmsSenderService implements SmsSenderService {
             smsTokenRepository.save(smsEntity);
             return token;
         }
-        if (!smsToken.getCreatedDate().plusDays(25).equals(LocalDate.now())) {
+        if (smsToken.getCreatedDate().plusDays(25).isAfter(LocalDate.now())) {
             return smsToken.getToken();
         } else { // REFRESH TOKEN
             String token = myEskizUzLogin();
