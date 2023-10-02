@@ -1,0 +1,53 @@
+###CREATE UNIVERSITY
+POST http://localhost:8081/api/v1/university
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTYyNjI1NDIsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY4NjczNDIsImlzcyI6IkphdmEgYmFja2VuZCJ9.y0zxd2v2--laY6asCk5-lk-2n7MrMy2QArgeydiUSA5tFCbldQKOSZn3ZiiA8U2fZn2KEDvRhm6uSSYDCcsS8A
+
+
+{
+  "name": "BUXDU",
+  "webSite": "www.nuuz.uz",
+  "rating": 5,
+  "countryId": 1
+}
+
+
+###UPDATE UNIVERSITY
+PUT http://localhost:8081/api/v1/university/update/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTYyNjI1NDIsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY4NjczNDIsImlzcyI6IkphdmEgYmFja2VuZCJ9.y0zxd2v2--laY6asCk5-lk-2n7MrMy2QArgeydiUSA5tFCbldQKOSZn3ZiiA8U2fZn2KEDvRhm6uSSYDCcsS8A
+
+{
+  "name": "TATU",
+  "webSite": "www.nuuz.uz",
+  "rating": 1,
+  "countryId": 1
+}
+
+
+###DELETE UNIVERSITY
+DELETE http://localhost:8081/api/v1/university/delete/1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTYyNjI1NDIsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY4NjczNDIsImlzcyI6IkphdmEgYmFja2VuZCJ9.y0zxd2v2--laY6asCk5-lk-2n7MrMy2QArgeydiUSA5tFCbldQKOSZn3ZiiA8U2fZn2KEDvRhm6uSSYDCcsS8A
+
+
+###GET BY ID UNIVERSITY
+GET http://localhost:8081/api/v1/university/get/1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTYyNjI1NDIsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY4NjczNDIsImlzcyI6IkphdmEgYmFja2VuZCJ9.y0zxd2v2--laY6asCk5-lk-2n7MrMy2QArgeydiUSA5tFCbldQKOSZn3ZiiA8U2fZn2KEDvRhm6uSSYDCcsS8A
+
+
+###GET FILTER UNIVERSITY
+GET http://localhost:8081/api/v1/university/filter
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTYyNjI1NDIsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY4NjczNDIsImlzcyI6IkphdmEgYmFja2VuZCJ9.y0zxd2v2--laY6asCk5-lk-2n7MrMy2QArgeydiUSA5tFCbldQKOSZn3ZiiA8U2fZn2KEDvRhm6uSSYDCcsS8A
+
+{
+  "beginRating": 1,
+  "endRating": 2
+}
+
+
+
+
+
+
+
