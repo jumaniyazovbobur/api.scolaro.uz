@@ -19,7 +19,7 @@ public class UniversityCustomRepository {
 
     public FilterResultDTO<UniversityEntity> filterPagination(UniversityFilterDTO dto, Integer page, Integer size) {
         StringBuilder selectBuilder = new StringBuilder("from UniversityEntity as u");
-        StringBuilder countBuilder = new StringBuilder("select count(p) from UniversityEntity as u");
+        StringBuilder countBuilder = new StringBuilder("select count(u) from UniversityEntity as u");
         StringBuilder builder = new StringBuilder(" where u.visible=true");
         Map<String, Object> params = new LinkedHashMap<>();
         if (dto.getName() != null && !dto.getName().isBlank()) {
@@ -36,7 +36,7 @@ public class UniversityCustomRepository {
             params.put("beginRating", dto.getBeginRating());
         }
         if (dto.getEndRating() != null) {
-            builder.append(" and p.rating<=:endRating");
+            builder.append(" and u.rating<=:endRating");
             params.put("endRating", dto.getEndRating());
         }
         countBuilder.append(builder);

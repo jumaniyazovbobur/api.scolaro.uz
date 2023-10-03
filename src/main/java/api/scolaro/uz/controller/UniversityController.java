@@ -30,9 +30,9 @@ public class UniversityController {
      */
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/")
-    @Operation(summary = "Create consulting", description = "for admin")
-    public ResponseEntity<ApiResponse<?>> create(@Valid UniversityCreateDTO dto) {
+    @PostMapping("")
+    @Operation(summary = "Create university", description = "for admin")
+    public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody UniversityCreateDTO dto) {
         log.info("Create university");
         return ResponseEntity.ok(universityService.create(dto));
     }
@@ -42,7 +42,7 @@ public class UniversityController {
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("get/{id}")
-    @Operation(summary = "Create consulting", description = "")
+    @Operation(summary = "Get university", description = "")
     public ResponseEntity<ApiResponse<?>> get(@PathVariable("id") Long id) {
         log.info("Get university {}", id);
         return ResponseEntity.ok(universityService.getById(id));

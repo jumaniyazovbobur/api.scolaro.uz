@@ -11,7 +11,6 @@ import api.scolaro.uz.entity.UniversityEntity;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.university.UniversityCustomRepository;
 import api.scolaro.uz.repository.university.UniversityRepository;
-import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
@@ -20,7 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+
 
 @RequiredArgsConstructor
 @Slf4j
@@ -32,7 +31,6 @@ public class UniversityService {
 
 
     public ApiResponse<?> create(UniversityCreateDTO dto) {
-
         UniversityEntity entity = new UniversityEntity();
         entity.setName(dto.getName());
         entity.setRating(dto.getRating());
@@ -42,7 +40,7 @@ public class UniversityService {
         entity.setDescription(dto.getDescription());
         entity.setCreatedId(EntityDetails.getCurrentUserId());
         universityRepository.save(entity);
-        return ApiResponse.ok(entity);
+        return ApiResponse.ok(toDTO(entity));
     }
 
     public ApiResponse<?> deleted(Long id) {
@@ -80,7 +78,7 @@ public class UniversityService {
         UniversityResponseDTO dto = new UniversityResponseDTO();
         dto.setName(entity.getName());
         dto.setRating(entity.getRating());
-        dto.setCountryId(dto.getCountryId());
+        dto.setCountryId(entity.getCountryId());
         dto.setWebSite(entity.getWebSite());
         dto.setDescription(entity.getDescription());
         return dto;
