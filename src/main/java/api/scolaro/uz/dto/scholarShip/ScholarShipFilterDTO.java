@@ -16,4 +16,6 @@ public class ScholarShipFilterDTO {
     private Boolean visible;
     private LocalDate expiredDate;
     private DegreeType degreeType;
+    private LocalDate dateFrom;
+    private LocalDate dateTo;
 }

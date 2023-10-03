@@ -2,17 +2,25 @@ package api.scolaro.uz.service;
 
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.scholarShip.ScholarShipFilterDTO;
 import api.scolaro.uz.dto.scholarShip.ScholarShipRequestDTO;
 import api.scolaro.uz.dto.scholarShip.ScholarShipResponseDTO;
 import api.scolaro.uz.dto.scholarShip.ScholarShipUpdateDTO;
 import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.entity.ScholarShipEntity;
+import api.scolaro.uz.repository.scholarShip.ScholarShipFilterRepository;
 import api.scolaro.uz.repository.scholarShip.ScholarShipRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,6 +32,7 @@ public class ScholarShipService {
     private final ResourceMessageService resourceMessageService;
     private final ProfileService profileService;
     private final AttachService attachService;
+    private final ScholarShipFilterRepository scholarShipFilterRepository;
 
     public ApiResponse<?> create(ScholarShipRequestDTO dto) {
         log.info("ScholarShip create {}", dto);
@@ -104,4 +113,24 @@ public class ScholarShipService {
     }
 
 
+    public Page<ScholarShipResponseDTO> filter(ScholarShipFilterDTO dto, Integer page, Integer size) {
+        Pageable paging = PageRequest.of(page, size);
+        Page<ScholarShipEntity> all = scholarShipFilterRepository.filter(dto, page, size);
+        List<ScholarShipEntity> content = all.getContent();
+        List<ScholarShipResponseDTO> dtoList = new LinkedList<>();
+
+        for (ScholarShipEntity entity : content){
+            ScholarShipResponseDTO dto1= new ScholarShipResponseDTO();
+            dto1.setId(entity.getId());
+            dto1.setName(entity.getName());
+            dto1.setDescription(entity.getDescription());
+            dto1.setExpiredDate(entity.getExpiredDate());
+            dto1.setDegreeType(entity.getDegreeType());
+            dto1.setCreatedDate(entity.getCreatedDate());
+            if (entity.getPhotoId() != null) {
+                dto1.setAttach(attachService.getResponseAttach(entity.getPhotoId()));
+            }
+        }
+        return new PageImpl<>(dtoList, paging, all.getTotalElements());
+    }
 }

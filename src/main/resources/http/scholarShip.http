@@ -33,3 +33,10 @@ DELETE http://localhost:8081/api/v1/scholar-ship/402881eb8ade8749018ade89ab49000
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU5NDk4MDksImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY1NTQ2MDksImlzcyI6IkphdmEgYmFja2VuZCJ9.DYmdX0SLWDRueCwkDxG4ND1fti7E8cwOyOTwreYRw-Rn34fzSyyb8SBasTtGjsMLDhuVuO5hV5hOnmwJRa9i0A
 
+### Course Filter as public
+POST localhost:8081/api/v1/scholar-ship/filter?page=0&size=10
+Content-Type: application/json
+
+{
+  "degreeType": "MASTER"
+}
