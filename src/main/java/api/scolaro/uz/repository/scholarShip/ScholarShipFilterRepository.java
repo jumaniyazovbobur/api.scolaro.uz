@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,15 +23,15 @@ public class ScholarShipFilterRepository {
     public Page<ScholarShipEntity> filter(ScholarShipFilterDTO fiter, int page, int size) {
 
         StringBuilder builder = new StringBuilder("SELECT s FROM ScholarShipEntity s");
-        StringBuilder countBuilder = new StringBuilder("SELECT  count(p) FROM ScholarShipEntity p");
+        StringBuilder countBuilder = new StringBuilder("SELECT  count(s) FROM ScholarShipEntity s");
 
         Map<String, Object> params = new HashMap<>();
         if (fiter.getVisible() != null) {
-            builder.append(" where p.visible= ").append(fiter.getVisible());
-            countBuilder.append(" where p.visible = ").append(fiter.getVisible());
+            builder.append(" where s.visible= ").append(fiter.getVisible());
+            countBuilder.append(" where s.visible = ").append(fiter.getVisible());
         } else {
-            builder.append(" where p.visible = true ");
-            countBuilder.append(" where p.visible = true ");
+            builder.append(" where s.visible = true ");
+            countBuilder.append(" where s.visible = true ");
         }
 
        /* if (fiter.getName() != null) {
@@ -39,18 +40,32 @@ public class ScholarShipFilterRepository {
         }*/
 
         if (fiter.getName() != null) {
-            builder.append(" and LOWER(c.name) like :name ");
-            countBuilder.append(" And p.name=:name ");
+            builder.append(" and LOWER(s.name) like :name ");
+            countBuilder.append(" And s.name=:name ");
             params.put("name", fiter.getName());
         }
 
 
         if (fiter.getDegreeType() != null) {
-            builder.append(" And p.degree_type =:type ");
-            countBuilder.append(" And p.degree_type =:type ");
+            builder.append(" And s.degree_type =:type ");
+            countBuilder.append(" And s.degree_type =:type ");
             params.put("type", fiter.getDegreeType().name());
         }
 
+       /*  DATE filter
+       if (fiter.getDateFrom() != null && fiter.getDateTo() != null) {
+            // 10.07.2023 00:00:00
+            // 17.07.2023 23:59:59
+            builder.append(" and s.createdDate between :dateFrom and :dateTo ");
+            params.put("dateFrom", fiter.getDateFrom());
+            params.put("dateTo",  fiter.getDateFrom());
+        } else if (fiter.getDateFrom() != null) {
+            builder.append(" and s.createdDate >= :dateFrom");
+            params.put("dateFrom", fiter.getDateFrom());
+        } else if (fiter.getDateTo() != null) {
+            builder.append(" and s.createdDate <= :dateTo");
+            params.put("dateFrom",fiter.getDateTo());
+        }*/
         Query query = entityManager.createQuery(builder.toString());
         query.setFirstResult((page) * size); // 50
         query.setMaxResults(size); // 30
