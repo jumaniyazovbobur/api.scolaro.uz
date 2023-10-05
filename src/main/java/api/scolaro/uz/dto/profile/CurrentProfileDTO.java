@@ -1,19 +1,15 @@
 package api.scolaro.uz.dto.profile;
 
-
 import api.scolaro.uz.dto.attach.AttachResponseDTO;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 @Getter
 @Setter
-public class ProfileResponseDTO {
-    private String id;
+public class CurrentProfileDTO {
     private String name;
     private String surname;
     private String phone;
     private AttachResponseDTO photo;
-    private LocalDateTime createdDate;
 }

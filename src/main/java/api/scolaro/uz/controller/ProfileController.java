@@ -1,6 +1,7 @@
 package api.scolaro.uz.controller;
 
 
+import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.profile.*;
@@ -48,6 +49,18 @@ public class ProfileController {
         log.info("Get user {}", id);
         return ResponseEntity.ok(profileService.getId(id));
     }
+
+    /**
+     * FOR STUDENT
+     */
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    @GetMapping("/current")
+    @Operation(summary = "Get by id api", description = "")
+    public ResponseEntity<ApiResponse<CurrentProfileDTO>> getCurrentProfile() {
+        log.info("Get current user {}", EntityDetails.getCurrentUserId());
+        return ResponseEntity.ok(profileService.getCurrentProfile());
+    }
+
 
     /**
      * FOR ADMIN

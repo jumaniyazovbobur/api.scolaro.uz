@@ -70,6 +70,15 @@ public class ProfileService {
                 .toList(), pageable, filterResultDTO.getTotalElement()));
     }
 
+    public ApiResponse<CurrentProfileDTO> getCurrentProfile() {
+        ProfileEntity profile=get(EntityDetails.getCurrentUserId());
+        CurrentProfileDTO responseDTO=new CurrentProfileDTO();
+        responseDTO.setName(profile.getName());
+        responseDTO.setSurname(profile.getSurname());
+        responseDTO.setPhone(profile.getPhone());
+        if (profile.getPhotoId() != null) responseDTO.setPhoto(attachService.getResponseAttach(profile.getPhotoId()));
+        return ApiResponse.ok(responseDTO);
+    }
     public ApiResponse<?> deleted(String id) {
         ProfileEntity entity = get(id);
         int result = profileRepository.deleted(entity.getId(), EntityDetails.getCurrentUserId(), LocalDateTime.now());
@@ -192,4 +201,5 @@ public class ProfileService {
         if (entity.getPhotoId() != null) responseDTO.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
         return responseDTO;
     }
+
 }
