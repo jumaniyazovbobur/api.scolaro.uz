@@ -23,13 +23,13 @@ public class RegionDistinctController {
         return ResponseEntity.ok(regionService.createRegion(dto));
     }
 
-    @DeleteMapping("//{id}")
+    @DeleteMapping("/{id}")
     @Operation(summary = "Delete region", description = "")
     public Boolean delete(@PathVariable("id") Integer id) {
         return regionService.deleteById(id);
     }
 
-    @PutMapping("//{id}")
+    @PutMapping("/{id}")
     @Operation(summary = "Edit region", description = "")
     public ResponseEntity<RegionDTO> editFaculty(@PathVariable("id") Integer id, @RequestBody RegionDTO dto) {
         return ResponseEntity.ok(regionService.updateRegion(dto, id));
