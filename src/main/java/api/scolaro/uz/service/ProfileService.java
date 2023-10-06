@@ -49,6 +49,7 @@ public class ProfileService {
 
     private final ResourceMessageService resourceMessageService;
 
+
     public ApiResponse<?> update(ProfileUpdateDTO dto) {
         int result = profileRepository.updateDetail(EntityDetails.getCurrentUserId(), dto.getName(), dto.getSurname());
         if (result == 0) return ApiResponse.bad("Try again !");
@@ -71,14 +72,16 @@ public class ProfileService {
     }
 
     public ApiResponse<CurrentProfileDTO> getCurrentProfile() {
-        ProfileEntity profile=get(EntityDetails.getCurrentUserId());
-        CurrentProfileDTO responseDTO=new CurrentProfileDTO();
+        ProfileEntity profile = get(EntityDetails.getCurrentUserId());
+        CurrentProfileDTO responseDTO = new CurrentProfileDTO();
         responseDTO.setName(profile.getName());
         responseDTO.setSurname(profile.getSurname());
         responseDTO.setPhone(profile.getPhone());
+        responseDTO.setRoleList(personRoleService.getProfileRoleList(profile.getId()));
         if (profile.getPhotoId() != null) responseDTO.setPhoto(attachService.getResponseAttach(profile.getPhotoId()));
         return ApiResponse.ok(responseDTO);
     }
+
     public ApiResponse<?> deleted(String id) {
         ProfileEntity entity = get(id);
         int result = profileRepository.deleted(entity.getId(), EntityDetails.getCurrentUserId(), LocalDateTime.now());
@@ -185,7 +188,7 @@ public class ProfileService {
             throw new ItemNotFoundException("Profile not found");
         }
         return optional.get();*/
-         return profileRepository.findByIdAndVisibleTrue(id).orElseThrow(() -> {
+        return profileRepository.findByIdAndVisibleTrue(id).orElseThrow(() -> {
             log.warn("Employee not Found");
             throw new ItemNotFoundException(resourceMessageService.getMessage("profile.not-found"));
         });
