@@ -53,7 +53,7 @@ public class ProfileController {
     /**
      * FOR STUDENT
      */
-    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    @PreAuthorize("hasAnyRole('ROLE_STUDENT','ROLE_ADMIN')")
     @GetMapping("/current")
     @Operation(summary = "Get by id api", description = "")
     public ResponseEntity<ApiResponse<CurrentProfileDTO>> getCurrentProfile() {
