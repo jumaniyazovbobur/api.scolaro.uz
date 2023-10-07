@@ -1,7 +1,9 @@
 package api.scolaro.uz.dto.client;
 
+import api.scolaro.uz.enums.GenderType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,4 +24,12 @@ public class AuthRequestDTO {
     @NotBlank(message = "Password required")
     @Size(min = 6, message = "Password size min 6 chars.")
     private String password;
+    @NotBlank(message = "NickName required")
+    private String nickName;
+    @NotNull(message = "CountryId required")
+    private Long countryId;
+    @NotBlank(message = "Address required")
+    private String address;
+    @NotNull(message = "Gender required")
+    private GenderType gender;
 }

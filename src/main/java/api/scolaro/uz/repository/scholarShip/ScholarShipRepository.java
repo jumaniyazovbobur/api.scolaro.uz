@@ -17,5 +17,5 @@ public interface ScholarShipRepository extends JpaRepository<ScholarShipEntity, 
     @Modifying
     @Transactional
     @Query("update ScholarShipEntity t set t.deletedDate = ?2, t.visible = false where t.id = ?1")
-    void updateDeletedDateAndVisible(String id, LocalDateTime deletedDate);
+    boolean updateDeletedDateAndVisible(String id, LocalDateTime deletedDate);
 }

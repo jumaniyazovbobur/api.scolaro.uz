@@ -19,21 +19,13 @@ public class ScholarShipEntity extends BaseEntity {
     @Column(name = "expired_date")
     private LocalDate expiredDate;
     @Column(name = "creator_id")
-    private String  creatorId;
-
-
+    private String creatorId;
     @Enumerated(EnumType.STRING)
     @Column(name = "degree_type")
     private DegreeType degreeType;
-
-
-
     @Column(name = "photo_id")
     private String photoId;
     /*@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "photo", insertable = false, updatable = false)
     private AttachEntity photo;*/
-
-
-
 }

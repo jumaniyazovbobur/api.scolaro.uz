@@ -1,6 +1,7 @@
 package api.scolaro.uz.entity;
 
 
+import api.scolaro.uz.enums.GenderType;
 import api.scolaro.uz.enums.GeneralStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -18,7 +19,7 @@ public class ProfileEntity extends BaseEntity {
     private String name;
     @Column(name = "surname")
     private String surname;
-    @Column(name = "phone",unique = true)
+    @Column(name = "phone", unique = true)
     private String phone;
     @Column(name = "password")
     private String password;
@@ -34,4 +35,16 @@ public class ProfileEntity extends BaseEntity {
     private String tempPhone;
     @Column(name = "temp_sms_code")
     private String smsCode;
+    @Column(name = "nick_name")
+    private String nickName;
+    @Column(name = "country_id")
+    private Long countryId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id", insertable = false, updatable = false)
+    private CountryEntity country;
+    @Column(name = "adress", columnDefinition = "text")
+    private String address;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender")
+    private GenderType genderType;
 }

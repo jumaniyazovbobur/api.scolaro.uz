@@ -3,18 +3,18 @@ package api.scolaro.uz.controller;
 
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.SmsDTO;
-import api.scolaro.uz.dto.auth.AuthRequestProfileDTO;
-import api.scolaro.uz.dto.auth.AuthResetProfileDTO;
-import api.scolaro.uz.dto.auth.ResetPasswordConfirmDTO;
-import api.scolaro.uz.dto.auth.ResetPasswordRequestDTO;
+import api.scolaro.uz.dto.auth.*;
 import api.scolaro.uz.dto.client.AuthRequestDTO;
+import api.scolaro.uz.dto.profile.ProfileResponseDTO;
 import api.scolaro.uz.service.AuthService;
+import api.scolaro.uz.service.ProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+    private final ProfileService profileService;
 
     /**
      * Client
@@ -62,6 +63,13 @@ public class AuthController {
     public ResponseEntity<?> resetPasswordConfirm(@Valid @RequestBody ResetPasswordConfirmDTO dto) {
         log.info("Client Reset password confirm {}", dto);
         return ResponseEntity.ok(authService.resetPasswordConfirm(dto));
+    }
+
+    @GetMapping("")
+    @Operation(summary = "Get by Nick Name api", description = "")
+    public ResponseEntity<?> getProfileByNickName(@RequestBody AuthNickNameDTO dto) {
+        log.info("Get user by nickName {}", dto);
+        return ResponseEntity.ok(profileService.getProfileByNickName(dto));
     }
 
     /**

@@ -8,6 +8,7 @@ import api.scolaro.uz.dto.scholarShip.ScholarShipResponseDTO;
 import api.scolaro.uz.dto.scholarShip.ScholarShipUpdateDTO;
 import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.entity.ScholarShipEntity;
+import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.scholarShip.ScholarShipFilterRepository;
 import api.scolaro.uz.repository.scholarShip.ScholarShipRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,26 +37,19 @@ public class ScholarShipService {
 
     public ApiResponse<?> create(ScholarShipRequestDTO dto) {
         log.info("ScholarShip create {}", dto);
-        ProfileEntity profile = profileService.get(EntityDetails.getCurrentUserId());
-
         ScholarShipEntity entity = new ScholarShipEntity();
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
         entity.setDegreeType(dto.getDegreeType());
         entity.setPhotoId(dto.getPhotoId());
         entity.setExpiredDate(dto.getExpiredDate());
-        entity.setCreatorId(profile.getId());
+        entity.setCreatorId(EntityDetails.getCurrentUserId());
         scholarShipRepository.save(entity);
         return new ApiResponse<>(resourceMessageService.getMessage("success.insert"), 200, false);
     }
 
     public ApiResponse<?> getById(String id) {
-        Optional<ScholarShipEntity> optional = scholarShipRepository.findById(id);
-        if (optional.isEmpty()) {
-            log.info("ScholarShip not found {}", id);
-            return new ApiResponse<>(resourceMessageService.getMessage("scholarShip.not-found"), 400, true);
-        }
-        ScholarShipEntity entity = optional.get();
+        ScholarShipEntity entity = get(id);
         ScholarShipResponseDTO dto = new ScholarShipResponseDTO();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
@@ -70,12 +64,7 @@ public class ScholarShipService {
     }
 
     public ApiResponse<?> update(String id, ScholarShipUpdateDTO dto) {
-        Optional<ScholarShipEntity> optional = scholarShipRepository.findById(id);
-        if (optional.isEmpty()) {
-            log.info("ScholarShip not found {}", id);
-            return new ApiResponse<>(resourceMessageService.getMessage("scholarShip.not-found"), 400, true);
-        }
-        ScholarShipEntity entity = optional.get();
+        ScholarShipEntity entity = get(id);
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
         entity.setDegreeType(dto.getDegreeType());
@@ -88,14 +77,9 @@ public class ScholarShipService {
         return new ApiResponse<>(200, false, toDTO(entity));
     }
 
-    public ApiResponse<?> delete(String id){
-        Optional<ScholarShipEntity> optional = scholarShipRepository.findById(id);
-        if (optional.isEmpty()) {
-            log.info("ScholarShip not found {}", id);
-            return new ApiResponse<>(resourceMessageService.getMessage("scholarShip.not-found"), 400, true);
-        }
-        scholarShipRepository.updateDeletedDateAndVisible(id, LocalDateTime.now());
-        return new ApiResponse<>(resourceMessageService.getMessage("success.delete"), 200, false);
+    public ApiResponse<?> delete(String id) {
+        boolean result = scholarShipRepository.updateDeletedDateAndVisible(id, LocalDateTime.now());
+        return new ApiResponse<>(resourceMessageService.getMessage(result ? "success.delete" : "fail.delete"), 200, false);
     }
 
     public ScholarShipResponseDTO toDTO(ScholarShipEntity entity) {
@@ -119,8 +103,8 @@ public class ScholarShipService {
         List<ScholarShipEntity> content = all.getContent();
         List<ScholarShipResponseDTO> dtoList = new LinkedList<>();
 
-        for (ScholarShipEntity entity : content){
-            ScholarShipResponseDTO dto1= new ScholarShipResponseDTO();
+        for (ScholarShipEntity entity : content) {
+            ScholarShipResponseDTO dto1 = new ScholarShipResponseDTO();
             dto1.setId(entity.getId());
             dto1.setName(entity.getName());
             dto1.setDescription(entity.getDescription());
@@ -132,5 +116,14 @@ public class ScholarShipService {
             }
         }
         return new PageImpl<>(dtoList, paging, all.getTotalElements());
+    }
+
+    public ScholarShipEntity get(String id) {
+        Optional<ScholarShipEntity> optional = scholarShipRepository.findById(id);
+        if (optional.isEmpty()) {
+            log.info("ScholarShip not found {}", id);
+            throw new ItemNotFoundException("ScholarShip not found {}" + id);
+        }
+        return optional.get();
     }
 }
