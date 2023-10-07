@@ -3,10 +3,14 @@ POST http://localhost:8081/api/v1/auth/profile/registration
 Content-Type: application/json
 
 {
-  "name": "Bekzod",
-  "surname": "Nozirov",
-  "phoneNumber": "998944497397",
-  "password": "123456"
+  "name": "Maxmud",
+  "surname": "Maxmudov",
+  "phoneNumber": "998997795710",
+  "password": "123456",
+  "nickName": "maxmud123",
+  "countryId": 1,
+  "address": "Toshkent viloyati",
+  "gender": "Erkak"
 }
 
 ### Profile sms verification login
@@ -15,7 +19,7 @@ Content-Type: application/json
 
 
 {
-  "phone": "998944497397",
+  "phone": "998997795710",
   "code": "11111"
 }
 ### Consulting login
@@ -94,5 +98,13 @@ Content-Type: application/json
 {
   "phone": "998938080831",
   "password": "123456"
+}
+
+### Exist Profile NickName
+GET http://localhost:8081/api/v1/auth
+Content-Type: application/json
+
+{
+  "nickName" : "maxmud123"
 }
 

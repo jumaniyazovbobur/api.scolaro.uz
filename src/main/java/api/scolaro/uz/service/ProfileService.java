@@ -7,6 +7,7 @@ import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.attach.AttachResponseDTO;
+import api.scolaro.uz.dto.auth.AuthNickNameDTO;
 import api.scolaro.uz.dto.profile.*;
 
 
@@ -192,6 +193,14 @@ public class ProfileService {
             log.warn("Employee not Found");
             throw new ItemNotFoundException(resourceMessageService.getMessage("profile.not-found"));
         });
+    }
+
+    public ApiResponse<?> getProfileByNickName(AuthNickNameDTO dto) {
+        Optional<ProfileEntity> optional = profileRepository.findByNickName(dto.getNickName());
+        if (optional.isEmpty()) {
+            return ApiResponse.ok(false);
+        }
+        return ApiResponse.ok(true);
     }
 
     private ProfileResponseDTO getResponseDto(ProfileEntity entity) {

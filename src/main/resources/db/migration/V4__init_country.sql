@@ -1,5 +1,5 @@
 INSERT INTO country(id, name_uz, name_en, name_ru, created_date, visible)
-values (1, 'Fransiya', 'France', 'Франция', now(), true),
+values (1, 'O''zbekiston', 'Uzbekistan', 'Узбекистан', now(), true),
        (2, 'AQSH', 'United States', 'Соединенные Штаты', now(), true),
        (3, 'Ispaniya', 'Spain', 'Испания', now(), true),
        (4, 'Italiya', 'Italy', 'Италия', now(), true),
@@ -47,6 +47,7 @@ values (1, 'Fransiya', 'France', 'Франция', now(), true),
        (46, 'Bahrayn', 'Bahrain', 'Бахрейн', now(), true),
        (47, 'Senegal', 'Senegal', 'Сенегал', now(), true),
        (48, 'Namibiya', 'Namibia', 'Намибия', now(), true),
-       (49, 'Avstraliya', 'Australia', 'Австралия', now(), true) ON CONFLICT (id) DO NOTHING;
+       (49,  'Fransiya', 'France', 'Франция', now(), true),
+       (50, 'Avstraliya', 'Australia', 'Австралия', now(), true) ON CONFLICT (id) DO NOTHING;
 SELECT setval('country_id_seq', max(id))
 FROM country;

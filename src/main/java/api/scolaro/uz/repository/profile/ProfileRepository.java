@@ -41,6 +41,7 @@ public interface ProfileRepository extends JpaRepository<ProfileEntity, String> 
 
 
     Optional<ProfileEntity> findByIdAndVisibleTrue(String id);
+    Optional<ProfileEntity> findByNickName(String nickName);
 
     @Transactional
     @Modifying

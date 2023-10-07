@@ -3,10 +3,7 @@ package api.scolaro.uz.service;
 
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.SmsDTO;
-import api.scolaro.uz.dto.auth.AuthRequestProfileDTO;
-import api.scolaro.uz.dto.auth.AuthResetProfileDTO;
-import api.scolaro.uz.dto.auth.AuthResponseDTO;
-import api.scolaro.uz.dto.auth.ResetPasswordConfirmDTO;
+import api.scolaro.uz.dto.auth.*;
 import api.scolaro.uz.dto.client.AuthRequestDTO;
 
 
@@ -42,7 +39,7 @@ public class AuthService {
     private final SmsHistoryService smsHistoryService;
     private final PasswordEncoder passwordEncoder;
     private final ConsultingRepository consultingRepository;
-
+    private final ProfileService profileService;
     private final AttachService attachService;
 
     public ApiResponse<?> registration(AuthRequestDTO dto) {
@@ -74,6 +71,11 @@ public class AuthService {
         userEntity.setPhone(dto.getPhoneNumber());
         userEntity.setPassword(MD5Util.getMd5(dto.getPassword()));
         userEntity.setStatus(GeneralStatus.NOT_ACTIVE);
+        userEntity.setAddress(dto.getAddress());
+        userEntity.setCountryId(dto.getCountryId());
+        userEntity.setGenderType(dto.getGender());
+        userEntity.setNickName(dto.getNickName());
+
         profileRepository.save(userEntity);
         // send sms verification code
         smsHistoryService.sendRegistrationSms(dto.getPhoneNumber());
@@ -246,8 +248,8 @@ public class AuthService {
     }
 
     /*
-        *CONSULTING RESET PASSWORD
-    */
+     *CONSULTING RESET PASSWORD
+     */
     public ApiResponse<?> resetPasswordConsultingRequest(AuthResetProfileDTO dto) {
         boolean validate = PhoneUtil.validatePhone(dto.getPhone());
         //validate phone number
