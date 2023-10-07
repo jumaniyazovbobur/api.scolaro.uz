@@ -1,6 +1,6 @@
 ### GET Country
 GET http://localhost:8081/api/v1/country/public/get-all
-Accept-Language: uz
+Accept-Language: ru
 
 
 

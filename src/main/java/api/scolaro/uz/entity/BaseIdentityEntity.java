@@ -2,6 +2,7 @@ package api.scolaro.uz.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @MappedSuperclass
 public class BaseIdentityEntity {
     @Id
@@ -30,4 +32,8 @@ public class BaseIdentityEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "deleted_id", insertable = false, updatable = false)
     private ProfileEntity deletedProfile;
+
+    public BaseIdentityEntity(Long id) {
+        this.id = id;
+    }
 }

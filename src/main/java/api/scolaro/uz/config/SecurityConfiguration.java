@@ -44,8 +44,7 @@ public class SecurityConfiguration {
             "/api/v1/auth/**",
             "/api/v1/attach/open/*",
             "/api/v1/attach/download/*",
-            "/api/v1/country/public/**"
-    };
+            "/api/v1/country/public/**"};
 
 
     @Bean
@@ -63,6 +62,8 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(auth ->
                         auth.requestMatchers(AUTH_WHITELIST).permitAll()
                                 .requestMatchers( "/api/v1/attach/upload**").hasAnyRole("ADMIN", "STUDENT","CONSULTING")
+                                .requestMatchers( "/api/v1/continent/public/**").hasAnyRole("ADMIN", "STUDENT","CONSULTING")
+                                .requestMatchers( "/api/v1/continent-country/public/**").hasAnyRole("ADMIN", "STUDENT","CONSULTING")
                                 .anyRequest().authenticated()
         ).addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         http.csrf(AbstractHttpConfigurer::disable);
