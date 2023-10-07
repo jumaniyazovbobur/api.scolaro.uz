@@ -4,13 +4,10 @@ import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.continent.ContinentDTO;
 import api.scolaro.uz.dto.continent.ContinentRequestDTO;
 import api.scolaro.uz.dto.continent.ContinentResponseDTO;
-import api.scolaro.uz.dto.country.CountryPaginationDTO;
-import api.scolaro.uz.dto.country.CountryRequestDTO;
-import api.scolaro.uz.dto.country.CountryResponseDTO;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.ContinentService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j
-@Api(tags = "Continent api")
+@Tag(name = "Continent api", description = "Api list for continent")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/continent")
@@ -33,7 +30,7 @@ public class ContinentController {
      * PUBLIC
      */
 
-    @ApiOperation(value = "Get continent List", notes = "Get Continent List with Language")
+    @Operation(summary = "get continent list ", description = "")
     @GetMapping("/public/get-all")
     public ResponseEntity<ApiResponse<List<ContinentResponseDTO>>> getCountryListByLanguage(@RequestHeader(value = "Accept-Language",
             defaultValue = "uz") AppLanguage language) {
@@ -45,7 +42,7 @@ public class ContinentController {
      * ADMIN
      */
 
-    @ApiOperation(value = "Continent Create", notes = "Continent Create admin")
+    @Operation(summary = "create continent", description = "")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("")
     public ResponseEntity<ApiResponse<ContinentDTO>> create(@Valid @RequestBody ContinentRequestDTO continentDTO) {
@@ -56,7 +53,7 @@ public class ContinentController {
     /**
      * FOR ADMIN
      */
-    @ApiOperation(value = "Update Continent ", notes = "Update Continent for admin")
+    @Operation(summary = "update continent", description = "")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<ContinentDTO>> update(@PathVariable("id") Long id,
@@ -69,7 +66,7 @@ public class ContinentController {
      * FOR ADMIN
      */
 
-    @ApiOperation(value = "Delete Continent", notes = "Continent Delete for admin")
+    @Operation(summary = "delete continent", description = "")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Boolean>> delete(@PathVariable("id") Long id) {

@@ -10,6 +10,8 @@ import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.ContinentCountryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j
-@Api(tags = "Continent country api")
+@Tag(name = "Continent country api", description = "Api list for continent country")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/continent-country")
@@ -32,7 +34,7 @@ public class ContinentCountryController {
     /**
      * PUBLIC
      */
-    @ApiOperation(value = "Get country by continent List", notes = "Get Continent by country List with Language")
+    @Operation(summary = "get continent country list ", description = "")
     @GetMapping("/public/get-all/{id}")
     public ResponseEntity<ApiResponse<List<CountryResponseDTO>>> getCountryListByLanguage(@PathVariable("id") Long continentId,
                                                                                           @RequestHeader(value = "Accept-Language",
@@ -45,7 +47,7 @@ public class ContinentCountryController {
      * ADMIN
      */
 
-    @ApiOperation(value = "Continent country Create", notes = "Continent country Create admin")
+    @Operation(summary = "get continent country create ", description = "")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("")
     public ResponseEntity<ApiResponse<ContinentCountryResponseDTO>> create(@Valid @RequestBody ContinentCountryRequestDTO requestDTO) {
@@ -56,7 +58,7 @@ public class ContinentCountryController {
     /**
      * FOR ADMIN
      */
-    @ApiOperation(value = "Update Continent country ", notes = "Update Continent country for admin")
+    @Operation(summary = "get continent country update ", description = "")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<ContinentCountryResponseDTO>> update(@PathVariable("id") Long id,
@@ -69,7 +71,7 @@ public class ContinentCountryController {
      * FOR ADMIN
      */
 
-    @ApiOperation(value = "Delete Continent country", notes = "Continent country Delete for admin")
+    @Operation(summary = "get continent country delete ", description = "")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Boolean>> delete(@PathVariable("id") Long id) {
