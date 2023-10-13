@@ -91,14 +91,6 @@ Content-Type: application/json
   "password": "123456"
 }
 
-### PROD authenticate User
-POST http://api.app.mazgi.uz/api/v1/auth/profile/login
-Content-Type: application/json
-
-{
-  "phone": "998336543112",
-  "password": "111111"
-}
 ### PROD authenticate ADMIN
 POST http://api.app.mazgi.uz/api/v1/auth/profile/login
 Content-Type: application/json

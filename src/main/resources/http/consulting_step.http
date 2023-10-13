@@ -1,0 +1,30 @@
+### CREATE CONSULTING STEP
+POST http://localhost:8081/api/v1/consulting-step/
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTcwMjEzOTQsImlkIjoiNDAyODgwZWQ4YjFlNWIzYjAxOGIxZTViNGZhMzAwMDAiLCJwaG9uZSI6Ijk5ODkzMDY3MTQyNSIsInJvbGVzIjoiUk9MRV9BRE1JTiIsImV4cCI6MTY5NzYyNjE5NCwiaXNzIjoiSmF2YSBiYWNrZW5kIn0.gwjp1Qb1mW9x9Y_iunJ5C0VOQku-2uY0QbYhbdK5dS8TZKjFswJ961bkvA02XNAv0Ksm4KL7TQfHBFso4u9uqg
+Content-Type: application/json
+
+{
+  "nameUz": "ads",
+  "nameEn": "asd",
+  "nameRu": "asd",
+  "description": "asda",
+  "orderNumber": "12",
+  "consultingId": "402880ed8b1e5c02018b1e5c830c0004"
+}
+
+### DELETE CONSULTING STEP
+DELETE http://localhost:8081/api/v1/consulting-step/402880ed8b1e50a8018b1e50d17e0000
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTcwMjE1NjQsImlkIjoiNDAyODgwZWQ4YjFlNWMwMjAxOGIxZTVkZTk4NTAwMDYiLCJwaG9uZSI6Ijk5ODkzMDY3MTQyMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk3NjI2MzY0LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.4aqgoAqKdXRz3zSRq0yyZi7LRp6NWwjmtbbtaEzF8YzJgbMHpb8HsZvZ10Mix5gMtKs0xGf_TNf9wO_-qlZEUw
+
+### UPDATE CONSULTING STEP
+PUT http://localhost:8081/api/v1/consulting-step/402880ed8b1e0d96018b1e0e34100001
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTY4NTAxNzMsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTc0NTQ5NzMsImlzcyI6IkphdmEgYmFja2VuZCJ9.Qjee4qBBXsaDDhY7vvSj9CNKuUDb6eI5LKzi4CO2kATx0j70IFxu6XTAMnjmjgFCE9rpNwcz-xUOZMKUZL7OJw
+Content-Type:application/json
+
+{
+  "nameUz": "asdad",
+  "nameEn": "sds",
+  "nameRu": "asda",
+  "orderNumbers": "123",
+  "description": "Hi everyone"
+}
