@@ -26,111 +26,84 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ConsultingStepLevelService {
     private final ConsultingStepLevelRepository consultingStepLevelRepository;
-    private final ConsultingStepRepository consultingStepRepository;
-    private final ProfileRepository profileRepository;
 
     public ApiResponse<?> create(ConsultingStepLevelCreateDTO dto) {
         ConsultingStepLevelEntity stepEntity = new ConsultingStepLevelEntity();
-        getConsultingStep(dto.getConsultingStepId());
-        getProfile(dto.getPrtId());
-
         stepEntity.setNameUz(dto.getNameUz());
         stepEntity.setNameEn(dto.getNameEn());
         stepEntity.setNameRu(dto.getNameRu());
         stepEntity.setStepLevelType(StepLevelType.CONSULTING);
         stepEntity.setDescription(dto.getDescription());
-        stepEntity.setOrderNumbers(dto.getOrderNumbers());
+        stepEntity.setOrderNumber(dto.getOrderNumber());
         stepEntity.setConsultingStepId(dto.getConsultingStepId());
-        stepEntity.setPrtId(dto.getPrtId());
+        stepEntity.setConsultingId(EntityDetails.getCurrentUserId()); // set consulting id
         consultingStepLevelRepository.save(stepEntity);
         return new ApiResponse<>(200, false);
     }
 
+    public ApiResponse<ConsultingStepLevelDTO> update(String id, ConsultingStepLevelUpdateDTO dto) {
+        ConsultingStepLevelEntity entity = get(id);
+        if (!entity.getConsultingId().equals(EntityDetails.getCurrentUserId())) {
+            log.warn("consultingStepLevelEntity {} not belongs to current consulting {} ", id, EntityDetails.getCurrentUserId());
+            throw new AppBadRequestException("ConsultingStepLevel not belongs to current consulting.");
+        }
+        entity.setNameUz(dto.getNameUz());
+        entity.setNameEn(dto.getNameEn());
+        entity.setNameRu(dto.getNameRu());
+        entity.setDescription(dto.getDescription());
+        entity.setOrderNumber(dto.getOrderNumbers());
+        // update
+        consultingStepLevelRepository.save(entity);
+        return new ApiResponse<>(200, false, toDTO(entity));
+    }
+
     public ApiResponse<Boolean> delete(String id) {
-        ConsultingStepLevelEntity entity = getConsultingStepLevel(id);
-        if (entity.getVisible().equals(Boolean.FALSE)) {
-            log.warn("Is visible false");
-            throw new AppBadRequestException("Is visible false");
+        ConsultingStepLevelEntity entity = get(id);
+        if (!entity.getConsultingId().equals(EntityDetails.getCurrentUserId())) {
+            log.warn("consultingStepLevelEntity {} not belongs to current consulting {} ", id, EntityDetails.getCurrentUserId());
+            throw new AppBadRequestException("ConsultingStepLevel not belongs to current consulting.");
         }
         int i = consultingStepLevelRepository.deleted(id, EntityDetails.getCurrentUserId(), LocalDateTime.now());
         return new ApiResponse<>(200, false, i > 0);
     }
 
-    public ConsultingStepLevelEntity getConsultingStepLevel(String id) {
-        return consultingStepLevelRepository.findById(id).orElseThrow(() -> {
-            log.warn("Country not found");
-            return new ItemNotFoundException("Country not found");
-        });
+    public ApiResponse<ConsultingStepLevelDTO> getById(String id) {
+        return new ApiResponse<>(200, false, toDTO(get(id)));
     }
 
-    public void getProfile(String id) {
-        profileRepository.findById(id).orElseThrow(() -> {
-            log.warn("Profile not found");
-            return new ItemNotFoundException("Profile not found");
-        });
-    }
-
-    public void getConsultingStep(String id) {
-        consultingStepRepository.findById(id).orElseThrow(() -> {
-            log.warn("Consulting Step not found");
-            return new ItemNotFoundException("Country not found");
-        });
-    }
-
-    public ApiResponse<ConsultingStepLevelUpdateResponseDTO> update(String id, ConsultingStepLevelUpdateDTO dto) {
-        ConsultingStepLevelEntity entity = getConsultingStepLevel(id);
-        if (entity.getVisible().equals(Boolean.FALSE)) {
-            log.warn("Is visible false");
-            throw new AppBadRequestException("Is visible false");
+    public List<ConsultingStepLevelDTO> getConsultingStepLevelListByConsultingStepId(String consultingStepId) {
+        List<ConsultingStepLevelEntity> entityList = consultingStepLevelRepository.getAllByConsultingStepId(consultingStepId);
+        List<ConsultingStepLevelDTO> dtoList = new LinkedList<>();
+        for (ConsultingStepLevelEntity entity : entityList) {
+            ConsultingStepLevelDTO dto = new ConsultingStepLevelDTO();
+            dto.setId(entity.getId());
+            dto.setNameUz(entity.getNameUz());
+            dto.setNameRu(entity.getNameRu());
+            dto.setNameEn(entity.getNameEn());
+            dto.setDescription(entity.getDescription());
+            dto.setOrderNumber(entity.getOrderNumber());
+            dtoList.add(dto);
         }
-        entity.setNameUz(dto.getNameUz());
-        entity.setNameEn(dto.getNameEn());
-        entity.setNameRu(dto.getNameRu());
-        entity.setOrderNumbers(dto.getOrderNumbers());
-        entity.setDescription(dto.getDescription());
-        // update
-        consultingStepLevelRepository.save(entity);
-        return new ApiResponse<>(200, false, toDTO(entity));
-
+        return dtoList;
     }
 
-    private ConsultingStepLevelUpdateResponseDTO toDTO(ConsultingStepLevelEntity entity) {
-        ConsultingStepLevelUpdateResponseDTO dto = new ConsultingStepLevelUpdateResponseDTO();
+    public ConsultingStepLevelEntity get(String id) {
+        return consultingStepLevelRepository.findById(id).orElseThrow(() -> {
+            log.warn("ConsultingStepLevel not found");
+            return new ItemNotFoundException("ConsultingStepLevel not found");
+        });
+    }
+
+    private ConsultingStepLevelDTO toDTO(ConsultingStepLevelEntity entity) {
+        ConsultingStepLevelDTO dto = new ConsultingStepLevelDTO();
         dto.setId(entity.getId());
         dto.setNameUz(entity.getNameUz());
         dto.setNameRu(entity.getNameRu());
         dto.setNameEn(entity.getNameEn());
-        dto.setOrderNumbers(entity.getOrderNumbers());
+        dto.setOrderNumber(entity.getOrderNumber());
         dto.setDescription(entity.getDescription());
         return dto;
     }
 
-    public ApiResponse<List<ConsultingStepLevelDTO>> getByConsultingId(String id) {
-        List<ConsultingStepLevelEntity> entity = consultingStepLevelRepository.getByConsultingStepId(id);
-        List<ConsultingStepLevelDTO> dto = new LinkedList<>();
-        for (ConsultingStepLevelEntity consultingStepLevel : entity) {
-            if (consultingStepLevel == null) {
-                log.warn("Entity is null");
-                throw new AppBadRequestException("Entity is null");
-            }
-            if (consultingStepLevel.getVisible().equals(Boolean.FALSE)) {
-                log.warn("Is visible false");
-                throw new AppBadRequestException("Is visible false");
-            }
 
-            ConsultingStepLevelDTO consultingStepLevelDTO = new ConsultingStepLevelDTO();
-            consultingStepLevelDTO.setId(consultingStepLevel.getId());
-            consultingStepLevelDTO.setNameUz(consultingStepLevel.getNameUz());
-            consultingStepLevelDTO.setNameRu(consultingStepLevel.getNameRu());
-            consultingStepLevelDTO.setNameEn(consultingStepLevel.getNameEn());
-            consultingStepLevelDTO.setDescription(consultingStepLevel.getDescription());
-            consultingStepLevelDTO.setConsultingStepId(consultingStepLevel.getConsultingStepId());
-            consultingStepLevelDTO.setOrderNumbers(consultingStepLevel.getOrderNumbers());
-            consultingStepLevelDTO.setPrtId(consultingStepLevel.getPrtId());
-            dto.add(consultingStepLevelDTO);
-        }
-
-
-        return new ApiResponse<>(200, false, dto);
-    }
 }

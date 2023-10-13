@@ -1,15 +1,12 @@
 ### CREATE CONSULTING STEP
 POST http://localhost:8081/api/v1/consulting-step/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTcwMjEzOTQsImlkIjoiNDAyODgwZWQ4YjFlNWIzYjAxOGIxZTViNGZhMzAwMDAiLCJwaG9uZSI6Ijk5ODkzMDY3MTQyNSIsInJvbGVzIjoiUk9MRV9BRE1JTiIsImV4cCI6MTY5NzYyNjE5NCwiaXNzIjoiSmF2YSBiYWNrZW5kIn0.gwjp1Qb1mW9x9Y_iunJ5C0VOQku-2uY0QbYhbdK5dS8TZKjFswJ961bkvA02XNAv0Ksm4KL7TQfHBFso4u9uqg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTcyMDU2OTQsImlkIjoiNDAyODgwZTQ4YjI5NTMwZDAxOGIyOTU1Yzk0MDAwMDEiLCJwaG9uZSI6Ijk5ODk0NDQ5NzM5NyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk3ODEwNDk0LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.uw4eHtrB8r9N6JLz6w_HcCN14s6Tcsna6FVXTwvkUdFPAhppOy3_4-P9kqEIVdpr3rYMzbSxrFiib3EoNInsqw
 Content-Type: application/json
 
 {
-  "nameUz": "ads",
-  "nameEn": "asd",
-  "nameRu": "asd",
-  "description": "asda",
-  "orderNumber": "12",
-  "consultingId": "402880ed8b1e5c02018b1e5c830c0004"
+  "name": "bbb",
+  "description": "bbb",
+  "orderNumber": "2"
 }
 
 ### DELETE CONSULTING STEP
@@ -22,9 +19,13 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTY4NTAxNzMsImlkIjoiOTA5M
 Content-Type:application/json
 
 {
-  "nameUz": "asdad",
-  "nameEn": "sds",
-  "nameRu": "asda",
+  "name": "asdad",
   "orderNumbers": "123",
   "description": "Hi everyone"
 }
+
+
+### Get consulting step list
+GET http://localhost:8081/api/v1/consulting-step/consulting
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTcyMDU2OTQsImlkIjoiNDAyODgwZTQ4YjI5NTMwZDAxOGIyOTU1Yzk0MDAwMDEiLCJwaG9uZSI6Ijk5ODk0NDQ5NzM5NyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk3ODEwNDk0LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.uw4eHtrB8r9N6JLz6w_HcCN14s6Tcsna6FVXTwvkUdFPAhppOy3_4-P9kqEIVdpr3rYMzbSxrFiib3EoNInsqw
+Content-Type:application/json

@@ -16,9 +16,10 @@ public interface ConsultingStepLevelRepository extends JpaRepository<ConsultingS
     @Modifying
     @Transactional
     @Query("Update ConsultingStepLevelEntity set visible = false , deletedId=:deletedId, deletedDate=:deletedDate where id =:id")
-    int deleted(@Param("id") String  id,
+    int deleted(@Param("id") String id,
                 @Param("deletedId") String currentUserId,
                 @Param("deletedDate") LocalDateTime now);
 
-    List<ConsultingStepLevelEntity> getByConsultingStepId(String id);
+    @Query(" FROM ConsultingStepLevelEntity where consultingId =:consultingStepId and visible=true order by orderNumber asc ")
+    List<ConsultingStepLevelEntity> getAllByConsultingStepId(@Param("consultingStepId") String consultingStepId);
 }

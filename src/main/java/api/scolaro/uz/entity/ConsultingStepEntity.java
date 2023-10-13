@@ -5,21 +5,19 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
 @Table(name = "consulting_step")
-public class ConsultingStepEntity extends BaseEntity{
-    @Column(name = "name_uz")
-    private String nameUz;
-    @Column(name = "name_en")
-    private String nameEn;
-    @Column(name = "name_ru")
-    private String nameRu;
+public class ConsultingStepEntity extends BaseEntity {
+    @Column(name = "name")
+    private String name;
     @Column(name = "step_type")
     private StepType stepType;
-    @Column(name = "order_numbers")
-    private String orderNumbers;
+    @Column(name = "order_number")
+    private String orderNumber;
     @Column(name = "description")
     private String description;
     @Column(name = "consulting_id")
@@ -27,4 +25,6 @@ public class ConsultingStepEntity extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "consulting_id", insertable = false, updatable = false)
     private ConsultingEntity consulting;
+    @OneToMany(mappedBy = "consultingStep")
+    private List<ConsultingStepLevelEntity> levelList;
 }

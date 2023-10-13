@@ -11,7 +11,7 @@ import java.beans.JavaBean;
 @Setter
 @Entity
 @Table(name = "consulting_step_level")
-public class ConsultingStepLevelEntity extends BaseEntity{
+public class ConsultingStepLevelEntity extends BaseEntity {
     @Column(name = "nameUz")
     private String nameUz;
     @Column(name = "nameRu")
@@ -20,19 +20,18 @@ public class ConsultingStepLevelEntity extends BaseEntity{
     private String nameEn;
     @Column(name = "step_level_type")
     private StepLevelType stepLevelType;
-    @Column(name = "order_numbers")
-    private String orderNumbers;
+    @Column(name = "order_number")
+    private String orderNumber;
     @Column(name = "description")
     private String description;
     @Column(name = "consulting_step_id")
     private String consultingStepId;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "consulting_step_id", insertable = false, updatable = false)
     private ConsultingStepEntity consultingStep;
-    @Column(name = "prtId")
-    private String prtId;
-    @ManyToOne
-    @JoinColumn(name = "prtId", insertable = false, updatable = false)
-    private ProfileEntity profileEntity;
-
+    @Column(name = "consulting_id")
+    private String consultingId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "consulting_id", insertable = false, updatable = false)
+    private ConsultingEntity consulting;
 }

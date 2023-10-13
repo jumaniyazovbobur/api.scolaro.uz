@@ -9,6 +9,6 @@ public class ConsultingStepUpdateDTO {
     private String nameUz;
     private String nameRu;
     private String nameEn;
-    private String orderNumbers;
+    private String orderNumber;
     private String description;
 }

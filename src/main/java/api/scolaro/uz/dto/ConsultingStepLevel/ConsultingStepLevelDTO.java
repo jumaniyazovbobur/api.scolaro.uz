@@ -10,8 +10,7 @@ public class ConsultingStepLevelDTO {
     private String nameUz;
     private String nameRu;
     private String nameEn;
-    private String orderNumbers;
+    private String orderNumber;
     private String description;
     private String consultingStepId;
-    private String prtId;
 }
