@@ -1,9 +1,6 @@
 package api.scolaro.uz.controller;
 
-import api.scolaro.uz.dto.ApiResponse;
-import api.scolaro.uz.dto.consulting.ConsultingCreateDTO;
-import api.scolaro.uz.dto.consulting.ConsultingResponseDTO;
-import api.scolaro.uz.dto.consultingTariff.ConsultingIdDTO;
+import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.consultingTariff.ConsultingTariffRequestDTO;
 import api.scolaro.uz.dto.consultingTariff.ConsultingTariffUpdateDTO;
 import api.scolaro.uz.enums.AppLanguage;
@@ -33,13 +30,12 @@ public class ConsultingTariffController {
         return ResponseEntity.ok(consultingTariffService.create(dto));
     }
 
-    @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @GetMapping("/{id}")
-    @Operation(summary = "Get Consulting tariff by id ", description = "for consulting")
-    public ResponseEntity<?> getById(@PathVariable String id,@RequestHeader(value = "Accept-Language",
+    @Operation(summary = "Get consulting tariff by id ", description = "for consulting")
+    public ResponseEntity<?> getById(@PathVariable String id, @RequestHeader(value = "Accept-Language",
             defaultValue = "uz") AppLanguage language) {
         log.info("Get Consulting tariff By Id ");
-        return ResponseEntity.ok(consultingTariffService.getById(id,language));
+        return ResponseEntity.ok(consultingTariffService.getById(id, language));
     }
 
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
@@ -47,30 +43,35 @@ public class ConsultingTariffController {
     @Operation(summary = "Update consulting tariff", description = "for consulting")
     public ResponseEntity<?> update(@RequestBody ConsultingTariffUpdateDTO dto, @PathVariable String id) {
         log.info("Update consulting tariff {}", dto);
-        return ResponseEntity.ok(consultingTariffService.update(dto,id));
+        return ResponseEntity.ok(consultingTariffService.update(dto, id));
     }
 
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete consulting tariff", description = "for consulting")
-    public ResponseEntity<?> deleteById(@PathVariable String id){
+    public ResponseEntity<?> deleteById(@PathVariable String id) {
         log.info("Delete consulting tariff {}", id);
         return ResponseEntity.ok(consultingTariffService.delete(id));
     }
 
-    @PreAuthorize("hasRole('ROLE_CONSULTING')")
-    @GetMapping("")
-    @Operation(summary = "Get Consulting tariff by consulting  id ", description = "for consulting")
-    public ResponseEntity<?> getByConsultingId(@RequestBody ConsultingIdDTO dto, @RequestHeader(value = "Accept-Language",
-            defaultValue = "uz") AppLanguage language) {
-        log.info("Get Consulting tariff By consulting Id ");
-        return ResponseEntity.ok(consultingTariffService.getByConsultingId(dto,language));
+    @GetMapping("/consulting/{id}")
+    @Operation(summary = "Get consulting tariff list by consulting id ", description = "for consulting")
+    public ResponseEntity<?> getAllByCurrentConsulting(@PathVariable("id") String consultingId, @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
+        log.info("Get consulting tariff list by consultingId ");
+        return ResponseEntity.ok(consultingTariffService.getAllByConsultingId(consultingId, language));
     }
 
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
+    @GetMapping("/current")
+    @Operation(summary = "Get current consulting tariff list", description = "for consulting")
+    public ResponseEntity<?> getAllByCurrentConsulting(@RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
+        log.info("Get current consulting tariff list");
+        return ResponseEntity.ok(consultingTariffService.getAllByConsultingId(EntityDetails.getCurrentUserId(), language));
+    }
+
     @GetMapping("/template-list")
-    @Operation(summary = "Get Consulting tariff Template type ", description = "for consulting")
-    public ResponseEntity<?> getTemplateList( @RequestHeader(value = "Accept-Language",
+    @Operation(summary = "Get ConsultingTariff list where type is Template", description = "for consulting")
+    public ResponseEntity<?> getTemplateList(@RequestHeader(value = "Accept-Language",
             defaultValue = "uz") AppLanguage language) {
         log.info("Get Consulting tariff Template type ");
         return ResponseEntity.ok(consultingTariffService.getTemplateList(language));

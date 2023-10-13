@@ -5,13 +5,11 @@ import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepCreateDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepUpdateDTO;
-import api.scolaro.uz.dto.consultingStep.ConsultingStepUpdateResponseDTO;
 import api.scolaro.uz.entity.ConsultingStepEntity;
 import api.scolaro.uz.enums.StepType;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.consultinStep.ConsultingStepRepository;
-import api.scolaro.uz.repository.consulting.ConsultingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,7 +24,6 @@ import java.util.List;
 public class ConsultingStepService {
     private final ConsultingStepRepository consultingStepRepository;
     private final ConsultingStepLevelService consultingStepLevelService;
-    private final ConsultingRepository consultingRepository;
 
     public ApiResponse<?> create(ConsultingStepCreateDTO dto) {
         ConsultingStepEntity stepEntity = new ConsultingStepEntity();
@@ -48,7 +45,6 @@ public class ConsultingStepService {
         int i = consultingStepRepository.deleted(id, EntityDetails.getCurrentUserId(), LocalDateTime.now());
         return new ApiResponse<>(200, false, i > 0);
     }
-
 
     public ApiResponse<ConsultingStepDTO> getConsultingById(String id) {
         ConsultingStepEntity entity = get(id);
@@ -91,7 +87,6 @@ public class ConsultingStepService {
         });
     }
 
-
     private ConsultingStepDTO toDTO(ConsultingStepEntity entity) {
         ConsultingStepDTO dto = new ConsultingStepDTO();
         dto.setId(entity.getId());
@@ -100,5 +95,4 @@ public class ConsultingStepService {
         dto.setDescription(entity.getDescription());
         return dto;
     }
-
 }

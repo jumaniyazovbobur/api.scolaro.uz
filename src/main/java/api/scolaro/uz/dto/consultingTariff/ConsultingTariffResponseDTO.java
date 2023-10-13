@@ -18,6 +18,7 @@ public class ConsultingTariffResponseDTO {
     private String nameUz;
     private String nameRu;
     private String nameEn;
+    private String name;
     private String description;
     private Double price;
     private String consultingId;

@@ -1,5 +1,6 @@
 package api.scolaro.uz.entity;
 
+import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.enums.StepType;
 import jakarta.persistence.*;
 import lombok.Getter;
