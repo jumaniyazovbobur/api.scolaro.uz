@@ -1,7 +1,6 @@
 package api.scolaro.uz.repository.consulting;
 
-import api.scolaro.uz.entity.ConsultingEntity;
-import api.scolaro.uz.entity.ProfileEntity;
+import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

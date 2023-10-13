@@ -16,17 +16,11 @@ import java.time.LocalDateTime;
 public class CountryDTO {
 
     protected Long id;
-
     private String key;
     private String name;
-
-
-
     private String logoId;
-
     private Boolean visible;
     private LocalDateTime createdDate;
-
     private String nameRu;
     private String nameLatin;
     private String nameCyrillic;

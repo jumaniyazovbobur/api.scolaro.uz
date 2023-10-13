@@ -7,8 +7,7 @@ import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.consulting.*;
 import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
-import api.scolaro.uz.entity.ConsultingEntity;
-import api.scolaro.uz.entity.ProfileEntity;
+import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.enums.sms.SmsType;
@@ -214,7 +213,7 @@ public class ConsultingService {
         return currentConsulting;
     }
 
-    private ConsultingEntity get(String id) {
+    public ConsultingEntity get(String id) {
         Optional<ConsultingEntity> optional = consultingRepository.findByIdAndVisibleTrue(id);
         if (optional.isEmpty()) {
             log.info(" {} consulting not found", id);

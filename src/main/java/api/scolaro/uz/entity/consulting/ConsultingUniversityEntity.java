@@ -1,5 +1,7 @@
-package api.scolaro.uz.entity;
+package api.scolaro.uz.entity.consulting;
 
+import api.scolaro.uz.entity.BaseEntity;
+import api.scolaro.uz.entity.UniversityEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "consulting_university")
-public class ConsultingUniversityEntity extends BaseEntity{
+public class ConsultingUniversityEntity extends BaseEntity {
 
     @Column(name = "consulting_id")
     private String consultingId;
