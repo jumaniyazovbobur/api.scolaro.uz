@@ -15,6 +15,4 @@ public class AttachDTO {
     private String extension;
     private LocalDateTime createdData;
     private String url;
-
-
 }

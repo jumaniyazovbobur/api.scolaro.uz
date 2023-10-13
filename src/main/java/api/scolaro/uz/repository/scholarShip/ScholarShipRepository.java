@@ -13,9 +13,12 @@ import java.util.Optional;
 @Repository
 public interface ScholarShipRepository extends JpaRepository<ScholarShipEntity, String> {
     Optional<ScholarShipEntity> findByNameAndVisibleIsTrue(String name);
+    Optional<ScholarShipEntity> findByIdAndVisibleTrue(String name);
+
+
 
     @Modifying
     @Transactional
     @Query("update ScholarShipEntity t set t.deletedDate = ?2, t.visible = false where t.id = ?1")
-    boolean updateDeletedDateAndVisible(String id, LocalDateTime deletedDate);
+    int updateDeletedDateAndVisible(String id, LocalDateTime deletedDate);
 }

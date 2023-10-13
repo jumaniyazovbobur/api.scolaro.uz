@@ -5,7 +5,7 @@ Content-Type: application/json
 {
   "name": "Maxmud",
   "surname": "Maxmudov",
-  "phoneNumber": "998930671423",
+  "phoneNumber": "998997795710",
   "password": "123456",
   "nickName": "maxmud123",
   "countryId": 1,
@@ -19,7 +19,7 @@ Content-Type: application/json
 
 
 {
-  "phone": "998930671423",
+  "phone": "998997795710",
   "code": "11111"
 }
 ### Consulting login
@@ -27,8 +27,8 @@ POST http://localhost:8081/api/v1/auth/consulting/login
 Content-Type: application/json
 
 {
-  "phone": "998944497397",
-  "password": "ymdfjz"
+  "phone": "998997795710",
+  "password": "qlt999"
 }
 
 ### Profile login
@@ -37,7 +37,7 @@ Content-Type: application/json
 
 
 {
-  "phone": "998930671423",
+  "phone": "998997795710",
   "password": "123456"
 }
 
@@ -67,7 +67,7 @@ POST http://localhost:8081/api/v1/auth/consulting/reset-password
 Content-Type: application/json
 
 {
-  "phone": "998930671423"
+  "phone": "998997795710"
 }
 
 ### Reset password confirm for consulting
@@ -75,7 +75,7 @@ PUT http://localhost:8081/api/v1/auth/consulting/reset/confirm
 Content-Type: application/json
 
 {
-  "phone": "998930671423",
+  "phone": "998997795710",
   "smsCode": "66331",
   "newPassword": "123457",
   "repeatNewPassword": "123457"

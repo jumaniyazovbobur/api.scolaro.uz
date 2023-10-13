@@ -14,24 +14,27 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MjQ0NTAsImlkIjoiNDAyO
 GET http://localhost:8081/api/v1/profile/402880e88ad5dc2e018ad5de44250000
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDYxMjYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY0MTA5MjYsImlzcyI6IkphdmEgYmFja2VuZCJ9.5i-zp9w0jxobonVZyh5ZjTVEVsHEkVUH0i7dLW19SDD60DVsYGpADR-QmzSBvbG3VHNVw6OncApX_JGf5S405g
 
-### Get current profile
-GET http://localhost:8081/api/v1/profile/current
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTY1OTAyNTMsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTcxOTUwNTMsImlzcyI6IkphdmEgYmFja2VuZCJ9.UrldW6gxB6D2T8ACp5KY6TElBnrxOBbj5pFtCN6vOysFsl_ojxrJhFrUw3DWqw1jkxgCtSx2jbriuzYJwxPSZw
+### PROD Get current profile
+GET http://api.app.mazgi.uz/api/v1/profile/current
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTY1Mjk1MDksImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTcxMzQzMDksImlzcyI6IkphdmEgYmFja2VuZCJ9.zmrl81cQOUBIWvGVJ_YuFtJi06ITryukEmDlH50b_Kibix78v-HEwSp4T7-H0Rrfw8PBLuy8s3WY2K3EQjdr9g
 
+### DEV Get current profile
+GET http://localhost:8081/api/v1/profile/current
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTY1MDY1NTUsImlkIjoiNDAyODgwZTQ4YWZmYWE0MTAxOGFmZmFiNjIyMDAwMDAiLCJwaG9uZSI6Ijk5ODk0NDQ5NzM5NyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNjk3MTExMzU1LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.EE6LlickmJFuspkrmbcU3L2ERc9UMDzy-q9ehPMinaB3ZDzStqMLOnBHPasPk2fRGIGzAp3cDs78n1cGbxS7Uw
 
 
 
 
 ### Get profile filter
 GET http://localhost:8081/api/v1/profile/filter
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDYxMjYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY0MTA5MjYsImlzcyI6IkphdmEgYmFja2VuZCJ9.5i-zp9w0jxobonVZyh5ZjTVEVsHEkVUH0i7dLW19SDD60DVsYGpADR-QmzSBvbG3VHNVw6OncApX_JGf5S405g
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTY4NDI1NjgsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTc0NDczNjgsImlzcyI6IkphdmEgYmFja2VuZCJ9.9gvXX2T2MZcclQP1P-gs4n804o4lQNZ2ZT26R-fUT_0TvCB3rsvoVVvVmXWrLqmRSV6wdkbodIqdghrC0JbjJw
 Content-Type: application/json
 
 
-{
-  "fromCreatedDate": "2023-08-08",
-  "toCreatedDate": "2023-09-28"
-}
+//{
+//  "fromCreatedDate": "2023-08-08",
+//  "toCreatedDate": "2023-09-28"
+//}
 
 
 ### Delete profile
@@ -80,7 +83,8 @@ GET http://api.app.mazgi.uz/api/v1/profile/current
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTY1OTAyNTMsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTcxOTUwNTMsImlzcyI6IkphdmEgYmFja2VuZCJ9.UrldW6gxB6D2T8ACp5KY6TElBnrxOBbj5pFtCN6vOysFsl_ojxrJhFrUw3DWqw1jkxgCtSx2jbriuzYJwxPSZw
 
 
-
+### Get all
+GET http://api.app.mazgi.uz/api/v1/profile/
 
 
 

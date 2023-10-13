@@ -1,5 +1,7 @@
-package api.scolaro.uz.entity;
+package api.scolaro.uz.entity.consulting;
 
+import api.scolaro.uz.entity.AttachEntity;
+import api.scolaro.uz.entity.BaseEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -78,8 +78,11 @@ public class ScholarShipService {
     }
 
     public ApiResponse<?> delete(String id) {
-        boolean result = scholarShipRepository.updateDeletedDateAndVisible(id, LocalDateTime.now());
-        return new ApiResponse<>(resourceMessageService.getMessage(result ? "success.delete" : "fail.delete"), 200, false);
+        int result = scholarShipRepository.updateDeletedDateAndVisible(id, LocalDateTime.now());
+        if (result==1){
+            return new ApiResponse<>(resourceMessageService.getMessage( "success.delete"), 200, false);
+        }
+        return new ApiResponse<>(resourceMessageService.getMessage( "fail.delete"), 200, false);
     }
 
     public ScholarShipResponseDTO toDTO(ScholarShipEntity entity) {
@@ -119,7 +122,7 @@ public class ScholarShipService {
     }
 
     public ScholarShipEntity get(String id) {
-        Optional<ScholarShipEntity> optional = scholarShipRepository.findById(id);
+        Optional<ScholarShipEntity> optional = scholarShipRepository.findByIdAndVisibleTrue(id);
         if (optional.isEmpty()) {
             log.info("ScholarShip not found {}", id);
             throw new ItemNotFoundException("ScholarShip not found {}" + id);

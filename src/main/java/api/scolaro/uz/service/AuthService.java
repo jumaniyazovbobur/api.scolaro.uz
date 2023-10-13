@@ -7,12 +7,10 @@ import api.scolaro.uz.dto.auth.*;
 import api.scolaro.uz.dto.client.AuthRequestDTO;
 
 
-import api.scolaro.uz.entity.ConsultingEntity;
-import api.scolaro.uz.entity.CountryEntity;
+import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
-import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.consulting.ConsultingRepository;
 import api.scolaro.uz.repository.profile.ProfileRepository;
@@ -22,7 +20,6 @@ import api.scolaro.uz.util.MD5Util;
 import api.scolaro.uz.util.PhoneUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
