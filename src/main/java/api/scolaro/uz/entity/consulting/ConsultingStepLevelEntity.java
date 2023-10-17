@@ -1,12 +1,10 @@
-package api.scolaro.uz.entity;
+package api.scolaro.uz.entity.consulting;
 
-import api.scolaro.uz.entity.consulting.ConsultingEntity;
+import api.scolaro.uz.entity.BaseEntity;
 import api.scolaro.uz.enums.StepLevelType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.beans.JavaBean;
 
 @Getter
 @Setter

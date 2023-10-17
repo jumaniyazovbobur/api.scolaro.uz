@@ -1,5 +1,6 @@
 package api.scolaro.uz.entity;
 
+import api.scolaro.uz.entity.place.CountryEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

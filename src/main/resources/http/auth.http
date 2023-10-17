@@ -10,7 +10,7 @@ Content-Type: application/json
   "nickName": "maxmud123",
   "countryId": 1,
   "address": "Toshkent viloyati",
-  "gender": "Erkak"
+  "gender": "MALE"
 }
 
 ### Profile sms verification login

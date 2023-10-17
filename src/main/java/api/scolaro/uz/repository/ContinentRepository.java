@@ -1,6 +1,6 @@
 package api.scolaro.uz.repository;
 
-import api.scolaro.uz.entity.ContinentEntity;
+import api.scolaro.uz.entity.place.ContinentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

@@ -1,6 +1,7 @@
-package api.scolaro.uz.entity;
+package api.scolaro.uz.entity.place;
 
 
+import api.scolaro.uz.entity.BaseIdentityEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @Table(name = "country")
-public class CountryEntity extends BaseIdentityEntity{
+public class CountryEntity extends BaseIdentityEntity {
 
     @Column(name = "name_uz")
     private String nameUz;

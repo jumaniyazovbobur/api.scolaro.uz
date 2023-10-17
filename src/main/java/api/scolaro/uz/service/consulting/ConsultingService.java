@@ -1,4 +1,4 @@
-package api.scolaro.uz.service;
+package api.scolaro.uz.service.consulting;
 
 
 import api.scolaro.uz.config.details.EntityDetails;
@@ -14,6 +14,8 @@ import api.scolaro.uz.enums.sms.SmsType;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.consulting.ConsultingRepository;
 import api.scolaro.uz.repository.consulting.CustomConsultingRepository;
+import api.scolaro.uz.service.AttachService;
+import api.scolaro.uz.service.PersonRoleService;
 import api.scolaro.uz.service.sms.SmsHistoryService;
 import api.scolaro.uz.util.JwtUtil;
 import api.scolaro.uz.util.MD5Util;

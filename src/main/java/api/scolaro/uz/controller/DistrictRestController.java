@@ -3,7 +3,7 @@ package api.scolaro.uz.controller;
 
 import api.scolaro.uz.dto.DistrictDTO;
 import api.scolaro.uz.enums.AppLanguage;
-import api.scolaro.uz.service.DistrictService;
+import api.scolaro.uz.service.place.DistrictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,5 +1,6 @@
-package api.scolaro.uz.entity;
+package api.scolaro.uz.entity.place;
 
+import api.scolaro.uz.entity.BaseIdentityEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +9,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "continent_country")
-public class ContinentCountryEntity extends BaseIdentityEntity{
+public class ContinentCountryEntity extends BaseIdentityEntity {
     @Column(name = "continent_id")
     private Long continentId;
     @ManyToOne(fetch = FetchType.LAZY)

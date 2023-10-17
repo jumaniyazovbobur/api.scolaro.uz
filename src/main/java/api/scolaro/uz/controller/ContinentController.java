@@ -5,7 +5,7 @@ import api.scolaro.uz.dto.continent.ContinentDTO;
 import api.scolaro.uz.dto.continent.ContinentRequestDTO;
 import api.scolaro.uz.dto.continent.ContinentResponseDTO;
 import api.scolaro.uz.enums.AppLanguage;
-import api.scolaro.uz.service.ContinentService;
+import api.scolaro.uz.service.place.ContinentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

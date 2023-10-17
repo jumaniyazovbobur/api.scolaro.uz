@@ -1,6 +1,6 @@
 package api.scolaro.uz.repository.consultingStepLevel;
 
-import api.scolaro.uz.entity.ConsultingStepLevelEntity;
+import api.scolaro.uz.entity.consulting.ConsultingStepLevelEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

@@ -1,9 +1,9 @@
-package api.scolaro.uz.service;
+package api.scolaro.uz.service.place;
 
 
 import api.scolaro.uz.dto.DistrictDTO;
-import api.scolaro.uz.entity.DistrictEntity;
-import api.scolaro.uz.entity.RegionEntity;
+import api.scolaro.uz.entity.place.DistrictEntity;
+import api.scolaro.uz.entity.place.RegionEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.place.DistrictRepository;

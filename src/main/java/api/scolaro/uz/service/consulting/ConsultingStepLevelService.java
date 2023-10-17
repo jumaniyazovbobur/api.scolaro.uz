@@ -1,18 +1,15 @@
-package api.scolaro.uz.service;
+package api.scolaro.uz.service.consulting;
 
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelCreateDTO;
 import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelDTO;
 import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelUpdateDTO;
-import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelUpdateResponseDTO;
-import api.scolaro.uz.entity.ConsultingStepLevelEntity;
+import api.scolaro.uz.entity.consulting.ConsultingStepLevelEntity;
 import api.scolaro.uz.enums.StepLevelType;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
-import api.scolaro.uz.repository.consultinStep.ConsultingStepRepository;
 import api.scolaro.uz.repository.consultingStepLevel.ConsultingStepLevelRepository;
-import api.scolaro.uz.repository.profile.ProfileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

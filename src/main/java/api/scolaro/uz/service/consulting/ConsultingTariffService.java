@@ -1,4 +1,4 @@
-package api.scolaro.uz.service;
+package api.scolaro.uz.service.consulting;
 
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
@@ -9,6 +9,7 @@ import api.scolaro.uz.entity.consulting.ConsultingTariffEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.consulting.ConsultingTariffRepository;
+import api.scolaro.uz.service.ResourceMessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

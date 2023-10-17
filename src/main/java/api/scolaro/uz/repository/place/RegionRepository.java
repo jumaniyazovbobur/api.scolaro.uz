@@ -1,7 +1,7 @@
 package api.scolaro.uz.repository.place;
 
 
-import api.scolaro.uz.entity.RegionEntity;
+import api.scolaro.uz.entity.place.RegionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

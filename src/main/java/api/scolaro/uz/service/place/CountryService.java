@@ -1,9 +1,9 @@
-package api.scolaro.uz.service;
+package api.scolaro.uz.service.place;
 
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.country.*;
-import api.scolaro.uz.entity.CountryEntity;
+import api.scolaro.uz.entity.place.CountryEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;

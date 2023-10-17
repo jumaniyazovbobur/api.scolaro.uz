@@ -2,6 +2,7 @@ package api.scolaro.uz.dto.consulting;
 
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +19,7 @@ public class ConsultingCreateDTO {
     private String ownerName;
     @NotBlank(message = "Owner surname is required")
     private String ownerSurname;
+    @NotNull(message = "Photo is required")
     private String photoId;
     private String about;
 

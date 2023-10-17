@@ -1,4 +1,4 @@
-package api.scolaro.uz.controller;
+package api.scolaro.uz.controller.consulting;
 
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.SmsDTO;
@@ -8,7 +8,7 @@ import api.scolaro.uz.dto.consulting.ConsultingCreateDTO;
 import api.scolaro.uz.dto.consulting.ConsultingUpdateDTO;
 import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
 import api.scolaro.uz.enums.GeneralStatus;
-import api.scolaro.uz.service.ConsultingService;
+import api.scolaro.uz.service.consulting.ConsultingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

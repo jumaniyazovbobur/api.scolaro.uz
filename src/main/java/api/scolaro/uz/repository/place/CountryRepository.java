@@ -1,6 +1,6 @@
 package api.scolaro.uz.repository.place;
 
-import api.scolaro.uz.entity.CountryEntity;
+import api.scolaro.uz.entity.place.CountryEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

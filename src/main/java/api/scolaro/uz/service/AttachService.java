@@ -145,7 +145,7 @@ public class AttachService {
         return fileName.substring(lastIndex + 1);
     }
 
-    private AttachEntity getEntity(String fileName) {
+    public AttachEntity getEntity(String fileName) {
         Optional<AttachEntity> optional = attachRepository.findById(fileName);
         if (optional.isEmpty()) {
             log.warn("Attach error : file not found");
@@ -173,6 +173,8 @@ public class AttachService {
         attachDTO.setUrl(getUrl(entity.getId()));
         return attachDTO;
     }
+
+
 
     public AttachResponseDTO getResponseAttach(String id){
        return new AttachResponseDTO(id,getUrl(id));

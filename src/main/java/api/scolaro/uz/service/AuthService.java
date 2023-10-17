@@ -4,7 +4,7 @@ package api.scolaro.uz.service;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.auth.*;
-import api.scolaro.uz.dto.client.AuthRequestDTO;
+import api.scolaro.uz.dto.auth.AuthRequestDTO;
 
 
 import api.scolaro.uz.entity.consulting.ConsultingEntity;
@@ -77,7 +77,7 @@ public class AuthService {
         // send sms verification code
         smsHistoryService.sendRegistrationSms(dto.getPhoneNumber());
         //client role
-        personRoleService.create(userEntity.getId(), RoleEnum.ROLE_CONSULTING);
+        personRoleService.create(userEntity.getId(), RoleEnum.ROLE_STUDENT);
         return new ApiResponse<>(200, false);
     }
 

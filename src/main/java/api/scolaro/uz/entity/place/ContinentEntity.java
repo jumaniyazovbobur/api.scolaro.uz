@@ -1,5 +1,6 @@
-package api.scolaro.uz.entity;
+package api.scolaro.uz.entity.place;
 
+import api.scolaro.uz.entity.BaseIdentityEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

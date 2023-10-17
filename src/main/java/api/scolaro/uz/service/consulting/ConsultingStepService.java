@@ -1,11 +1,11 @@
-package api.scolaro.uz.service;
+package api.scolaro.uz.service.consulting;
 
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepCreateDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepUpdateDTO;
-import api.scolaro.uz.entity.ConsultingStepEntity;
+import api.scolaro.uz.entity.consulting.ConsultingStepEntity;
 import api.scolaro.uz.enums.StepType;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;

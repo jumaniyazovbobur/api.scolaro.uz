@@ -1,10 +1,10 @@
-package api.scolaro.uz.controller;
+package api.scolaro.uz.controller.consulting;
 
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.consultingTariff.ConsultingTariffRequestDTO;
 import api.scolaro.uz.dto.consultingTariff.ConsultingTariffUpdateDTO;
 import api.scolaro.uz.enums.AppLanguage;
-import api.scolaro.uz.service.ConsultingTariffService;
+import api.scolaro.uz.service.consulting.ConsultingTariffService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

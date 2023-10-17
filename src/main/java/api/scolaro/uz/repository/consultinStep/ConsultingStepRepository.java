@@ -1,8 +1,6 @@
 package api.scolaro.uz.repository.consultinStep;
 
-import api.scolaro.uz.entity.ConsultingStepEntity;
-import api.scolaro.uz.entity.ConsultingStepLevelEntity;
-import org.jetbrains.annotations.NotNull;
+import api.scolaro.uz.entity.consulting.ConsultingStepEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

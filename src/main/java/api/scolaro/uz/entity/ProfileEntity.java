@@ -1,14 +1,12 @@
 package api.scolaro.uz.entity;
 
 
+import api.scolaro.uz.entity.place.CountryEntity;
 import api.scolaro.uz.enums.GenderType;
 import api.scolaro.uz.enums.GeneralStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter

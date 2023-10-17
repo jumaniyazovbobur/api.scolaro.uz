@@ -1,11 +1,10 @@
-package api.scolaro.uz.controller;
+package api.scolaro.uz.controller.consulting;
 
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepCreateDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepUpdateDTO;
-import api.scolaro.uz.dto.consultingStep.ConsultingStepUpdateResponseDTO;
-import api.scolaro.uz.service.ConsultingStepService;
+import api.scolaro.uz.service.consulting.ConsultingStepService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
