@@ -1,7 +1,8 @@
 ### Create consulting
 POST http://localhost:8081/api/v1/consulting/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTc0NTY0NDksImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTgwNjEyNDksImlzcyI6IkphdmEgYmFja2VuZCJ9.If2cTx637R_U2i-v6LIHeocbkAZTO_tl0oaIOCvzZaenVTHgxrdNrov-_7tAf7h4GAm-9l1bqoXPy8-dC9FsGg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDYxMjYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY0MTA5MjYsImlzcyI6IkphdmEgYmFja2VuZCJ9.5i-zp9w0jxobonVZyh5ZjTVEVsHEkVUH0i7dLW19SDD60DVsYGpADR-QmzSBvbG3VHNVw6OncApX_JGf5S405g
+
 
 {
   "name": "Brain consulting",
@@ -36,14 +37,14 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDYxMjYsImlkIjoiOTA5M
 
 
 
-### Get profile filter
-GET http://localhost:8081/api/v1/consulting/filter
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDYxMjYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY0MTA5MjYsImlzcyI6IkphdmEgYmFja2VuZCJ9.5i-zp9w0jxobonVZyh5ZjTVEVsHEkVUH0i7dLW19SDD60DVsYGpADR-QmzSBvbG3VHNVw6OncApX_JGf5S405g
+### Consulting filter
+POST http://localhost:8081/api/v1/consulting/filter
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTc1MTI1MDIsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTgxMTczMDIsImlzcyI6IkphdmEgYmFja2VuZCJ9.aEmP2ul8D16yymFj8CQ_m4d5sZI3KCibkwCebyCfSv6NOTiQCCvz5pBRUI-ZaxaDgOgpJKQt0SAa0O50qnBjkg
 Content-Type: application/json
 
 
 {
-  "ownerSurname": "Aliyev"
+  "ownerSurname": "Maxmudov"
 }
 
 
