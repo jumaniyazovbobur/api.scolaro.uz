@@ -65,7 +65,7 @@ public class ConsultingController {
      * FOR ADMIN
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/filter")
+    @PostMapping("/filter")
     @Operation(summary = "Filter api", description = "for admin")
     public ResponseEntity<?> filter(@RequestBody ConsultingFilterDTO consultingFilterDTO,
                                     @RequestParam(value = "page", defaultValue = "1") int page,
