@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface CountryRepository extends JpaRepository<CountryEntity, Long> {
@@ -47,4 +48,7 @@ public interface CountryRepository extends JpaRepository<CountryEntity, Long> {
     int deleted(@Param("id") Long id,
                 @Param("deletedId") String currentUserId,
                 @Param("deletedDate") LocalDateTime now);
+
+    @Query("FROM CountryEntity where  lower(nameUz) like :query or lower(nameEn) like :query or lower(nameRu) like :query order by createdDate")
+    List<CountryEntity> searchByName(@Param("query") String query);
 }

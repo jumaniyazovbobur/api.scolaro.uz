@@ -68,7 +68,7 @@ public class CountryController {
      * FOR ADMIN
      */
 
-    @ApiOperation(value = "Delete Country", notes = "Method : Country Delete for admin")
+    @ApiOperation(value = "Delete country", notes = "Method : Country Delete for admin")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Boolean>> delete(@PathVariable("id") Long id) {
@@ -79,11 +79,22 @@ public class CountryController {
     /**
      * FOR ADMIN
      */
-    @ApiOperation(value = "Country Pagination", notes = "Method : Country Pagination for admin", response = CountryPaginationDTO.class)
+    @ApiOperation(value = "Country pagination", notes = "Method : Country Pagination for admin", response = CountryPaginationDTO.class)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/pagination")
     public ResponseEntity<CountryPaginationDTO> pagination(@RequestParam(value = "page", defaultValue = "1") int page,
                                                            @RequestParam(value = "size", defaultValue = "30") int size) {
-        return ResponseEntity.ok().body(countryService.pagination(page-1, size));
+        return ResponseEntity.ok().body(countryService.pagination(page - 1, size));
+    }
+
+    /**
+     * FOR ADMIN
+     */
+    @ApiOperation(value = "Country search by name", notes = "Method : Search country for admin", response = CountryResponseDTO.class)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/search/{query}")
+    public ResponseEntity<List<CountryResponseDTO>> search(@PathVariable("query") String query, @RequestHeader(value = "Accept-Language",
+            defaultValue = "uz") AppLanguage appLanguage) {
+        return ResponseEntity.ok().body(countryService.search(query, appLanguage));
     }
 }

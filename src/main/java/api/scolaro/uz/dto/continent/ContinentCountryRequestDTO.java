@@ -11,4 +11,6 @@ public class ContinentCountryRequestDTO {
     private Long continentId;
     @NotNull(message = "Country id required")
     private Long countryId;
+    @NotNull(message = "Country id required")
+    private Integer orderNumber;
 }
