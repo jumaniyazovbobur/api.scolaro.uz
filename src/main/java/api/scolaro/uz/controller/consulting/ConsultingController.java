@@ -28,8 +28,20 @@ public class ConsultingController {
     private final ConsultingService consultingService;
 
     /**
+     * CONSULTING
+     */
+    @PreAuthorize("hasRole('ROLE_CONSULTING')")
+    @PutMapping("/detail")
+    @Operation(summary = "Consulting update own detail", description = "")
+    public ResponseEntity<ApiResponse<?>> updateDetail(@Valid @RequestBody ConsultingUpdateDTO dto) {
+        log.info("Update consulting {}", dto.getName());
+        return ResponseEntity.ok(consultingService.updateDetail(dto));
+    }
+
+    /**
      * FOR ADMIN
      */
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/")
     @Operation(summary = "Create consulting", description = "for admin")
@@ -38,20 +50,7 @@ public class ConsultingController {
         return ResponseEntity.ok(consultingService.create(dto));
     }
 
-    /**
-     * OWNER CONSULTING
-     */
-    @PreAuthorize("hasRole('ROLE_CONSULTING')")
-    @PutMapping("/")
-    @Operation(summary = "Update api", description = "for consulting")
-    public ResponseEntity<ApiResponse<?>> update(@Valid @RequestBody ConsultingUpdateDTO dto) {
-        log.info("Update consulting {}", dto.getName());
-        return ResponseEntity.ok(consultingService.updateDetail(dto));
-    }
 
-    /**
-     * FOR ADMIN
-     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
     @Operation(summary = "Get by id api", description = "for admin")
@@ -61,9 +60,6 @@ public class ConsultingController {
 
     }
 
-    /**
-     * FOR ADMIN
-     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/filter")
     @Operation(summary = "Filter api", description = "for admin")
@@ -73,9 +69,7 @@ public class ConsultingController {
         return ResponseEntity.ok(consultingService.filter(consultingFilterDTO, page - 1, size));
     }
 
-    /**
-     * FOR ADMIN
-     */
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Deleted consulting api", description = "for admin")
@@ -84,16 +78,27 @@ public class ConsultingController {
         return ResponseEntity.ok(consultingService.deleted(id));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/{id}")
+    @Operation(summary = "Update consulting detail as admin", description = "")
+    public ResponseEntity<ApiResponse<?>> updateConsulting(@PathVariable("id") String id,
+                                                           @Valid @RequestBody ConsultingUpdateDTO dto) {
+        log.info("Update consulting detail {}", dto.getName());
+        return ResponseEntity.ok(consultingService.updateConsulting(id, dto));
+    }
+
+
     /**
      * FOR CONSULTING
      */
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @PutMapping("/update-phone")
     @Operation(summary = "Update  consulting phone  api", description = "for consulting")
-    public ResponseEntity<ApiResponse<?>> updatePhone(@RequestParam("phone") String phone ) {
-        log.info("Update phone {}",phone);
+    public ResponseEntity<ApiResponse<?>> updatePhone(@RequestParam("phone") String phone) {
+        log.info("Update phone {}", phone);
         return ResponseEntity.ok(consultingService.updatePhone(phone));
     }
+
     /**
      * FOR CONSULTING
      */
@@ -101,7 +106,7 @@ public class ConsultingController {
     @PutMapping("/phone-verification")
     @Operation(summary = "Update  consulting phone verification api", description = "for consulting")
     public ResponseEntity<ApiResponse<?>> updatePhoneVerification(@RequestBody SmsDTO dto) {
-        log.info("Update phone verification {}",dto.getPhone());
+        log.info("Update phone verification {}", dto.getPhone());
         return ResponseEntity.ok(consultingService.verification(dto));
     }
 
