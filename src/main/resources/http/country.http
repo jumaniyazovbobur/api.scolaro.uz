@@ -8,11 +8,11 @@ Accept-Language: ru
 ###CREATE COUNTRY
 POST http://localhost:8081/api/v1/country
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU5MDAzODYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY1MDUxODYsImlzcyI6IkphdmEgYmFja2VuZCJ9.Qgrd7CvTLHW2vLZf7sDxq40bGdTWNSoujTx8tqA4xvEVMGFahK302HN4ig4ZVL1nCI4qkYNDmR8ikO1SiGVr-A
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTc4ODU5MTcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTg0OTA3MTcsImlzcyI6IkphdmEgYmFja2VuZCJ9.1ioF_dbDfvk6oab5lwTMIl5Zav3nIy8LHi7TX6qyOSG-Zd0jKXi8QGK9xmTH8gSKFBrQWBQqe8qCwmCbB6zICw
 
 
 {
-  "nameUz": "string",
+  "nameUz": null,
   "nameRu": "string",
   "nameEn": "string"
 }

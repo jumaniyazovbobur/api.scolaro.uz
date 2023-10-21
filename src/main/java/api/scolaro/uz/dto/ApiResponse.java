@@ -63,4 +63,7 @@ public class ApiResponse<T> {
     public static <T> ApiResponse<T> bad(String message) {
         return new ApiResponse<T>(message, 400, true);
     }
+    public static <T> ApiResponse<T> forbidden(String message) {
+        return new ApiResponse<T>(message, 403, true);
+    }
 }

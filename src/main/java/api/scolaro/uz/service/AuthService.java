@@ -82,7 +82,7 @@ public class AuthService {
         return new ApiResponse<>(200, false);
     }
 
-    public ApiResponse<?> profileRegistrationVerification(SmsDTO dto) {
+    public ApiResponse<String> profileRegistrationVerification(SmsDTO dto) {
         boolean validate = PhoneUtil.validatePhone(dto.getPhone());
         if (!validate) {
             log.info("Phone not Valid! phone = {}", dto.getPhone());
@@ -101,19 +101,19 @@ public class AuthService {
             return new ApiResponse<>(resourceMessageService.getMessage("wrong.client.status"), 400, true);
         }
 
-        ApiResponse<?> smsResponse = smsHistoryService.checkSmsCode(dto.getPhone(), dto.getCode());
+        ApiResponse<String> smsResponse = smsHistoryService.checkSmsCode(dto.getPhone(), dto.getCode());
         if (smsResponse.getIsError()) {
             return smsResponse;
         }
         // change client status
         profileRepository.updateStatus(dto.getPhone(), GeneralStatus.ACTIVE);
         AuthResponseDTO responseDTO = getClientAuthorizationResponse(userOptional.get());
-        return new ApiResponse<>(200, false, responseDTO);
+        return new ApiResponse<>(200, false, "Success registration");
 
     }
 
 
-    public ApiResponse<?> profileLogin(AuthRequestProfileDTO dto) {
+    public ApiResponse<AuthResponseDTO> profileLogin(AuthRequestProfileDTO dto) {
         boolean validate = PhoneUtil.validatePhone(dto.getPhone());
         if (!validate) {
             log.info("Phone not valid! phone = {}", dto.getPhone());

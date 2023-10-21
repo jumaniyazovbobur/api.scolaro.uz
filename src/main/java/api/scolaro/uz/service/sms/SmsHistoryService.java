@@ -62,7 +62,7 @@ public class SmsHistoryService {
         throw new SmsLimitOverException(resourceMessageService.getMessage("sms.limit.over"));
     }
 
-    public ApiResponse<?> checkSmsCode(String phone, String code) {
+    public ApiResponse<String> checkSmsCode(String phone, String code) {
         Optional<SmsHistoryEntity> optional = smsHistoryRepository.findTopByPhoneOrderByCreatedDateDesc(phone);
         if (optional.isEmpty()) {
             log.warn("Phone Incorrect! Phone = {}, code = {}", phone, code);

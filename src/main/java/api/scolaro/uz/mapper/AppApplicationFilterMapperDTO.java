@@ -2,6 +2,7 @@ package api.scolaro.uz.mapper;
 
 import api.scolaro.uz.dto.attach.AttachResponseDTO;
 import api.scolaro.uz.enums.AppStatus;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

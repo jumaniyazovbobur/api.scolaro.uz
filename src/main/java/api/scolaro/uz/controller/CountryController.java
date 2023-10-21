@@ -47,7 +47,7 @@ public class CountryController {
     @ApiOperation(value = "Country Create", notes = "Country Create admin")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("")
-    public ResponseEntity<ApiResponse<CountryResponseDTO>> create(@RequestBody CountryRequestDTO countryDTO) {
+    public ResponseEntity<ApiResponse<CountryResponseDTO>> create(@RequestBody @Valid CountryRequestDTO countryDTO) {
         log.info("Request for Country Create {}", countryDTO);
         return ResponseEntity.ok().body(countryService.countryCreate(countryDTO));
     }

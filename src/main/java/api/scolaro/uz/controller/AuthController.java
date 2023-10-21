@@ -37,14 +37,14 @@ public class AuthController {
 
     @Operation(summary = "User registration verification", description = "Method used for user registration verification")
     @PostMapping("/profile/registration/verification")
-    public ResponseEntity<ApiResponse<?>> registrationVerification(@RequestBody @Valid SmsDTO dto) {
+    public ResponseEntity<ApiResponse<String>> registrationVerification(@RequestBody @Valid SmsDTO dto) {
         log.info("Registration verification {}", dto);
         return ResponseEntity.ok(authService.profileRegistrationVerification(dto));
     }
 
     @Operation(summary = "Profile login", description = "Method profile for  Login")
     @PostMapping("/profile/login")
-    public ResponseEntity<?> profileLogin(@RequestBody @Valid AuthRequestProfileDTO dto) {
+    public ResponseEntity<ApiResponse<AuthResponseDTO>> profileLogin(@RequestBody @Valid AuthRequestProfileDTO dto) {
         log.info("Client login {}", dto);
         return ResponseEntity.ok(authService.profileLogin(dto));
     }
