@@ -110,6 +110,14 @@ public class CountryService {
         });
     }
 
+
+    public List<CountryResponseDTO> search(String query, AppLanguage language) {
+        List<CountryEntity> entityList = countryRepository.searchByName(query.toLowerCase());
+        List<CountryResponseDTO> dtoList = new LinkedList<>();
+        entityList.forEach(entity -> dtoList.add(toDTO(entity, language)));
+        return dtoList;
+    }
+
     private CountryResponseDTO toDTO(CountryEntity entity) {
         CountryResponseDTO dto = new CountryResponseDTO();
         dto.setId(entity.getId());
@@ -118,5 +126,17 @@ public class CountryService {
         dto.setNameEn(entity.getNameEn());
         return dto;
     }
+
+    private CountryResponseDTO toDTO(CountryEntity entity, AppLanguage language) {
+        CountryResponseDTO dto = new CountryResponseDTO();
+        dto.setId(entity.getId());
+        switch (language) {
+            case en -> dto.setName(entity.getNameEn());
+            case uz -> dto.setName(entity.getNameUz());
+            case ru -> dto.setName(entity.getNameRu());
+        }
+        return dto;
+    }
+
 
 }

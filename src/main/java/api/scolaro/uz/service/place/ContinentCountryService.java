@@ -64,6 +64,7 @@ public class ContinentCountryService {
         ContinentCountryEntity entity = new ContinentCountryEntity();
         entity.setContinentId(requestDTO.getContinentId());
         entity.setCountryId(requestDTO.getCountryId());
+        entity.setOrderNumber(requestDTO.getOrderNumber());
         continentCountryRepository.save(entity);
         return new ApiResponse<>(200, false, toDTO(entity));
 
@@ -77,6 +78,7 @@ public class ContinentCountryService {
         }
         entity.setContinentId(dto.getContinentId());
         entity.setCountryId(dto.getCountryId());
+        entity.setOrderNumber(dto.getOrderNumber());
         // update
         continentCountryRepository.save(entity);
         return new ApiResponse<>(200, false, toDTO(entity));
