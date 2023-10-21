@@ -8,8 +8,10 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTc2MTg3NzIsImlkIjoiNDAyO
   "universityId": 1
 }
 
-### Create appApplication for students
-GET localhost:8081/api/v1/app-application
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTc2MTg3NzIsImlkIjoiNDAyODgwZTY4YjM4MzBhNTAxOGIzODMwZTAzMTAwMDAiLCJwaG9uZSI6Ijk5ODk5Nzc5NTcxMCIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNjk4MjIzNTcyLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.oUNu_-3B0W3IQGv4se8yIO6QbB7JxwOvDUSuEJ6ZJdQM9Is-QqvmWEk_IwW7-05PNtUNH7mvl-gnw3-vAMPdGg
+
+### Get  appApplication for student
+GET localhost:8081/api/v1/app-application/student
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTc4NzIxMTQsImlkIjoiNDAyODgwZTY4YjM4MzBhNTAxOGIzODMwZTAzMTAwMDAiLCJwaG9uZSI6Ijk5ODk5Nzc5NTcxMCIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNjk4NDc2OTE0LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.gToflpP99zz5o9G5jGCE5p3aDaSF_-DI4kaXscI-D3Aob4_CxrXfzPsUAKxVzaolHYv9LszcPpL9PeKm2OyT6A
+
+
 

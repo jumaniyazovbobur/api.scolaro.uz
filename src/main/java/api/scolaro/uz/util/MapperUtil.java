@@ -6,6 +6,9 @@ import java.time.format.DateTimeFormatter;
 
 
 public class MapperUtil {
+
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     public static Boolean getVisibleValue(Object o) {
         return o == null ? null : (Boolean) o;
     }
@@ -30,14 +33,18 @@ public class MapperUtil {
         return o == null ? null : (LocalDateTime) o;
     }
 
-    public static LocalDate getLocalDateValue(Object o) {
-        return o == null ? null : (LocalDate) o;
-    }
+//    public static LocalDate getLocalDateValue(Object o) {
+//        return o == null ? null : (LocalDate) o;
+//    }
 
     public static LocalDateTime getLocalDateTime(Object o) {
         String dateTime = getStringValue(o);
         if (dateTime == null) return null;
         DateTimeFormatter ofPattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSS");
         return LocalDateTime.parse(dateTime, ofPattern);
+    }
+
+    public static LocalDateTime getLocalDateValue(Object o) {
+        return o == null ? null : LocalDateTime.parse(String.valueOf(o).substring(0,19), formatter);
     }
 }

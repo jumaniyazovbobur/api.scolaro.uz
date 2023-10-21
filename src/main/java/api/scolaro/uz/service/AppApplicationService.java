@@ -2,6 +2,7 @@ package api.scolaro.uz.service;
 
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.appApplication.AppApplicationFilterDTO;
 import api.scolaro.uz.dto.appApplication.AppApplicationRequestDTO;
 import api.scolaro.uz.dto.appApplication.AppApplicationResponseDTO;
@@ -9,11 +10,15 @@ import api.scolaro.uz.entity.AppApplicationEntity;
 import api.scolaro.uz.entity.UniversityEntity;
 import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.enums.AppStatus;
+import api.scolaro.uz.mapper.AppApplicationFilterMapperDTO;
 import api.scolaro.uz.repository.appApplication.AppApplicationFilterRepository;
 import api.scolaro.uz.repository.appApplication.AppApplicationRepository;
 import api.scolaro.uz.service.consulting.ConsultingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -52,15 +57,15 @@ public class AppApplicationService {
         return dto;
     }
 
-    public void filter (AppApplicationFilterDTO filter,int page, int size) {
-        appApplicationFilterRepository.filter(filter,page,size);
+    public ApiResponse<?> filterForAdmin (AppApplicationFilterDTO filter,int page, int size) {
+        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.filterForAdmin(filter,page,size);
+        Page<AppApplicationFilterMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
+        return ApiResponse.ok(pageObj);
+    }
 
-
-       /* AppApplicationFilterDTO dto = new AppApplicationFilterDTO();
-        dto.setStudentName("Maxmud");
-        FilterResultDTO<AppApplicationFilterMapper> filter = appApplicationFilterRepository.filter(dto, 0, 2);
-        for (AppApplicationFilterMapper mapper : filter.getContent()) {
-            System.out.println(mapper.getSName());
-        }*/
+    public ApiResponse<?> filterForStudent (int page, int size) {
+        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getForStudent(page,size);
+        Page<AppApplicationFilterMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
+        return ApiResponse.ok(pageObj);
     }
 }

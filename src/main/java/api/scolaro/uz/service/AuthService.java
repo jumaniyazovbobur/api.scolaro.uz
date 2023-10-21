@@ -72,6 +72,7 @@ public class AuthService {
         userEntity.setCountryId(dto.getCountryId());
         userEntity.setGenderType(dto.getGender());
         userEntity.setNickName(dto.getNickName());
+        userEntity.setFireBaseId(dto.getFireBaseId());
 
         profileRepository.save(userEntity);
         // send sms verification code
@@ -140,7 +141,11 @@ public class AuthService {
 
     private AuthResponseDTO getClientAuthorizationResponse(ProfileEntity entity) {
         AuthResponseDTO dto = new AuthResponseDTO();
+        dto.setId(entity.getId());
+        dto.setNickName(entity.getNickName());
+        dto.setCountryId(entity.getCountryId());
         dto.setSurname(entity.getSurname());
+        dto.setPhone(entity.getPhone());
         dto.setName(entity.getName());
         dto.setRoleList(personRoleService.getProfileRoleList(entity.getId()));
         String jwt = JwtUtil.encode(entity.getId(), entity.getPhone(), dto.getRoleList());

@@ -1,5 +1,6 @@
 package api.scolaro.uz.repository.appApplication;
 
+import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.appApplication.AppApplicationFilterDTO;
 import api.scolaro.uz.dto.attach.AttachResponseDTO;
@@ -24,7 +25,11 @@ public class AppApplicationFilterRepository {
     private final AttachService attachService;
     private final EntityManager entityManager;
 
-    public FilterResultDTO<AppApplicationFilterMapperDTO> filter(AppApplicationFilterDTO filterDTO, int page, int size) {
+
+    /*
+     * FOR ADMIN
+     * */
+    public FilterResultDTO<AppApplicationFilterMapperDTO> filterForAdmin(AppApplicationFilterDTO filterDTO, int page, int size) {
 
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, Object> params = new HashMap<>();
@@ -35,12 +40,22 @@ public class AppApplicationFilterRepository {
             params.put("name", filterDTO.getStudentName().toLowerCase());
         }
         if (filterDTO.getStudentSurName() != null) {
-            stringBuilder.append(" and p.surname like :surname");
-            params.put("surname", "%" + filterDTO.getStudentSurName() + "%");
+            stringBuilder.append(" and lower(p.surname) =:surname");
+            params.put("surname", filterDTO.getStudentSurName().toLowerCase());
         }
+//        if (filterDTO.getStudentSurName() != null) {
+//            stringBuilder.append(" and p.surname like :surname");
+//            params.put("surname", "%" + filterDTO.getStudentSurName() + "%");
+//        }
+
+//        if (filterDTO.getConsultingName() != null) {
+//            stringBuilder.append(" and c.name =:cName");
+//            params.put("cName", filterDTO.getConsultingName());
+//        }
+
         if (filterDTO.getConsultingName() != null) {
-            stringBuilder.append(" and c.name =:cName");
-            params.put("cName", filterDTO.getConsultingName());
+            stringBuilder.append(" and lower(c.name) =:cName");
+            params.put("cName", filterDTO.getConsultingName().toLowerCase());
         }
         if (filterDTO.getStatus() != null) {
             stringBuilder.append(" and a.status =:status");
@@ -70,6 +85,72 @@ public class AppApplicationFilterRepository {
         countBuilder.append(stringBuilder);
 
 
+        Query selectQuery = entityManager.createNativeQuery(selectBuilder.toString());
+        Query countQuery = entityManager.createNativeQuery(countBuilder.toString());
+        selectQuery.setMaxResults(size); // limit
+        selectQuery.setFirstResult(size * page); // offset
+
+        // params
+        for (Map.Entry<String, Object> param : params.entrySet()) {
+            selectQuery.setParameter(param.getKey(), param.getValue());
+            countQuery.setParameter(param.getKey(), param.getValue());
+        }
+
+        List<Object[]> entityList = selectQuery.getResultList();
+        Long totalCount = (Long) countQuery.getSingleResult();
+        List<AppApplicationFilterMapperDTO> mapperList = new LinkedList<>();
+
+        for (Object[] object : entityList) {
+            AppApplicationFilterMapperDTO dto = new AppApplicationFilterMapperDTO();
+            dto.setAppId(MapperUtil.getStringValue(object[0]));
+            dto.setAppCreatedDate(MapperUtil.getLocalDateValue(object[1]));
+            dto.setAppVisible(MapperUtil.getVisibleValue(object[2]));
+            dto.setAppStatus(AppStatus.valueOf(MapperUtil.getStringValue(object[3])));
+            dto.setConId(MapperUtil.getStringValue(object[4]));
+            dto.setConName(MapperUtil.getStringValue(object[5]));
+            dto.setConPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[6])));
+            dto.setUniName(MapperUtil.getStringValue(object[7]));
+            dto.setUniId(MapperUtil.getLongValue(object[8]));
+            dto.setUniPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[9])));
+            dto.setSId(MapperUtil.getStringValue(object[10]));
+            dto.setSName(MapperUtil.getStringValue(object[11]));
+            dto.setSSurName(MapperUtil.getStringValue(object[12]));
+            dto.setSPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[13])));
+            mapperList.add(dto);
+        }
+        return new FilterResultDTO<>(mapperList, totalCount);
+    }
+
+
+    public FilterResultDTO<AppApplicationFilterMapperDTO> getForStudent(int page, int size) {
+
+        StringBuilder stringBuilder = new StringBuilder();
+        Map<String, Object> params = new HashMap<>();
+
+        String studentId = EntityDetails.getCurrentUserId();
+        stringBuilder.append(" and p.id =:studentId");
+        params.put("studentId", studentId);
+
+        StringBuilder selectBuilder = new StringBuilder("select a.id as appId, a.created_date as appCreatedDate, a.visible as appVisible,  " +
+                "a.status as appStatus, " +
+                "c.id as conId, c.name as conName, c.photo_id as conPhotoId, " +
+                "un.name as uniName, un.id as uniId, un.photo_id as uniPhotoId " +
+                "from app_application as a " +
+                "inner join profile as p on a.student_id=p.id " +
+                "inner join consulting as c on a.consulting_id=c.id " +
+                "inner join university as un on a.university_id=un.id " +
+                "where a.visible = true ");
+        selectBuilder.append(stringBuilder);
+
+
+        StringBuilder countBuilder = new StringBuilder("select count(*) " +
+                "from app_application as a " +
+                "inner join profile as p on a.student_id=p.id " +
+                "inner join consulting as c on a.consulting_id=c.id " +
+                "inner join university as un on a.university_id=un.id " +
+                "where a.visible = true ");
+        countBuilder.append(stringBuilder);
+
 
         Query selectQuery = entityManager.createNativeQuery(selectBuilder.toString());
         Query countQuery = entityManager.createNativeQuery(countBuilder.toString());
@@ -89,7 +170,7 @@ public class AppApplicationFilterRepository {
         for (Object[] object : entityList) {
             AppApplicationFilterMapperDTO dto = new AppApplicationFilterMapperDTO();
             dto.setAppId(MapperUtil.getStringValue(object[0]));
-            dto.setAppCreatedDate(MapperUtil.getDateValue(object[1]));
+            dto.setAppCreatedDate(MapperUtil.getLocalDateValue(object[1]));
             dto.setAppVisible(MapperUtil.getVisibleValue(object[2]));
             dto.setAppStatus(AppStatus.valueOf(MapperUtil.getStringValue(object[3])));
             dto.setConId(MapperUtil.getStringValue(object[4]));
@@ -98,10 +179,6 @@ public class AppApplicationFilterRepository {
             dto.setUniName(MapperUtil.getStringValue(object[7]));
             dto.setUniId(MapperUtil.getLongValue(object[8]));
             dto.setUniPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[9])));
-            dto.setSId(MapperUtil.getStringValue(object[10]));
-            dto.setSName(MapperUtil.getStringValue(object[11]));
-            dto.setSSurName(MapperUtil.getStringValue(object[12]));
-            dto.setSPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[13])));
             mapperList.add(dto);
         }
         return new FilterResultDTO<>(mapperList, totalCount);

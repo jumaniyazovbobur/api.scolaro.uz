@@ -13,6 +13,8 @@ import lombok.Setter;
 @Entity
 @Table(name = "profile")
 public class ProfileEntity extends BaseEntity {
+    @Column(name = "fire_base_id")
+    private String fireBaseId;
     @Column(name = "name")
     private String name;
     @Column(name = "surname")
@@ -45,4 +47,5 @@ public class ProfileEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     private GenderType genderType;
+
 }

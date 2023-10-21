@@ -32,4 +32,5 @@ public class AuthRequestDTO {
     private String address;
     @NotNull(message = "Gender required")
     private GenderType gender;
+    private String fireBaseId;
 }

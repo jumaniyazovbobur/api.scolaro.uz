@@ -76,6 +76,7 @@ public class ConsultingService {
         entity.setOwnerSurname(dto.getOwnerSurname());
         entity.setPhotoId(dto.getPhotoId());
         entity.setStatus(GeneralStatus.ACTIVE);
+        entity.setFireBaseId(dto.getFireBaseId());
         // save
         consultingRepository.save(entity);
         personRoleService.create(entity.getId(), RoleEnum.ROLE_CONSULTING);

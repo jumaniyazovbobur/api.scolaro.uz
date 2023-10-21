@@ -13,6 +13,8 @@ import lombok.Setter;
 @Entity
 @Table(name = "consulting")
 public class ConsultingEntity extends BaseEntity {
+    @Column(name = "fire_base_id")
+    private String fireBaseId;
     @Column(name = "name")
     private String name; // consulting firm name
     @Column(name = "owner_name")

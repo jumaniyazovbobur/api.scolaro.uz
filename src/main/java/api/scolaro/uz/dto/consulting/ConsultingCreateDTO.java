@@ -22,5 +22,6 @@ public class ConsultingCreateDTO {
     @NotNull(message = "Photo is required")
     private String photoId;
     private String about;
+    private String fireBaseId;
 
 }

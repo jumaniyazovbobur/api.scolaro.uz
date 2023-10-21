@@ -12,6 +12,9 @@ import java.util.List;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AuthResponseDTO {
+    private String nickName;
+    private Long countryId;
+    private String phone;
     private String id;
     private String name;
     private String surname;
