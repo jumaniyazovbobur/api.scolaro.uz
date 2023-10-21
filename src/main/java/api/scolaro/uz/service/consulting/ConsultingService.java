@@ -84,7 +84,6 @@ public class ConsultingService {
         return ApiResponse.ok(toDTO(entity));
     }
 
-
     public ApiResponse<?> updateDetail(ConsultingUpdateDTO dto) {
         ConsultingEntity entity = get(EntityDetails.getCurrentUserId());
         entity.setName(dto.getName());
@@ -96,12 +95,26 @@ public class ConsultingService {
         consultingRepository.save(entity);
         return ApiResponse.ok(toDTO(entity));
     }
+
+    public ApiResponse<?> updateConsulting(String id, ConsultingUpdateDTO dto) {
+        ConsultingEntity entity = get(id);
+        entity.setName(dto.getName());
+        entity.setAddress(dto.getAddress());
+        entity.setAbout(dto.getAbout());
+        entity.setOwnerName(dto.getOwnerName());
+        entity.setOwnerSurname(dto.getOwnerSurname());
+        // update
+        consultingRepository.save(entity);
+        return ApiResponse.ok(toDTO(entity));
+    }
+
     public ApiResponse<?> changeStatus(String id, GeneralStatus status) {
         ConsultingEntity entity = get(id);
         int result = consultingRepository.changeStatus(entity.getId(), status);
         if (result == 0) return ApiResponse.bad("Try again !");
         return ApiResponse.ok("Success");
     }
+
     public ApiResponse<?> updatePassword(UpdatePasswordDTO dto) {
         ConsultingDTO currentConsulting = getCurrentConsultingDetail();
         if (!dto.getNewPassword().equals(dto.getConfirmPassword())) {
