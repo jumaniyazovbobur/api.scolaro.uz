@@ -40,7 +40,7 @@ public class ContinentCountryController {
                                                                                           @RequestHeader(value = "Accept-Language",
                                                                                                   defaultValue = "uz") AppLanguage language) {
         log.info("get continent country list");
-        return ResponseEntity.ok().body(continentCountryService.getList(continentId,language));
+        return ResponseEntity.ok().body(continentCountryService.getList(continentId, language));
     }
 
     /**
@@ -58,14 +58,14 @@ public class ContinentCountryController {
     /**
      * FOR ADMIN
      */
-    @Operation(summary = "get continent country update ", description = "")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<ContinentCountryResponseDTO>> update(@PathVariable("id") Long id,
-                                                            @Valid @RequestBody ContinentCountryRequestDTO dto) {
-        log.info("Request for Continent country Update {}", dto);
-        return ResponseEntity.ok().body(continentCountryService.update(id, dto));
-    }
+//    @Operation(summary = "get continent country update ", description = "")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PutMapping("/{id}")
+//    public ResponseEntity<ApiResponse<ContinentCountryResponseDTO>> update(@PathVariable("id") Long id,
+//                                                            @Valid @RequestBody ContinentCountryRequestDTO dto) {
+//        log.info("Request for Continent country Update {}", dto);
+//        return ResponseEntity.ok().body(continentCountryService.update(id, dto));
+//    }
 
     /**
      * FOR ADMIN
@@ -73,9 +73,9 @@ public class ContinentCountryController {
 
     @Operation(summary = "get continent country delete ", description = "")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Boolean>> delete(@PathVariable("id") Long id) {
-        log.info("Request for Continent country delete {}", id);
-        return ResponseEntity.ok().body(continentCountryService.delete(id));
+    @DeleteMapping("/{continentId}/{countryId}")
+    public ResponseEntity<ApiResponse<Boolean>> delete(@PathVariable("continentId") Long continentId, @PathVariable("countryId") Long countryId) {
+        log.info("Request for continentCountry delete  continentId {}, countryId {} ", continentId, countryId);
+        return ResponseEntity.ok().body(continentCountryService.delete(continentId, countryId));
     }
 }
