@@ -57,7 +57,7 @@ public class ContinentCountryService {
 
     public ApiResponse<ContinentCountryResponseDTO> create(ContinentCountryRequestDTO requestDTO) {
         Optional<ContinentCountryEntity> optional = continentCountryRepository.findByContinentIdAndCountryId(requestDTO.getContinentId(), requestDTO.getCountryId());
-        if (optional.isPresent()){
+        if (optional.isPresent()) {
             log.info("This union was created earlier");
             return ApiResponse.bad("This union was created earlier");
         }
@@ -84,14 +84,9 @@ public class ContinentCountryService {
         return new ApiResponse<>(200, false, toDTO(entity));
     }
 
-    public ApiResponse<Boolean> delete(Long id) {
-        ContinentCountryEntity entity = get(id);
-        if (entity.getVisible().equals(Boolean.FALSE)) {
-            log.warn("Is visible false");
-            throw new AppBadRequestException("Is visible false");
-        }
-        int i = continentCountryRepository.deleted(id, EntityDetails.getCurrentUserId(), LocalDateTime.now());
-        return new ApiResponse<>(200, false, i > 0);
+    public ApiResponse<Boolean> delete(Long continentId, Long countryId) {
+        continentCountryRepository.deleted(continentId, countryId);
+        return new ApiResponse<>(200, false);
     }
 
     public ContinentCountryEntity get(Long id) {

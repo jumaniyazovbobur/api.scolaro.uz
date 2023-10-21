@@ -96,8 +96,9 @@ public class ContinentService {
             return new ItemNotFoundException("Country not found");
         });
     }
-    private ContinentDTO toDTO(ContinentEntity entity){
-        ContinentDTO continentDTO=new ContinentDTO();
+
+    private ContinentDTO toDTO(ContinentEntity entity) {
+        ContinentDTO continentDTO = new ContinentDTO();
         continentDTO.setNameUz(entity.getNameUz());
         continentDTO.setNameEn(entity.getNameEn());
         continentDTO.setNameRu(entity.getNameRu());
@@ -106,4 +107,8 @@ public class ContinentService {
         return continentDTO;
     }
 
+    public ApiResponse<ContinentDTO> getById(Long id) {
+        ContinentEntity entity = get(id);
+        return ApiResponse.ok(toDTO(entity));
+    }
 }

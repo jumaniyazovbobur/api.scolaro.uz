@@ -50,6 +50,14 @@ public class ContinentController {
         return ResponseEntity.ok().body(continentService.continentCreate(continentDTO));
     }
 
+
+    @Operation(summary = "Get continent by id ", description = "")
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<ContinentDTO>> getById(@PathVariable("id") Long id) {
+        log.info("Get continent by id");
+        return ResponseEntity.ok().body(continentService.getById(id));
+    }
+
     /**
      * FOR ADMIN
      */

@@ -12,17 +12,14 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface ContinentCountryRepository extends JpaRepository<ContinentCountryEntity, Long> {
-    @Query("select new CountryEntity(d.id,d.nameUz,d.nameRu,d.nameEn) from ContinentCountryEntity as c inner join c.country as d where c.continentId=:continentId " +
-            "and d.visible =true order by d.createdDate")
+    @Query("select new CountryEntity(d.id,d.nameUz,d.nameRu,d.nameEn) from ContinentCountryEntity as c inner join c.country as d where c.continentId=:continentId " + "and d.visible =true order by d.createdDate")
     Iterable<CountryEntity> findByContinentId(@Param("continentId") Long continentId);
 
     @Modifying
     @Transactional
-    @Query("Update ContinentCountryEntity set visible = false , deletedId=:deletedId, deletedDate=:deletedDate where id =:id")
-    int deleted(@Param("id") Long id,
-                @Param("deletedId") String currentUserId,
-                @Param("deletedDate") LocalDateTime now);
+    @Query("Delete FROM ContinentCountryEntity where continentId =:continentId  and countryId=:countryId")
+    void deleted(@Param("continentId") Long continentId, @Param("countryId") Long countryId);
 
 
-    Optional<ContinentCountryEntity> findByContinentIdAndCountryId(Long conId,Long countId);
+    Optional<ContinentCountryEntity> findByContinentIdAndCountryId(Long conId, Long countId);
 }
