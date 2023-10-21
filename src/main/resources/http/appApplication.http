@@ -1,0 +1,15 @@
+### Create appApplication for students
+POST localhost:8081/api/v1/app-application
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTc2MTg3NzIsImlkIjoiNDAyODgwZTY4YjM4MzBhNTAxOGIzODMwZTAzMTAwMDAiLCJwaG9uZSI6Ijk5ODk5Nzc5NTcxMCIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNjk4MjIzNTcyLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.oUNu_-3B0W3IQGv4se8yIO6QbB7JxwOvDUSuEJ6ZJdQM9Is-QqvmWEk_IwW7-05PNtUNH7mvl-gnw3-vAMPdGg
+
+{
+  "consultingId":"402880e68b38493f018b384a38a60002",
+  "universityId": 1
+}
+
+### Create appApplication for students
+GET localhost:8081/api/v1/app-application
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTc2MTg3NzIsImlkIjoiNDAyODgwZTY4YjM4MzBhNTAxOGIzODMwZTAzMTAwMDAiLCJwaG9uZSI6Ijk5ODk5Nzc5NTcxMCIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNjk4MjIzNTcyLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.oUNu_-3B0W3IQGv4se8yIO6QbB7JxwOvDUSuEJ6ZJdQM9Is-QqvmWEk_IwW7-05PNtUNH7mvl-gnw3-vAMPdGg
+

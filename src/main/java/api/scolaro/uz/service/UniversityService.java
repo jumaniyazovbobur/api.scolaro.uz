@@ -84,7 +84,7 @@ public class UniversityService {
         return dto;
     }
 
-    private UniversityEntity get(Long id) {
+    public UniversityEntity get(Long id) {
         return universityRepository.findById(id).orElseThrow(() -> {
             log.warn("university not fount {}", id);
             return new ItemNotFoundException("University not found");

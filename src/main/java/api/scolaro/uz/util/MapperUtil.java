@@ -6,6 +6,10 @@ import java.time.format.DateTimeFormatter;
 
 
 public class MapperUtil {
+    public static Boolean getVisibleValue(Object o) {
+        return o == null ? null : (Boolean) o;
+    }
+
     public static String getStringValue(Object o) {
         return o == null ? null : String.valueOf(o);
     }

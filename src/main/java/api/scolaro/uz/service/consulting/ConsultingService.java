@@ -197,9 +197,11 @@ public class ConsultingService {
         ConsultingResponseDTO dto = new ConsultingResponseDTO();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
+        dto.setOwnerName(entity.getOwnerName());
         dto.setAddress(entity.getAddress());
         dto.setPhone(entity.getPhone());
         dto.setAbout(entity.getAbout());
+        dto.setOwnerSurName(entity.getOwnerSurname());
         if (entity.getPhotoId() != null) dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
         dto.setCreatedDate(entity.getCreatedDate());
         return dto;

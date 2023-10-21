@@ -84,6 +84,6 @@ public class CountryController {
     @GetMapping("/pagination")
     public ResponseEntity<CountryPaginationDTO> pagination(@RequestParam(value = "page", defaultValue = "1") int page,
                                                            @RequestParam(value = "size", defaultValue = "30") int size) {
-        return ResponseEntity.ok().body(countryService.pagination(page-1, size));
+        return ResponseEntity.ok().body(countryService.pagination(page - 1, size));
     }
 }
