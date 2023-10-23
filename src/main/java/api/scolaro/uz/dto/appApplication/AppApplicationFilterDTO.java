@@ -11,7 +11,6 @@ import lombok.ToString;
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AppApplicationFilterDTO {
-
     private String studentName;
     private String studentSurName;
     private String consultingName;

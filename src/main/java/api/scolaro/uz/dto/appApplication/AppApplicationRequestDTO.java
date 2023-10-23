@@ -11,10 +11,8 @@ import lombok.ToString;
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AppApplicationRequestDTO {
-
     @NotBlank(message = "consulting Id required")
     private String consultingId;
     @NotBlank(message = "university Id required")
     private Long universityId;
-
 }

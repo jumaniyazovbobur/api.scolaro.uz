@@ -1,6 +1,7 @@
 package api.scolaro.uz.dto.consulting;
 
 
+import api.scolaro.uz.dto.attach.AttachDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,5 +15,5 @@ public class ConsultingDTO {
     private String password;
     private String address;
     private String about;
-
+    private AttachDTO photo;
 }

@@ -40,7 +40,6 @@ public class AppApplicationService {
     private final AppApplicationFilterRepository appApplicationFilterRepository;
 
     public ApiResponse<?> create(AppApplicationRequestDTO dto) {
-
         ConsultingEntity consulting = consultingService.get(dto.getConsultingId());
         UniversityEntity university = universityService.get(dto.getUniversityId());
 
@@ -52,17 +51,6 @@ public class AppApplicationService {
 
         appApplicationRepository.save(entity);
         return new ApiResponse<>(200, false, toDTO(entity));
-    }
-
-    //    public ApiResponse<?> filter(AppApplicationFilterDTO dto)
-    public AppApplicationResponseDTO toDTO(AppApplicationEntity entity) {
-        AppApplicationResponseDTO dto = new AppApplicationResponseDTO();
-        dto.setConsultingId(entity.getConsultingId());
-        dto.setCreatedDate(entity.getCreatedDate());
-        dto.setUniversityId(entity.getUniversityId());
-        dto.setStudentId(entity.getStudentId());
-        dto.setStatus(entity.getStatus());
-        return dto;
     }
 
     public ApiResponse<?> filterForAdmin(AppApplicationFilterDTO filter, int page, int size) {
@@ -90,7 +78,7 @@ public class AppApplicationService {
             return new ApiResponse<>("AppApplication not found", 400, false);
         }
 
-        AppApplicationEntity entity = optional.get();
+        AppApplicationEntity applicationEntity = optional.get();
         String currentId = EntityDetails.getCurrentUserId();
 
         List<String> roleList = Objects.requireNonNull(getCurrentUserDetail())
@@ -98,25 +86,21 @@ public class AppApplicationService {
                 .stream()
                 .map(SimpleGrantedAuthority::getAuthority)
                 .toList();
-        if (EntityDetails.hasRole(RoleEnum.ROLE_STUDENT, roleList)) {
-            if (!currentId.equals(entity.getStudentId())) {
-                log.info("ConsultingId or StudentId not found {}", id);
-                return ApiResponse.forbidden("Your access denied for this Application!");
-            }
-        } else if (EntityDetails.hasRole(RoleEnum.ROLE_CONSULTING, roleList)) {
-            if (!currentId.equals(entity.getConsultingId())) {
-                log.info("ConsultingId or StudentId not found {}", id);
-                return ApiResponse.forbidden("Your access denied for this Application!");
-            }
+        if (EntityDetails.hasRole(RoleEnum.ROLE_STUDENT, roleList) && !currentId.equals(applicationEntity.getStudentId())) {
+            log.info("Profile do not have access to this application {} profileId {}", id, currentId);
+            return ApiResponse.forbidden("Your access denied for this Application!");
+        } else if (EntityDetails.hasRole(RoleEnum.ROLE_CONSULTING, roleList) && !currentId.equals(applicationEntity.getConsultingId())) {
+            log.info("Consulting do not have access to this application {} consulting {}", id, currentId);
+            return ApiResponse.forbidden("Your access denied for this Application!");
         }
 
         AppApplicationResponseDTO dto = new AppApplicationResponseDTO();
-        dto.setId(entity.getId());
-        dto.setStatus(entity.getStatus());
-        dto.setCreatedDate(entity.getCreatedDate());
-        dto.setConsultingId(entity.getConsultingId());
-        dto.setStudentId(entity.getStudentId());
-        dto.setUniversityId(entity.getUniversityId());
+        dto.setId(applicationEntity.getId());
+        dto.setStatus(applicationEntity.getStatus());
+        dto.setCreatedDate(applicationEntity.getCreatedDate());
+        dto.setConsultingId(applicationEntity.getConsultingId());// TODO if requested is not consulting add consulting detail(id,name,photo,ownerdetail)
+        dto.setStudentId(applicationEntity.getStudentId()); // TODO If requested profile is not student then add student detail (id,name,surname,photo)
+        dto.setUniversityId(applicationEntity.getUniversityId()); // TODO add University detail (id,name,photo)
         return new ApiResponse<>(200, true, dto);
     }
 
@@ -130,15 +114,34 @@ public class AppApplicationService {
         AppApplicationEntity entity = optional.get();
         String currentId = EntityDetails.getCurrentUserId();
         if (!currentId.equals(entity.getConsultingId())) {
-            log.info("ConsultingId not found {}", id);
+            log.info("Consulting {}  do not have access to application {}", currentId, id);
             return ApiResponse.forbidden("Your access denied for this Application!");
         }
-        if (dto.getStatus().equals(AppStatus.FINISHED)) {
-            appApplicationRepository.changeStatus(id, dto.getStatus(), LocalDateTime.now());
-            return new ApiResponse<>(200,false,"Success");
+        if (entity.getStatus().equals(AppStatus.TRAIL)) {// TRAIL -> STARTED or CANCELED
+            if (dto.getStatus().equals(AppStatus.STARTED)) {
+                appApplicationRepository.statusToStarted(id);
+            } else if (dto.getStatus().equals(AppStatus.CANCELED)) {
+                appApplicationRepository.statusToCanceled(id);
+            }
         }
-        appApplicationRepository.changeStatus(id, dto.getStatus());
-        return new ApiResponse<>(200,false,"Success");
+        if (entity.getStatus().equals(AppStatus.STARTED)) { // STARTED -> FINISHED or CANCELED
+            if (dto.getStatus().equals(AppStatus.FINISHED)) {
+                appApplicationRepository.statusToFinished(id);
+            } else if (dto.getStatus().equals(AppStatus.CANCELED)) {
+                appApplicationRepository.statusToCanceled(id);
+            }
+        }
+        return new ApiResponse<>(200, false, "Success");
+    }
+
+    public AppApplicationResponseDTO toDTO(AppApplicationEntity entity) {
+        AppApplicationResponseDTO dto = new AppApplicationResponseDTO();
+        dto.setConsultingId(entity.getConsultingId());
+        dto.setCreatedDate(entity.getCreatedDate());
+        dto.setUniversityId(entity.getUniversityId());
+        dto.setStudentId(entity.getStudentId());
+        dto.setStatus(entity.getStatus());
+        return dto;
     }
 
 
