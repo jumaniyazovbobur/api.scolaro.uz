@@ -20,14 +20,16 @@ public interface AppApplicationRepository extends JpaRepository<AppApplicationEn
 
     @Transactional
     @Modifying
-    @Query("update AppApplicationEntity set status = :status where id=:id")
-    int changeStatus(@Param("id") String id,
-                     @Param("status") AppStatus status);
+    @Query("update AppApplicationEntity set status = 'STARTED', startedDate = current_timestamp where id=:id")
+    int statusToStarted(@Param("id") String id);
 
     @Transactional
     @Modifying
-    @Query("update AppApplicationEntity set status = :status, finishedDate=:date where id=:id")
-    int changeStatus(@Param("id") String id,
-                     @Param("status") AppStatus status,
-                     @Param("date") LocalDateTime date);
+    @Query("update AppApplicationEntity set status = 'FINIESHED', finishedDate = current_timestamp where id=:id")
+    int statusToFinished(@Param("id") String id);
+
+    @Transactional
+    @Modifying
+    @Query("update AppApplicationEntity set status = 'CANCELED', canceledDate = current_timestamp where id=:id")
+    int statusToCanceled(@Param("id") String id);
 }

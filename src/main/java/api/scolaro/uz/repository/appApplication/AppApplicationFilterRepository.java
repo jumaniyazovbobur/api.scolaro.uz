@@ -4,6 +4,9 @@ import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.appApplication.AppApplicationFilterConsultingDTO;
 import api.scolaro.uz.dto.appApplication.AppApplicationFilterDTO;
+import api.scolaro.uz.dto.consulting.ConsultingDTO;
+import api.scolaro.uz.dto.profile.ProfileDTO;
+import api.scolaro.uz.dto.university.UniversityResponseDTO;
 import api.scolaro.uz.enums.AppStatus;
 import api.scolaro.uz.mapper.AppApplicationFilterMapperDTO;
 import api.scolaro.uz.service.AttachService;
@@ -11,6 +14,7 @@ import api.scolaro.uz.util.MapperUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -30,38 +34,25 @@ public class AppApplicationFilterRepository {
      * FOR ADMIN
      * */
     public FilterResultDTO<AppApplicationFilterMapperDTO> filterForAdmin(AppApplicationFilterDTO filterDTO, int page, int size) {
-
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, Object> params = new HashMap<>();
 
-
         if (filterDTO.getStudentName() != null) {
-            stringBuilder.append(" and lower(p.name) =:name");
-            params.put("name", filterDTO.getStudentName().toLowerCase());
+            stringBuilder.append(" and lower(p.name) like =:name");
+            params.put("name", "%" + filterDTO.getStudentName().toLowerCase() + "%");
         }
         if (filterDTO.getStudentSurName() != null) {
-            stringBuilder.append(" and lower(p.surname) =:surname");
-            params.put("surname", filterDTO.getStudentSurName().toLowerCase());
+            stringBuilder.append(" and lower(p.surname) like =:surname");
+            params.put("surname", "%" + filterDTO.getStudentSurName().toLowerCase() + "%");
         }
-//        if (filterDTO.getStudentSurName() != null) {
-//            stringBuilder.append(" and p.surname like :surname");
-//            params.put("surname", "%" + filterDTO.getStudentSurName() + "%");
-//        }
-
-//        if (filterDTO.getConsultingName() != null) {
-//            stringBuilder.append(" and c.name =:cName");
-//            params.put("cName", filterDTO.getConsultingName());
-//        }
-
         if (filterDTO.getConsultingName() != null) {
-            stringBuilder.append(" and lower(c.name) =:cName");
-            params.put("cName", filterDTO.getConsultingName().toLowerCase());
+            stringBuilder.append(" and lower(c.name) like =:cName");
+            params.put("cName", "%" + filterDTO.getConsultingName().toLowerCase() + "%");
         }
         if (filterDTO.getStatus() != null) {
             stringBuilder.append(" and a.status =:status");
             params.put("status", filterDTO.getStatus().name());
         }
-
 
         StringBuilder selectBuilder = new StringBuilder("select a.id as appId, a.created_date as appCreatedDate, a.visible as appVisible,  " +
                 "a.status as appStatus, " +
@@ -75,7 +66,6 @@ public class AppApplicationFilterRepository {
                 "where a.visible = true ");
         selectBuilder.append(stringBuilder);
 
-
         StringBuilder countBuilder = new StringBuilder("select count(*) " +
                 "from app_application as a " +
                 "inner join profile as p on a.student_id=p.id " +
@@ -83,7 +73,6 @@ public class AppApplicationFilterRepository {
                 "inner join university as un on a.university_id=un.id " +
                 "where a.visible = true ");
         countBuilder.append(stringBuilder);
-
 
         Query selectQuery = entityManager.createNativeQuery(selectBuilder.toString());
         Query countQuery = entityManager.createNativeQuery(countBuilder.toString());
@@ -102,20 +91,30 @@ public class AppApplicationFilterRepository {
 
         for (Object[] object : entityList) {
             AppApplicationFilterMapperDTO dto = new AppApplicationFilterMapperDTO();
-            dto.setAppId(MapperUtil.getStringValue(object[0]));
-            dto.setAppCreatedDate(MapperUtil.getLocalDateValue(object[1]));
-            dto.setAppVisible(MapperUtil.getVisibleValue(object[2]));
-            dto.setAppStatus(AppStatus.valueOf(MapperUtil.getStringValue(object[3])));
-            dto.setConId(MapperUtil.getStringValue(object[4]));
-            dto.setConName(MapperUtil.getStringValue(object[5]));
-            dto.setConPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[6])));
-            dto.setUniName(MapperUtil.getStringValue(object[7]));
-            dto.setUniId(MapperUtil.getLongValue(object[8]));
-            dto.setUniPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[9])));
-            dto.setSId(MapperUtil.getStringValue(object[10]));
-            dto.setSName(MapperUtil.getStringValue(object[11]));
-            dto.setSSurName(MapperUtil.getStringValue(object[12]));
-            dto.setSPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[13])));
+            dto.setId(MapperUtil.getStringValue(object[0]));
+            dto.setCreatedDate(MapperUtil.getLocalDateValue(object[1]));
+//            dto.setAppVisible(MapperUtil.getVisibleValue(object[2]));
+            dto.setStatus(AppStatus.valueOf(MapperUtil.getStringValue(object[3])));
+
+            ConsultingDTO consulting = new ConsultingDTO();
+            consulting.setId(MapperUtil.getStringValue(object[4]));
+            consulting.setName(MapperUtil.getStringValue(object[5]));
+            consulting.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[6])));
+            dto.setConsulting(consulting);
+
+            UniversityResponseDTO university = new UniversityResponseDTO();
+            university.setId(MapperUtil.getLongValue(object[8]));
+            university.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[9])));
+            university.setName(MapperUtil.getStringValue(object[7]));
+            dto.setUniversity(university);
+
+            ProfileDTO student = new ProfileDTO();
+            student.setId(MapperUtil.getStringValue(object[10]));
+            student.setName(MapperUtil.getStringValue(object[11]));
+            student.setSurname(MapperUtil.getStringValue(object[12]));
+            student.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[13])));
+            dto.setStudent(student);
+
             mapperList.add(dto);
         }
         return new FilterResultDTO<>(mapperList, totalCount);
@@ -123,7 +122,6 @@ public class AppApplicationFilterRepository {
 
 
     public FilterResultDTO<AppApplicationFilterMapperDTO> getForStudent(int page, int size) {
-
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, Object> params = new HashMap<>();
 
@@ -151,7 +149,6 @@ public class AppApplicationFilterRepository {
                 "where a.visible = true ");
         countBuilder.append(stringBuilder);
 
-
         Query selectQuery = entityManager.createNativeQuery(selectBuilder.toString());
         Query countQuery = entityManager.createNativeQuery(countBuilder.toString());
         selectQuery.setMaxResults(size); // limit
@@ -169,16 +166,23 @@ public class AppApplicationFilterRepository {
 
         for (Object[] object : entityList) {
             AppApplicationFilterMapperDTO dto = new AppApplicationFilterMapperDTO();
-            dto.setAppId(MapperUtil.getStringValue(object[0]));
-            dto.setAppCreatedDate(MapperUtil.getLocalDateValue(object[1]));
-            dto.setAppVisible(MapperUtil.getVisibleValue(object[2]));
-            dto.setAppStatus(AppStatus.valueOf(MapperUtil.getStringValue(object[3])));
-            dto.setConId(MapperUtil.getStringValue(object[4]));
-            dto.setConName(MapperUtil.getStringValue(object[5]));
-            dto.setConPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[6])));
-            dto.setUniName(MapperUtil.getStringValue(object[7]));
-            dto.setUniId(MapperUtil.getLongValue(object[8]));
-            dto.setUniPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[9])));
+            dto.setId(MapperUtil.getStringValue(object[0]));
+            dto.setCreatedDate(MapperUtil.getLocalDateValue(object[1]));
+//            dto.setAppVisible(MapperUtil.getVisibleValue(object[2]));
+            dto.setStatus(AppStatus.valueOf(MapperUtil.getStringValue(object[3])));
+
+            ConsultingDTO consulting = new ConsultingDTO();
+            consulting.setId(MapperUtil.getStringValue(object[4]));
+            consulting.setName(MapperUtil.getStringValue(object[5]));
+            consulting.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[6])));
+            dto.setConsulting(consulting);
+
+            UniversityResponseDTO university = new UniversityResponseDTO();
+            university.setName(MapperUtil.getStringValue(object[7]));
+            university.setId(MapperUtil.getLongValue(object[8]));
+            university.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[9])));
+            dto.setUniversity(university);
+
             mapperList.add(dto);
         }
         return new FilterResultDTO<>(mapperList, totalCount);
@@ -186,34 +190,20 @@ public class AppApplicationFilterRepository {
 
 
     public FilterResultDTO<AppApplicationFilterMapperDTO> filterForConsulting(AppApplicationFilterConsultingDTO filterDTO, int page, int size) {
-
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, Object> params = new HashMap<>();
-
-
         if (filterDTO.getStudentName() != null) {
-            stringBuilder.append(" and lower(p.name) =:name");
-            params.put("name", filterDTO.getStudentName().toLowerCase());
+            stringBuilder.append(" and lower(p.name) like =:name");
+            params.put("name", "%" + filterDTO.getStudentName().toLowerCase() + "%");
         }
         if (filterDTO.getStudentSurName() != null) {
-            stringBuilder.append(" and lower(p.surname) =:surname");
-            params.put("surname", filterDTO.getStudentSurName().toLowerCase());
+            stringBuilder.append(" and lower(p.surname) like =:surname");
+            params.put("surname", "%" + filterDTO.getStudentSurName().toLowerCase() + "%");
         }
-//        if (filterDTO.getStudentSurName() != null) {
-//            stringBuilder.append(" and p.surname like :surname");
-//            params.put("surname", "%" + filterDTO.getStudentSurName() + "%");
-//        }
-
-//        if (filterDTO.getConsultingName() != null) {
-//            stringBuilder.append(" and c.name =:cName");
-//            params.put("cName", filterDTO.getConsultingName());
-//        }
-
         if (filterDTO.getStatus() != null) {
             stringBuilder.append(" and a.status =:status");
             params.put("status", filterDTO.getStatus().name());
         }
-
 
         StringBuilder selectBuilder = new StringBuilder("select a.id as appId, " +
                 "a.created_date as appCreatedDate, " +
@@ -233,7 +223,6 @@ public class AppApplicationFilterRepository {
                 "where a.visible = true ");
         selectBuilder.append(stringBuilder);
 
-
         StringBuilder countBuilder = new StringBuilder("select count(*) " +
                 "from app_application as a " +
                 "inner join profile as p on a.student_id=p.id " +
@@ -241,7 +230,6 @@ public class AppApplicationFilterRepository {
                 "inner join university as un on a.university_id=un.id " +
                 "where a.visible = true ");
         countBuilder.append(stringBuilder);
-
 
         Query selectQuery = entityManager.createNativeQuery(selectBuilder.toString());
         Query countQuery = entityManager.createNativeQuery(countBuilder.toString());
@@ -260,21 +248,24 @@ public class AppApplicationFilterRepository {
 
         for (Object[] object : entityList) {
             AppApplicationFilterMapperDTO dto = new AppApplicationFilterMapperDTO();
-            dto.setAppId(MapperUtil.getStringValue(object[0]));
-            dto.setAppCreatedDate(MapperUtil.getLocalDateValue(object[1]));
-            dto.setAppVisible(MapperUtil.getVisibleValue(object[2]));
-            dto.setAppStatus(AppStatus.valueOf(MapperUtil.getStringValue(object[3])));
-            dto.setUniName(MapperUtil.getStringValue(object[4]));
-            dto.setUniId(MapperUtil.getLongValue(object[5]));
-            if (MapperUtil.getStringValue(object[6]) != null) {
-                dto.setUniPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[6])));
-            }
-            dto.setSId(MapperUtil.getStringValue(object[7]));
-            dto.setSName(MapperUtil.getStringValue(object[8]));
-            dto.setSSurName(MapperUtil.getStringValue(object[9]));
-            if (MapperUtil.getStringValue(object[10]) != null) {
-                dto.setSPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[10])));
-            }
+            dto.setId(MapperUtil.getStringValue(object[0]));
+            dto.setCreatedDate(MapperUtil.getLocalDateValue(object[1]));
+//            dto.setAppVisible(MapperUtil.getVisibleValue(object[2]));
+            dto.setStatus(AppStatus.valueOf(MapperUtil.getStringValue(object[3])));
+
+            UniversityResponseDTO university = new UniversityResponseDTO();
+            university.setName(MapperUtil.getStringValue(object[4]));
+            university.setId(MapperUtil.getLongValue(object[5]));
+            university.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[6])));
+            dto.setUniversity(university);
+
+            ProfileDTO student = new ProfileDTO();
+            student.setId(MapperUtil.getStringValue(object[7]));
+            student.setName(MapperUtil.getStringValue(object[8]));
+            student.setSurname(MapperUtil.getStringValue(object[9]));
+            student.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[10])));
+            dto.setStudent(student);
+
             mapperList.add(dto);
         }
         return new FilterResultDTO<>(mapperList, totalCount);

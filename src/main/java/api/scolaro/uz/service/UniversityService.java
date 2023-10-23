@@ -76,6 +76,7 @@ public class UniversityService {
 
     private UniversityResponseDTO toDTO(UniversityEntity entity) {
         UniversityResponseDTO dto = new UniversityResponseDTO();
+        dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setRating(entity.getRating());
         dto.setCountryId(entity.getCountryId());

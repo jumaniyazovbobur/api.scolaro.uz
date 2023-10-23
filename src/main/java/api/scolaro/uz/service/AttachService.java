@@ -102,8 +102,7 @@ public class AttachService {
             Path file = Paths.get(getPath(entity));
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
-                return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"" + entity.getOrigenName() + "\"").body(resource);
+                return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + entity.getOrigenName() + "\"").body(resource);
             } else {
                 log.warn("Attach error : Could not read the file!");
                 throw new RuntimeException("Could not read the file!");
@@ -175,9 +174,8 @@ public class AttachService {
     }
 
 
-
-    public AttachResponseDTO getResponseAttach(String id){
-       return new AttachResponseDTO(id,getUrl(id));
+    public AttachDTO getResponseAttach(String id) {
+        return id == null ? new AttachDTO() : new AttachDTO(id, getUrl(id));
     }
 
 }

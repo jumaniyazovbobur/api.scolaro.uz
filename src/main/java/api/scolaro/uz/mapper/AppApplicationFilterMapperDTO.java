@@ -1,6 +1,9 @@
 package api.scolaro.uz.mapper;
 
 import api.scolaro.uz.dto.attach.AttachResponseDTO;
+import api.scolaro.uz.dto.consulting.ConsultingDTO;
+import api.scolaro.uz.dto.profile.ProfileDTO;
+import api.scolaro.uz.dto.university.UniversityResponseDTO;
 import api.scolaro.uz.enums.AppStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
@@ -13,27 +16,10 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 public class AppApplicationFilterMapperDTO {
-    private String appId;
-    private LocalDateTime appCreatedDate;
-    private Boolean appVisible;
-    private AppStatus appStatus;
-    private String conId;
-
-    private String conName;
-
-    private AttachResponseDTO conPhoto;
-
-
-    private String uniName;
-
-    private Long uniId;
-
-    private AttachResponseDTO uniPhoto;
-
-    private String sId;
-
-    private String sName;
-    private String sSurName;
-
-    private AttachResponseDTO sPhoto;
+    private String id;
+    private LocalDateTime createdDate;
+    private AppStatus status;
+    private ConsultingDTO consulting;
+    private UniversityResponseDTO university;
+    private ProfileDTO student;
 }

@@ -9,14 +9,16 @@ import lombok.Setter;
 import lombok.ToString;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Table(name = "app_application")
 @Entity
 @Setter
 @ToString
-public class AppApplicationEntity extends BaseEntity{
+public class AppApplicationEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", insertable = false, updatable = false)
     private ProfileEntity student;
@@ -39,8 +41,14 @@ public class AppApplicationEntity extends BaseEntity{
     @Column(name = "status")
     private AppStatus status;
 
+    @Column(name = "started_date")
+    private LocalDateTime startedDate;
+
     @Column(name = "finished_date")
-    private LocalDate finishedDate;
+    private LocalDateTime finishedDate;
+
+    @Column(name = "canceled_date")
+    private LocalDateTime canceledDate;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "consulting_step_id", insertable = false, updatable = false)
