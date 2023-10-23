@@ -28,10 +28,10 @@ public class ConsultingTariffService {
 
     public ApiResponse<?> create(ConsultingTariffRequestDTO dto) {
         ConsultingTariffEntity entity = new ConsultingTariffEntity();
-        entity.setNameUz(dto.getNameUz());
-        entity.setNameRu(dto.getNameRu());
-        entity.setNameEn(dto.getNameEn());
-        entity.setDescription(dto.getDescription());
+        entity.setName(dto.getName());
+        entity.setDescriptionUz(dto.getDescriptionUz());
+        entity.setDescriptionRu(dto.getDescriptionRu());
+        entity.setDescriptionEn(dto.getDescriptionEn());
         entity.setPrice(dto.getPrice());
         entity.setConsultingId(EntityDetails.getCurrentUserId());
         entity.setTariffType(dto.getTariffType());
@@ -46,14 +46,14 @@ public class ConsultingTariffService {
         ConsultingTariffResponseDTO dto = new ConsultingTariffResponseDTO();
         dto.setId(entity.getId());
         dto.setStatus(entity.getStatus());
-        dto.setDescription(entity.getDescription());
+        dto.setName(entity.getName());
         dto.setConsultingId(entity.getConsultingId());
         dto.setTariffType(entity.getTariffType());
         dto.setPrice(entity.getPrice());
         switch (lang) {
-            case en -> dto.setName(entity.getNameEn());
-            case ru -> dto.setName(entity.getNameRu());
-            default -> dto.setName(entity.getNameUz());
+            case en -> dto.setDescription(entity.getDescriptionEn());
+            case ru -> dto.setDescription(entity.getDescriptionRu());
+            default -> dto.setDescription(entity.getDescriptionUz());
         }
         dto.setOrder(entity.getOrder());
         return new ApiResponse<>(200, false, dto);
@@ -66,10 +66,10 @@ public class ConsultingTariffService {
             throw new ItemNotFoundException("Author is not incorrect or not found");
         }
         entity.setId(entity.getId());
-        entity.setNameUz(dto.getNameUz());
-        entity.setNameEn(dto.getNameEn());
-        entity.setNameRu(dto.getNameRu());
-        entity.setDescription(dto.getDescription());
+        entity.setDescriptionUz(dto.getDescriptionUz());
+        entity.setDescriptionEn(dto.getDescriptionEn());
+        entity.setDescriptionRu(dto.getDescriptionRu());
+        entity.setName(dto.getName());
         entity.setOrder(dto.getOrder());
         entity.setPrice(dto.getPrice());
         entity.setStatus(dto.getStatus());
@@ -111,12 +111,12 @@ public class ConsultingTariffService {
     public ConsultingTariffResponseDTO toDto(ConsultingTariffEntity entity, AppLanguage lang) {
         ConsultingTariffResponseDTO dto = new ConsultingTariffResponseDTO();
         switch (lang) {
-            case en -> dto.setNameEn(entity.getNameEn());
-            case ru -> dto.setNameRu(entity.getNameRu());
-            default -> dto.setNameUz(entity.getNameUz());
+            case en -> dto.setDescription(entity.getDescriptionEn());
+            case ru -> dto.setDescriptionRu(entity.getDescriptionRu());
+            default -> dto.setDescriptionUz(entity.getDescriptionUz());
         }
         dto.setId(entity.getId());
-        dto.setDescription(entity.getDescription());
+        dto.setName(entity.getName());
         dto.setConsultingId(entity.getConsultingId());
         dto.setOrder(entity.getOrder());
         dto.setPrice(entity.getPrice());

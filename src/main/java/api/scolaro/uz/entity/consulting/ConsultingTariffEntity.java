@@ -12,14 +12,14 @@ import lombok.Setter;
 @Entity
 @Table(name = "consulting_tariff")
 public class ConsultingTariffEntity extends BaseEntity {
-    @Column(name = "name_uz")
-    private String nameUz;
-    @Column(name = "name_ru")
-    private String nameRu;
-    @Column(name = "name_en")
-    private String nameEn;
-    @Column(name = "description", columnDefinition = "text")
-    private String description;
+    @Column(name = "description_uz",columnDefinition = "text")
+    private String descriptionUz;
+    @Column(name = "description_ru",columnDefinition = "text")
+    private String descriptionRu;
+    @Column(name = "description_en",columnDefinition = "text")
+    private String descriptionEn;
+    @Column(name = "name", columnDefinition = "text")
+    private String name;
     @Column(name = "price")
     private Double price;
     @Column(name = "consulting_id")

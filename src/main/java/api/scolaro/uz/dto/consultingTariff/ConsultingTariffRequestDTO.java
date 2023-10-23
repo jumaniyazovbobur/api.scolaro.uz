@@ -14,14 +14,14 @@ import lombok.ToString;
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ConsultingTariffRequestDTO {
-    @NotBlank(message = "Uzbek name required")
-    private String nameUz;
-    @NotBlank(message = "Russian name required")
-    private String nameRu;
-    @NotBlank(message = "English name required")
-    private String nameEn;
-    @NotNull(message = "Description required")
-    private String description;
+    @NotBlank(message = "Name required")
+    private String name;
+    @NotBlank(message = "Uzbek description required")
+    private String descriptionUz;
+    @NotBlank(message = "Russian description required")
+    private String descriptionRu;
+    @NotBlank(message = "English description required")
+    private String descriptionEn;
     @NotNull(message = "Price required")
     private Double price;
     @NotNull(message = "Status required")

@@ -15,11 +15,11 @@ import lombok.ToString;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ConsultingTariffResponseDTO {
     private String id;
-    private String nameUz;
-    private String nameRu;
-    private String nameEn;
-    private String name;
+    private String descriptionUz;
+    private String descriptionRu;
+    private String descriptionEn;
     private String description;
+    private String name;
     private Double price;
     private String consultingId;
     private GeneralStatus status;

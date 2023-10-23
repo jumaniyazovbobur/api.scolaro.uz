@@ -13,10 +13,10 @@ import lombok.ToString;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ConsultingTariffUpdateDTO {
 
-    private String nameUz;
-    private String nameRu;
-    private String nameEn;
-    private String description;
+    private String descriptionUz;
+    private String descriptionRu;
+    private String descriptionEn;
+    private String name;
     private Double price;
     private GeneralStatus status;
     private ConsultingTarifType tariffType;
