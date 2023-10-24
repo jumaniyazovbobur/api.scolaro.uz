@@ -1,5 +1,6 @@
 package api.scolaro.uz.dto.consulting;
 
+import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.dto.attach.AttachResponseDTO;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +17,7 @@ public class ConsultingResponseDTO {
     private String phone;
     private String address;
     private String about;
-    private AttachResponseDTO photo;
+    private AttachDTO photo;
     private LocalDateTime createdDate;
 
 }

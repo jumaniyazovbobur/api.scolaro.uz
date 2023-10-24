@@ -195,7 +195,7 @@ public class ProfileService {
         });
     }
 
-    public ApiResponse<?> getProfileByNickName(AuthNickNameDTO dto) {
+    public ApiResponse<Boolean> getProfileByNickName(AuthNickNameDTO dto) {
         Optional<ProfileEntity> optional = profileRepository.findByNickName(dto.getNickName());
         if (optional.isEmpty()) {
             return ApiResponse.ok(false);
@@ -211,6 +211,16 @@ public class ProfileService {
         responseDTO.setPhone(entity.getPhone());
         responseDTO.setCreatedDate(entity.getCreatedDate());
         if (entity.getPhotoId() != null) responseDTO.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
+        return responseDTO;
+    }
+
+    public ProfileResponseDTO getProfileForApp(String id) {
+        ProfileEntity entity = get(id);
+        ProfileResponseDTO responseDTO = new ProfileResponseDTO();
+        responseDTO.setId(entity.getId());
+        responseDTO.setName(entity.getName());
+        responseDTO.setSurname(entity.getSurname());
+        responseDTO.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
         return responseDTO;
     }
 

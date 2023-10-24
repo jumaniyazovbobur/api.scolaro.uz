@@ -30,7 +30,7 @@ public class AuthController {
      */
     @Operation(summary = "profile registration", description = "Method user for  Registration")
     @PostMapping("/profile/registration")
-    public ResponseEntity<?> registration(@RequestBody @Valid AuthRequestDTO dto) {
+    public ResponseEntity<ApiResponse<String>> registration(@RequestBody @Valid AuthRequestDTO dto) {
         log.info("Registration {}", dto);
         return ResponseEntity.ok(authService.registration(dto));
     }
@@ -51,21 +51,21 @@ public class AuthController {
 
     @PostMapping("/profile/reset-password")
     @Operation(summary = "Profile reset password", description = "Method profile for  reset password")
-    public ResponseEntity<?> resetPassword(@RequestBody @Valid AuthResetProfileDTO dto) {
+    public ResponseEntity<ApiResponse<String>> resetPassword(@RequestBody @Valid AuthResetProfileDTO dto) {
         log.info("Profile reset password {}", dto);
         return ResponseEntity.ok(authService.resetPasswordRequest(dto));
     }
 
     @PutMapping("/profile/reset/confirm")
     @Operation(summary = "Profile reset password confirm", description = "Method profile for  reset password confirm")
-    public ResponseEntity<?> resetPasswordConfirm(@Valid @RequestBody ResetPasswordConfirmDTO dto) {
+    public ResponseEntity<ApiResponse<AuthResponseDTO>> resetPasswordConfirm(@Valid @RequestBody ResetPasswordConfirmDTO dto) {
         log.info("Client Reset password confirm {}", dto);
         return ResponseEntity.ok(authService.resetPasswordConfirm(dto));
     }
 
     @GetMapping("")
     @Operation(summary = "Get by Nick Name api", description = "")
-    public ResponseEntity<?> getProfileByNickName(@RequestBody AuthNickNameDTO dto) {
+    public ResponseEntity<ApiResponse<Boolean>> getProfileByNickName(@RequestBody AuthNickNameDTO dto) {
         log.info("Get user by nickName {}", dto);
         return ResponseEntity.ok(profileService.getProfileByNickName(dto));
     }
@@ -75,7 +75,7 @@ public class AuthController {
      */
     @Operation(summary = "Consulting login", description = "Method consulting for  Login")
     @PostMapping("/consulting/login")
-    public ResponseEntity<?> consultingLogin(@RequestBody @Valid AuthRequestProfileDTO dto) {
+    public ResponseEntity<ApiResponse<AuthResponseDTO>> consultingLogin(@RequestBody @Valid AuthRequestProfileDTO dto) {
         log.info("Client login {}", dto);
         return ResponseEntity.ok(authService.consultingLogin(dto));
     }
@@ -83,14 +83,14 @@ public class AuthController {
 
     @PostMapping("/consulting/reset-password")
     @Operation(summary = "Consulting reset password", description = "Method consulting for  reset password")
-    public ResponseEntity<?> resetPasswordConsulting(@RequestBody @Valid AuthResetProfileDTO dto) {
+    public ResponseEntity<ApiResponse<String>> resetPasswordConsulting(@RequestBody @Valid AuthResetProfileDTO dto) {
         log.info("Consulting reset password {}", dto);
         return ResponseEntity.ok(authService.resetPasswordConsultingRequest(dto));
     }
 
     @PutMapping("/consulting/reset/confirm")
     @Operation(summary = "Consulting reset password confirm", description = "Method consulting for  reset password confirm")
-    public ResponseEntity<?> resetPasswordConfirmConsulting(@Valid @RequestBody ResetPasswordConfirmDTO dto) {
+    public ResponseEntity<ApiResponse<AuthResponseDTO>> resetPasswordConfirmConsulting(@Valid @RequestBody ResetPasswordConfirmDTO dto) {
         log.info("Consulting Reset password confirm {}", dto);
         return ResponseEntity.ok(authService.resetPasswordConsultingConfirm(dto));
     }

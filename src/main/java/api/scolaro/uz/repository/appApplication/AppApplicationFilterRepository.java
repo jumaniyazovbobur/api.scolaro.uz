@@ -38,15 +38,15 @@ public class AppApplicationFilterRepository {
         Map<String, Object> params = new HashMap<>();
 
         if (filterDTO.getStudentName() != null) {
-            stringBuilder.append(" and lower(p.name) like =:name");
+            stringBuilder.append(" and lower(p.name) like :name");
             params.put("name", "%" + filterDTO.getStudentName().toLowerCase() + "%");
         }
         if (filterDTO.getStudentSurName() != null) {
-            stringBuilder.append(" and lower(p.surname) like =:surname");
+            stringBuilder.append(" and lower(p.surname) like :surname");
             params.put("surname", "%" + filterDTO.getStudentSurName().toLowerCase() + "%");
         }
         if (filterDTO.getConsultingName() != null) {
-            stringBuilder.append(" and lower(c.name) like =:cName");
+            stringBuilder.append(" and lower(c.name) like :cName");
             params.put("cName", "%" + filterDTO.getConsultingName().toLowerCase() + "%");
         }
         if (filterDTO.getStatus() != null) {
@@ -193,11 +193,11 @@ public class AppApplicationFilterRepository {
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, Object> params = new HashMap<>();
         if (filterDTO.getStudentName() != null) {
-            stringBuilder.append(" and lower(p.name) like =:name");
+            stringBuilder.append(" and lower(p.name) like :name");
             params.put("name", "%" + filterDTO.getStudentName().toLowerCase() + "%");
         }
         if (filterDTO.getStudentSurName() != null) {
-            stringBuilder.append(" and lower(p.surname) like =:surname");
+            stringBuilder.append(" and lower(p.surname) like :surname");
             params.put("surname", "%" + filterDTO.getStudentSurName().toLowerCase() + "%");
         }
         if (filterDTO.getStatus() != null) {

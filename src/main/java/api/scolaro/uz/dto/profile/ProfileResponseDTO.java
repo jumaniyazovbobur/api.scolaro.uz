@@ -1,6 +1,7 @@
 package api.scolaro.uz.dto.profile;
 
 
+import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.dto.attach.AttachResponseDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
@@ -14,6 +15,6 @@ public class ProfileResponseDTO {
     private String name;
     private String surname;
     private String phone;
-    private AttachResponseDTO photo;
+    private AttachDTO photo;
     private LocalDateTime createdDate;
 }

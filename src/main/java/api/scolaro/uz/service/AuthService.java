@@ -39,7 +39,7 @@ public class AuthService {
     private final ProfileService profileService;
     private final AttachService attachService;
 
-    public ApiResponse<?> registration(AuthRequestDTO dto) {
+    public ApiResponse<String> registration(AuthRequestDTO dto) {
         boolean validate = PhoneUtil.validatePhone(dto.getPhoneNumber());
         //validate phone number
         if (!validate) {
@@ -79,7 +79,7 @@ public class AuthService {
         smsHistoryService.sendRegistrationSms(dto.getPhoneNumber());
         //client role
         personRoleService.create(userEntity.getId(), RoleEnum.ROLE_STUDENT);
-        return new ApiResponse<>(200, false);
+        return new ApiResponse<>(200, false, "Success");
     }
 
     public ApiResponse<String> profileRegistrationVerification(SmsDTO dto) {
@@ -162,7 +162,7 @@ public class AuthService {
         return dto;
     }
 
-    public ApiResponse<?> consultingLogin(AuthRequestProfileDTO dto) {
+    public ApiResponse<AuthResponseDTO> consultingLogin(AuthRequestProfileDTO dto) {
         boolean validate = PhoneUtil.validatePhone(dto.getPhone());
         if (!validate) {
             log.info("Phone not valid! phone = {}", dto.getPhone());
@@ -191,7 +191,7 @@ public class AuthService {
         return new ApiResponse<>(200, false, response);
     }
 
-    public ApiResponse<?> resetPasswordRequest(AuthResetProfileDTO dto) {
+    public ApiResponse<String> resetPasswordRequest(AuthResetProfileDTO dto) {
         boolean validate = PhoneUtil.validatePhone(dto.getPhone());
         //validate phone number
         if (!validate) {
@@ -212,11 +212,11 @@ public class AuthService {
 
         smsHistoryService.sendResetSms(dto.getPhone());
 
-        return new ApiResponse<>(200, false);
+        return new ApiResponse<>(200, false, "Success");
 
     }
 
-    public ApiResponse<?> resetPasswordConfirm(ResetPasswordConfirmDTO dto) {
+    public ApiResponse<AuthResponseDTO> resetPasswordConfirm(ResetPasswordConfirmDTO dto) {
         boolean validate = PhoneUtil.validatePhone(dto.getPhone());
         //validate phone number
         if (!validate) {
@@ -235,9 +235,9 @@ public class AuthService {
             return new ApiResponse<>(resourceMessageService.getMessage("client.status.blocked"), 400, true);
         }
 
-        ApiResponse<?> smsResponse = smsHistoryService.checkSmsCode(dto.getPhone(), dto.getSmsCode());
+        ApiResponse<String> smsResponse = smsHistoryService.checkSmsCode(dto.getPhone(), dto.getSmsCode());
         if (smsResponse.getIsError()) {
-            return smsResponse;
+            return new ApiResponse<>(smsResponse.getMessage(), 400, true);
         }
 
         if (!dto.getNewPassword().equals(dto.getRepeatNewPassword())) {
@@ -252,7 +252,7 @@ public class AuthService {
     /*
      *CONSULTING RESET PASSWORD
      */
-    public ApiResponse<?> resetPasswordConsultingRequest(AuthResetProfileDTO dto) {
+    public ApiResponse<String> resetPasswordConsultingRequest(AuthResetProfileDTO dto) {
         boolean validate = PhoneUtil.validatePhone(dto.getPhone());
         //validate phone number
         if (!validate) {
@@ -270,11 +270,11 @@ public class AuthService {
             return new ApiResponse<>(resourceMessageService.getMessage("consulting.status.blocked"), 400, true);
         }
         smsHistoryService.sendResetSms(dto.getPhone());
-        return new ApiResponse<>(200, false);
+        return new ApiResponse<>(200, false, "Success");
     }
 
 
-    public ApiResponse<?> resetPasswordConsultingConfirm(ResetPasswordConfirmDTO dto) {
+    public ApiResponse<AuthResponseDTO> resetPasswordConsultingConfirm(ResetPasswordConfirmDTO dto) {
         boolean validate = PhoneUtil.validatePhone(dto.getPhone());
         //validate phone number
         if (!validate) {
@@ -293,7 +293,7 @@ public class AuthService {
         }
         ApiResponse<?> smsResponse = smsHistoryService.checkSmsCode(dto.getPhone(), dto.getSmsCode());
         if (smsResponse.getIsError()) {
-            return smsResponse;
+            return new ApiResponse<>(smsResponse.getMessage(), 400, true);
         }
 
         if (!dto.getNewPassword().equals(dto.getRepeatNewPassword())) {

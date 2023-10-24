@@ -239,4 +239,18 @@ public class ConsultingService {
         }
         return optional.get();
     }
+
+    public ConsultingResponseDTO getConsultingForApp(String id) {
+        ConsultingEntity entity=get(id);
+        ConsultingResponseDTO dto = new ConsultingResponseDTO();
+        dto.setId(entity.getId());
+        dto.setName(entity.getName());
+        dto.setOwnerName(entity.getOwnerName());
+        dto.setAddress(entity.getAddress());
+        dto.setPhone(entity.getPhone());
+        dto.setAbout(entity.getAbout());
+        dto.setOwnerSurName(entity.getOwnerSurname());
+        dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
+        return dto;
+    }
 }

@@ -36,6 +36,7 @@ public class AppApplicationService {
 
     private final ConsultingService consultingService;
     private final UniversityService universityService;
+    private final ProfileService profileService;
     private final AppApplicationRepository appApplicationRepository;
     private final AppApplicationFilterRepository appApplicationFilterRepository;
 
@@ -78,7 +79,7 @@ public class AppApplicationService {
             return new ApiResponse<>("AppApplication not found", 400, false);
         }
 
-        AppApplicationEntity applicationEntity = optional.get();
+        AppApplicationEntity entity = optional.get();
         String currentId = EntityDetails.getCurrentUserId();
 
         List<String> roleList = Objects.requireNonNull(getCurrentUserDetail())
@@ -86,21 +87,25 @@ public class AppApplicationService {
                 .stream()
                 .map(SimpleGrantedAuthority::getAuthority)
                 .toList();
-        if (EntityDetails.hasRole(RoleEnum.ROLE_STUDENT, roleList) && !currentId.equals(applicationEntity.getStudentId())) {
+        if (EntityDetails.hasRole(RoleEnum.ROLE_STUDENT, roleList) && !currentId.equals(entity.getStudentId())) {
             log.info("Profile do not have access to this application {} profileId {}", id, currentId);
             return ApiResponse.forbidden("Your access denied for this Application!");
-        } else if (EntityDetails.hasRole(RoleEnum.ROLE_CONSULTING, roleList) && !currentId.equals(applicationEntity.getConsultingId())) {
+        } else if (EntityDetails.hasRole(RoleEnum.ROLE_CONSULTING, roleList) && !currentId.equals(entity.getConsultingId())) {
             log.info("Consulting do not have access to this application {} consulting {}", id, currentId);
             return ApiResponse.forbidden("Your access denied for this Application!");
         }
 
         AppApplicationResponseDTO dto = new AppApplicationResponseDTO();
-        dto.setId(applicationEntity.getId());
-        dto.setStatus(applicationEntity.getStatus());
-        dto.setCreatedDate(applicationEntity.getCreatedDate());
-        dto.setConsultingId(applicationEntity.getConsultingId());// TODO if requested is not consulting add consulting detail(id,name,photo,ownerdetail)
-        dto.setStudentId(applicationEntity.getStudentId()); // TODO If requested profile is not student then add student detail (id,name,surname,photo)
-        dto.setUniversityId(applicationEntity.getUniversityId()); // TODO add University detail (id,name,photo)
+        dto.setId(entity.getId());
+        dto.setStatus(entity.getStatus());
+        dto.setCreatedDate(entity.getCreatedDate());
+        dto.setUniversityResponseDTO(universityService.getUniversityForApp(entity.getUniversityId()));
+        dto.setConsultingResponseDTO(consultingService.getConsultingForApp(entity.getConsultingId()));
+        dto.setProfileResponseDTO(profileService.getProfileForApp(entity.getStudentId()));
+
+//        dto.setConsultingId(applicationEntity.getConsultingId());// TODO if requested is not consulting add consulting detail(id,name,photo,ownerdetail)
+//        dto.setStudentId(applicationEntity.getStudentId()); // TODO If requested profile is not student then add student detail (id,name,surname,photo)
+//        dto.setUniversityId(applicationEntity.getUniversityId()); // TODO add University detail (id,name,photo)
         return new ApiResponse<>(200, true, dto);
     }
 

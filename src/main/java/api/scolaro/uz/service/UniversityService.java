@@ -28,6 +28,7 @@ public class UniversityService {
 
     private final UniversityRepository universityRepository;
     private final UniversityCustomRepository customRepository;
+    private final AttachService attachService;
 
 
     public ApiResponse<?> create(UniversityCreateDTO dto) {
@@ -91,5 +92,15 @@ public class UniversityService {
             return new ItemNotFoundException("University not found");
         });
 
+    }
+
+
+    public UniversityResponseDTO getUniversityForApp(Long id) {
+        UniversityEntity entity = get(id);
+        UniversityResponseDTO dto = new UniversityResponseDTO();
+        dto.setId(entity.getId());
+        dto.setName(entity.getName());
+        dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
+        return dto;
     }
 }
