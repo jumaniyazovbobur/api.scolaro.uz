@@ -144,8 +144,8 @@ public class AttachService {
         return fileName.substring(lastIndex + 1);
     }
 
-    public AttachEntity getEntity(String fileName) {
-        Optional<AttachEntity> optional = attachRepository.findById(fileName);
+    public AttachEntity getEntity(String id) {
+        Optional<AttachEntity> optional = attachRepository.findById(id);
         if (optional.isEmpty()) {
             log.warn("Attach error : file not found");
             throw new ItemNotFoundException("File not found");

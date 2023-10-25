@@ -9,6 +9,7 @@ import api.scolaro.uz.entity.UniversityEntity;
 import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.enums.AppStatus;
 import api.scolaro.uz.enums.RoleEnum;
+import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.mapper.AppApplicationFilterMapperDTO;
 import api.scolaro.uz.repository.appApplication.AppApplicationFilterRepository;
 import api.scolaro.uz.repository.appApplication.AppApplicationRepository;
@@ -149,5 +150,11 @@ public class AppApplicationService {
         return dto;
     }
 
+    public AppApplicationEntity getByIdForSimpleMessage(String id){
+        return appApplicationRepository.findByIdAndVisibleTrue(id).orElseThrow(() -> {
+            log.warn("Application not Found");
+            throw new ItemNotFoundException("Application not found");
+        });
+    }
 
 }
