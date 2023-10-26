@@ -1,0 +1,11 @@
+### CONSULTING COMMENT CREATE
+POST http://localhost:8081/api/v1/consulting/comment/402880e48b6adf67018b6ae1bb810004
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTgzMDQ2NjAsImlkIjoiNDAyODgwZTQ4YjZhZDgxMzAxOGI2YWQ4MzY2YTAwMDAiLCJwaG9uZSI6Ijk5ODkzMDY3MTQyMyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNjk4OTA5NDYwLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.rAUA0uMAwLj6ahgLNROpTxCT8KtmEgvLYw4vVSrbIVkVoz00fltYWYdhyhZL4GV23vBrFV8TjeBxlFDYP78jsQ
+
+{
+  "content": "Salom"
+}
+
+### CONSULTING GET BY ID
+GET http://localhost:8081/api/v1/consulting/comment/getById/402880e48b6adf67018b6ae1bb810004

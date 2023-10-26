@@ -1,15 +1,28 @@
 package api.scolaro.uz.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import api.scolaro.uz.entity.consulting.ConsultingEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "person_role")
+@Table(name = "consulting_comment")
 @Getter
 @Setter
 public class ConsultingCommentEntity extends BaseEntity{
+    @Column(name = "content")
+    private String content;
+    @Column(name = "consulting_id")
+    private String consultingId;
+    @ManyToOne
+    @JoinColumn(name = "consulting_id", insertable = false, updatable = false)
+    private ConsultingEntity consultingEntity;
+    @Column(name = "student_id")
+    private String profileId;
+    @ManyToOne
+    @JoinColumn(name = "student_id", insertable = false, updatable = false)
+    private ProfileEntity profileEntity;
+
 
     // consultingId
     // studentId

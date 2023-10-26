@@ -64,6 +64,7 @@ public class SecurityConfiguration {
                                 .requestMatchers( "/api/v1/attach/upload**").hasAnyRole("ADMIN", "STUDENT","CONSULTING")
                                 .requestMatchers( "/api/v1/continent/public/**").hasAnyRole("ADMIN", "STUDENT","CONSULTING")
                                 .requestMatchers( "/api/v1/continent-country/public/**").hasAnyRole("ADMIN", "STUDENT","CONSULTING")
+                                .requestMatchers( "/api/v1/consulting/comment/getById/**").permitAll()
                                 .anyRequest().authenticated()
         ).addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         http.csrf(AbstractHttpConfigurer::disable);

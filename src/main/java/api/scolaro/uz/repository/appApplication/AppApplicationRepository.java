@@ -17,6 +17,7 @@ import java.util.Optional;
 public interface AppApplicationRepository extends JpaRepository<AppApplicationEntity, String> {
 
     Optional<AppApplicationEntity> findByIdAndVisibleTrue(String s);
+    Optional<AppApplicationEntity> findByStudentIdAndConsultingId(String student, String consulting);
 
     @Transactional
     @Modifying
@@ -25,7 +26,7 @@ public interface AppApplicationRepository extends JpaRepository<AppApplicationEn
 
     @Transactional
     @Modifying
-    @Query("update AppApplicationEntity set status = 'FINIESHED', finishedDate = current_timestamp where id=:id")
+    @Query("update AppApplicationEntity set status = 'FINISHED', finishedDate = current_timestamp where id=:id")
     int statusToFinished(@Param("id") String id);
 
     @Transactional
