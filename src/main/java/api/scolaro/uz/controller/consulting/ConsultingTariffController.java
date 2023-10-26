@@ -1,7 +1,9 @@
 package api.scolaro.uz.controller.consulting;
 
 import api.scolaro.uz.config.details.EntityDetails;
+import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.consultingTariff.ConsultingTariffRequestDTO;
+import api.scolaro.uz.dto.consultingTariff.ConsultingTariffResponseDTO;
 import api.scolaro.uz.dto.consultingTariff.ConsultingTariffUpdateDTO;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.consulting.ConsultingTariffService;
@@ -14,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/consulting-tariff")
 @RequiredArgsConstructor
@@ -25,14 +29,14 @@ public class ConsultingTariffController {
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @PostMapping("")
     @Operation(summary = "Create consulting tariff", description = "for consulting")
-    public ResponseEntity<?> create(@RequestBody @Valid ConsultingTariffRequestDTO dto) {
+    public ResponseEntity<ApiResponse<String>> create(@RequestBody @Valid ConsultingTariffRequestDTO dto) {
         log.info("Create consulting tariff {}", dto);
         return ResponseEntity.ok(consultingTariffService.create(dto));
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get consulting tariff by id ", description = "for consulting")
-    public ResponseEntity<?> getById(@PathVariable String id, @RequestHeader(value = "Accept-Language",
+    public ResponseEntity<ApiResponse<ConsultingTariffResponseDTO>> getById(@PathVariable String id, @RequestHeader(value = "Accept-Language",
             defaultValue = "uz") AppLanguage language) {
         log.info("Get Consulting tariff By Id ");
         return ResponseEntity.ok(consultingTariffService.getById(id, language));
@@ -41,7 +45,7 @@ public class ConsultingTariffController {
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @PutMapping("/{id}")
     @Operation(summary = "Update consulting tariff", description = "for consulting")
-    public ResponseEntity<?> update(@RequestBody ConsultingTariffUpdateDTO dto, @PathVariable String id) {
+    public ResponseEntity<ApiResponse<String>> update(@RequestBody ConsultingTariffUpdateDTO dto, @PathVariable String id) {
         log.info("Update consulting tariff {}", dto);
         return ResponseEntity.ok(consultingTariffService.update(dto, id));
     }
@@ -49,14 +53,14 @@ public class ConsultingTariffController {
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete consulting tariff", description = "for consulting")
-    public ResponseEntity<?> deleteById(@PathVariable String id) {
+    public ResponseEntity<ApiResponse<String>> deleteById(@PathVariable String id) {
         log.info("Delete consulting tariff {}", id);
         return ResponseEntity.ok(consultingTariffService.delete(id));
     }
 
     @GetMapping("/consulting/{id}")
     @Operation(summary = "Get consulting tariff list by consulting id ", description = "for consulting")
-    public ResponseEntity<?> getAllByCurrentConsulting(@PathVariable("id") String consultingId, @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
+    public ResponseEntity<ApiResponse<List<ConsultingTariffResponseDTO>>> getAllByCurrentConsulting(@PathVariable("id") String consultingId, @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Get consulting tariff list by consultingId ");
         return ResponseEntity.ok(consultingTariffService.getAllByConsultingId(consultingId, language));
     }
@@ -64,14 +68,14 @@ public class ConsultingTariffController {
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @GetMapping("/current")
     @Operation(summary = "Get current consulting tariff list", description = "for consulting")
-    public ResponseEntity<?> getAllByCurrentConsulting(@RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
+    public ResponseEntity<ApiResponse<List<ConsultingTariffResponseDTO>>> getAllByCurrentConsulting(@RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Get current consulting tariff list");
         return ResponseEntity.ok(consultingTariffService.getAllByConsultingId(EntityDetails.getCurrentUserId(), language));
     }
 
     @GetMapping("/template-list")
     @Operation(summary = "Get ConsultingTariff list where type is Template", description = "for consulting")
-    public ResponseEntity<?> getTemplateList(@RequestHeader(value = "Accept-Language",
+    public ResponseEntity<ApiResponse<List<ConsultingTariffResponseDTO>>> getTemplateList(@RequestHeader(value = "Accept-Language",
             defaultValue = "uz") AppLanguage language) {
         log.info("Get Consulting tariff Template type ");
         return ResponseEntity.ok(consultingTariffService.getTemplateList(language));

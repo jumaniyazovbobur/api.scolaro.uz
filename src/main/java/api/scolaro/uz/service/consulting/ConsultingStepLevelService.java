@@ -10,6 +10,7 @@ import api.scolaro.uz.enums.StepLevelType;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.consultingStepLevel.ConsultingStepLevelRepository;
+import api.scolaro.uz.service.ResourceMessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,8 +24,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ConsultingStepLevelService {
     private final ConsultingStepLevelRepository consultingStepLevelRepository;
+    private final ResourceMessageService resourceMessageService;
 
-    public ApiResponse<?> create(ConsultingStepLevelCreateDTO dto) {
+
+    public ApiResponse<String> create(ConsultingStepLevelCreateDTO dto) {
         ConsultingStepLevelEntity stepEntity = new ConsultingStepLevelEntity();
         stepEntity.setNameUz(dto.getNameUz());
         stepEntity.setNameEn(dto.getNameEn());
@@ -35,7 +38,7 @@ public class ConsultingStepLevelService {
         stepEntity.setConsultingStepId(dto.getConsultingStepId());
         stepEntity.setConsultingId(EntityDetails.getCurrentUserId()); // set consulting id
         consultingStepLevelRepository.save(stepEntity);
-        return new ApiResponse<>(200, false);
+        return new ApiResponse<>(200, false,resourceMessageService.getMessage("success.insert"));
     }
 
     public ApiResponse<ConsultingStepLevelDTO> update(String id, ConsultingStepLevelUpdateDTO dto) {

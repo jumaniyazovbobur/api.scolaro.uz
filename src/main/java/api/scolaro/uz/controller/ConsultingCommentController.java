@@ -22,15 +22,15 @@ public class ConsultingCommentController {
     @Operation(summary = "Consulting Comment create", description = "Method user for Consulting Comment Create")
     @PreAuthorize("hasRole('ROLE_STUDENT')")
     @PostMapping("/{consultingId}")
-    public ResponseEntity<?> create(@PathVariable("consultingId") String id, @RequestBody ConsultingCommentCreateDTO dto){
-        log.info("Consulting Comment Create {}", dto );
-        return ResponseEntity.ok(consultingCommentService.create(id, dto));
+    public ResponseEntity<?> create(@PathVariable("consultingId") String consultingId, @RequestBody ConsultingCommentCreateDTO dto) {
+        log.info("Consulting Comment Create {}", dto);
+        return ResponseEntity.ok(consultingCommentService.create(consultingId, dto));
     }
 
     @Operation(summary = "Consulting Comment get All", description = "Method user for Consulting Comment get All")
-    @GetMapping("/getById/{consultingId}")
-    public ResponseEntity<?> getAllCommentByConsultingId(@PathVariable("consultingId") String id){
-        log.info("Consulting Comment get By consultingId {}", id );
+    @GetMapping("/{consultingId}")
+    public ResponseEntity<?> getAllCommentByConsultingId(@PathVariable("consultingId") String id) {
+        log.info("Consulting Comment get By consultingId {}", id);
         return ResponseEntity.ok(consultingCommentService.getByConsultingId(id));
     }
 

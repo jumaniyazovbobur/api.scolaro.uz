@@ -182,18 +182,16 @@ public class ProfileService {
         return currentProfile;
     }
 
-    public ProfileEntity get(String id) {
-       /* Optional<ProfileEntity> optional = profileRepository.findByIdAndVisibleTrue(id);
-        if (optional.isEmpty()) {
-            log.info(" {} user not found", id);
-            throw new ItemNotFoundException("Profile not found");
-        }
-        return optional.get();*/
-        return profileRepository.findByIdAndVisibleTrue(id).orElseThrow(() -> {
-            log.warn("Employee not Found");
-            throw new ItemNotFoundException(resourceMessageService.getMessage("profile.not-found"));
-        });
+    public ProfileResponseDTO getProfileInfo(String id) {
+        ProfileEntity entity = get(id);
+        ProfileResponseDTO responseDTO = new ProfileResponseDTO();
+        responseDTO.setId(entity.getId());
+        responseDTO.setName(entity.getName());
+        responseDTO.setSurname(entity.getSurname());
+        if (entity.getPhotoId() != null) responseDTO.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
+        return responseDTO;
     }
+
 
     public ApiResponse<Boolean> getProfileByNickName(AuthNickNameDTO dto) {
         Optional<ProfileEntity> optional = profileRepository.findByNickName(dto.getNickName());
@@ -223,5 +221,19 @@ public class ProfileService {
         responseDTO.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
         return responseDTO;
     }
+
+    public ProfileEntity get(String id) {
+       /* Optional<ProfileEntity> optional = profileRepository.findByIdAndVisibleTrue(id);
+        if (optional.isEmpty()) {
+            log.info(" {} user not found", id);
+            throw new ItemNotFoundException("Profile not found");
+        }
+        return optional.get();*/
+        return profileRepository.findByIdAndVisibleTrue(id).orElseThrow(() -> {
+            log.warn("Employee not Found");
+            throw new ItemNotFoundException(resourceMessageService.getMessage("profile.not-found"));
+        });
+    }
+
 
 }

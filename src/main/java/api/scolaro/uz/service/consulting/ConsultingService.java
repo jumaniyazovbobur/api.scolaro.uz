@@ -84,7 +84,7 @@ public class ConsultingService {
         return ApiResponse.ok(toDTO(entity));
     }
 
-    public ApiResponse<?> updateDetail(ConsultingUpdateDTO dto) {
+    public ApiResponse<ConsultingResponseDTO> updateDetail(ConsultingUpdateDTO dto) {
         ConsultingEntity entity = get(EntityDetails.getCurrentUserId());
         entity.setName(dto.getName());
         entity.setAddress(dto.getAddress());
@@ -96,7 +96,7 @@ public class ConsultingService {
         return ApiResponse.ok(toDTO(entity));
     }
 
-    public ApiResponse<?> updateConsulting(String id, ConsultingUpdateDTO dto) {
+    public ApiResponse<ConsultingResponseDTO> updateConsulting(String id, ConsultingUpdateDTO dto) {
         ConsultingEntity entity = get(id);
         entity.setName(dto.getName());
         entity.setAddress(dto.getAddress());
@@ -108,14 +108,14 @@ public class ConsultingService {
         return ApiResponse.ok(toDTO(entity));
     }
 
-    public ApiResponse<?> changeStatus(String id, GeneralStatus status) {
+    public ApiResponse<String> changeStatus(String id, GeneralStatus status) {
         ConsultingEntity entity = get(id);
         int result = consultingRepository.changeStatus(entity.getId(), status);
         if (result == 0) return ApiResponse.bad("Try again !");
         return ApiResponse.ok("Success");
     }
 
-    public ApiResponse<?> updatePassword(UpdatePasswordDTO dto) {
+    public ApiResponse<String> updatePassword(UpdatePasswordDTO dto) {
         ConsultingDTO currentConsulting = getCurrentConsultingDetail();
         if (!dto.getNewPassword().equals(dto.getConfirmPassword())) {
             log.info("Confirmed password is incorrect !");
@@ -130,7 +130,7 @@ public class ConsultingService {
         return ApiResponse.ok("Success");
     }
 
-    public ApiResponse<?> updatePhone(String newPhone) {
+    public ApiResponse<String> updatePhone(String newPhone) {
         if (newPhone.startsWith("+")) {
             newPhone = newPhone.substring(1);
         }
@@ -153,7 +153,7 @@ public class ConsultingService {
         return ApiResponse.ok("Tasdiqlash kodi yuborildi.");
     }
 
-    public ApiResponse<?> verification(SmsDTO dto) {
+    public ApiResponse<String> verification(SmsDTO dto) {
         if (dto.getPhone().startsWith("+")) {
             dto.setPhone(dto.getPhone().substring(1));
         }
@@ -167,7 +167,7 @@ public class ConsultingService {
             log.info("{} Phone exist", dto.getPhone());
             return ApiResponse.bad("Phone exist !");
         }
-        ApiResponse<?> smsResponse = smsService.checkSmsCode(dto.getPhone(), dto.getCode());
+        ApiResponse<String> smsResponse = smsService.checkSmsCode(dto.getPhone(), dto.getCode());
         if (smsResponse.getIsError()) {
             log.info(smsResponse.getMessage());
             return smsResponse;
@@ -199,7 +199,7 @@ public class ConsultingService {
         return new PageImpl<>(filterResultDTO.getContent().stream().map(this::toDTO).toList(), pageable, filterResultDTO.getTotalElement());
     }
 
-    public ApiResponse<?> deleted(String id) {
+    public ApiResponse<String> deleted(String id) {
         ConsultingEntity entity = get(id);
         int result = consultingRepository.deleted(entity.getId(), EntityDetails.getCurrentUserId(), LocalDateTime.now());
         if (result == 0) return ApiResponse.bad("Try again !");

@@ -34,7 +34,7 @@ public class SimpleMessageService {
 
         SimpleMessageEntity entity = new SimpleMessageEntity();
         entity.setMessage(dto.getMessage());
-        entity.setStudentId(EntityDetails.getCurrentUserId());
+        entity.setProfileId(EntityDetails.getCurrentUserId());
         entity.setAttachId(attach.getId());
         entity.setAppApplicationId(app.getId());
         entity.setMessageType(MessageType.STUDENT);
@@ -86,7 +86,7 @@ public class SimpleMessageService {
         dto.setApplicationId(entity.getAppApplicationId());
         dto.setAttachDTO(attachService.getResponseAttach(entity.getAttachId()));
         dto.setConsultingId(entity.getConsultingId());
-        dto.setStudentId(entity.getStudentId());
+        dto.setStudentId(entity.getProfileId());
         dto.setIsStudentRead(entity.getIsStudentRead());
         dto.setIsConsultingRead(entity.getIsConsultingRead());
         dto.setMessage(entity.getMessage());

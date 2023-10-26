@@ -17,7 +17,8 @@ import java.util.Optional;
 public interface AppApplicationRepository extends JpaRepository<AppApplicationEntity, String> {
 
     Optional<AppApplicationEntity> findByIdAndVisibleTrue(String s);
-    Optional<AppApplicationEntity> findByStudentIdAndConsultingId(String student, String consulting);
+
+    Optional<AppApplicationEntity> findByStudentIdAndConsultingIdAndVisibleTrue(String studentId, String consultingId);
 
     @Transactional
     @Modifying
