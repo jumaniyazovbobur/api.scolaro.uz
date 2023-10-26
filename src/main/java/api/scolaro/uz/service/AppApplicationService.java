@@ -150,12 +150,12 @@ public class AppApplicationService {
         return dto;
     }
 
-    public AppApplicationEntity getByStudentIdAndConsultingId(String studentId, String consultingId){
+    public AppApplicationEntity getByStudentIdAndConsultingId(String studentId, String consultingId) {
         Optional<AppApplicationEntity> appApplication = appApplicationRepository.findByStudentIdAndConsultingIdAndVisibleTrue(studentId, consultingId);
         return appApplication.orElse(null);
     }
-    public AppApplicationEntity getByIdForSimpleMessage(String id){
 
+    public AppApplicationEntity get(String id) {
         return appApplicationRepository.findByIdAndVisibleTrue(id).orElseThrow(() -> {
             log.warn("Application not Found");
             throw new ItemNotFoundException("Application not found");

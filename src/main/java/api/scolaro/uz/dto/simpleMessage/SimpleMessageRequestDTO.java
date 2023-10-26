@@ -15,6 +15,5 @@ public class SimpleMessageRequestDTO {
     private String applicationId;
     @NotNull(message = "message is required")
     private String message;
-    @NotNull(message = "attachId is required")
     private String attachId;
 }
