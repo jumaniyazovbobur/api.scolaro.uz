@@ -18,6 +18,8 @@ public interface AppApplicationRepository extends JpaRepository<AppApplicationEn
 
     Optional<AppApplicationEntity> findByIdAndVisibleTrue(String s);
 
+    Optional<AppApplicationEntity> findByStudentIdAndConsultingIdAndVisibleTrue(String studentId, String consultingId);
+
     @Transactional
     @Modifying
     @Query("update AppApplicationEntity set status = 'STARTED', startedDate = current_timestamp where id=:id")
@@ -25,7 +27,7 @@ public interface AppApplicationRepository extends JpaRepository<AppApplicationEn
 
     @Transactional
     @Modifying
-    @Query("update AppApplicationEntity set status = 'FINIESHED', finishedDate = current_timestamp where id=:id")
+    @Query("update AppApplicationEntity set status = 'FINISHED', finishedDate = current_timestamp where id=:id")
     int statusToFinished(@Param("id") String id);
 
     @Transactional

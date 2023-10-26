@@ -6,6 +6,7 @@ import api.scolaro.uz.util.MD5Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -60,14 +61,15 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // authorization
         http.authorizeHttpRequests(auth ->
-                        auth.requestMatchers(AUTH_WHITELIST).permitAll()
-                                .requestMatchers( "/api/v1/attach/upload**").hasAnyRole("ADMIN", "STUDENT","CONSULTING")
-                                .requestMatchers( "/api/v1/continent/public/**").hasAnyRole("ADMIN", "STUDENT","CONSULTING")
-                                .requestMatchers( "/api/v1/continent-country/public/**").hasAnyRole("ADMIN", "STUDENT","CONSULTING")
-                                .anyRequest().authenticated()
+                auth.requestMatchers(AUTH_WHITELIST).permitAll()
+                        .requestMatchers("/api/v1/attach/upload**").hasAnyRole("ADMIN", "STUDENT", "CONSULTING")
+                        .requestMatchers("/api/v1/continent/public/**").hasAnyRole("ADMIN", "STUDENT", "CONSULTING")
+                        .requestMatchers("/api/v1/continent-country/public/**").hasAnyRole("ADMIN", "STUDENT", "CONSULTING")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/consulting/comment/*").permitAll()
+                        .anyRequest().authenticated()
         ).addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
-        http.csrf(AbstractHttpConfigurer::disable);
-                // .cors(AbstractHttpConfigurer::disable);
+        http.csrf(AbstractHttpConfigurer::disable);;
+        // .cors(AbstractHttpConfigurer::disable);
         http.cors(httpSecurityCorsConfigurer -> {
             CorsConfiguration configuration = new CorsConfiguration();
             configuration.setAllowedOrigins(Arrays.asList("*"));
