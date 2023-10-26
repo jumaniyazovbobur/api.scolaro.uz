@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ConsultingCommentEntity extends BaseEntity {
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
     @Column(name = "consulting_id")
