@@ -4,13 +4,14 @@ import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.w3c.dom.Text;
 
 @Entity
 @Table(name = "consulting_comment")
 @Getter
 @Setter
 public class ConsultingCommentEntity extends BaseEntity{
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
     @Column(name = "consulting_id")
     private String consultingId;
