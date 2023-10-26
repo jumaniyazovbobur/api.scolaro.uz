@@ -26,7 +26,7 @@ public class ConsultingTariffService {
     private final ConsultingTariffRepository consultingTariffRepository;
     private final ResourceMessageService resourceMessageService;
 
-    public ApiResponse<?> create(ConsultingTariffRequestDTO dto) {
+    public ApiResponse<String> create(ConsultingTariffRequestDTO dto) {
         ConsultingTariffEntity entity = new ConsultingTariffEntity();
         entity.setName(dto.getName());
         entity.setDescriptionUz(dto.getDescriptionUz());
@@ -38,10 +38,10 @@ public class ConsultingTariffService {
         entity.setStatus(dto.getStatus());
         entity.setOrder(dto.getOrder());
         consultingTariffRepository.save(entity);
-        return new ApiResponse<>(200, false);
+        return new ApiResponse<>(200, false,resourceMessageService.getMessage("success.insert"));
     }
 
-    public ApiResponse<?> getById(String id, AppLanguage lang) {
+    public ApiResponse<ConsultingTariffResponseDTO> getById(String id, AppLanguage lang) {
         ConsultingTariffEntity entity = get(id);
         ConsultingTariffResponseDTO dto = new ConsultingTariffResponseDTO();
         dto.setId(entity.getId());
@@ -59,7 +59,7 @@ public class ConsultingTariffService {
         return new ApiResponse<>(200, false, dto);
     }
 
-    public ApiResponse<?> update(ConsultingTariffUpdateDTO dto, String id) {
+    public ApiResponse<String> update(ConsultingTariffUpdateDTO dto, String id) {
         ConsultingTariffEntity entity = get(id);
         if (!entity.getConsultingId().equals(EntityDetails.getCurrentUserId())) {
             log.warn("Author is not incorrect or not found {}", entity.getConsultingId());
@@ -78,7 +78,7 @@ public class ConsultingTariffService {
         return new ApiResponse<>(resourceMessageService.getMessage("success.update"), 200, false);
     }
 
-    public ApiResponse<?> delete(String id) {
+    public ApiResponse<String> delete(String id) {
         ConsultingTariffEntity entity = get(id);
         if (!entity.getConsultingId().equals(EntityDetails.getCurrentUserId())) {
             log.warn("Author is not incorrect or not found {}", entity.getConsultingId());
@@ -91,14 +91,14 @@ public class ConsultingTariffService {
         return new ApiResponse<>(resourceMessageService.getMessage("fail.delete"), 200, false);
     }
 
-    public ApiResponse<?> getAllByConsultingId(String consultingId, AppLanguage lang) {
+    public ApiResponse<List<ConsultingTariffResponseDTO>> getAllByConsultingId(String consultingId, AppLanguage lang) {
         List<ConsultingTariffEntity> list = consultingTariffRepository.getByConsultingId(consultingId);
         List<ConsultingTariffResponseDTO> dtoList = new LinkedList<>();
         list.forEach(entity -> dtoList.add(toDto(entity, lang)));
         return new ApiResponse<>(200, false, dtoList);
     }
 
-    public ApiResponse<?> getTemplateList(AppLanguage lang) {
+    public ApiResponse<List<ConsultingTariffResponseDTO>> getTemplateList(AppLanguage lang) {
         List<ConsultingTariffEntity> list = consultingTariffRepository.getConsultingTariffEntitiesByTariffType();
         List<ConsultingTariffResponseDTO> dtoList = new LinkedList<>();
         list.forEach(entity -> {

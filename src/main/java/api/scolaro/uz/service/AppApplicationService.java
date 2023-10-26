@@ -41,7 +41,7 @@ public class AppApplicationService {
     private final AppApplicationRepository appApplicationRepository;
     private final AppApplicationFilterRepository appApplicationFilterRepository;
 
-    public ApiResponse<?> create(AppApplicationRequestDTO dto) {
+    public ApiResponse<AppApplicationResponseDTO> create(AppApplicationRequestDTO dto) {
         ConsultingEntity consulting = consultingService.get(dto.getConsultingId());
         UniversityEntity university = universityService.get(dto.getUniversityId());
 
@@ -55,13 +55,13 @@ public class AppApplicationService {
         return new ApiResponse<>(200, false, toDTO(entity));
     }
 
-    public ApiResponse<?> filterForAdmin(AppApplicationFilterDTO filter, int page, int size) {
+    public ApiResponse<Page<AppApplicationFilterMapperDTO>> filterForAdmin(AppApplicationFilterDTO filter, int page, int size) {
         FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.filterForAdmin(filter, page, size);
         Page<AppApplicationFilterMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
         return ApiResponse.ok(pageObj);
     }
 
-    public ApiResponse<?> filterForStudent(int page, int size) {
+    public ApiResponse<Page<AppApplicationFilterMapperDTO>> filterForStudent(int page, int size) {
         FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getForStudent(page, size);
         Page<AppApplicationFilterMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
         return ApiResponse.ok(pageObj);
@@ -110,7 +110,7 @@ public class AppApplicationService {
         return new ApiResponse<>(200, true, dto);
     }
 
-    public ApiResponse<?> changeStatus(String id, AppApplicationChangeStatusDTO dto) {
+    public ApiResponse<String> changeStatus(String id, AppApplicationChangeStatusDTO dto) {
         Optional<AppApplicationEntity> optional = appApplicationRepository.findByIdAndVisibleTrue(id);
         if (optional.isEmpty()) {
             log.info("AppApplication not found {}", id);

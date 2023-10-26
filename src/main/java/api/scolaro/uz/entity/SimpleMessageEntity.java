@@ -26,7 +26,7 @@ public class SimpleMessageEntity extends BaseEntity{
     @JoinColumn(name = "profile_id", insertable = false, updatable = false)
     private ProfileEntity profile;
     @Column(name = "profile_id")
-    private String studentId;
+    private String profileId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "consulting_id", insertable = false, updatable = false)
     private ConsultingEntity consulting;

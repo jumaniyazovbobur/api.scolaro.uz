@@ -27,7 +27,7 @@ public class ConsultingStepLevelController {
 
     @PostMapping("/")
     @Operation(summary = "Create consulting step level")
-    public ResponseEntity<ApiResponse<?>> create(@RequestBody @Valid ConsultingStepLevelCreateDTO dto) {
+    public ResponseEntity<ApiResponse<String>> create(@RequestBody @Valid ConsultingStepLevelCreateDTO dto) {
         log.info("Create consulting step level {}", dto.getNameUz());
         return ResponseEntity.ok(consultingStepLevelService.create(dto));
     }
