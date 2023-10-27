@@ -8,4 +8,16 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTgzMDQ2NjAsImlkIjoiNDAyO
 }
 
 ### CONSULTING GET BY ID
-GET http://localhost:8081/api/v1/consulting/comment/getById/402880e48b6adf67018b6ae1bb810004
+GET http://localhost:8081/api/v1/consulting/comment/402880e48b6adf67018b6ae1bb810004
+
+### FILTER
+POST http://localhost:8081/api/v1/consulting/comment/filter
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTgzODY1MDMsImlkIjoiNDAyODgwZTQ4YjZhZGFlYzAxOGI2YWRiOWRjNzAwMDAiLCJwaG9uZSI6Ijk5ODg4Njg2MDY3OSIsInJvbGVzIjoiUk9MRV9BRE1JTiIsImV4cCI6MTY5ODk5MTMwMywiaXNzIjoiSmF2YSBiYWNrZW5kIn0.bfsvu2JfELTVynuoR_WygyZQNzi-2FQZ46RIOttzv8UxozdyMFoiZr4ReFf9RRhewzEgjm2s7dbJJr-QPwwtMA
+Content-Type: application/json
+
+{
+  "studentId": "402880e48b6ad813018b6ad8366a0000",
+  "consultingId": "402880e48b6adf67018b6ae1bb810004",
+  "fromCreatedDate": "2023-10-26",
+  "toCreatedDate": "2023-10-27"
+}

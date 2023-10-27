@@ -1,15 +1,16 @@
 ### Create consulting
 POST http://localhost:8081/api/v1/consulting/
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTg0MDIxOTIsImlkIjoiNDAyODgwZTQ4YjZhZGFlYzAxOGI2YWRiOWRjNzAwMDAiLCJwaG9uZSI6Ijk5ODg4Njg2MDY3OSIsInJvbGVzIjoiUk9MRV9BRE1JTiIsImV4cCI6MTY5OTAwNjk5MiwiaXNzIjoiSmF2YSBiYWNrZW5kIn0.YvSA6DRLmTnHHNtgRReU4p2azdP-8OU0rqzQ_JH2Z55Wj-z6-LMBCpdTSY_QhigdH5sDMbUx_rHxGsIwFcOGtA
 Content-Type: application/json
 
 {
   "name": "Brain consulting",
-  "phone": "998997795710",
+  "phone": "998930671712",
   "address": "Toshkent shahri",
   "ownerName": "Maxmud",
   "ownerSurname": "Maxmudov",
   "about": "Biz vawe kuchaygan consaltingmiz",
-  "photoId" : "402880e48b6adf67018b6ae18d820002"
+  "photoId" : "402880e78b7093f0018b70a63d240005"
 }
 
 
