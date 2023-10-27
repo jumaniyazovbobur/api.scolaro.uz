@@ -1,6 +1,8 @@
 package api.scolaro.uz.controller;
 
+import api.scolaro.uz.dto.appApplication.AppApplicationFilterDTO;
 import api.scolaro.uz.dto.consultingComment.ConsultingCommentCreateDTO;
+import api.scolaro.uz.dto.consultingComment.ConsultingCommentFilterDTO;
 import api.scolaro.uz.service.ConsultingCommentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,6 +34,19 @@ public class ConsultingCommentController {
     public ResponseEntity<?> getAllCommentByConsultingId(@PathVariable("consultingId") String id) {
         log.info("Consulting Comment get By consultingId {}", id);
         return ResponseEntity.ok(consultingCommentService.getByConsultingId(id));
+    }
+
+    /**
+     * ADMIN
+     */
+    @Operation(summary = "Filter AppApplication", description = "Method user for filtering AppApplication")
+    @PostMapping("/filter")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> filter(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                    @RequestParam(value = "size", defaultValue = "5") Integer size,
+                                    @RequestBody ConsultingCommentFilterDTO dto) {
+        log.info("Admin filtered appApplicationList  page={},size={}", page, size);
+        return ResponseEntity.ok(consultingCommentService.filterForAdmin(dto, page, size));
     }
 
 }

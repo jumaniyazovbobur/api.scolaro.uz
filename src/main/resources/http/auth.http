@@ -11,6 +11,7 @@ Content-Type: application/json
   "countryId": 1,
   "address": "Toshkent viloyati",
   "gender": "MALE",
+  "photo_id": "402880e48b6adf67018b6ae18d820002"
 }
 
 

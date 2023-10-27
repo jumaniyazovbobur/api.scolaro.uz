@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ConsultingCommentCreateDTO {
-    private String content;
+    private String content; //TODO
 
 }
