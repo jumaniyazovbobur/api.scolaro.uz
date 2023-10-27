@@ -2,16 +2,23 @@ package api.scolaro.uz.service;
 
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.FilterResultDTO;
+import api.scolaro.uz.dto.appApplication.AppApplicationFilterDTO;
 import api.scolaro.uz.dto.simpleMessage.SimpleMessageRequestDTO;
 import api.scolaro.uz.dto.simpleMessage.SimpleMessageResponseDTO;
 import api.scolaro.uz.entity.AppApplicationEntity;
-import api.scolaro.uz.entity.AttachEntity;
 import api.scolaro.uz.entity.SimpleMessageEntity;
 import api.scolaro.uz.enums.MessageType;
-import api.scolaro.uz.repository.SimpleMessageRepository;
+import api.scolaro.uz.mapper.AppApplicationFilterMapperDTO;
+import api.scolaro.uz.mapper.SimpleMessageMapperDTO;
+import api.scolaro.uz.repository.simpleMessage.SimpleMessageFilterRepository;
+import api.scolaro.uz.repository.simpleMessage.SimpleMessageRepository;
 import api.scolaro.uz.service.consulting.ConsultingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -27,6 +34,7 @@ public class SimpleMessageService {
     private final ConsultingService consultingService;
     private final AppApplicationService appApplicationService;
     private final ResourceMessageService resourceMessageService;
+    private final SimpleMessageFilterRepository simpleMessageFilterRepository;
 
     public ApiResponse<String> createForStudent(SimpleMessageRequestDTO dto) {
         AppApplicationEntity app = appApplicationService.get(dto.getApplicationId());
@@ -55,13 +63,12 @@ public class SimpleMessageService {
         return new ApiResponse<>("Success", 200, false);
     }
 
-    public ApiResponse<List<SimpleMessageResponseDTO>> getListByAppApplicationId(String id) {
-        // TODO add pagination, Attach ning type-ni ham qo'shib berish kerak.
-        AppApplicationEntity app = appApplicationService.get(id);
-        List<SimpleMessageEntity> entityList = simpleMessageRepository.getSimpleMessageListByApplicationId(app.getId());
-        List<SimpleMessageResponseDTO> dtoList = new LinkedList<>();
-        entityList.forEach(entity -> dtoList.add(toDTO(entity)));
-        return new ApiResponse<>(200, false, dtoList);
+
+    public ApiResponse< Page<SimpleMessageMapperDTO> > getListByAppApplicationId(String id,int page, int size) {
+//        // TODO add pagination, Attach ning type-ni ham qo'shib berish kerak.
+        FilterResultDTO<SimpleMessageMapperDTO> filterResult=simpleMessageFilterRepository.filterPagination(id,page,size);
+        Page<SimpleMessageMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
+        return ApiResponse.ok(pageObj);
     }
 
     public ApiResponse<String> updateIsReadStudent(String id) {

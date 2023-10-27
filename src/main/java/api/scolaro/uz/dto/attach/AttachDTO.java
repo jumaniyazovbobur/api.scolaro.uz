@@ -20,6 +20,12 @@ public class AttachDTO {
         this.url = url;
     }
 
+    public AttachDTO(String id, String url,String extension) {
+        this.id = id;
+        this.url = url;
+        this.extension = extension;
+    }
+
     private String id;
     private String originName;
     private Long size;

@@ -1,14 +1,17 @@
 package api.scolaro.uz.controller;
 
 import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.appApplication.AppApplicationFilterDTO;
 import api.scolaro.uz.dto.simpleMessage.SimpleMessageRequestDTO;
 import api.scolaro.uz.dto.simpleMessage.SimpleMessageResponseDTO;
+import api.scolaro.uz.mapper.SimpleMessageMapperDTO;
 import api.scolaro.uz.service.SimpleMessageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -40,11 +43,13 @@ public class SimpleMessageController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_STUDENT','ROLE_CONSULTING')")
-    @Operation(summary = "Consulting message create", description = "Method user for consulting message")
+    @Operation(summary = "Get massage list by application id", description = "Method user for get messageList by application Id")
     @GetMapping("/application/{applicationId}")
-    public ResponseEntity<ApiResponse<List<SimpleMessageResponseDTO>>> getListByAppId(@PathVariable("applicationId") String applicationId) {
+    public ResponseEntity<ApiResponse<Page<SimpleMessageMapperDTO>>> getListByApplicationId(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                                       @RequestParam(value = "size", defaultValue = "5") Integer size,
+                                                                       @PathVariable String applicationId) {
         log.info("get list by applicationId {}", applicationId);
-        return ResponseEntity.ok(simpleMessageService.getListByAppApplicationId(applicationId));
+        return ResponseEntity.ok(simpleMessageService.getListByAppApplicationId(applicationId,page,size));
     }
 
     @PreAuthorize("hasAnyRole('ROLE_STUDENT')")

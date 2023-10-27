@@ -1,4 +1,4 @@
-package api.scolaro.uz.repository;
+package api.scolaro.uz.repository.simpleMessage;
 
 import api.scolaro.uz.entity.SimpleMessageEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
