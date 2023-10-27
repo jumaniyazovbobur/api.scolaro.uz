@@ -44,7 +44,7 @@ public class SimpleMessageController {
     @GetMapping("/application/{applicationId}")
     public ResponseEntity<ApiResponse<List<SimpleMessageResponseDTO>>> getListByAppId(@PathVariable("applicationId") String applicationId) {
         log.info("get list by applicationId {}", applicationId);
-        return ResponseEntity.ok(simpleMessageService.getListByAppId(applicationId));
+        return ResponseEntity.ok(simpleMessageService.getListByAppApplicationId(applicationId));
     }
 
     @PreAuthorize("hasAnyRole('ROLE_STUDENT')")
