@@ -3,15 +3,15 @@ POST http://localhost:8081/api/v1/auth/profile/registration
 Content-Type: application/json
 
 {
-  "name": "Maxmud",
-  "surname": "Maxmudov",
-  "phoneNumber": "998886860679",
+  "name": "asd",
+  "surname": "asd",
+  "phoneNumber": "998930671423",
   "password": "123456",
-  "nickName": "maxmud123",
+  "nickName": "maxmud12323",
   "countryId": 1,
   "address": "Toshkent viloyati",
   "gender": "MALE",
-  "photo_id": "402880e48b6adf67018b6ae18d820002"
+  "photo_id": "402880e78b7093f0018b70a640840006"
 }
 
 
@@ -37,7 +37,7 @@ Content-Type: application/json
 
 
 {
-  "phone": "998886860679",
+  "phone": "998930671423",
   "code": "11111"
 }
 ### Consulting login
@@ -55,7 +55,7 @@ Content-Type: application/json
 
 
 {
-  "phone": "998886860679",
+  "phone": "998930671426",
   "password": "123456"
 }
 

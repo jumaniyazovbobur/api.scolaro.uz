@@ -1,16 +1,16 @@
 ### Create consulting
 POST http://localhost:8081/api/v1/consulting/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTg0MDIxOTIsImlkIjoiNDAyODgwZTQ4YjZhZGFlYzAxOGI2YWRiOWRjNzAwMDAiLCJwaG9uZSI6Ijk5ODg4Njg2MDY3OSIsInJvbGVzIjoiUk9MRV9BRE1JTiIsImV4cCI6MTY5OTAwNjk5MiwiaXNzIjoiSmF2YSBiYWNrZW5kIn0.YvSA6DRLmTnHHNtgRReU4p2azdP-8OU0rqzQ_JH2Z55Wj-z6-LMBCpdTSY_QhigdH5sDMbUx_rHxGsIwFcOGtA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTg0NzM0MDQsImlkIjoiNDAyODgwZTQ4Yjc0ZTZjODAxOGI3NGU3MTk4MTAwMDAiLCJwaG9uZSI6Ijk5ODkzMDY3MTQyMyIsInJvbGVzIjoiUk9MRV9BRE1JTiIsImV4cCI6MTY5OTA3ODIwNCwiaXNzIjoiSmF2YSBiYWNrZW5kIn0.yDGq7ejk0GDn1uftMM1uaXoCapCSQ1qVxUyunIYOAzc6B0IUPo8ffius4qOyPnJMPNZmaUR2eHD8wj6DMvpIbw
 Content-Type: application/json
 
 {
   "name": "Brain consulting",
-  "phone": "998930671712",
+  "phone": "998930671424",
   "address": "Toshkent shahri",
   "ownerName": "Maxmud",
   "ownerSurname": "Maxmudov",
   "about": "Biz vawe kuchaygan consaltingmiz",
-  "photoId" : "402880e78b7093f0018b70a63d240005"
+  "photoId" : "402880e78b7093f0018b70a6431f0007"
 }
 
 
