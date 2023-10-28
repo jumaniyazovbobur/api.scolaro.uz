@@ -38,24 +38,27 @@ public class CustomConsultingCommentRepository {
 
         //  filter{studentId,consultingId,createdDate}.
         //  Response (comment{id,createdDate,content, student{id,name,surname, photo{id,url}}, consulting{id,name, photo{id,url}}}
-//        if (filterDTO.getStudentId() != null) {
-//            stringBuilder.append(" and cc.student_id = :student_id");
-//            params.put("student_id", filterDTO.getStudentId());
-//        }
-//
-//        if (filterDTO.getConsultingId() != null) {
-//            stringBuilder.append(" and cc.consulting_id = :consulting_id");
-//            params.put("consulting_id", filterDTO.getConsultingId());
-//        }
-//
-//        if (filterDTO.getFromCreatedDate() != null) {
-//            stringBuilder.append(" and cc.created_date >= :from_created_date");
-//            params.put("from_created_date", filterDTO.getFromCreatedDate());
-//        }
-//        if (filterDTO.getToCreatedDate() != null) {
-//            stringBuilder.append(" and cc.created_date <= :to_created_date");
-//            params.put("to_created_date", filterDTO.getToCreatedDate());
-//        }
+        if (filterDTO.getStudentId() != null) {
+            stringBuilder.append(" and cc.student_id = :student_id");
+            params.put("student_id", filterDTO.getStudentId());
+        }
+
+        if (filterDTO.getConsultingId() != null) {
+            stringBuilder.append(" and cc.consulting_id = :consulting_id");
+            params.put("consulting_id", filterDTO.getConsultingId());
+        }
+
+        if (filterDTO.getFromCreatedDate() != null && filterDTO.getToCreatedDate() != null) {
+            stringBuilder.append(" and cc.created_date between :from_created_date and :to_created_date ");
+            params.put("from_created_date", filterDTO.getFromCreatedDate());
+            params.put("to_created_date", filterDTO.getToCreatedDate());
+        } else if (filterDTO.getFromCreatedDate() != null) {
+            stringBuilder.append(" and cc.created_date >= :from_created_date ");
+            params.put("from_created_date", filterDTO.getFromCreatedDate());
+        } else if (filterDTO.getToCreatedDate() != null) {
+            stringBuilder.append(" and cc.created_date <= :to_created_date");
+            params.put("to_created_date", filterDTO.getToCreatedDate());
+        }
 
         StringBuilder selectBuilder = new StringBuilder("select cc.id as ccId, cc.created_date as ccCreatedDate," +
                 "cc.content as ccContent, p.id as pId, p.name as pName, p.surname as pSurname, p.photo_id as pPhotoId," +
