@@ -2,10 +2,7 @@ package api.scolaro.uz.controller.consulting;
 
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.SmsDTO;
-import api.scolaro.uz.dto.consulting.ConsultingResponseDTO;
-import api.scolaro.uz.dto.consulting.ConsultingFilterDTO;
-import api.scolaro.uz.dto.consulting.ConsultingCreateDTO;
-import api.scolaro.uz.dto.consulting.ConsultingUpdateDTO;
+import api.scolaro.uz.dto.consulting.*;
 import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.service.consulting.ConsultingService;
@@ -37,6 +34,15 @@ public class ConsultingController {
     public ResponseEntity<ApiResponse<ConsultingResponseDTO>> updateDetail(@Valid @RequestBody ConsultingUpdateDTO dto) {
         log.info("Update consulting {}", dto.getName());
         return ResponseEntity.ok(consultingService.updateDetail(dto));
+    }
+
+    @PreAuthorize("hasRole('ROLE_CONSULTING')")
+    @GetMapping("/current")
+    @Operation(summary = "Get current consulting by id api", description = "for consulting")
+    public ResponseEntity<ApiResponse<ConsultingDTO>> current() {
+        log.info("Get consulting ");
+        return ResponseEntity.ok(consultingService.getCurrentConsultingDetail());
+
     }
 
     /**

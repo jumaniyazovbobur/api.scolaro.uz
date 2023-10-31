@@ -116,7 +116,7 @@ public class ConsultingService {
     }
 
     public ApiResponse<String> updatePassword(UpdatePasswordDTO dto) {
-        ConsultingDTO currentConsulting = getCurrentConsultingDetail();
+        ConsultingDTO currentConsulting = getCurrentConsultingDetail().getData();
         if (!dto.getNewPassword().equals(dto.getConfirmPassword())) {
             log.info("Confirmed password is incorrect !");
             return ApiResponse.bad("Confirmed password is incorrect !");
@@ -221,14 +221,17 @@ public class ConsultingService {
         return dto;
     }
 
-    private ConsultingDTO getCurrentConsultingDetail() {
+    public ApiResponse<ConsultingDTO> getCurrentConsultingDetail() {
         ConsultingEntity details = get(EntityDetails.getCurrentUserId());
         ConsultingDTO currentConsulting = new ConsultingDTO();
         currentConsulting.setId(details.getId());
         currentConsulting.setName(details.getName());
         currentConsulting.setPhone(details.getPhone());
-        currentConsulting.setPassword(details.getPassword());
-        return currentConsulting;
+        if (details.getPhotoId() != null){
+            currentConsulting.setPhoto(attachService.getResponseAttach(details.getPhotoId()));
+        }
+        currentConsulting.setAddress(details.getAddress());
+        return new ApiResponse<>(200,false,currentConsulting);
     }
 
     public ConsultingEntity get(String id) {
