@@ -1,0 +1,176 @@
+Table task
+todo. Feedback from users
+
+TODO  AppApplicationEntity ga yangi field lar qo'shildi
+
+
+*ConsultingTariffEntity (
+  id, nameUz,nameEn,nameRu, description(text), price, createdDate, consulting_id, visible, status, tariff_type, order,)
+
+tariff_type -  Template, Consulting;
+ 
+Template - bu biz yaratgan tarifflar. Ularni consultinglar o'zgariga qo'shib template sifatida ishlatishi, 
+o'zgartirishi mumkun.
+Consulting - bu consolting o'ziga qo'shgani yoki yangi tariff yaratgani.
+
+ConsultingTariffEntity ga kerak bo'ladigan api lar
+1. Create,Read,Update,Delete   bularni faqat owneri qila oladi halos. ( requested consultingni idsi ga teng bo'lishi kerak.)
+2. Consilting id si bo'yicha barcha ConsultingTariffEntity retunr qiladigan api. order yo'chida tarliblangan holatda.
+3. Api for getting all  ConsultingTariff list with   tariff-types = Template ordered by order number asc
+
+
+
+ConsultingTariffEntity As Template
+Biz o'zimizda default holatda  tariflarni yaratib qo'yamiz. 
+flyway da 3-4 ta default tariflarni kiritib qo'yamiz ularni tariff_type-si  Template bo'ladi. 
+Ular hechkimda biriktirilmagan tariflar ulardan nusxa olishlari mumkun bo'ladi.
+
+
+———————————————————————————————-
+*ConsultingStepEntity (id,nameUz,nameEn,nameRu, step_type, order, description(text), consolting_id)
+step_type -   Template, Consulting;
+
+
+*ConsulringStepLevel(id, nameUz,nameEn,nameRu, step_level_type, order,  description(text), 
+consulting_step_id, visible,createdDate, prtId)
+
+
+
+ConsultingStepEntity ga kerak bo'ladigan api lar
+1. CRUD - bularni faqat owneri qila oladi halos. ( requested consultingni idsi ga teng bo'lishi kerak.) 
+2. consulting-step/consulting - GET requested consulting ConsultingStepEntity list. Bunda  Steplarni Levellarini bilan birga yuborish kerak.
+	    steplarni ordered by ordernumber asc bo'lsin. Step ni ichidagi levellar ham ordered by ordernumber asc bo'lsin.
+3. GET by Id. bunda stepni ichidagi levellarini ham jo'nating.
+		
+
+
+ConsulringStepLevel ga kerak bo'ladigan api lar
+1. CRUD 
+2. Get consultingStepLevel list by consulting step id.
+ 
+
+ConsultingStepEntity As Template
+Biz o'zimizda default holatda  steplarni yaratib qo'yamiz. 
+flyway da 3-4 ta default tariflarni kiritib qo'yamiz ularni tariff_type-si  Template bo'ladi. 
+Ular hechkimda biriktirilmagan tariflar ulardan nusxa olishlari mumkun bo'ladi.
+
+
+———————————————————————————————- AppApplicationEntity
+*AppApplicationEntity(id,student_id, consulting_id, university_id createdDate,visible,status, finishedDate,
+        tariff_id, consulting_step_id, consulting_step_level_id, application_step_level_status)
+
+Buni create qilayotganda -> student_id, consulting_id, university_id - lar keladi. Boshida status trail bo'ladi.
+
+*AppApplication da tariff_id  consulting_step_id keyinchalik consulting tamonidan biriktiriladi.
+Shu sababdan 2ta api qilinadi bittasi applicationga tariff ni set qilish uchun ikkinchisi consulting_step set qilish uchun.
+
+
+status - TRAIL,STARTED, FINISHED
+
+app-application number -?
+
+Api list:
+1. Create -  student_id, consulting_id, university_id -  shular keladi. Boshida status TRAIL bo'ladi.
+
+2. app-application/adm/filter - filter by (student_name, student_surname, consolting name, satatus)
+   
+   Get AppApplicationEntity by consultingId (Bunda barcha detaillarini return qiling.)
+				AppApplicationEntity ni barcha detaillarini, student(id,name,surname,photo),University(id,name,photo),
+				consulting(id,name,photo).  With pagination  ---- For admin only   
+				
+
+3. app-application/student -  Get AppApplicationEntity List by requested student 
+	AppApplicationEntity ni barcha detaillarini,University(id,name,photo),
+				consulting(id,name,photo). With pagination  --- only for student
+
+4. app-application/consulting/filter ((student_name, student_surname, status)  
+				- Get AppApplicationEntity list by requested consulting 
+				(Bunda barcha detaillarini return qiling.)
+				AppApplicationEntity ni barcha detaillarini, student(id,name,surname,photo),University(id,name,photo)
+				---- only for consulting.
+5. get by id -  Muhim. requested user student bo'lsa appApplication dagi student_id shu userni idsiga teng bo'lishi kerak.
+			    requested user consulting bo'lsa appApplication dagi consulting_id shu userni idsiga teng bo'lishi kerak.
+			    requested user admin bo'lsa tekshirish kerak emas.
+			
+6. Change status to STARTED - only for consulting and owner.		
+7. Change status to FINISHED - only for consulting and owner.		
+8. Change status to CANCELED - only for consulting and owner.		
+9. POST - app-application/consulting/{applicationId}/tariff - api for updating application tariffId
+        TariffId will come in request body {tariffId}	  -- Only For Consulting. ???
+10. POST - app-application/consulting/{applicationId}/step - api for assigning  consultingStepId
+       consultingStepId will come from   request body {consultingStepId}  -- Only For Consulting.
+       Bunda consultingStepId li ConsultingStepEntity db dan olib undan yangi bitta ConsultingStepEntity yaratiladi.
+       id-si xarxil ammo qolgan malumotlari birxil. Va Bu consultingStepEntity ga bog'langan barcha
+       ConsultingStepLevel-lar ham copy qilinadi. Ularni ham idlar xarxil bo'ladi va consultingStepId -si yangi yaratilgan
+       consultingStepId ga teng bo'ladi.  applicationId li appApplicationEntity ga shu yangi consultingStepId set qilinadi.
+       Yangi yaratilgan ConsultingStepEntity-ning statusi  APPLICATION bo'ladi.
+
+------------------------------------- SimpleMessage
+*SimpleMessage (id,application_id, message(text), attach_id, createDate, visible, 
+isStudentRead, isConsultingRead,  student_id, consulting_id, message_type)
+
+message_type - Student, Consulting. (message ni student yozgan bo'lsa Student bo'ladi. 
+		message ni consulting yozgan bo'lsa Consulting bo'ladi.)
+Demak  	SimpleMessage ni create qilishda 2ta api bo'ladi birinchisi Student uchun ikkinchisi consulting uchun.
+
+Api list:
+1. POST simple-message/studdent - (CREATE) - 
+			application_id,message(text), attach_id    -bunda message_type=Student bo'ladi.
+2. POST simple-message/consulting - (CREATE) - 
+			application_id,message(text), attach_id    -bunda message_type=Consilting bo'ladi.
+
+3. simple-message/application/{application_id} -  get simple message list by applicationId.
+				Do it with pagination ordered by createdDate desc
+				
+4. simple-message/student/{applicatonId}/mark-as-read
+			  applicatonId-si kelgan applicationId ga teng bo'lgan simple-message larni isStudentRead ni true qiladi.
+			Bunda 		isStudentRead false bo'lganlarni true qilsin. barchasini emas.
+			
+5. simple-message/consulting/{applicationId}/mark-as-read
+			  applicatonId-si kelgan applicationId ga teng bo'lgan simple-message larni isStudentRead ni true qiladi.
+			Bunda 		isStudentRead false bo'lganlarni true qilsin. barchasini emas.	
+		
+6.
+
+
+-------------------------------------  AppApplicationLevelStatusEntity
+AppApplicationLevelStatusEntity
+id,appApplicationId, consultingStepLevelId, StepLevelStatus (enum), deadline(localDate), description(text),
+    consultingId,createdDate,visible
+
+  1. POST - api/v1/app-application-level-status -
+    in body(appApplicationId,consultingStepLevelId,applicationStepLevelStatus, deadline(localDate), description(text)).
+     consultingId - from jwt. Only for CONSULTING.
+     Xullas AppApplicationLevelStatusEntity create qilishdan oldin jud ko'p ish qilish kerak.
+
+  2. UPDATE - api/v1/app-application-level-status/{id} -
+     - in body(deadline(localDate), description(text)) - Only for CONSULTING.
+
+-------------------------------------  Feedback
+id, content, personId,  feedBackType, createdDate, visible,
+feedBackType(STUDENT,CONSULTING)
+
+ -> CRUD
+  1. POST - api/v1/feedback - in body(name_uz, name_en, name_ru,order-number)  - admin.
+  2. UPDATE - api/v1/feedback/{id} - - in body(name_uz, name_en, name_ru,order-number)
+  3. GET -  api/v1/level-status - return all
+  4. GET - api/v1/level-status/dropdown - return all by lang orderted by order-number
+  5. DELETE -  api/v1/level-status/{id} - delete all.
+
+-------------------------------------  Attach
+1. File upload url with .extension
+2. download file
+3. StepLevel - attach api
+4. stepLevel attach list ni return qiladigna service method
+
+
+
+--- Pastdagilar kerak emas
+------------------------------------- LevelStatusEntity -> ?
+id, name_uz, name_en, name_ru, createdDate, visible, order-number,
+ -> CRUD
+  1. POST - api/v1/level-status - in body(name_uz, name_en, name_ru,order-number)  - admin.
+  2. UPDATE - api/v1/level-status/{id} - - in body(name_uz, name_en, name_ru,order-number)
+  3. GET -  api/v1/level-status - return all
+  4. GET - api/v1/level-status/dropdown - return all by lang orderted by order-number
+  5. DELETE -  api/v1/level-status/{id} - delete all.

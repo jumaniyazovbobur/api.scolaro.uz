@@ -2,8 +2,10 @@ package api.scolaro.uz.entity;
 
 import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.entity.consulting.ConsultingStepEntity;
+import api.scolaro.uz.entity.consulting.ConsultingStepLevelEntity;
 import api.scolaro.uz.entity.consulting.ConsultingTariffEntity;
 import api.scolaro.uz.enums.AppStatus;
+import api.scolaro.uz.enums.ApplicationStepLevelStatus;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -51,15 +53,27 @@ public class AppApplicationEntity extends BaseEntity {
     private LocalDateTime canceledDate;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "consulting_tariff_id", insertable = false, updatable = false)
+    private ConsultingTariffEntity consultingTariff;
+    @Column(name = "consulting_tariff_id")
+    private String consultingTariffId;
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "consulting_step_id", insertable = false, updatable = false)
     private ConsultingStepEntity consultingStep;
     @Column(name = "consulting_step_id")
     private String consultingStepId;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "consulting_tariff_id", insertable = false, updatable = false)
-    private ConsultingTariffEntity consultingTariff;
-    @Column(name = "consulting_tariff_id")
-    private String consultingTariffId;
+    @JoinColumn(name = "consulting_step_level_id", insertable = false, updatable = false)
+    private ConsultingStepLevelEntity consultingStepLevel;
+    @Column(name = "consulting_step_level_id")
+    private String consultingStepLevelId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "application_step_level_status")
+    private ApplicationStepLevelStatus applicationStepLevelStatus;
+
+
 
 }

@@ -38,7 +38,7 @@ public class ConsultingStepLevelService {
         stepEntity.setConsultingStepId(dto.getConsultingStepId());
         stepEntity.setConsultingId(EntityDetails.getCurrentUserId()); // set consulting id
         consultingStepLevelRepository.save(stepEntity);
-        return new ApiResponse<>(200, false,resourceMessageService.getMessage("success.insert"));
+        return new ApiResponse<>(200, false, resourceMessageService.getMessage("success.insert"));
     }
 
     public ApiResponse<ConsultingStepLevelDTO> update(String id, ConsultingStepLevelUpdateDTO dto) {
@@ -51,7 +51,7 @@ public class ConsultingStepLevelService {
         entity.setNameEn(dto.getNameEn());
         entity.setNameRu(dto.getNameRu());
         entity.setDescription(dto.getDescription());
-        entity.setOrderNumber(dto.getOrderNumbers());
+        entity.setOrderNumber(dto.getOrderNumber());
         // update
         consultingStepLevelRepository.save(entity);
         return new ApiResponse<>(200, false, toDTO(entity));
@@ -85,6 +85,11 @@ public class ConsultingStepLevelService {
             dtoList.add(dto);
         }
         return dtoList;
+    }
+
+    public boolean isApplicationAllStepLevelsFinished(String applicationStepId) {
+        Long count = consultingStepLevelRepository.getApplicationNotFinishedStepLevelCount(applicationStepId);
+        return count == 0;
     }
 
     public ConsultingStepLevelEntity get(String id) {

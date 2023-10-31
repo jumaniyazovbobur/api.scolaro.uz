@@ -22,4 +22,27 @@ public interface ConsultingStepLevelRepository extends JpaRepository<ConsultingS
 
     @Query(" FROM ConsultingStepLevelEntity where consultingId =:consultingStepId and visible=true order by orderNumber asc ")
     List<ConsultingStepLevelEntity> getAllByConsultingStepId(@Param("consultingStepId") String consultingStepId);
+
+    @Query(" FROM ConsultingStepLevelEntity where consultingStepId =:consultingStepId and visible=true order by orderNumber asc  limit 1 ")
+    ConsultingStepLevelEntity getFirstStepLevelByStepId(@Param("consultingStepId") String consultingStepId);
+
+    @Query(value = " select *  from consulting_step_level where consulting_step_id =:consultingStepId " +
+            "   and visible=true " +
+            "   and order_number  <:currentStepLevelOrderNumber order by order_number desc limit 1)",
+            nativeQuery = true)
+    ConsultingStepLevelEntity getPreviousStepLevelByStepIdAndStepLevelOrderNumber(@Param("consultingStepId") String consultingStepId,
+                                                                                  @Param("currentStepLevelOrderNumber") int currentStepLevelOrderNumber);
+
+    @Query(value = " select *  from consulting_step_level where consulting_step_id =:consultingStepId " +
+            "   and visible=true " +
+            "   and order_number  >:currentStepLevelOrderNumber order by order_number asc limit 1)",
+            nativeQuery = true)
+    ConsultingStepLevelEntity getNextStepLevelByStepIdAndStepLevelOrderNumber(@Param("consultingStepId") String consultingStepId,
+                                                                              @Param("currentStepLevelOrderNumber") int currentStepLevelOrderNumber);
+
+    @Query(value = " select  count(*)  from consulting_step_level where consulting_step_id =:consultingStepId " +
+            "   and visible=true  and  step_level_status !=: 'FINISHED'",
+            nativeQuery = true)
+    Long getApplicationNotFinishedStepLevelCount(@Param("consultingStepId") String consultingStepId);
+
 }

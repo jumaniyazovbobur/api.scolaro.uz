@@ -8,12 +8,14 @@ import api.scolaro.uz.entity.AppApplicationEntity;
 import api.scolaro.uz.entity.UniversityEntity;
 import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.enums.AppStatus;
+import api.scolaro.uz.enums.ApplicationStepLevelStatus;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.mapper.AppApplicationFilterMapperDTO;
 import api.scolaro.uz.repository.appApplication.AppApplicationFilterRepository;
 import api.scolaro.uz.repository.appApplication.AppApplicationRepository;
 import api.scolaro.uz.service.consulting.ConsultingService;
+import api.scolaro.uz.service.consulting.ConsultingStepLevelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -40,6 +42,7 @@ public class AppApplicationService {
     private final ProfileService profileService;
     private final AppApplicationRepository appApplicationRepository;
     private final AppApplicationFilterRepository appApplicationFilterRepository;
+    private final ConsultingStepLevelService consultingStepLevelService;
 
     public ApiResponse<AppApplicationResponseDTO> create(AppApplicationRequestDTO dto) {
         ConsultingEntity consulting = consultingService.get(dto.getConsultingId());
@@ -100,9 +103,14 @@ public class AppApplicationService {
         dto.setId(entity.getId());
         dto.setStatus(entity.getStatus());
         dto.setCreatedDate(entity.getCreatedDate());
-        dto.setUniversityResponseDTO(universityService.getUniversityForApp(entity.getUniversityId()));
-        dto.setConsultingResponseDTO(consultingService.getConsultingForApp(entity.getConsultingId()));
-        dto.setProfileResponseDTO(profileService.getProfileForApp(entity.getStudentId()));
+        dto.setUniversity(universityService.getUniversityForApp(entity.getUniversityId()));
+        dto.setConsulting(consultingService.getConsultingForApp(entity.getConsultingId()));
+        dto.setStudent(profileService.getProfileForApp(entity.getStudentId()));
+        // TODO set tariff detail
+        // TODO set step detail (ConsultingStepService dan )
+        // TODO set stepLevel Detail List (ConsultingStepLevelService dan)
+        //  Bularni so'rasnagi tushuntirib beraman
+
 
 //        dto.setConsultingId(applicationEntity.getConsultingId());// TODO if requested is not consulting add consulting detail(id,name,photo,ownerdetail)
 //        dto.setStudentId(applicationEntity.getStudentId()); // TODO If requested profile is not student then add student detail (id,name,surname,photo)
@@ -132,6 +140,12 @@ public class AppApplicationService {
         }
         if (entity.getStatus().equals(AppStatus.STARTED)) { // STARTED -> FINISHED or CANCELED
             if (dto.getStatus().equals(AppStatus.FINISHED)) {
+                //check where all stepLevels finished
+                boolean allFinished = consultingStepLevelService.isApplicationAllStepLevelsFinished(entity.getConsultingStepId());
+                if (!allFinished) {
+                    log.info("Not all application {} stepLevels finished ", id);
+                    return ApiResponse.forbidden("All application step levels should be closed ");
+                }
                 appApplicationRepository.statusToFinished(id);
             } else if (dto.getStatus().equals(AppStatus.CANCELED)) {
                 appApplicationRepository.statusToCanceled(id);

@@ -24,4 +24,6 @@ public interface ConsultingStepRepository extends JpaRepository<ConsultingStepEn
 
     @Query(" FROM ConsultingStepEntity as c " + " where c.consultingId =:consultingId and c.visible=true order by c.orderNumber asc ")
     List<ConsultingStepEntity> getAllByConsultingId(@Param("consultingId") String consultingId);
+
+
 }

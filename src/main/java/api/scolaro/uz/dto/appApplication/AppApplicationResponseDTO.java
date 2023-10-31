@@ -17,15 +17,15 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AppApplicationResponseDTO {
 
-        private String id;
+    private String id;
 
-        private ConsultingResponseDTO consultingResponseDTO;
-        private ProfileResponseDTO profileResponseDTO;
-        private UniversityResponseDTO universityResponseDTO;
-        private String studentId;
-        private String consultingId;
-        private Long universityId;
-        private AppStatus status;
-        private LocalDateTime createdDate;
+    private ConsultingResponseDTO consulting;
+    private ProfileResponseDTO student;
+    private UniversityResponseDTO university;
+    private String studentId;
+    private String consultingId;
+    private Long universityId;
+    private AppStatus status;
+    private LocalDateTime createdDate;
 
 }
