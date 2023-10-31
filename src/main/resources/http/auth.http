@@ -45,7 +45,7 @@ POST http://localhost:8081/api/v1/auth/consulting/login
 Content-Type: application/json
 
 {
-  "phone": "998938080831",
+  "phone": "998930671423",
   "password": "123456"
 }
 

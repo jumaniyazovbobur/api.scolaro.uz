@@ -1,0 +1,13 @@
+### CREATE
+POST http://localhost:8081/api/v1/feedback/create
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTg3NTAxNTMsImlkIjoiNDAyODgwZTQ4Yjc0ZTliZDAxOGI3NGVhMmJmMDAwMDAiLCJwaG9uZSI6Ijk5ODkzMDY3MTQyOCIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNjk5MzU0OTUzLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.HkHTmW4P20lMm43Nqh4c0rmvkCYJsvtocNoXqa6Tyf5eS7ZvKCHddk5fx3rupY-rfloYE2Shwshe7W3bppc7FQ
+Content-Type: application/json
+
+{
+  "content": "adsadd",
+  "feedbackType": "ROLE_STUDENT"
+}
+
+### DELETE
+DELETE http://localhost:8081/api/v1/feedback/delete/dabd9e0d-6130-4362-b0bb-c9011a3efd80
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTg3NTA3MDMsImlkIjoiNDAyODgwZTQ4Yjc0ZTZjODAxOGI3NGU3MTk4MTAwMDAiLCJwaG9uZSI6Ijk5ODkzMDY3MTQyNiIsInJvbGVzIjoiUk9MRV9BRE1JTiIsImV4cCI6MTY5OTM1NTUwMywiaXNzIjoiSmF2YSBiYWNrZW5kIn0.XL3012yLAvfQ7lAPFURaJ11huOWn0rntJ1zpiUWUy-6_mDD6WD0h3FEktD5sYmnej7yoR9Bs50QR76xy3sbAMQ

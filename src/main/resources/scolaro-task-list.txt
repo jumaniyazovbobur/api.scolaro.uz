@@ -151,12 +151,9 @@ id, content, personId,  feedBackType, createdDate, visible,
 feedBackType(STUDENT,CONSULTING)
 
  -> CRUD
-  1. POST - api/v1/feedback - in body(name_uz, name_en, name_ru,order-number)  - admin.
-  2. UPDATE - api/v1/feedback/{id} - - in body(name_uz, name_en, name_ru,order-number)
-  3. GET -  api/v1/level-status - return all
-  4. GET - api/v1/level-status/dropdown - return all by lang orderted by order-number
-  5. DELETE -  api/v1/level-status/{id} - delete all.
-
+  1. POST - api/v1/feedback - in body( content,  feedBackType)  -   personId - string.
+  filter pagination - admin
+  delete - admin
 -------------------------------------  Attach
 1. File upload url with .extension
 2. download file
