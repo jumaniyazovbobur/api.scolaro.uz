@@ -13,4 +13,5 @@ public class ProfileUpdateDTO {
     private String name;
     @NotBlank(message = "Surname is required")
     private String surname;
+    private String phoneId;
 }

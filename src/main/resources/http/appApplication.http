@@ -44,3 +44,27 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTc4OTM4MjAsImlkIjoiNDAyO
 {
   "status" : "FINISHED"
 }
+
+
+
+### Update tariff id
+POST localhost:8081/api/v1/app-application/consulting/402880ec8b5c4a16018b5c4ad0520000/tariff
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTg4MzEwMTgsImlkIjoiNDAyODgwZTY4YjM4NDkzZjAxOGIzODRhMzhhNjAwMDIiLCJwaG9uZSI6Ijk5ODk5Nzc5NTcxMCIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk5NDM1ODE4LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.dCsiVLyrL4oOlBQ7x-v3ClB9AuA3EB7Nlj5AFzQYNWGLZfeTFo0ATQi4Qt_P1_oRCbLfwo-Nk_l7J357KBQg2g
+
+{
+  "tariffId":"402880ec8b5bea14018b5bec38040000"
+}
+
+
+### Create sted
+POST localhost:8081/api/v1/app-application/consulting/402880ec8b5c4a16018b5c4ad0520000/step
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTg4MzEwMTgsImlkIjoiNDAyODgwZTY4YjM4NDkzZjAxOGIzODRhMzhhNjAwMDIiLCJwaG9uZSI6Ijk5ODk5Nzc5NTcxMCIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk5NDM1ODE4LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.dCsiVLyrL4oOlBQ7x-v3ClB9AuA3EB7Nlj5AFzQYNWGLZfeTFo0ATQi4Qt_P1_oRCbLfwo-Nk_l7J357KBQg2g
+
+{
+  "consultingStepId":"402880e68b8ac642018b8ac738760000"
+}
+
+
+

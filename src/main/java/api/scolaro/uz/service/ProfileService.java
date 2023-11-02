@@ -52,7 +52,7 @@ public class ProfileService {
 
 
     public ApiResponse<?> update(ProfileUpdateDTO dto) {
-        int result = profileRepository.updateDetail(EntityDetails.getCurrentUserId(), dto.getName(), dto.getSurname());
+        int result = profileRepository.updateDetail(EntityDetails.getCurrentUserId(), dto.getName(), dto.getSurname(),dto.getPhoneId());
         if (result == 0) return ApiResponse.bad("Try again !");
         return ApiResponse.ok("Success");
     }

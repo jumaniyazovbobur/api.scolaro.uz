@@ -1,6 +1,7 @@
 package api.scolaro.uz.dto.ConsultingStepLevel;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +14,7 @@ public class ConsultingStepLevelCreateDTO {
     private String nameEn;
     @NotBlank(message = "nameRu is required")
     private String nameRu;
-    @NotBlank(message = "Order is required")
+    @NotNull(message = "Order is required")
     private Integer orderNumber;
     @NotBlank(message = "Description is required")
     private String description;

@@ -6,10 +6,12 @@ import api.scolaro.uz.enums.StepLevelType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @Getter
+@ToString
 @Setter
 @Entity
 @Table(name = "consulting_step_level")

@@ -1,16 +1,15 @@
 ### CREATE
 POST http://localhost:8081/api/v1/consulting-step-level/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTcwMTk5MTcsImlkIjoiNDAyODgwZWQ4YjFlNDMzZjAxOGIxZTQ0ZDU4NjAwMDAiLCJwaG9uZSI6Ijk5ODkzMDY3MTQyMyIsInJvbGVzIjoiUk9MRV9BRE1JTiIsImV4cCI6MTY5NzYyNDcxNywiaXNzIjoiSmF2YSBiYWNrZW5kIn0.-hdeELNWo8_7hjk94o53BHi4GQb5dXZKMB0ZBU2zkBkSWLfYWQdeSEcRK41mdDiSHLQoMwo7x2UtBeCSt69TTQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTg4MzEwMTgsImlkIjoiNDAyODgwZTY4YjM4NDkzZjAxOGIzODRhMzhhNjAwMDIiLCJwaG9uZSI6Ijk5ODk5Nzc5NTcxMCIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk5NDM1ODE4LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.dCsiVLyrL4oOlBQ7x-v3ClB9AuA3EB7Nlj5AFzQYNWGLZfeTFo0ATQi4Qt_P1_oRCbLfwo-Nk_l7J357KBQg2g
 Content-Type: application/json
 
 {
   "nameUz": "asd",
   "nameRu": "asda",
   "nameEn": "asdad",
-  "orderNumbers": "11",
+  "orderNumber": 3,
   "description": "Hi everyone",
-  "consultingStepId": "402880ed8b1e433f018b1e45ca340006",
-  "prtId": "402880ed8b1e433f018b1e44d5860000"
+  "consultingStepId": "402880e68b8ac642018b8ac738760000"
 }
 
 ### DELETE

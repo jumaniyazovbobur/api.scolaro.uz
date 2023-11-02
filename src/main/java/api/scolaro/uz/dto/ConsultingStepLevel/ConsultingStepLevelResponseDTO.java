@@ -2,14 +2,16 @@ package api.scolaro.uz.dto.ConsultingStepLevel;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-public class ConsultingStepLevelUpdateResponseDTO {
+@ToString
+public class ConsultingStepLevelResponseDTO {
+
     private String id;
-    private String nameUz;
-    private String nameRu;
-    private String nameEn;
+    private String name;
     private Integer orderNumber;
     private String description;
+    private String consultingStepId;
 }

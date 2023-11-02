@@ -2,8 +2,10 @@ package api.scolaro.uz.service.consulting;
 
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.consulting.ConsultingResponseDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepCreateDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepDTO;
+import api.scolaro.uz.dto.consultingStep.ConsultingStepResponseDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepUpdateDTO;
 import api.scolaro.uz.entity.consulting.ConsultingStepEntity;
 import api.scolaro.uz.enums.StepType;
@@ -35,7 +37,7 @@ public class ConsultingStepService {
         stepEntity.setOrderNumber(dto.getOrderNumber());
         stepEntity.setConsultingId(EntityDetails.getCurrentUserId()); // set consultingId
         consultingStepRepository.save(stepEntity);
-        return new ApiResponse<>(200, false,resourceMessageService.getMessage("success.insert"));
+        return new ApiResponse<>(200, false, resourceMessageService.getMessage("success.insert"));
     }
 
     public ApiResponse<Boolean> delete(String id) {
@@ -95,6 +97,41 @@ public class ConsultingStepService {
         dto.setName(entity.getName());
         dto.setOrderNumber(entity.getOrderNumber());
         dto.setDescription(entity.getDescription());
+        return dto;
+    }
+
+
+    //    private ConsultingStepCreateDTO toDTOForApp(ConsultingStepEntity entity) {
+//        ConsultingStepCreateDTO dto = new ConsultingStepCreateDTO();
+//        dto.setName(entity.getName());
+//        dto.setOrderNumber(entity.getOrderNumber());
+//        dto.setDescription(entity.getDescription());
+//        return dto;
+//    }
+    public String createForApp(ConsultingStepEntity step) {
+        ConsultingStepEntity entity = new ConsultingStepEntity();
+
+        entity.setName(step.getName());
+        entity.setOrderNumber(step.getOrderNumber());
+        entity.setDescription(step.getDescription());
+        entity.setConsultingId(step.getConsultingId());
+        entity.setStepType(StepType.APPLICATION);
+
+        consultingStepRepository.save(entity);
+        return entity.getId();
+    }
+
+    public ConsultingStepResponseDTO getStepForApp(String consultingStepId) {
+        ConsultingStepEntity entity = get(consultingStepId);
+        ConsultingStepResponseDTO dto = new ConsultingStepResponseDTO();
+
+        dto.setId(entity.getId());
+        dto.setName(entity.getName());
+        dto.setType(entity.getStepType());
+        dto.setConsultingId(entity.getConsultingId());
+        dto.setDescription(entity.getDescription());
+        dto.setOrderNumber(entity.getOrderNumber());
+
         return dto;
     }
 }

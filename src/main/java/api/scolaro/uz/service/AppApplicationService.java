@@ -7,6 +7,9 @@ import api.scolaro.uz.dto.appApplication.*;
 import api.scolaro.uz.entity.AppApplicationEntity;
 import api.scolaro.uz.entity.UniversityEntity;
 import api.scolaro.uz.entity.consulting.ConsultingEntity;
+import api.scolaro.uz.entity.consulting.ConsultingStepEntity;
+import api.scolaro.uz.entity.consulting.ConsultingStepLevelEntity;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.AppStatus;
 import api.scolaro.uz.enums.ApplicationStepLevelStatus;
 import api.scolaro.uz.enums.RoleEnum;
@@ -16,6 +19,9 @@ import api.scolaro.uz.repository.appApplication.AppApplicationFilterRepository;
 import api.scolaro.uz.repository.appApplication.AppApplicationRepository;
 import api.scolaro.uz.service.consulting.ConsultingService;
 import api.scolaro.uz.service.consulting.ConsultingStepLevelService;
+import api.scolaro.uz.service.consulting.ConsultingStepService;
+import api.scolaro.uz.service.consulting.ConsultingTariffService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -28,6 +34,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static api.scolaro.uz.config.details.EntityDetails.getCurrentUserDetail;
@@ -43,6 +50,9 @@ public class AppApplicationService {
     private final AppApplicationRepository appApplicationRepository;
     private final AppApplicationFilterRepository appApplicationFilterRepository;
     private final ConsultingStepLevelService consultingStepLevelService;
+    private final ResourceMessageService resourceMessageService;
+    private final ConsultingStepService consultingStepService;
+    private final ConsultingTariffService consultingTariffService;
 
     public ApiResponse<AppApplicationResponseDTO> create(AppApplicationRequestDTO dto) {
         ConsultingEntity consulting = consultingService.get(dto.getConsultingId());
@@ -76,7 +86,7 @@ public class AppApplicationService {
         return ApiResponse.ok(pageObj);
     }
 
-    public ApiResponse<AppApplicationResponseDTO> getById(String id) {
+    public ApiResponse<AppApplicationResponseDTO> getById(String id, AppLanguage lang) {
         Optional<AppApplicationEntity> optional = appApplicationRepository.findByIdAndVisibleTrue(id);
         if (optional.isEmpty()) {
             log.info("AppApplication not found {}", id);
@@ -106,6 +116,10 @@ public class AppApplicationService {
         dto.setUniversity(universityService.getUniversityForApp(entity.getUniversityId()));
         dto.setConsulting(consultingService.getConsultingForApp(entity.getConsultingId()));
         dto.setStudent(profileService.getProfileForApp(entity.getStudentId()));
+        dto.setTariff(consultingTariffService.getTariffForApp(entity.getConsultingTariffId(), lang));
+        dto.setStep(consultingStepService.getStepForApp(entity.getConsultingStepId()));
+        dto.setStepLevel(consultingStepLevelService.getByIdForApp(id, lang));
+
         // TODO set tariff detail
         // TODO set step detail (ConsultingStepService dan )
         // TODO set stepLevel Detail List (ConsultingStepLevelService dan)
@@ -174,6 +188,29 @@ public class AppApplicationService {
             log.warn("Application not Found");
             throw new ItemNotFoundException("Application not found");
         });
+    }
+
+
+    public ApiResponse<?> updateTariffId(AppApplicationTariffIdUpdateDTO dto, String applicationId) {
+        AppApplicationEntity entity = get(applicationId);
+        int num = appApplicationRepository.updateTariffId(applicationId, dto.getTariffId());
+        if (num > 0) {
+            return new ApiResponse<>(200, false, resourceMessageService.getMessage("success.update"));
+        }
+        return new ApiResponse<>(200, false, resourceMessageService.getMessage("fail.update"));
+    }
+
+    public ApiResponse<String> updateStep(AppApplicationStepDTO dto, String applicationId) {
+        AppApplicationEntity appApplication = get(applicationId);
+        ConsultingStepEntity consultingStep = consultingStepService.get(dto.getConsultingStepId());
+        List<ConsultingStepLevelEntity> list = consultingStep.getLevelList();
+        String stepId = consultingStepService.createForApp(consultingStep);
+
+        consultingStepLevelService.createForApp(list, stepId);
+
+        appApplicationRepository.updateConStepId(applicationId, stepId);
+
+        return new ApiResponse<>(200, false, "succes");
     }
 
 

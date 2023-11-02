@@ -1,18 +1,18 @@
 package api.scolaro.uz.dto.consultingStep;
 
-import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelDTO;
+import api.scolaro.uz.enums.StepType;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
+import lombok.ToString;
 
 @Getter
 @Setter
-public class ConsultingStepDTO {
+@ToString
+public class ConsultingStepResponseDTO {
     private String id;
     private String name;
     private Integer orderNumber;
+    private StepType type;
     private String description;
     private String consultingId;
-    private List<ConsultingStepLevelDTO> levelList;
 }

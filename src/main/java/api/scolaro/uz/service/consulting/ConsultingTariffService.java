@@ -38,7 +38,7 @@ public class ConsultingTariffService {
         entity.setStatus(dto.getStatus());
         entity.setOrder(dto.getOrder());
         consultingTariffRepository.save(entity);
-        return new ApiResponse<>(200, false,resourceMessageService.getMessage("success.insert"));
+        return new ApiResponse<>(200, false, resourceMessageService.getMessage("success.insert"));
     }
 
     public ApiResponse<ConsultingTariffResponseDTO> getById(String id, AppLanguage lang) {
@@ -129,5 +129,23 @@ public class ConsultingTariffService {
             log.warn("Consulting tariff not found");
             return new ItemNotFoundException("Consulting tariff not found");
         });
+    }
+
+    public ConsultingTariffResponseDTO getTariffForApp(String consultingTariffId, AppLanguage lang) {
+        ConsultingTariffEntity entity = get(consultingTariffId);
+        ConsultingTariffResponseDTO dto = new ConsultingTariffResponseDTO();
+        switch (lang) {
+            case ru -> dto.setDescriptionRu(entity.getDescriptionRu());
+            case en -> dto.setDescriptionEn(entity.getDescriptionEn());
+            default -> dto.setDescriptionUz(entity.getDescriptionUz());
+        }
+        dto.setConsultingId(entity.getConsultingId());
+        dto.setTariffType(entity.getTariffType());
+        dto.setOrder(entity.getOrder());
+        dto.setId(entity.getId());
+        dto.setPrice(entity.getPrice());
+        dto.setStatus(entity.getStatus());
+
+        return dto;
     }
 }

@@ -10,6 +10,6 @@ public class ConsultingStepUpdateResponseDTO {
     private String nameUz;
     private String nameRu;
     private String nameEn;
-    private String orderNumber;
+    private Integer orderNumber;
     private String description;
 }

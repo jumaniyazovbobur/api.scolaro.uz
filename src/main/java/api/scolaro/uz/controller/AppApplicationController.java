@@ -3,6 +3,7 @@ package api.scolaro.uz.controller;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.appApplication.*;
 import api.scolaro.uz.dto.scholarShip.ScholarShipFilterDTO;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.AppApplicationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -63,6 +64,25 @@ public class AppApplicationController {
         return ResponseEntity.ok(appApplicationService.changeStatus(id, dto));
     }
 
+
+    @PreAuthorize("hasRole('ROLE_CONSULTING')")
+    @Operation(summary = "Update tariff id by ", description = "Method user for  Consulting tariff id")
+    @PostMapping("/consulting/{applicationId}/tariff")
+    public ResponseEntity<?> updateTariffId(@RequestBody AppApplicationTariffIdUpdateDTO dto,
+                                            @PathVariable("applicationId") String applicationId) {
+        log.info("appApplication create {}", dto);
+        return ResponseEntity.ok(appApplicationService.updateTariffId(dto, applicationId));
+    }
+
+    @PreAuthorize("hasRole('ROLE_CONSULTING')")
+    @Operation(summary = "AppApplication create", description = "Method user for  AppApplication")
+    @PostMapping("/consulting/{applicationId}/step")
+    public ResponseEntity<?> updateStep(@RequestBody AppApplicationStepDTO dto,
+                                        @PathVariable("applicationId") String applicationId) {
+        log.info("consulting step create {}", dto);
+        return ResponseEntity.ok(appApplicationService.updateStep(dto, applicationId));
+    }
+
     /**
      * ADMIN
      */
@@ -81,9 +101,10 @@ public class AppApplicationController {
      */
     @Operation(summary = "Get AppApplication by id", description = "Method user for get AppApplication by id")
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<AppApplicationResponseDTO>> getById(@PathVariable String id) {
+    public ResponseEntity<ApiResponse<AppApplicationResponseDTO>> getById(@PathVariable String id, @RequestHeader(value = "Accept-Language",
+            defaultValue = "uz") AppLanguage language) {
         log.info("Get appApplication by id {}", id);
-        return ResponseEntity.ok(appApplicationService.getById(id));
+        return ResponseEntity.ok(appApplicationService.getById(id, language));
     }
 
 }

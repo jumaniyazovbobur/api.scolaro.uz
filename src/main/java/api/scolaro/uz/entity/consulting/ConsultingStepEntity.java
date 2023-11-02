@@ -16,9 +16,10 @@ public class ConsultingStepEntity extends BaseEntity {
     @Column(name = "name")
     private String name;
     @Column(name = "step_type")
+    @Enumerated(EnumType.STRING)
     private StepType stepType;
     @Column(name = "order_number")
-    private String orderNumber;
+    private Integer orderNumber;
     @Column(name = "description")
     private String description;
     @Column(name = "consulting_id")

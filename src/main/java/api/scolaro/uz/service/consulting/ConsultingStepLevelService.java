@@ -4,8 +4,10 @@ import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelCreateDTO;
 import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelDTO;
+import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelResponseDTO;
 import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelUpdateDTO;
 import api.scolaro.uz.entity.consulting.ConsultingStepLevelEntity;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.StepLevelType;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
@@ -110,5 +112,36 @@ public class ConsultingStepLevelService {
         return dto;
     }
 
+    public void createForApp(List<ConsultingStepLevelEntity> list, String stepId) {
+        for (ConsultingStepLevelEntity entity : list) {
+            ConsultingStepLevelEntity stepEntity = new ConsultingStepLevelEntity();
 
+            stepEntity.setNameUz(entity.getNameUz());
+            stepEntity.setNameEn(entity.getNameEn());
+            stepEntity.setNameRu(entity.getNameRu());
+            stepEntity.setStepLevelType(entity.getStepLevelType());
+            stepEntity.setDescription(entity.getDescription());
+            stepEntity.setOrderNumber(entity.getOrderNumber());
+            stepEntity.setConsultingStepId(stepId);
+            stepEntity.setConsultingId(entity.getConsultingId()); // set consulting id
+
+            consultingStepLevelRepository.save(stepEntity);
+        }
+    }
+
+    public ConsultingStepLevelResponseDTO getByIdForApp(String id, AppLanguage lang) {
+        ConsultingStepLevelEntity entity = get(id);
+        ConsultingStepLevelResponseDTO dto = new ConsultingStepLevelResponseDTO();
+        switch (lang) {
+            case ru -> dto.setName(entity.getNameRu());
+            case en -> dto.setName(entity.getNameEn());
+            default -> dto.setName(entity.getNameUz());
+        }
+
+        dto.setId(entity.getId());
+        dto.setDescription(entity.getDescription());
+        dto.setConsultingStepId(entity.getConsultingStepId());
+        dto.setOrderNumber(entity.getOrderNumber());
+        return dto;
+    }
 }

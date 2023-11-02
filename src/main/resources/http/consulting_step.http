@@ -1,12 +1,12 @@
 ### CREATE CONSULTING STEP
 POST http://localhost:8081/api/v1/consulting-step/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTcyMDU2OTQsImlkIjoiNDAyODgwZTQ4YjI5NTMwZDAxOGIyOTU1Yzk0MDAwMDEiLCJwaG9uZSI6Ijk5ODk0NDQ5NzM5NyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk3ODEwNDk0LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.uw4eHtrB8r9N6JLz6w_HcCN14s6Tcsna6FVXTwvkUdFPAhppOy3_4-P9kqEIVdpr3rYMzbSxrFiib3EoNInsqw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTg4MzEwMTgsImlkIjoiNDAyODgwZTY4YjM4NDkzZjAxOGIzODRhMzhhNjAwMDIiLCJwaG9uZSI6Ijk5ODk5Nzc5NTcxMCIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk5NDM1ODE4LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.dCsiVLyrL4oOlBQ7x-v3ClB9AuA3EB7Nlj5AFzQYNWGLZfeTFo0ATQi4Qt_P1_oRCbLfwo-Nk_l7J357KBQg2g
 Content-Type: application/json
 
 {
   "name": "bbb",
   "description": "bbb",
-  "orderNumber": "2"
+  "orderNumber": 2
 }
 
 ### DELETE CONSULTING STEP
