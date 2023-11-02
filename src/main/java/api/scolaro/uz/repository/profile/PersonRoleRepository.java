@@ -26,4 +26,6 @@ public interface PersonRoleRepository extends JpaRepository<PersonRoleEntity, St
     @Transactional
     @Query(value = "delete from PersonRoleEntity  where personId =?1 and role =?2")
     void deleteRole(String personId, RoleEnum role);
+
+
 }

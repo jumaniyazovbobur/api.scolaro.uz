@@ -78,7 +78,7 @@ public class AuthService {
         // send sms verification code
         smsHistoryService.sendRegistrationSms(dto.getPhoneNumber());
         //client role
-        personRoleService.create(userEntity.getId(), RoleEnum.ROLE_STUDENT);
+        personRoleService.create(userEntity.getId(), RoleEnum.ROLE_CONSULTING);
         return new ApiResponse<>(200, false, "Success");
     }
 
