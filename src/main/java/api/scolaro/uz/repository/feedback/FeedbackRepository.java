@@ -1,8 +1,10 @@
-package api.scolaro.uz.repository;
+package api.scolaro.uz.repository.feedback;
 
 import api.scolaro.uz.entity.FeedbackEntity;
 import api.scolaro.uz.entity.PersonRoleEntity;
 import api.scolaro.uz.enums.RoleEnum;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,4 +26,6 @@ public interface FeedbackRepository extends JpaRepository<FeedbackEntity, String
     int deleted(@Param("id") String id,
                 @Param("deletedId") String currentUserId,
                 @Param("deletedDate") LocalDateTime now);
+
+    Page<FeedbackEntity> getAllByVisibleIsTrueOrderByCreatedDateDesc(Pageable pageable);
 }

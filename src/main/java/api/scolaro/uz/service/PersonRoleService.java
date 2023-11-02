@@ -1,6 +1,8 @@
 package api.scolaro.uz.service;
 
 
+import api.scolaro.uz.dto.PersonRoleDTO;
+import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.entity.PersonRoleEntity;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.repository.profile.PersonRoleRepository;
@@ -66,5 +68,13 @@ public class PersonRoleService {
             }
         }
         return false;
+    }
+
+    private List<RoleEnum> getRole(String id){
+       return personRoleRepository.findPersonRoleEnumList(id);
+    }
+
+    public PersonRoleDTO getResponsePerson(String id) {
+        return id == null ? new PersonRoleDTO() : new PersonRoleDTO(id, getRole(id));
     }
 }

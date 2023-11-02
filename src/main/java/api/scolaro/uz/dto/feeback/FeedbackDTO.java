@@ -1,4 +1,4 @@
-package api.scolaro.uz.dto;
+package api.scolaro.uz.dto.feeback;
 
 import api.scolaro.uz.enums.FeedBackType;
 import lombok.Getter;
