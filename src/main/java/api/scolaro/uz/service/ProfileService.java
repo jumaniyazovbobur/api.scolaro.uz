@@ -51,9 +51,22 @@ public class ProfileService {
     private final ResourceMessageService resourceMessageService;
 
 
-    public ApiResponse<?> update(ProfileUpdateDTO dto) {
-        int result = profileRepository.updateDetail(EntityDetails.getCurrentUserId(), dto.getName(), dto.getSurname(),dto.getPhoneId());
-        if (result == 0) return ApiResponse.bad("Try again !");
+    public ApiResponse<String> update(ProfileUpdateDTO dto, String id) {
+        ProfileEntity entity = get(id);
+
+        entity.setName(dto.getName());
+        entity.setSurname(dto.getSurname());
+        if (dto.getPhoneId() != null) {
+            entity.setPhotoId(dto.getPhoneId());
+        }
+
+        profileRepository.save(entity);
+//        if (dto.getPhoneId() != null){
+//            int result = profileRepository.updateDetail(EntityDetails.getCurrentUserId(), dto.getName(), dto.getSurname(),dto.getPhoneId());
+//        }else {
+//            int result = profileRepository.updateDetailNoPhotoId(EntityDetails.getCurrentUserId(), dto.getName(), dto.getSurname());
+//        }
+//        if (result == 0) return ApiResponse.bad("Try again !");
         return ApiResponse.ok("Success");
     }
 

@@ -60,7 +60,8 @@ public class ConsultingTariffController {
 
     @GetMapping("/consulting/{id}")
     @Operation(summary = "Get consulting tariff list by consulting id ", description = "for consulting")
-    public ResponseEntity<ApiResponse<List<ConsultingTariffResponseDTO>>> getAllByCurrentConsulting(@PathVariable("id") String consultingId, @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
+    public ResponseEntity<ApiResponse<List<ConsultingTariffResponseDTO>>> getAllByCurrentConsulting(@PathVariable("id") String consultingId,
+                                                                                                    @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Get consulting tariff list by consultingId ");
         return ResponseEntity.ok(consultingTariffService.getAllByConsultingId(consultingId, language));
     }

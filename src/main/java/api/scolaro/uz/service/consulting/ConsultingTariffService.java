@@ -80,7 +80,7 @@ public class ConsultingTariffService {
 
     public ApiResponse<String> delete(String id) {
         ConsultingTariffEntity entity = get(id);
-        if (!entity.getConsultingId().equals(EntityDetails.getCurrentUserId())) {
+        if (entity.getConsultingId() == null || !entity.getConsultingId().equals(EntityDetails.getCurrentUserId())) {
             log.warn("Author is not incorrect or not found {}", entity.getConsultingId());
             throw new ItemNotFoundException("Author is not incorrect or not found");
         }

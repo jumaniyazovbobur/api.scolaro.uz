@@ -32,11 +32,12 @@ public class ProfileController {
      * FOR OWNER USER
      */
     @PreAuthorize("hasRole('ROLE_STUDENT')")
-    @PutMapping("/update")
+    @PutMapping("/update/{id}")
     @Operation(summary = "Update api", description = "")
-    public ResponseEntity<ApiResponse<?>> update(@Valid @RequestBody ProfileUpdateDTO dto) {
+    public ResponseEntity<ApiResponse<String>> update(@Valid @RequestBody ProfileUpdateDTO dto,
+                                                 @PathVariable("id") String id ) {
         log.info("Update user ");
-        return ResponseEntity.ok(profileService.update(dto));
+        return ResponseEntity.ok(profileService.update(dto,id));
     }
 
     /**

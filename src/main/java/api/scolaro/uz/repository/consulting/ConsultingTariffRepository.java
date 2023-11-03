@@ -17,7 +17,7 @@ public interface ConsultingTariffRepository extends JpaRepository<ConsultingTari
 
     Optional<ConsultingTariffEntity> findByIdAndVisibleTrue(String id);
 
-    @Query("select ct from ConsultingTariffEntity as ct where ct.consultingId=:consultingId order by ct.order")
+    @Query("select ct from ConsultingTariffEntity as ct where ct.consultingId=:consultingId and ct.visible=true order by ct.order")
     List<ConsultingTariffEntity> getByConsultingId(@Param("consultingId") String id);
 
     @Query("From ConsultingTariffEntity as ct where ct.tariffType='TEMPLATE' order by ct.order")
