@@ -2,7 +2,7 @@ Table task
 todo. Feedback from users
 
 TODO  AppApplicationEntity ga yangi field lar qo'shildi
-
+TODO Universityni yo'nalishlari, ratinglari, requiremet , descriptionlari linklari bo'ladi
 
 *ConsultingTariffEntity (
   id, nameUz,nameEn,nameRu, description(text), price, createdDate, consulting_id, visible, status, tariff_type, order,)

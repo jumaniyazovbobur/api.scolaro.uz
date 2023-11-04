@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 public class EntityDetails {
@@ -28,6 +29,12 @@ public class EntityDetails {
 
     public static Boolean hasRole(RoleEnum requiredRole, List<String> roleList) {
         return roleList.stream().anyMatch(role -> role.equals(requiredRole.name()));
+    }
+
+    public static List<String> getCurrentProfileRoleList() {
+        CustomUserDetails details = getCurrentUserDetail();
+        assert details != null;
+        return details.getRoleList().stream().map(SimpleGrantedAuthority::getAuthority).collect(Collectors.toList());
     }
 
 }

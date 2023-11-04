@@ -1,12 +1,12 @@
 POST http://localhost:8081/api/v1/attach/upload
 Content-Type: multipart/form-data; boundary=WebAppBoundary
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTgzMDQ4ODMsImlkIjoiNDAyODgwZTQ4YjZhZGFlYzAxOGI2YWRiOWRjNzAwMDAiLCJwaG9uZSI6Ijk5ODg4Njg2MDY3OSIsInJvbGVzIjoiUk9MRV9BRE1JTiIsImV4cCI6MTY5ODkwOTY4MywiaXNzIjoiSmF2YSBiYWNrZW5kIn0.UX6aOb5Y9HKKulLl1neUAR22c_KH98Y9yY3I9drr7WZ2RQAaYL-nL_ZwUh-0sknh8RAdolGOBRWMLA0iS6ffMA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkwMjc5NDMsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTk2MzI3NDMsImlzcyI6IkphdmEgYmFja2VuZCJ9.tIu0zoHsm1UWRf4xhE2_rfv_XX4FeB-5D3UQ61ubfLduetj_kMRlnp-Lcw9u9Fu2iY9Di6QBXeUyfJOS-jIRwQ
 
 
 --WebAppBoundary
-Content-Disposition: form-data; name="file"; filename="aa.jpg"
+Content-Disposition: form-data; name="file"; filename="testjon.jpg"
 
-< C:\wallpaperflare.com_wallpaper.jpg
+< C:\Users\Bobur_Jumaniyazov\Desktop\images\testjon.jpg
 
 ### Get all attach
 GET http://localhost:8081/api/v1/attach/get-all

@@ -28,16 +28,16 @@ public class FeedbackController {
 
     @Operation(summary = "Feedback create", description = "Method for Feedback create")
     @PreAuthorize("hasAnyRole('ROLE_STUDENT','ROLE_CONSULTING')")
-    @PostMapping("/create")
-    public ResponseEntity<ApiResponse<FeedbackEntity>> create(@RequestBody @Valid FeedbackDTO dto){
+    @PostMapping("")
+    public ResponseEntity<ApiResponse<FeedbackEntity>> create(@RequestBody @Valid FeedbackDTO dto) {
         log.info("Feedback create {}", dto);
         return ResponseEntity.ok(feedbackService.create(dto));
     }
 
     @Operation(summary = "Feedback delete", description = "Method for Feedback delete")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") String id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") String id) {
         log.info("Feedback delete {}", id);
         return ResponseEntity.ok(feedbackService.delete(id));
     }
@@ -47,7 +47,7 @@ public class FeedbackController {
      */
     @Operation(summary = "Filter AppApplication", description = "Method user for filtering AppApplication")
     @PostMapping("/filter")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> filter(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                     @RequestParam(value = "size", defaultValue = "5") Integer size,
                                     @RequestBody FeedbackFilterDTO dto) {

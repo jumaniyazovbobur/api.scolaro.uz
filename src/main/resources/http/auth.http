@@ -5,9 +5,9 @@ Content-Type: application/json
 {
   "name": "asd",
   "surname": "asd",
-  "phoneNumber": "998930671423",
+  "phoneNumber": "998915721213",
   "password": "123456",
-  "nickName": "maxmud12323",
+  "nickName": "bigman",
   "countryId": 1,
   "address": "Toshkent viloyati",
   "gender": "MALE",
@@ -37,7 +37,7 @@ Content-Type: application/json
 
 
 {
-  "phone": "998930671423",
+  "phone": "998915721213",
   "code": "11111"
 }
 ### Consulting login
@@ -55,7 +55,7 @@ Content-Type: application/json
 
 
 {
-  "phone": "998930671426",
+  "phone": "998915721213",
   "password": "123456"
 }
 

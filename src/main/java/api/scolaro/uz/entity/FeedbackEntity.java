@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "feedback")
-public class FeedbackEntity extends BaseEntity{
-    @Column(name = "content")
+public class FeedbackEntity extends BaseEntity {
+    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
     @Column(name = "person_id")
     private String personId;

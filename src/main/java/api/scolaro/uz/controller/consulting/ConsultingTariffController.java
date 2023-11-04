@@ -81,4 +81,5 @@ public class ConsultingTariffController {
         log.info("Get Consulting tariff Template type ");
         return ResponseEntity.ok(consultingTariffService.getTemplateList(language));
     }
+
 }

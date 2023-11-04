@@ -7,6 +7,7 @@ import api.scolaro.uz.dto.consultingTariff.ConsultingTariffResponseDTO;
 import api.scolaro.uz.dto.consultingTariff.ConsultingTariffUpdateDTO;
 import api.scolaro.uz.entity.consulting.ConsultingTariffEntity;
 import api.scolaro.uz.enums.AppLanguage;
+import api.scolaro.uz.enums.ConsultingTarifType;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.consulting.ConsultingTariffRepository;
 import api.scolaro.uz.service.ResourceMessageService;
@@ -34,7 +35,7 @@ public class ConsultingTariffService {
         entity.setDescriptionEn(dto.getDescriptionEn());
         entity.setPrice(dto.getPrice());
         entity.setConsultingId(EntityDetails.getCurrentUserId());
-        entity.setTariffType(dto.getTariffType());
+        entity.setTariffType(ConsultingTarifType.CONSULTING);
         entity.setStatus(dto.getStatus());
         entity.setOrder(dto.getOrder());
         consultingTariffRepository.save(entity);
