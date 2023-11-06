@@ -1,13 +1,17 @@
 package api.scolaro.uz.service;
 
 import api.scolaro.uz.config.details.EntityDetails;
+import api.scolaro.uz.dto.appApplication.AppApplicationLevelAttachDTO;
 import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.dto.attach.AttachResponseDTO;
 import api.scolaro.uz.entity.AttachEntity;
+import api.scolaro.uz.enums.AttachType;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.attach.AttachRepository;
+import api.scolaro.uz.service.application.AppApplicationLevelAttachService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -33,7 +37,7 @@ import java.util.Calendar;
 import java.util.Objects;
 import java.util.Optional;
 
-@RequiredArgsConstructor
+
 @Slf4j
 @Service
 public class AttachService {
@@ -43,7 +47,10 @@ public class AttachService {
     @Value("${attach.url}")
     private String attachUrl;
 
-    private final AttachRepository attachRepository;
+    @Autowired
+    private AttachRepository attachRepository;
+    @Autowired
+    private AppApplicationLevelAttachService applicationLevelAttachService;
 
     public AttachDTO upload(MultipartFile file) {
         if (file.isEmpty()) {
@@ -78,6 +85,11 @@ public class AttachService {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public AppApplicationLevelAttachDTO createApplicationLevelAttach(MultipartFile file, String stepLevelId, AttachType attachType) {
+        AttachDTO dto = upload(file); // Upload file
+        return applicationLevelAttachService.createAppLevelAttach(stepLevelId, dto, attachType); // save application level attach
     }
 
     public byte[] open_general(String fileName) {
@@ -131,7 +143,6 @@ public class AttachService {
         return new PageImpl<>(entityPages.stream().map(this::toDTO).toList(), pageable, entityPages.getTotalElements());
     }
 
-
     private String getYmDString() {
         int year = Calendar.getInstance().get(Calendar.YEAR);
         int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
@@ -177,7 +188,10 @@ public class AttachService {
     public AttachDTO getResponseAttach(String id) {
         return id == null ? new AttachDTO() : new AttachDTO(id, getUrl(id));
     }
-    public AttachDTO getResponseAttachWithExtension(String id,String extension) {
-        return id == null ? new AttachDTO() : new AttachDTO(id, getUrl(id),extension);
+
+    public AttachDTO getResponseAttachWithExtension(String id, String extension) {
+        return id == null ? new AttachDTO() : new AttachDTO(id, getUrl(id), extension);
     }
+
+
 }

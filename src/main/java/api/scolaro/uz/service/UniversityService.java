@@ -31,7 +31,7 @@ public class UniversityService {
     private final AttachService attachService;
 
 
-    public ApiResponse<?> create(UniversityCreateDTO dto) {
+    public ApiResponse<UniversityResponseDTO> create(UniversityCreateDTO dto) {
         UniversityEntity entity = new UniversityEntity();
         entity.setName(dto.getName());
         entity.setRating(dto.getRating());
@@ -51,7 +51,7 @@ public class UniversityService {
         return ApiResponse.ok("Success");
     }
 
-    public ApiResponse<?> update(Long id, UniversityUpdateDTO dto) {
+    public ApiResponse<UniversityResponseDTO> update(Long id, UniversityUpdateDTO dto) {
         UniversityEntity entity = get(id);
         entity.setName(dto.getName());
         entity.setWebSite(dto.getWebSite());
@@ -62,7 +62,7 @@ public class UniversityService {
         return ApiResponse.ok(toDTO(entity));
     }
 
-    public ApiResponse<?> getById(Long id) {
+    public ApiResponse<UniversityResponseDTO> getById(Long id) {
         UniversityEntity entity = get(id);
         return ApiResponse.ok(toDTO(entity));
     }

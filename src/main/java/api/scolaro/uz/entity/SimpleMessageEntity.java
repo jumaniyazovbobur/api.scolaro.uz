@@ -1,5 +1,6 @@
 package api.scolaro.uz.entity;
 
+import api.scolaro.uz.entity.application.AppApplicationEntity;
 import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.enums.MessageType;
 import jakarta.persistence.*;

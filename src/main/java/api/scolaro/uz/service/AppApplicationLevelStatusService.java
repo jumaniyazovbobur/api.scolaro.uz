@@ -3,12 +3,16 @@ package api.scolaro.uz.service;
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.appApplication.AppApplicationLevelStatusCreateDTO;
-import api.scolaro.uz.entity.AppApplicationEntity;
-import api.scolaro.uz.entity.AppApplicationLevelStatusEntity;
+import api.scolaro.uz.dto.appApplication.AppApplicationLevelStatusDTO;
+import api.scolaro.uz.dto.appApplication.AppApplicationLevelStatusUpdateDTO;
+import api.scolaro.uz.entity.FeedbackEntity;
+import api.scolaro.uz.entity.application.AppApplicationEntity;
+import api.scolaro.uz.entity.application.AppApplicationLevelStatusEntity;
 import api.scolaro.uz.entity.consulting.ConsultingStepLevelEntity;
 import api.scolaro.uz.enums.ApplicationStepLevelStatus;
 import api.scolaro.uz.enums.StepLevelStatus;
-import api.scolaro.uz.repository.AppApplicationLevelStatusRepository;
+import api.scolaro.uz.exp.ItemNotFoundException;
+import api.scolaro.uz.repository.appApplication.AppApplicationLevelStatusRepository;
 import api.scolaro.uz.repository.consultingStepLevel.ConsultingStepLevelRepository;
 import api.scolaro.uz.service.consulting.ConsultingStepLevelService;
 import lombok.AllArgsConstructor;
@@ -27,7 +31,7 @@ public class AppApplicationLevelStatusService {
     private final ConsultingStepLevelRepository consultingStepLevelRepository;
     private final AppApplicationService appApplicationService;
 
-    public ApiResponse<?> create(AppApplicationLevelStatusCreateDTO dto) {
+    public ApiResponse<AppApplicationLevelStatusDTO> create(AppApplicationLevelStatusCreateDTO dto) {
         ConsultingStepLevelEntity consultingStepLevelEntity = consultingStepLevelService.get(dto.getConsultingStepLevelId());
         // check if level finished before
         if (consultingStepLevelEntity.getStepLevelStatus() != null && consultingStepLevelEntity.getStepLevelStatus().equals(StepLevelStatus.FINISHED)) {
@@ -51,20 +55,12 @@ public class AppApplicationLevelStatusService {
 
         // check if previous exists
         ConsultingStepLevelEntity previousStepLevel = consultingStepLevelRepository.getPreviousStepLevelByStepIdAndStepLevelOrderNumber(consultingStepLevelEntity.getConsultingStepId(), consultingStepLevelEntity.getOrderNumber());
-        if (previousStepLevel == null) { // previous stepLeve do not exists . It is a first stepLevel
-            appApplicationLevelStatusRepository.save(entity); // save applicationStepLevelStatus
-
-            consultingStepLevelEntity.setStartedDate(LocalDateTime.now());
-            consultingStepLevelEntity.setStepLevelStatus(StepLevelStatus.IN_PROCESS);
-            consultingStepLevelRepository.save(consultingStepLevelEntity); // start stepLevel
-            return ApiResponse.ok();
-        }
         // if previous exists and it is not finished yet
-        if (!previousStepLevel.getStepLevelStatus().equals(StepLevelStatus.FINISHED)) {
-            return ApiResponse.bad("Oldingi bosqichni tugatilmagan."); // if previous step not finished
+        if (previousStepLevel != null && !previousStepLevel.getStepLevelStatus().equals(StepLevelStatus.FINISHED)) {
+            return ApiResponse.bad("Oldingi bosqich tugatilmagan."); // if previous step not finished
         }
 
-        appApplicationLevelStatusRepository.save(entity);// save applicationLevelStatus
+        appApplicationLevelStatusRepository.save(entity); // save applicationStepLevelStatus
 
         // if stepLevel going to finish. update ConsultingStepLevelEntity
         if (dto.getApplicationStepLevelStatus().equals(ApplicationStepLevelStatus.STEP_LEVEL_FINISHED)) {
@@ -79,12 +75,41 @@ public class AppApplicationLevelStatusService {
                 nextStepLevel.setStepLevelStatus(StepLevelStatus.IN_PROCESS);
                 consultingStepLevelRepository.save(nextStepLevel); // start stepLevel
             }
-            // if next step not exists. Means it was last step and front will use seperate api for finishing the application
+            // if next step not exists. Means it was last step and front will use separate api for finishing the application
             // api/v1/app-application/change-status/{applicationId}  - use this one
+
+        } else if (consultingStepLevelEntity.getStepLevelStatus() == null) { // if current step level not started yet! start it.
+            consultingStepLevelEntity.setStartedDate(LocalDateTime.now());
+            consultingStepLevelEntity.setStepLevelStatus(StepLevelStatus.IN_PROCESS);
+            consultingStepLevelRepository.save(consultingStepLevelEntity); // start stepLevel
         }
-        return ApiResponse.ok();
-        // applicationni tugatish uchun uni barcha steplari tugatilgan bo'lsa tugatish api ni ochib beramiz.
+
+        return ApiResponse.ok(toDTO(entity));
     }
 
+    public ApiResponse<AppApplicationLevelStatusDTO> update(String levelStatusId, AppApplicationLevelStatusUpdateDTO dto) {
+        AppApplicationLevelStatusEntity entity = get(levelStatusId);
+        entity.setDeadline(dto.getDeadline());
+        entity.setDescription(dto.getDescription());
+        appApplicationLevelStatusRepository.save(entity);
+        return ApiResponse.ok(toDTO(entity));
+    }
+
+    public AppApplicationLevelStatusDTO toDTO(AppApplicationLevelStatusEntity entity) {
+        AppApplicationLevelStatusDTO dto = new AppApplicationLevelStatusDTO();
+        dto.setId(entity.getId());
+        dto.setDescription(entity.getDescription());
+        dto.setDeadline(entity.getDeadline());
+        dto.setConsultingStepLevelId(entity.getConsultingStepLevelId());
+        dto.setCreatedDate(entity.getCreatedDate());
+        return dto;
+    }
+
+    public AppApplicationLevelStatusEntity get(String id) {
+        return appApplicationLevelStatusRepository.findById(id).orElseThrow(() -> {
+            log.warn("Application leve status not found");
+            return new ItemNotFoundException("Application leve status not found");
+        });
+    }
 
 }

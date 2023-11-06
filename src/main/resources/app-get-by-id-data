@@ -1,0 +1,78 @@
+{
+  "message": null,
+  "code": 200,
+  "isError": true,
+  "data": {
+    "id": "402880e88ba2ae64018ba2b330120000",
+    "consulting": {
+      "id": "402880e88ba26b18018ba26da2470002",
+      "name": "Brain Development Consulting",
+      "ownerName": "Bigman",
+      "ownerSurName": "Bigmanjon",
+      "phone": "998915721213",
+      "address": "Toshkent shahri",
+      "about": "Biz vawe kuchaygan consaltingmiz",
+      "photo": {
+        "id": "402880e88ba26b18018ba26d4df40000",
+        "url": "http://localhost:8081/api/v1/attach/open/402880e88ba26b18018ba26d4df40000"
+      },
+      "createdDate": null
+    },
+    "student": {
+      "id": "402880e88ba26b18018ba26efd0e0004",
+      "name": "TestStudentJon",
+      "surname": "testStudentSurname",
+      "phone": null,
+      "photo": {},
+      "createdDate": null
+    },
+    "university": {
+      "id": 1,
+      "name": "BUXDU",
+      "photo": {}
+    },
+    "tariff": {
+      "id": "402880e88ba26b18018ba27083d00007",
+      "description": "Brain uz 1",
+      "name": "Yaxshi Ta'riff",
+      "price": 5600.0,
+      "consultingId": "402880e88ba26b18018ba26da2470002",
+      "status": "ACTIVE",
+      "tariffType": "CONSULTING",
+      "orderNumber": 1
+    },
+    "step": {
+      "id": "402880e48ba33c9b018ba33da9040000",
+      "name": "Test Step 1",
+      "orderNumber": null,
+      "type": "APPLICATION",
+      "description": "some big description",
+      "consultingId": null,
+      "levelList": [
+        {
+          "id": "402880e48ba33c9b018ba33da92b0001",
+          "name": "1-Bosqish",
+          "orderNumber": 1,
+          "description": "Hi everyone",
+          "startDate": "2023-11-06T12:49:39.779205",
+          "finishDate": "2023-11-06T12:51:56.034784",
+          "status": "FINISHED",
+          "levelStatusList": "[{\"id\" : \"402880e48ba3978f018ba39935e50000\", \"applicationStepLevelStatus\" : \"ACCEPTED\", \"createdDate\" : \"2023-11-06T12:46:48.819115\", \"description\" : \"ACCEPTED dasdas dasdme dasda sd\", \"deadline\" : null},{\"id\" : \"402880e48ba39b4a018ba39bb37b0000\", \"applicationStepLevelStatus\" : \"ACCEPTED\", \"createdDate\" : \"2023-11-06T12:49:23.688149\", \"description\" : \"ACCEPTED dasdas dasdme dasda sd\", \"deadline\" : null},{\"id\" : \"402880e48ba39d5d018ba39d82c20000\", \"applicationStepLevelStatus\" : \"REVISION\", \"createdDate\" : \"2023-11-06T12:51:30.707397\", \"description\" : \"REVISION dasdas dasdme dasda sd\", \"deadline\" : null},{\"id\" : \"402880e48ba39d5d018ba39db0bc0001\", \"applicationStepLevelStatus\" : \"REWORK_COMPLETED\", \"createdDate\" : \"2023-11-06T12:51:42.516427\", \"description\" : \"REWORK_COMPLETED dasdas dasdme dasda sd\", \"deadline\" : null},{\"id\" : \"402880e48ba39d5d018ba39de5780002\", \"applicationStepLevelStatus\" : \"STEP_LEVEL_FINISHED\", \"createdDate\" : \"2023-11-06T12:51:56.018543\", \"description\" : \"STEP_LEVEL_FINISHED dasdas dasdme dasda sd\", \"deadline\" : null}]",
+          "levelAttachList": "[{\"id\" : \"402880e48ba350dc018ba351277e0001\", \"createdDate\" : \"2023-11-06T11:28:06.653264\", \"attachId\" : \"402880e48ba350dc018ba351274f0000\", \"attachType\" : \"OTHER\", \"consultingStepLevelId\" : \"402880e48ba33c9b018ba33da92b0001\", \"extension\" : \"jpg\", \"origenName\" : \"testjon.jpg\"},{\"id\" : \"402880e48ba350dc018ba35200500003\", \"createdDate\" : \"2023-11-06T11:29:02.159765\", \"attachId\" : \"402880e48ba350dc018ba352004b0002\", \"attachType\" : \"PASSPORT\", \"consultingStepLevelId\" : \"402880e48ba33c9b018ba33da92b0001\", \"extension\" : \"pdf\", \"origenName\" : \"dimplom-data.pdf\"},{\"id\" : \"402880e48ba350dc018ba35327520005\", \"createdDate\" : \"2023-11-06T11:30:17.681221\", \"attachId\" : \"402880e48ba350dc018ba353274d0004\", \"attachType\" : \"REGISTRATION\", \"consultingStepLevelId\" : \"402880e48ba33c9b018ba33da92b0001\", \"extension\" : \"xlsx\", \"origenName\" : \"students.xlsx\"}]"
+        },
+        {
+          "id": "402880e48ba33c9b018ba33da92e0002",
+          "name": "2-Bosqish",
+          "orderNumber": 2,
+          "description": "Hi everyone",
+          "startDate": "2023-11-06T12:51:56.078888",
+          "status": "IN_PROCESS",
+          "levelStatusList": "[{\"id\" : \"402880e48ba39d5d018ba39ef7010003\", \"applicationStepLevelStatus\" : \"ACCEPTED\", \"createdDate\" : \"2023-11-06T12:52:58.89528\", \"description\" : \"ACCEPTED dasdas dasdme dasda sd\", \"deadline\" : null},{\"id\" : \"402880e48ba39d5d018ba39fbeb50004\", \"applicationStepLevelStatus\" : \"REVISION\", \"createdDate\" : \"2023-11-06T12:53:57.170194\", \"description\" : \"REVISION dasdas dasdme dasda sd\", \"deadline\" : null}]",
+          "levelAttachList": "[{\"id\" : \"402880e48ba39d5d018ba3a04d740006\", \"createdDate\" : \"2023-11-06T12:54:33.715266\", \"attachId\" : \"402880e48ba39d5d018ba3a04d6e0005\", \"attachType\" : \"PASSPORT\", \"consultingStepLevelId\" : \"402880e48ba33c9b018ba33da92e0002\", \"extension\" : \"pdf\", \"origenName\" : \"dimplom-data.pdf\"}]"
+        }
+      ]
+    },
+    "status": "STARTED",
+    "createdDate": "2023-11-06T08:35:34.155047"
+  }
+}

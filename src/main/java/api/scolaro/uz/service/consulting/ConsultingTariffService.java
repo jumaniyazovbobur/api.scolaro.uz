@@ -8,6 +8,8 @@ import api.scolaro.uz.dto.consultingTariff.ConsultingTariffUpdateDTO;
 import api.scolaro.uz.entity.consulting.ConsultingTariffEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.ConsultingTarifType;
+import api.scolaro.uz.enums.GeneralStatus;
+import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.consulting.ConsultingTariffRepository;
 import api.scolaro.uz.service.ResourceMessageService;
@@ -37,7 +39,7 @@ public class ConsultingTariffService {
         entity.setConsultingId(EntityDetails.getCurrentUserId());
         entity.setTariffType(ConsultingTarifType.CONSULTING);
         entity.setStatus(dto.getStatus());
-        entity.setOrder(dto.getOrder());
+        entity.setOrderNumber(dto.getOrderNumber());
         consultingTariffRepository.save(entity);
         return new ApiResponse<>(200, false, resourceMessageService.getMessage("success.insert"));
     }
@@ -56,7 +58,7 @@ public class ConsultingTariffService {
             case ru -> dto.setDescription(entity.getDescriptionRu());
             default -> dto.setDescription(entity.getDescriptionUz());
         }
-        dto.setOrder(entity.getOrder());
+        dto.setOrderNumber(entity.getOrderNumber());
         return new ApiResponse<>(200, false, dto);
     }
 
@@ -71,7 +73,7 @@ public class ConsultingTariffService {
         entity.setDescriptionEn(dto.getDescriptionEn());
         entity.setDescriptionRu(dto.getDescriptionRu());
         entity.setName(dto.getName());
-        entity.setOrder(dto.getOrder());
+        entity.setOrderNumber(dto.getOrder());
         entity.setPrice(dto.getPrice());
         entity.setStatus(dto.getStatus());
         entity.setTariffType(dto.getTariffType());
@@ -119,7 +121,7 @@ public class ConsultingTariffService {
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setConsultingId(entity.getConsultingId());
-        dto.setOrder(entity.getOrder());
+        dto.setOrderNumber(entity.getOrderNumber());
         dto.setPrice(entity.getPrice());
         dto.setStatus(entity.getStatus());
         return dto;
@@ -132,21 +134,27 @@ public class ConsultingTariffService {
         });
     }
 
-    public ConsultingTariffResponseDTO getTariffForApp(String consultingTariffId, AppLanguage lang) {
-        ConsultingTariffEntity entity = get(consultingTariffId);
-        ConsultingTariffResponseDTO dto = new ConsultingTariffResponseDTO();
-        switch (lang) {
-            case ru -> dto.setDescriptionRu(entity.getDescriptionRu());
-            case en -> dto.setDescriptionEn(entity.getDescriptionEn());
-            default -> dto.setDescriptionUz(entity.getDescriptionUz());
-        }
-        dto.setConsultingId(entity.getConsultingId());
-        dto.setTariffType(entity.getTariffType());
-        dto.setOrder(entity.getOrder());
-        dto.setId(entity.getId());
-        dto.setPrice(entity.getPrice());
-        dto.setStatus(entity.getStatus());
+    public ApiResponse<?> copyTemplateToConsultingTariff(String templateTariffId) {
+        ConsultingTariffEntity entity = get(templateTariffId);
 
-        return dto;
+        if (!entity.getTariffType().equals(ConsultingTarifType.TEMPLATE)) {
+            log.warn("Only template tariffs allowed to copy.");
+            throw new AppBadRequestException("Only template tariffs allowed to copy.");
+        }
+        //copy
+        ConsultingTariffEntity copyTariff = new ConsultingTariffEntity();
+        copyTariff.setDescriptionUz(entity.getDescriptionUz());
+        copyTariff.setDescriptionEn(entity.getDescriptionEn());
+        copyTariff.setDescriptionRu(entity.getDescriptionRu());
+        copyTariff.setName(entity.getName());
+        copyTariff.setPrice(entity.getPrice());
+        copyTariff.setConsultingId(EntityDetails.getCurrentUserId());
+        copyTariff.setStatus(GeneralStatus.ACTIVE);
+        copyTariff.setTariffType(ConsultingTarifType.CONSULTING);
+        copyTariff.setOrderNumber(1);
+        // save
+        consultingTariffRepository.save(copyTariff);
+        return new ApiResponse<>("success", 200, false);
     }
+
 }

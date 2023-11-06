@@ -4,15 +4,11 @@ import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.appApplication.*;
-import api.scolaro.uz.entity.AppApplicationEntity;
+import api.scolaro.uz.entity.application.AppApplicationEntity;
 import api.scolaro.uz.entity.UniversityEntity;
 import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.entity.consulting.ConsultingStepEntity;
-import api.scolaro.uz.entity.consulting.ConsultingStepLevelEntity;
-import api.scolaro.uz.enums.AppLanguage;
-import api.scolaro.uz.enums.AppStatus;
-import api.scolaro.uz.enums.ApplicationStepLevelStatus;
-import api.scolaro.uz.enums.RoleEnum;
+import api.scolaro.uz.enums.*;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.mapper.AppApplicationFilterMapperDTO;
 import api.scolaro.uz.repository.appApplication.AppApplicationFilterRepository;
@@ -21,7 +17,6 @@ import api.scolaro.uz.service.consulting.ConsultingService;
 import api.scolaro.uz.service.consulting.ConsultingStepLevelService;
 import api.scolaro.uz.service.consulting.ConsultingStepService;
 import api.scolaro.uz.service.consulting.ConsultingTariffService;
-import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -30,12 +25,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static api.scolaro.uz.config.details.EntityDetails.getCurrentUserDetail;
 
@@ -116,19 +108,12 @@ public class AppApplicationService {
         dto.setUniversity(universityService.getUniversityForApp(entity.getUniversityId()));
         dto.setConsulting(consultingService.getConsultingForApp(entity.getConsultingId()));
         dto.setStudent(profileService.getProfileForApp(entity.getStudentId()));
-        dto.setTariff(consultingTariffService.getTariffForApp(entity.getConsultingTariffId(), lang));
-        dto.setStep(consultingStepService.getStepForApp(entity.getConsultingStepId()));
-        dto.setStepLevel(consultingStepLevelService.getByIdForApp(id, lang));
-
-        // TODO set tariff detail
-        // TODO set step detail (ConsultingStepService dan )
-        // TODO set stepLevel Detail List (ConsultingStepLevelService dan)
-        //  Bularni so'rasnagi tushuntirib beraman
-
-
-//        dto.setConsultingId(applicationEntity.getConsultingId());// TODO if requested is not consulting add consulting detail(id,name,photo,ownerdetail)
-//        dto.setStudentId(applicationEntity.getStudentId()); // TODO If requested profile is not student then add student detail (id,name,surname,photo)
-//        dto.setUniversityId(applicationEntity.getUniversityId()); // TODO add University detail (id,name,photo)
+        if (entity.getConsultingStepId() != null) {
+            dto.setStep(consultingStepService.getApplicationStep(entity.getConsultingStepId(), lang));
+        }
+        if (entity.getConsultingTariffId() != null) {
+            dto.setTariff(consultingTariffService.getById(entity.getConsultingTariffId(), lang).getData());
+        }
         return new ApiResponse<>(200, true, dto);
     }
 
@@ -148,8 +133,10 @@ public class AppApplicationService {
         if (entity.getStatus().equals(AppStatus.TRAIL)) {// TRAIL -> STARTED or CANCELED
             if (dto.getStatus().equals(AppStatus.STARTED)) {
                 appApplicationRepository.statusToStarted(id);
+                return new ApiResponse<>(200, false, "Success");
             } else if (dto.getStatus().equals(AppStatus.CANCELED)) {
                 appApplicationRepository.statusToCanceled(id);
+                return new ApiResponse<>(200, false, "Success");
             }
         }
         if (entity.getStatus().equals(AppStatus.STARTED)) { // STARTED -> FINISHED or CANCELED
@@ -161,11 +148,13 @@ public class AppApplicationService {
                     return ApiResponse.forbidden("All application step levels should be closed ");
                 }
                 appApplicationRepository.statusToFinished(id);
+                return new ApiResponse<>(200, false, "Success");
             } else if (dto.getStatus().equals(AppStatus.CANCELED)) {
                 appApplicationRepository.statusToCanceled(id);
+                return new ApiResponse<>(200, false, "Success");
             }
         }
-        return new ApiResponse<>(200, false, "Success");
+        return new ApiResponse<>(400, false, "Application status can not be changed.");
     }
 
     public AppApplicationResponseDTO toDTO(AppApplicationEntity entity) {
@@ -202,15 +191,11 @@ public class AppApplicationService {
 
     public ApiResponse<String> updateStep(AppApplicationStepDTO dto, String applicationId) {
         AppApplicationEntity appApplication = get(applicationId);
-        ConsultingStepEntity consultingStep = consultingStepService.get(dto.getConsultingStepId());
-        List<ConsultingStepLevelEntity> list = consultingStep.getLevelList();
-        String stepId = consultingStepService.createForApp(consultingStep);
-
-        consultingStepLevelService.createForApp(list, stepId);
-
-        appApplicationRepository.updateConStepId(applicationId, stepId);
-
-        return new ApiResponse<>(200, false, "succes");
+        // copy and save step and stepLevels
+        ConsultingStepEntity applicationStep = consultingStepService.copyStepAndStepLevels(dto.getConsultingStepId(), StepType.APPLICATION);
+        //update
+        appApplicationRepository.updateConStepId(applicationId, applicationStep.getId());
+        return new ApiResponse<>(200, false, "success");
     }
 
 

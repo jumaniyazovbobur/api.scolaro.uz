@@ -8,6 +8,9 @@ import api.scolaro.uz.dto.consultingStep.ConsultingStepDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepResponseDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepUpdateDTO;
 import api.scolaro.uz.entity.consulting.ConsultingStepEntity;
+import api.scolaro.uz.enums.AppLanguage;
+import api.scolaro.uz.enums.ConsultingTarifType;
+import api.scolaro.uz.enums.StepLevelType;
 import api.scolaro.uz.enums.StepType;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
@@ -69,19 +72,19 @@ public class ConsultingStepService {
         return new ApiResponse<>(200, false, toDTO(entity));
     }
 
-    public ApiResponse<ConsultingStepDTO> getConsultingDetail(String id) {
+    public ApiResponse<ConsultingStepDTO> getConsultingDetail(String id, AppLanguage language) {
         ConsultingStepEntity entity = get(id);
         ConsultingStepDTO consultingStepDTO = toDTO(entity);
         // set consultingStepLevel
-        consultingStepDTO.setLevelList(consultingStepLevelService.getConsultingStepLevelListByConsultingStepId(id));
+        consultingStepDTO.setLevelList(consultingStepLevelService.getConsultingStepLevelListByConsultingStepId(id, language));
         return new ApiResponse<>(200, false, consultingStepDTO);
     }
 
-    public ApiResponse<ConsultingStepDTO> getConsultingStepListByRequestedConsulting() {
+    public ApiResponse<List<ConsultingStepDTO>> getConsultingStepListByRequestedConsulting() {
         List<ConsultingStepEntity> entityList = consultingStepRepository.getAllByConsultingId(EntityDetails.getCurrentUserId());
         List<ConsultingStepDTO> dtoList = new LinkedList<>();
         entityList.forEach(consultingStepEntity -> dtoList.add(toDTO(consultingStepEntity)));
-        return null;
+        return new ApiResponse<>(200, false, dtoList);
     }
 
     public ConsultingStepEntity get(String id) {
@@ -121,17 +124,47 @@ public class ConsultingStepService {
         return entity.getId();
     }
 
-    public ConsultingStepResponseDTO getStepForApp(String consultingStepId) {
+    public ConsultingStepResponseDTO getApplicationStep(String consultingStepId, AppLanguage lang) {
         ConsultingStepEntity entity = get(consultingStepId);
         ConsultingStepResponseDTO dto = new ConsultingStepResponseDTO();
-
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setType(entity.getStepType());
-        dto.setConsultingId(entity.getConsultingId());
         dto.setDescription(entity.getDescription());
-        dto.setOrderNumber(entity.getOrderNumber());
-
+        dto.setLevelList(consultingStepLevelService.getApplicationStepLevelList(consultingStepId, lang));
         return dto;
+    }
+
+    public ConsultingStepEntity copyStep(String fromStepId, String consultingId, StepType stepType) {
+        ConsultingStepEntity stepEntity = get(fromStepId);
+        //copy consulting step
+        ConsultingStepEntity applicationStep = new ConsultingStepEntity();
+        applicationStep.setName(stepEntity.getName());
+        applicationStep.setStepType(stepType);
+        applicationStep.setOrderNumber(1);
+        applicationStep.setDescription(stepEntity.getDescription());
+        applicationStep.setConsultingId(EntityDetails.getCurrentUserId());
+        applicationStep.setConsultingId(consultingId);
+        // save
+        consultingStepRepository.save(applicationStep);
+        return applicationStep;
+    }
+
+    public ConsultingStepEntity copyStepAndStepLevels(String fromStepId, StepType stepType) {
+        String consultingId = EntityDetails.getCurrentUserId();
+        ConsultingStepEntity consultingStepEntity = copyStep(fromStepId, consultingId, stepType);
+        // copy and save consultingStepLevel
+        consultingStepLevelService.copyStepLevels(fromStepId, consultingStepEntity.getId(), consultingId);
+        return consultingStepEntity;
+    }
+
+    public ApiResponse<?> copyTemplateToConsultingStep(String templateStepId) {
+        ConsultingStepEntity templateStepEntity = get(templateStepId);
+        if (!templateStepEntity.getStepType().equals(StepType.TEMPLATE)) {
+            log.warn("Only template steps allowed to copy.");
+            throw new AppBadRequestException("Only template steps allowed to copy.");
+        }
+        copyStepAndStepLevels(templateStepId, StepType.CONSULTING);
+        return ApiResponse.ok();
     }
 }

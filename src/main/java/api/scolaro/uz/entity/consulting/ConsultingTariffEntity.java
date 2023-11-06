@@ -12,11 +12,11 @@ import lombok.Setter;
 @Entity
 @Table(name = "consulting_tariff")
 public class ConsultingTariffEntity extends BaseEntity {
-    @Column(name = "description_uz",columnDefinition = "text")
+    @Column(name = "description_uz", columnDefinition = "text")
     private String descriptionUz;
-    @Column(name = "description_ru",columnDefinition = "text")
+    @Column(name = "description_ru", columnDefinition = "text")
     private String descriptionRu;
-    @Column(name = "description_en",columnDefinition = "text")
+    @Column(name = "description_en", columnDefinition = "text")
     private String descriptionEn;
     @Column(name = "name", columnDefinition = "text")
     private String name;
@@ -33,6 +33,6 @@ public class ConsultingTariffEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "tariff_type")
     private ConsultingTarifType tariffType;
-    @Column(name = "orders")
-    private Integer order;
+    @Column(name = "order_number")
+    private Integer orderNumber;
 }

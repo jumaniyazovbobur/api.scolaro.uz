@@ -1,8 +1,6 @@
 package api.scolaro.uz.repository.appApplication;
 
-import api.scolaro.uz.entity.AppApplicationEntity;
-import api.scolaro.uz.enums.AppStatus;
-import api.scolaro.uz.enums.GeneralStatus;
+import api.scolaro.uz.entity.application.AppApplicationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Repository
@@ -39,10 +36,10 @@ public interface AppApplicationRepository extends JpaRepository<AppApplicationEn
     @Transactional
     @Modifying
     @Query("update AppApplicationEntity set consultingTariffId = :tariffId where id=:appId")
-    int updateTariffId(@Param("appId") String appId,@Param("tariffId") String tariffId);
+    int updateTariffId(@Param("appId") String appId, @Param("tariffId") String tariffId);
 
     @Transactional
     @Modifying
-    @Query("update AppApplicationEntity set consultingStepId = :conStepId where id=:appId")
-    int updateConStepId(@Param("appId") String appId,@Param("conStepId") String conStepId);
+    @Query("update AppApplicationEntity set consultingStepId = :conStepId where id=:applicationId")
+    int updateConStepId(@Param("applicationId") String applicationId, @Param("conStepId") String conStepId);
 }

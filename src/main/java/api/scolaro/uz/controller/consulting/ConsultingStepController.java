@@ -4,6 +4,7 @@ import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepCreateDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepUpdateDTO;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.consulting.ConsultingStepService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/consulting-step")
 @RequiredArgsConstructor
@@ -22,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 public class ConsultingStepController {
     private final ConsultingStepService consultingStepService;
 
-    @PostMapping("/")
+    @PostMapping("")
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @Operation(summary = "Create Consulting Step", description = "for owner")
     public ResponseEntity<ApiResponse<String>> create(@RequestBody @Valid ConsultingStepCreateDTO dto) {
@@ -54,18 +57,27 @@ public class ConsultingStepController {
         return ResponseEntity.ok(consultingStepService.update(id, dto));
     }
 
-    @DeleteMapping("/{id}/detail")
-    @Operation(summary = "Get Consulting Step detail", description = "for owner")
-    public ResponseEntity<ApiResponse<ConsultingStepDTO>> getConsultingDetail(@PathVariable("id") String id) {
+    @GetMapping("/{id}/level")
+    @Operation(summary = "Get consulting step with stepLevel list", description = "for owner")
+    public ResponseEntity<ApiResponse<ConsultingStepDTO>> getConsultingDetail(@PathVariable("id") String id,
+                                                                              @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Request for Consulting detail {}", id);
-        return ResponseEntity.ok(consultingStepService.getConsultingDetail(id));
+        return ResponseEntity.ok(consultingStepService.getConsultingDetail(id,language));
     }
 
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
-    @GetMapping("/consulting")
-    @Operation(summary = "Get Consulting Step detail", description = "for owner")
-    public ResponseEntity<ApiResponse<ConsultingStepDTO>> getConsultingStepListByRequestedConsulting() {
+    @GetMapping("/current")
+    @Operation(summary = "Get consulting step list", description = "for owner")
+    public ResponseEntity<ApiResponse<List<ConsultingStepDTO>>> getConsultingStepListByRequestedConsulting() {
         log.info("Request for getting consultingStepList by requested consulting");
         return ResponseEntity.ok(consultingStepService.getConsultingStepListByRequestedConsulting());
+    }
+
+    @PreAuthorize("hasRole('ROLE_CONSULTING')")
+    @GetMapping("/template/{id}/copy")
+    @Operation(summary = "Copy template tariff to consulting tariff", description = "for consulting")
+    public ResponseEntity<ApiResponse<?>> copyTemplateTariff(@PathVariable("id") String templateStepId) {
+        log.info("Copy template consulting step to consulting tariff");
+        return ResponseEntity.ok(consultingStepService.copyTemplateToConsultingStep(templateStepId));
     }
 }

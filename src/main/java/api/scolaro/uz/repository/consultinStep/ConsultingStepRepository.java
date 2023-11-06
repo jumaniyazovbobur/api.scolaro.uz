@@ -22,7 +22,7 @@ public interface ConsultingStepRepository extends JpaRepository<ConsultingStepEn
     @Query("Update ConsultingStepEntity set visible = false , deletedId=:deletedId, deletedDate=:deletedDate where id =:id")
     int deleted(@Param("id") String id, @Param("deletedId") String currentUserId, @Param("deletedDate") LocalDateTime now);
 
-    @Query(" FROM ConsultingStepEntity as c " + " where c.consultingId =:consultingId and c.visible=true order by c.orderNumber asc ")
+    @Query(" FROM ConsultingStepEntity as c where c.consultingId =:consultingId and c.visible=true order by c.orderNumber asc ")
     List<ConsultingStepEntity> getAllByConsultingId(@Param("consultingId") String consultingId);
 
 

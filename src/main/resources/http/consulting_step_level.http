@@ -1,15 +1,15 @@
 ### CREATE
-POST http://localhost:8081/api/v1/consulting-step-level/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTg4MzEwMTgsImlkIjoiNDAyODgwZTY4YjM4NDkzZjAxOGIzODRhMzhhNjAwMDIiLCJwaG9uZSI6Ijk5ODk5Nzc5NTcxMCIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk5NDM1ODE4LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.dCsiVLyrL4oOlBQ7x-v3ClB9AuA3EB7Nlj5AFzQYNWGLZfeTFo0ATQi4Qt_P1_oRCbLfwo-Nk_l7J357KBQg2g
+POST http://localhost:8081/api/v1/consulting-step-level
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkyMzczMTMsImlkIjoiNDAyODgwZTg4YmEyNmIxODAxOGJhMjZkYTI0NzAwMDIiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk5ODQyMTEzLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.q3r1HgdjAAz1f-TAaulTn9yqwjDCmajQnFzDgfpSF2vWsXw4I14zDoc2kZipMqP06jpW4X6Rgn54xi8N8LpvOA
 Content-Type: application/json
 
 {
-  "nameUz": "asd",
-  "nameRu": "asda",
-  "nameEn": "asdad",
-  "orderNumber": 3,
+  "nameUz": "2-Bosqish",
+  "nameRu": "2-Bosqish",
+  "nameEn": "2-Bosqish",
+  "orderNumber": 2,
   "description": "Hi everyone",
-  "consultingStepId": "402880e68b8ac642018b8ac738760000"
+  "consultingStepId": "402880e88ba27c4c018ba27cddfc0000"
 }
 
 ### DELETE
@@ -31,6 +31,6 @@ Content-Type: application/json
   "prtId": "402880e88b142466018b14247bdc0000"
 }
 
-### GET BY CONSULTING ID
-GET http://localhost:8081/api/v1/consulting-step-level/402880e88b143072018b1430d6480000
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTY4NTAxNzMsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTc0NTQ5NzMsImlzcyI6IkphdmEgYmFja2VuZCJ9.Qjee4qBBXsaDDhY7vvSj9CNKuUDb6eI5LKzi4CO2kATx0j70IFxu6XTAMnjmjgFCE9rpNwcz-xUOZMKUZL7OJw
+### Get level list by stepId
+GET http://localhost:8081/api/v1/consulting-step-level/step/402880e88ba27c4c018ba27cddfc0000
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkyMzczMTMsImlkIjoiNDAyODgwZTg4YmEyNmIxODAxOGJhMjZkYTI0NzAwMDIiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk5ODQyMTEzLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.q3r1HgdjAAz1f-TAaulTn9yqwjDCmajQnFzDgfpSF2vWsXw4I14zDoc2kZipMqP06jpW4X6Rgn54xi8N8LpvOA

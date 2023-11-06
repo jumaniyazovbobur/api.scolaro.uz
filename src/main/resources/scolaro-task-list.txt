@@ -1,8 +1,23 @@
+"studentId": "402880e88ba26b18018ba26efd0e0004",
+"consultingId": "402880e88ba26b18018ba26da2470002",
+
 Table task
 todo. Feedback from users
 
 TODO  AppApplicationEntity ga yangi field lar qo'shildi
 TODO Universityni yo'nalishlari, ratinglari, requiremet , descriptionlari linklari bo'ladi
+TODO Create consulting template step and levels in flyway
+TODO barcha http call api lar nomini kichik bilan yozish
+TODO barcha constollerdagi descriptionlari  kichik bilan yozish
+TODO kerakmas DTO klasslarni o'chirish
+TODO Application ni start qilishdan oldin unga tariff va step lari qo'yilgan bo'lishi kerak.
+TODO consulting/{applicationId}/tariff  applicationni tarifini update qilayotganda kelgan tariff shu consultinga tegishli mi yo'qmi tekshirish kerak.
+TODO generate application number (AB12345)
+TODO attach/upload/application/step_level  - da murojat qilgan odam (student,consulting) shu applicationga file upload qila oladii yo'qmi tekshirish kerak
+        // student bo'lsa student_id agar consulting bo'lsa consulting_id si teng bo'lishi kerak.
+TODO AttachType da qanday datalar bo'lishini so'rash kerak.
+
+
 
 *ConsultingTariffEntity (
   id, nameUz,nameEn,nameRu, description(text), price, createdDate, consulting_id, visible, status, tariff_type, order,)

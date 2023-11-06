@@ -1,4 +1,4 @@
-package api.scolaro.uz.controller;
+package api.scolaro.uz.controller.application;
 
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.appApplication.*;
@@ -56,30 +56,30 @@ public class AppApplicationController {
         return ResponseEntity.ok(appApplicationService.filterForConsulting(dto, page, size));
     }
 
-    @Operation(summary = "Change status  AppApplication ", description = "Method user for change status AppApplication for Consulting")
-    @PutMapping("/change-status/{id}")
+    @Operation(summary = "Change appApplication  status as consulting", description = "")
+    @PutMapping("/change-status/{applicationId}")
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
-    public ResponseEntity<?> changeStatus(@PathVariable String id, @Valid @RequestBody AppApplicationChangeStatusDTO dto) {
-        log.info("Change status appApplication for consulting ");
-        return ResponseEntity.ok(appApplicationService.changeStatus(id, dto));
+    public ResponseEntity<?> changeStatus(@PathVariable("applicationId") String applicationId, @Valid @RequestBody AppApplicationChangeStatusDTO dto) {
+        log.info("Change appApplication status as consulting. Application {}, toStatus {} ", applicationId, dto.getStatus());
+        return ResponseEntity.ok(appApplicationService.changeStatus(applicationId, dto));
     }
 
 
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
-    @Operation(summary = "Update tariff id by ", description = "Method user for  Consulting tariff id")
+    @Operation(summary = "Update application tariff ", description = "Updating consulting tariff id")
     @PostMapping("/consulting/{applicationId}/tariff")
     public ResponseEntity<?> updateTariffId(@RequestBody AppApplicationTariffIdUpdateDTO dto,
                                             @PathVariable("applicationId") String applicationId) {
-        log.info("appApplication create {}", dto);
+        log.info("Update application {} tariff {}", applicationId, dto.getTariffId());
         return ResponseEntity.ok(appApplicationService.updateTariffId(dto, applicationId));
     }
 
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
-    @Operation(summary = "AppApplication create", description = "Method user for  AppApplication")
+    @Operation(summary = "Update application consultingStep", description = "")
     @PostMapping("/consulting/{applicationId}/step")
     public ResponseEntity<?> updateStep(@RequestBody AppApplicationStepDTO dto,
                                         @PathVariable("applicationId") String applicationId) {
-        log.info("consulting step create {}", dto);
+        log.info("Update application consultingStep. appId {}, stepId {}", applicationId, dto.getConsultingStepId());
         return ResponseEntity.ok(appApplicationService.updateStep(dto, applicationId));
     }
 

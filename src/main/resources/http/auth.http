@@ -1,4 +1,4 @@
-### Register
+### Student register
 POST http://localhost:8081/api/v1/auth/profile/registration
 Content-Type: application/json
 
@@ -15,7 +15,7 @@ Content-Type: application/json
 }
 
 
-### Register 2
+### Student register 2
 POST http://api.app.mazgi.uz/api/v1/auth/profile/registration
 Content-Type: application/json
 
@@ -31,7 +31,7 @@ Content-Type: application/json
 }
 
 
-### Profile sms verification login
+### Student sms verification
 POST http://localhost:8081/api/v1/auth/profile/registration/verification
 Content-Type: application/json
 
@@ -40,16 +40,8 @@ Content-Type: application/json
   "phone": "998915721213",
   "code": "11111"
 }
-### Consulting login
-POST http://localhost:8081/api/v1/auth/consulting/login
-Content-Type: application/json
 
-{
-  "phone": "998997795710",
-  "password": "8yrjdt"
-}
-
-### Profile login
+### Student (Profile) login
 POST http://localhost:8081/api/v1/auth/profile/login
 Content-Type: application/json
 
@@ -80,6 +72,17 @@ Content-Type: application/json
 }
 
 
+################################################ Consulting
+### Consulting login
+POST http://localhost:8081/api/v1/auth/consulting/login
+Content-Type: application/json
+
+{
+  "phone": "998915721213",
+  "password": "akrpwg"
+}
+
+
 ### Reset password for consulting
 POST http://localhost:8081/api/v1/auth/consulting/reset-password
 Content-Type: application/json
@@ -100,6 +103,9 @@ Content-Type: application/json
 
 }
 
+
+
+################################################ Admin
 ### authenticate ADMIN
 POST http://localhost:8081/api/v1/auth/profile/login
 Content-Type: application/json
@@ -118,6 +124,8 @@ Content-Type: application/json
   "password": "123456"
 }
 
+
+################################################ Other
 ### Exist Profile NickName
 GET http://localhost:8081/api/v1/auth
 Content-Type: application/json

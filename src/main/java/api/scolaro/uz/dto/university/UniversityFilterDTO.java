@@ -8,7 +8,5 @@ import lombok.Setter;
 public class UniversityFilterDTO {
     private String name;
     private Long countryId;
-    private Long beginRating;
-    private Long endRating;
-
+    private Long rating;
 }

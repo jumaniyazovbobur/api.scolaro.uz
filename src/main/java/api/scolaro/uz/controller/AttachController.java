@@ -1,7 +1,9 @@
 package api.scolaro.uz.controller;
 
+import api.scolaro.uz.dto.appApplication.AppApplicationLevelAttachDTO;
 import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.dto.attach.AttachFilterDTO;
+import api.scolaro.uz.enums.AttachType;
 import api.scolaro.uz.service.AttachService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,6 +37,15 @@ public class AttachController {
         return ResponseEntity.ok(attachService.upload(file));
     }
 
+    @PostMapping("/upload/application/step_level")
+    @Operation(summary = "upload file to application step level", description = "")
+    public ResponseEntity<AppApplicationLevelAttachDTO> createApplicationLevelAttach(@RequestParam("file") MultipartFile file,
+                                                                                     @RequestParam("stepLevelId") String stepLevelId,
+                                                                                     @RequestParam(value = "attachType", defaultValue = "OTHER") AttachType attachType) {
+        log.info("application level attach  = {}", file.getOriginalFilename());
+        return ResponseEntity.ok(attachService.createApplicationLevelAttach(file, stepLevelId, attachType));
+    }
+
     /**
      * PUBLIC
      */
@@ -45,9 +56,6 @@ public class AttachController {
         return attachService.open_general(fileName);
     }
 
-    /**
-     * PUBLIC
-     */
     @GetMapping("/download/{fileName}")
     @Operation(summary = "download file api", description = "")
     public ResponseEntity<Resource> download(@PathVariable("fileName") String fileName) {

@@ -11,6 +11,7 @@ import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.StepLevelType;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
+import api.scolaro.uz.mapper.ConsultingStepLevelMapper;
 import api.scolaro.uz.repository.consultingStepLevel.ConsultingStepLevelRepository;
 import api.scolaro.uz.service.ResourceMessageService;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,6 @@ public class ConsultingStepLevelService {
         stepEntity.setNameUz(dto.getNameUz());
         stepEntity.setNameEn(dto.getNameEn());
         stepEntity.setNameRu(dto.getNameRu());
-        stepEntity.setStepLevelType(StepLevelType.CONSULTING);
         stepEntity.setDescription(dto.getDescription());
         stepEntity.setOrderNumber(dto.getOrderNumber());
         stepEntity.setConsultingStepId(dto.getConsultingStepId());
@@ -71,6 +71,24 @@ public class ConsultingStepLevelService {
 
     public ApiResponse<ConsultingStepLevelDTO> getById(String id) {
         return new ApiResponse<>(200, false, toDTO(get(id)));
+    }
+
+    public List<ConsultingStepLevelDTO> getConsultingStepLevelListByConsultingStepId(String consultingStepId, AppLanguage language) {
+        List<ConsultingStepLevelEntity> entityList = consultingStepLevelRepository.getAllByConsultingStepId(consultingStepId);
+        List<ConsultingStepLevelDTO> dtoList = new LinkedList<>();
+        for (ConsultingStepLevelEntity entity : entityList) {
+            ConsultingStepLevelDTO dto = new ConsultingStepLevelDTO();
+            dto.setId(entity.getId());
+            switch (language) {
+                case uz -> dto.setName(entity.getNameUz());
+                case en -> dto.setName(entity.getNameEn());
+                default -> dto.setName(entity.getNameRu());
+            }
+            dto.setDescription(entity.getDescription());
+            dto.setOrderNumber(entity.getOrderNumber());
+            dtoList.add(dto);
+        }
+        return dtoList;
     }
 
     public List<ConsultingStepLevelDTO> getConsultingStepLevelListByConsultingStepId(String consultingStepId) {
@@ -112,36 +130,37 @@ public class ConsultingStepLevelService {
         return dto;
     }
 
-    public void createForApp(List<ConsultingStepLevelEntity> list, String stepId) {
-        for (ConsultingStepLevelEntity entity : list) {
-            ConsultingStepLevelEntity stepEntity = new ConsultingStepLevelEntity();
+    public List<ConsultingStepLevelDTO> getApplicationStepLevelList(String consultingStepId, AppLanguage lang) {
+        List<ConsultingStepLevelMapper> entityList = consultingStepLevelRepository.getApplicationStepLevelList(consultingStepId, lang.name());
+        List<ConsultingStepLevelDTO> dtoList = new LinkedList<>();
+        for (ConsultingStepLevelMapper mapper : entityList) {
+            ConsultingStepLevelDTO dto = new ConsultingStepLevelDTO();
+            dto.setId(mapper.getId());
+            dto.setName(mapper.getName());
+            dto.setDescription(mapper.getDescription());
+            dto.setOrderNumber(mapper.getOrderNumber());
+            dto.setStartDate(mapper.getStartedDate());
+            dto.setFinishDate(mapper.getFinishedDate());
+            dto.setStatus(mapper.getStepLevelStatus());
+            dto.setLevelStatusList(mapper.getLevelStatusList()); // level status list
+            dto.setLevelAttachList(mapper.getLevelAttachList()); // level attach list
+            dtoList.add(dto);
+        }
+        return dtoList;
+    }
 
+    public void copyStepLevels(String fromStepId, String toStepId, String consultingId) {
+        List<ConsultingStepLevelEntity> stepLevelEntityList = consultingStepLevelRepository.getAllByConsultingStepId(fromStepId);
+        for (ConsultingStepLevelEntity entity : stepLevelEntityList) {
+            ConsultingStepLevelEntity stepEntity = new ConsultingStepLevelEntity();
             stepEntity.setNameUz(entity.getNameUz());
             stepEntity.setNameEn(entity.getNameEn());
             stepEntity.setNameRu(entity.getNameRu());
-            stepEntity.setStepLevelType(entity.getStepLevelType());
-            stepEntity.setDescription(entity.getDescription());
             stepEntity.setOrderNumber(entity.getOrderNumber());
-            stepEntity.setConsultingStepId(stepId);
-            stepEntity.setConsultingId(entity.getConsultingId()); // set consulting id
-
+            stepEntity.setDescription(entity.getDescription());
+            stepEntity.setConsultingStepId(toStepId);
+            stepEntity.setConsultingId(consultingId); // set consulting id
             consultingStepLevelRepository.save(stepEntity);
         }
-    }
-
-    public ConsultingStepLevelResponseDTO getByIdForApp(String id, AppLanguage lang) {
-        ConsultingStepLevelEntity entity = get(id);
-        ConsultingStepLevelResponseDTO dto = new ConsultingStepLevelResponseDTO();
-        switch (lang) {
-            case ru -> dto.setName(entity.getNameRu());
-            case en -> dto.setName(entity.getNameEn());
-            default -> dto.setName(entity.getNameUz());
-        }
-
-        dto.setId(entity.getId());
-        dto.setDescription(entity.getDescription());
-        dto.setConsultingStepId(entity.getConsultingStepId());
-        dto.setOrderNumber(entity.getOrderNumber());
-        return dto;
     }
 }

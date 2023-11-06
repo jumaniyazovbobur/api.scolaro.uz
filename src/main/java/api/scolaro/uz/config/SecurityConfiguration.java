@@ -45,7 +45,10 @@ public class SecurityConfiguration {
             "/api/v1/auth/**",
             "/api/v1/attach/open/*",
             "/api/v1/attach/download/*",
-            "/api/v1/country/public/**"};
+            "/api/v1/country/public/**",
+            "/api/v1/university/filter",
+            "/api/v1/university/*/detail"
+    };
 
 
     @Bean
@@ -68,7 +71,8 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, "/api/v1/consulting/comment/*").permitAll()
                         .anyRequest().authenticated()
         ).addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
-        http.csrf(AbstractHttpConfigurer::disable);;
+        http.csrf(AbstractHttpConfigurer::disable);
+        ;
         // .cors(AbstractHttpConfigurer::disable);
         http.cors(httpSecurityCorsConfigurer -> {
             CorsConfiguration configuration = new CorsConfiguration();

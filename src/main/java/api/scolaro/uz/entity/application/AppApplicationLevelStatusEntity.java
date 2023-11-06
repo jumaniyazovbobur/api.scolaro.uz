@@ -1,16 +1,14 @@
-package api.scolaro.uz.entity;
+package api.scolaro.uz.entity.application;
 
+import api.scolaro.uz.entity.BaseEntity;
 import api.scolaro.uz.entity.consulting.ConsultingStepLevelEntity;
-import api.scolaro.uz.enums.AppStatus;
 import api.scolaro.uz.enums.ApplicationStepLevelStatus;
-import api.scolaro.uz.enums.StepLevelStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Table(name = "app_application_level_status")
@@ -26,9 +24,9 @@ public class AppApplicationLevelStatusEntity extends BaseEntity {
     private String appApplicationId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "consulting_stepLevel_id", insertable = false, updatable = false)
+    @JoinColumn(name = "consulting_step_level_id", insertable = false, updatable = false)
     private ConsultingStepLevelEntity consultingStepLevel;
-    @Column(name = "consulting_stepLevel_id")
+    @Column(name = "consulting_step_level_id")
     private String consultingStepLevelId;
 
     @Enumerated(EnumType.STRING)

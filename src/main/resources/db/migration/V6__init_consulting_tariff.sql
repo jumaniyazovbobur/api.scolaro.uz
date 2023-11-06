@@ -1,5 +1,5 @@
 INSERT INTO consulting_tariff(id, description_uz,description_en,description_ru,tariff_type,status,
-                              price,orders,name,consulting_id,visible,created_date)
+                              price,order_number,name,consulting_id,visible,created_date)
 VALUES ('c0e0008b-ef79-4363-bcd0-a734e14dbfd9','description1Uz','description1En','description1Ru','TEMPLATE','ACTIVE',
         5600,1,'Birinchi Consulting Tarif',null,true,now()),
        ('d95288ae-45c6-4061-87ae-0a800f0da67c','description2Uz','description2En','description2Ru','TEMPLATE','ACTIVE',

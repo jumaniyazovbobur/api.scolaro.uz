@@ -32,25 +32,46 @@ public class UniversityController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("")
     @Operation(summary = "Create university", description = "for admin")
-    public ResponseEntity<ApiResponse<?>> create(@Valid @RequestBody UniversityCreateDTO dto) {
+    public ResponseEntity<ApiResponse<UniversityResponseDTO>> create(@Valid @RequestBody UniversityCreateDTO dto) {
         log.info("Create university");
         return ResponseEntity.ok(universityService.create(dto));
     }
 
-    /**
-     * FOR ADMIN
-     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("get/{id}")
+    @GetMapping("/{id}")
     @Operation(summary = "Get university", description = "")
-    public ResponseEntity<ApiResponse<?>> get(@PathVariable("id") Long id) {
+    public ResponseEntity<ApiResponse<UniversityResponseDTO>> get(@PathVariable("id") Long id) {
         log.info("Get university {}", id);
         return ResponseEntity.ok(universityService.getById(id));
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/{id}")
+    @Operation(summary = "Update university", description = "")
+    public ResponseEntity<ApiResponse<?>> update(@PathVariable("id") Long id,
+                                                 @Valid @RequestBody UniversityUpdateDTO dto) {
+        log.info("Update university {}", id);
+        return ResponseEntity.ok(universityService.update(id, dto));
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete university", description = "")
+    public ResponseEntity<ApiResponse<?>> deleted(@PathVariable("id") Long id) {
+        log.info("Delete university {}", id);
+        return ResponseEntity.ok(universityService.deleted(id));
     }
 
     /**
      * FOR PUBLIC AUTH
      */
+
+    @GetMapping("/{id}/detail")
+    @Operation(summary = "Get university detail by id (Public)", description = "")
+    public ResponseEntity<ApiResponse<UniversityResponseDTO>> getUniversityDetailById(@PathVariable("id") Long id) {
+        log.info("Get university {}", id);
+        return ResponseEntity.ok(universityService.getById(id));
+    }
 
     @GetMapping("/filter")
     @Operation(summary = "Get university list filter", description = "")
@@ -59,29 +80,6 @@ public class UniversityController {
                                                                   @RequestParam(value = "size", defaultValue = "30") int size) {
         log.info("Get filter university");
         return ResponseEntity.ok(universityService.filter(page - 1, size, dto));
-    }
-
-    /**
-     * FOR ADMIN
-     */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("update/{id}")
-    @Operation(summary = "Update university", description = "")
-    public ResponseEntity<ApiResponse<?>> update(@PathVariable("id") Long id,
-                                                 @Valid @RequestBody UniversityUpdateDTO dto) {
-        log.info("Update university {}", id);
-        return ResponseEntity.ok(universityService.update(id, dto));
-    }
-
-    /**
-     * FOR ADMIN
-     */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("delete/{id}")
-    @Operation(summary = "Delete university", description = "")
-    public ResponseEntity<ApiResponse<?>> deleted(@PathVariable("id") Long id) {
-        log.info("Delete university {}", id);
-        return ResponseEntity.ok(universityService.deleted(id));
     }
 
 

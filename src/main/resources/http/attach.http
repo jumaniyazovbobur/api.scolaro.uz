@@ -1,3 +1,4 @@
+### Upload a file
 POST http://localhost:8081/api/v1/attach/upload
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkwMjc5NDMsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTk2MzI3NDMsImlzcyI6IkphdmEgYmFja2VuZCJ9.tIu0zoHsm1UWRf4xhE2_rfv_XX4FeB-5D3UQ61ubfLduetj_kMRlnp-Lcw9u9Fu2iY9Di6QBXeUyfJOS-jIRwQ
@@ -19,19 +20,14 @@ DELETE http://localhost:8081/api/v1/attach/delete/402880e88ad72df4018ad72e0bfd00
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDYxMjYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY0MTA5MjYsImlzcyI6IkphdmEgYmFja2VuZCJ9.5i-zp9w0jxobonVZyh5ZjTVEVsHEkVUH0i7dLW19SDD60DVsYGpADR-QmzSBvbG3VHNVw6OncApX_JGf5S405g
 
 
-
-
-###
-POST http://localhost:8081/api/v1/attach/upload
+### Upload a file to application step level
+POST http://localhost:8081/api/v1/attach/upload/application/step_level?stepLevelId=402880e48ba33c9b018ba33da92e0002&attachType=PASSPORT
 Content-Type: multipart/form-data; boundary=WebAppBoundary
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiaWdtYW4iLCJpYXQiOjE2NjU0NzE2MzksImlzcyI6Im1hemdpIHByb2R1Y3Rpb24ifQ.FDe0wdAO7Oz-76dF_bYax1kr4jRtQ46Pt7RqDFH7Py8
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkwMjc5NDMsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTk2MzI3NDMsImlzcyI6IkphdmEgYmFja2VuZCJ9.tIu0zoHsm1UWRf4xhE2_rfv_XX4FeB-5D3UQ61ubfLduetj_kMRlnp-Lcw9u9Fu2iY9Di6QBXeUyfJOS-jIRwQ
+
 
 --WebAppBoundary
-Content-Disposition: form-data; name="file"; filename="wifi.jpg"
+Content-Disposition: form-data; name="file"; filename="dimplom-data.pdf"
 
-< /Users/abdulazizkhurramov/Downloads/Photos/wifi
-
-### Get all attach
-
-
+< C:\Users\Bobur_Jumaniyazov\Desktop\images\testjon.jpg
 

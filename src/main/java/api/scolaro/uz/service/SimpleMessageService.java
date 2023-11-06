@@ -3,13 +3,11 @@ package api.scolaro.uz.service;
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.FilterResultDTO;
-import api.scolaro.uz.dto.appApplication.AppApplicationFilterDTO;
 import api.scolaro.uz.dto.simpleMessage.SimpleMessageRequestDTO;
 import api.scolaro.uz.dto.simpleMessage.SimpleMessageResponseDTO;
-import api.scolaro.uz.entity.AppApplicationEntity;
+import api.scolaro.uz.entity.application.AppApplicationEntity;
 import api.scolaro.uz.entity.SimpleMessageEntity;
 import api.scolaro.uz.enums.MessageType;
-import api.scolaro.uz.mapper.AppApplicationFilterMapperDTO;
 import api.scolaro.uz.mapper.SimpleMessageMapperDTO;
 import api.scolaro.uz.repository.simpleMessage.SimpleMessageFilterRepository;
 import api.scolaro.uz.repository.simpleMessage.SimpleMessageRepository;
@@ -20,9 +18,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.LinkedList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
