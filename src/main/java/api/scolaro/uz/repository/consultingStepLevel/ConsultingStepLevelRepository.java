@@ -24,7 +24,8 @@ public interface ConsultingStepLevelRepository extends JpaRepository<ConsultingS
     @Query(" FROM ConsultingStepLevelEntity where consultingStepId =:consultingStepId and visible=true order by orderNumber asc ")
     List<ConsultingStepLevelEntity> getAllByConsultingStepId(@Param("consultingStepId") String consultingStepId);
 
-    @Query(value = " SELECT id,order_number AS orderNumber,description,started_date AS startedDate,finished_date AS finishedDate," +
+    @Query(value = " SELECT id,order_number AS orderNumber,CASE :lang WHEN 'uz' THEN description_uz WHEN 'en' THEN description_en WHEN 'ru' THEN description_ru END as description, " +
+            "started_date AS startedDate,finished_date AS finishedDate, " +
             "step_level_status AS stepLevelStatus, " +
             "CASE :lang WHEN 'uz' THEN name_uz WHEN 'en' THEN name_en WHEN 'ru' THEN name_ru END as name, " +
             "get_application_level_status_list_by_step_level_id(id) as levelStatusList, " +

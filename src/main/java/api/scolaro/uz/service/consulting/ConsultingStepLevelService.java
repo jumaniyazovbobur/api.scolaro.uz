@@ -35,7 +35,9 @@ public class ConsultingStepLevelService {
         stepEntity.setNameUz(dto.getNameUz());
         stepEntity.setNameEn(dto.getNameEn());
         stepEntity.setNameRu(dto.getNameRu());
-        stepEntity.setDescription(dto.getDescription());
+        stepEntity.setDescriptionUz(dto.getDescriptionUz());
+        stepEntity.setDescriptionEn(dto.getDescriptionEn());
+        stepEntity.setDescriptionRu(dto.getDescriptionRu());
         stepEntity.setOrderNumber(dto.getOrderNumber());
         stepEntity.setConsultingStepId(dto.getConsultingStepId());
         stepEntity.setConsultingId(EntityDetails.getCurrentUserId()); // set consulting id
@@ -52,7 +54,9 @@ public class ConsultingStepLevelService {
         entity.setNameUz(dto.getNameUz());
         entity.setNameEn(dto.getNameEn());
         entity.setNameRu(dto.getNameRu());
-        entity.setDescription(dto.getDescription());
+        entity.setDescriptionUz(dto.getDescriptionUz());
+        entity.setDescriptionRu(dto.getDescriptionRu());
+        entity.setDescriptionEn(dto.getDescriptionEn());
         entity.setOrderNumber(dto.getOrderNumber());
         // update
         consultingStepLevelRepository.save(entity);
@@ -84,7 +88,11 @@ public class ConsultingStepLevelService {
                 case en -> dto.setName(entity.getNameEn());
                 default -> dto.setName(entity.getNameRu());
             }
-            dto.setDescription(entity.getDescription());
+            switch (language) {
+                case uz -> dto.setDescription(entity.getDescriptionUz());
+                case en -> dto.setDescriptionEn(entity.getDescriptionEn());
+                default -> dto.setDescriptionRu(entity.getDescriptionRu());
+            }
             dto.setOrderNumber(entity.getOrderNumber());
             dtoList.add(dto);
         }
@@ -100,7 +108,9 @@ public class ConsultingStepLevelService {
             dto.setNameUz(entity.getNameUz());
             dto.setNameRu(entity.getNameRu());
             dto.setNameEn(entity.getNameEn());
-            dto.setDescription(entity.getDescription());
+            dto.setDescriptionUz(entity.getDescriptionUz());
+            dto.setDescriptionEn(entity.getDescriptionEn());
+            dto.setDescriptionRu(entity.getDescriptionRu());
             dto.setOrderNumber(entity.getOrderNumber());
             dtoList.add(dto);
         }
@@ -126,7 +136,9 @@ public class ConsultingStepLevelService {
         dto.setNameRu(entity.getNameRu());
         dto.setNameEn(entity.getNameEn());
         dto.setOrderNumber(entity.getOrderNumber());
-        dto.setDescription(entity.getDescription());
+        dto.setDescriptionUz(entity.getDescriptionUz());
+        dto.setDescriptionRu(entity.getDescriptionRu());
+        dto.setDescriptionEn(entity.getDescriptionEn());
         return dto;
     }
 
@@ -157,7 +169,9 @@ public class ConsultingStepLevelService {
             stepEntity.setNameEn(entity.getNameEn());
             stepEntity.setNameRu(entity.getNameRu());
             stepEntity.setOrderNumber(entity.getOrderNumber());
-            stepEntity.setDescription(entity.getDescription());
+            stepEntity.setDescriptionEn(entity.getDescriptionEn());
+            stepEntity.setDescriptionRu(entity.getDescriptionRu());
+            stepEntity.setDescriptionUz(entity.getDescriptionUz());
             stepEntity.setConsultingStepId(toStepId);
             stepEntity.setConsultingId(consultingId); // set consulting id
             consultingStepLevelRepository.save(stepEntity);

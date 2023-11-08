@@ -17,6 +17,9 @@ public class ConsultingStepLevelDTO {
     private String nameEn;
     private String name;
     private Integer orderNumber;
+    private String descriptionUz;
+    private String descriptionRu;
+    private String descriptionEn;
     private String description;
     private String consultingStepId;
     private LocalDateTime startDate;

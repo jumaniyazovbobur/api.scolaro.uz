@@ -13,6 +13,20 @@ Content-Type: application/json
   "photoId" : "402880e48b95f18e018b95f6959a0004"
 }
 
+### Create consulting for PRODUCT
+POST http://api.app.mazgi.uz/api/v1/consulting/
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkwMjc5NDMsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTk2MzI3NDMsImlzcyI6IkphdmEgYmFja2VuZCJ9.tIu0zoHsm1UWRf4xhE2_rfv_XX4FeB-5D3UQ61ubfLduetj_kMRlnp-Lcw9u9Fu2iY9Di6QBXeUyfJOS-jIRwQ
+Content-Type: application/json
+
+{
+"name": "Brain consulting",
+"phone": "998997795710",
+"address": "Toshkent shahri",
+"ownerName": "Maxmud",
+"ownerSurname": "Maxmudov",
+"about": "Biz BRAIN CONSULTING",
+"photoId" : "8080b7ef8ba46236018ba8f2ed1f000b"
+}
 
 
 ### Update consilting

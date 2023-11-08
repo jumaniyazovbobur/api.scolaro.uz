@@ -27,8 +27,12 @@ public class ConsultingStepLevelEntity extends BaseEntity {
 //    private StepLevelType stepLevelType;
     @Column(name = "order_number")
     private Integer orderNumber;
-    @Column(name = "description")
-    private String description;
+    @Column(name = "description_uz")
+    private String descriptionUz;
+    @Column(name = "description_ru")
+    private String descriptionRu;
+    @Column(name = "description_en")
+    private String descriptionEn;
     @Column(name = "consulting_step_id")
     private String consultingStepId;
     @ManyToOne(fetch = FetchType.LAZY)

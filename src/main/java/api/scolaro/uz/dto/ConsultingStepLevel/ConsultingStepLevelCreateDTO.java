@@ -16,8 +16,12 @@ public class ConsultingStepLevelCreateDTO {
     private String nameRu;
     @NotNull(message = "Order is required")
     private Integer orderNumber;
-    @NotBlank(message = "Description is required")
-    private String description;
+    @NotBlank(message = "DescriptionUz is required")
+    private String descriptionUz;
+    @NotBlank(message = "DescriptionRu is required")
+    private String descriptionRu;
+    @NotBlank(message = "DescriptionEn is required")
+    private String descriptionEn;
     @NotBlank
     private String consultingStepId;
 }
