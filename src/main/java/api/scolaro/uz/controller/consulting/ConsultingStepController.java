@@ -4,6 +4,7 @@ import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepCreateDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepUpdateDTO;
+import api.scolaro.uz.dto.consultingTariff.ConsultingTariffResponseDTO;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.consulting.ConsultingStepService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -73,6 +74,14 @@ public class ConsultingStepController {
         return ResponseEntity.ok(consultingStepService.getConsultingStepListByRequestedConsulting());
     }
 
+  /*  @GetMapping("/template-list") TODO
+    @Operation(summary = "Get template tariff list", description = "for consulting")
+    public ResponseEntity<ApiResponse<List<ConsultingTariffResponseDTO>>> getTemplateList(@RequestHeader(value = "Accept-Language",
+            defaultValue = "uz") AppLanguage language) {
+        log.info("Get template tariff list ");
+        return ResponseEntity.ok(consultingTariffService.getTemplateList(language));
+    }
+*/
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @GetMapping("/template/{id}/copy")
     @Operation(summary = "Copy template tariff to consulting tariff", description = "for consulting")
