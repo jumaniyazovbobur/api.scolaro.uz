@@ -63,7 +63,7 @@ public class ConsultingStepController {
     public ResponseEntity<ApiResponse<ConsultingStepDTO>> getConsultingDetail(@PathVariable("id") String id,
                                                                               @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Request for Consulting detail {}", id);
-        return ResponseEntity.ok(consultingStepService.getConsultingDetail(id,language));
+        return ResponseEntity.ok(consultingStepService.getConsultingDetail(id, language));
     }
 
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
@@ -74,14 +74,13 @@ public class ConsultingStepController {
         return ResponseEntity.ok(consultingStepService.getConsultingStepListByRequestedConsulting());
     }
 
-  /*  @GetMapping("/template-list") TODO
-    @Operation(summary = "Get template tariff list", description = "for consulting")
-    public ResponseEntity<ApiResponse<List<ConsultingTariffResponseDTO>>> getTemplateList(@RequestHeader(value = "Accept-Language",
-            defaultValue = "uz") AppLanguage language) {
+    @GetMapping("/template-list")
+    @Operation(summary = "Get template step list", description = "for consulting")
+    public ResponseEntity<ApiResponse<List<ConsultingStepDTO>>> getTemplateList() {
         log.info("Get template tariff list ");
-        return ResponseEntity.ok(consultingTariffService.getTemplateList(language));
+        return ResponseEntity.ok(consultingStepService.getTemplateList());
     }
-*/
+
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @GetMapping("/template/{id}/copy")
     @Operation(summary = "Copy template tariff to consulting tariff", description = "for consulting")

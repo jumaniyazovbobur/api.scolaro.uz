@@ -7,7 +7,7 @@ import api.scolaro.uz.dto.consultingTariff.ConsultingTariffResponseDTO;
 import api.scolaro.uz.dto.consultingTariff.ConsultingTariffUpdateDTO;
 import api.scolaro.uz.entity.consulting.ConsultingTariffEntity;
 import api.scolaro.uz.enums.AppLanguage;
-import api.scolaro.uz.enums.ConsultingTarifType;
+import api.scolaro.uz.enums.ConsultingTariffType;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
@@ -37,7 +37,7 @@ public class ConsultingTariffService {
         entity.setDescriptionEn(dto.getDescriptionEn());
         entity.setPrice(dto.getPrice());
         entity.setConsultingId(EntityDetails.getCurrentUserId());
-        entity.setTariffType(ConsultingTarifType.CONSULTING);
+        entity.setTariffType(ConsultingTariffType.CONSULTING);
         entity.setStatus(dto.getStatus());
         entity.setOrderNumber(dto.getOrderNumber());
         consultingTariffRepository.save(entity);
@@ -154,7 +154,7 @@ public class ConsultingTariffService {
     public ApiResponse<?> copyTemplateToConsultingTariff(String templateTariffId) {
         ConsultingTariffEntity entity = get(templateTariffId);
 
-        if (!entity.getTariffType().equals(ConsultingTarifType.TEMPLATE)) {
+        if (!entity.getTariffType().equals(ConsultingTariffType.TEMPLATE)) {
             log.warn("Only template tariffs allowed to copy.");
             throw new AppBadRequestException("Only template tariffs allowed to copy.");
         }
@@ -167,7 +167,7 @@ public class ConsultingTariffService {
         copyTariff.setPrice(entity.getPrice());
         copyTariff.setConsultingId(EntityDetails.getCurrentUserId());
         copyTariff.setStatus(GeneralStatus.ACTIVE);
-        copyTariff.setTariffType(ConsultingTarifType.CONSULTING);
+        copyTariff.setTariffType(ConsultingTariffType.CONSULTING);
         copyTariff.setOrderNumber(1);
         // save
         consultingTariffRepository.save(copyTariff);

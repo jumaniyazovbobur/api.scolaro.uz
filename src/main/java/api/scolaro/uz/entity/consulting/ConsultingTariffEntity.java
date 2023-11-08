@@ -1,7 +1,7 @@
 package api.scolaro.uz.entity.consulting;
 
 import api.scolaro.uz.entity.BaseEntity;
-import api.scolaro.uz.enums.ConsultingTarifType;
+import api.scolaro.uz.enums.ConsultingTariffType;
 import api.scolaro.uz.enums.GeneralStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -32,7 +32,7 @@ public class ConsultingTariffEntity extends BaseEntity {
     private GeneralStatus status;
     @Enumerated(EnumType.STRING)
     @Column(name = "tariff_type")
-    private ConsultingTarifType tariffType;
+    private ConsultingTariffType tariffType;
     @Column(name = "order_number")
     private Integer orderNumber;
 }

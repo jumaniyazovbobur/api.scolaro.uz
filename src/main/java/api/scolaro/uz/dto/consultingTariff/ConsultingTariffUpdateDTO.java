@@ -1,6 +1,6 @@
 package api.scolaro.uz.dto.consultingTariff;
 
-import api.scolaro.uz.enums.ConsultingTarifType;
+import api.scolaro.uz.enums.ConsultingTariffType;
 import api.scolaro.uz.enums.GeneralStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
@@ -19,6 +19,6 @@ public class ConsultingTariffUpdateDTO {
     private String name;
     private Double price;
     private GeneralStatus status;
-    private ConsultingTarifType tariffType;
+    private ConsultingTariffType tariffType;
     private Integer order;
 }

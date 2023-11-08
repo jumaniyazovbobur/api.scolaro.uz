@@ -2,15 +2,14 @@ package api.scolaro.uz.service.consulting;
 
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
-import api.scolaro.uz.dto.consulting.ConsultingResponseDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepCreateDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepResponseDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepUpdateDTO;
+import api.scolaro.uz.dto.consultingTariff.ConsultingTariffResponseDTO;
 import api.scolaro.uz.entity.consulting.ConsultingStepEntity;
+import api.scolaro.uz.entity.consulting.ConsultingTariffEntity;
 import api.scolaro.uz.enums.AppLanguage;
-import api.scolaro.uz.enums.ConsultingTarifType;
-import api.scolaro.uz.enums.StepLevelType;
 import api.scolaro.uz.enums.StepType;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
@@ -158,6 +157,7 @@ public class ConsultingStepService {
         return consultingStepEntity;
     }
 
+
     public ApiResponse<?> copyTemplateToConsultingStep(String templateStepId) {
         ConsultingStepEntity templateStepEntity = get(templateStepId);
         if (!templateStepEntity.getStepType().equals(StepType.TEMPLATE)) {
@@ -166,5 +166,12 @@ public class ConsultingStepService {
         }
         copyStepAndStepLevels(templateStepId, StepType.CONSULTING);
         return ApiResponse.ok();
+    }
+
+    public ApiResponse<List<ConsultingStepDTO>> getTemplateList() {
+        List<ConsultingStepEntity> list = consultingStepRepository.getConsultingStepTemlateTariffList();
+        List<ConsultingStepDTO> dtoList = new LinkedList<>();
+        list.forEach(consultingStepEntity -> dtoList.add(toDTO(consultingStepEntity)));
+        return new ApiResponse<>(200, false, dtoList);
     }
 }
