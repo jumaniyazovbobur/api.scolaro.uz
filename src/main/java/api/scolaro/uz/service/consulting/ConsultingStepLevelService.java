@@ -90,8 +90,8 @@ public class ConsultingStepLevelService {
             }
             switch (language) {
                 case uz -> dto.setDescription(entity.getDescriptionUz());
-                case en -> dto.setDescriptionEn(entity.getDescriptionEn());
-                default -> dto.setDescriptionRu(entity.getDescriptionRu());
+                case en -> dto.setDescription(entity.getDescriptionEn());
+                default -> dto.setDescription(entity.getDescriptionRu());
             }
             dto.setOrderNumber(entity.getOrderNumber());
             dtoList.add(dto);
