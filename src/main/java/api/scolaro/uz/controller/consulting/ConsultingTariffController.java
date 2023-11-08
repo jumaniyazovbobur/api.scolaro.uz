@@ -42,6 +42,13 @@ public class ConsultingTariffController {
         return ResponseEntity.ok(consultingTariffService.getById(id, language));
     }
 
+    @GetMapping("/{id}/detail")
+    @Operation(summary = "Get consulting tariff detail by id", description = "for consulting")
+    public ResponseEntity<ApiResponse<ConsultingTariffResponseDTO>> getConsultingTariffDetailById(@PathVariable("id") String id) {
+        log.info("Get Consulting tariff detail By Id ");
+        return ResponseEntity.ok(consultingTariffService.getDetailById(id));
+    }
+
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @PutMapping("/{id}")
     @Operation(summary = "Update consulting tariff", description = "for consulting")

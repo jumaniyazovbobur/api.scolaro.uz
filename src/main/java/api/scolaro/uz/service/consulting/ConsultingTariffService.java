@@ -62,6 +62,23 @@ public class ConsultingTariffService {
         return new ApiResponse<>(200, false, dto);
     }
 
+
+    public ApiResponse<ConsultingTariffResponseDTO> getDetailById(String id) {
+        ConsultingTariffEntity entity = get(id);
+        ConsultingTariffResponseDTO dto = new ConsultingTariffResponseDTO();
+        dto.setId(entity.getId());
+        dto.setStatus(entity.getStatus());
+        dto.setName(entity.getName());
+        dto.setConsultingId(entity.getConsultingId());
+        dto.setTariffType(entity.getTariffType());
+        dto.setPrice(entity.getPrice());
+        dto.setDescriptionUz(entity.getDescriptionUz());
+        dto.setDescriptionRu(entity.getDescriptionRu());
+        dto.setDescriptionEn(entity.getDescriptionEn());
+        dto.setOrderNumber(entity.getOrderNumber());
+        return new ApiResponse<>(200, false, dto);
+    }
+
     public ApiResponse<String> update(ConsultingTariffUpdateDTO dto, String id) {
         ConsultingTariffEntity entity = get(id);
         if (entity.getConsultingId() == null || !entity.getConsultingId().equals(EntityDetails.getCurrentUserId())) {
@@ -115,8 +132,8 @@ public class ConsultingTariffService {
         ConsultingTariffResponseDTO dto = new ConsultingTariffResponseDTO();
         switch (lang) {
             case en -> dto.setDescription(entity.getDescriptionEn());
-            case ru -> dto.setDescriptionRu(entity.getDescriptionRu());
-            default -> dto.setDescriptionUz(entity.getDescriptionUz());
+            case ru -> dto.setDescription(entity.getDescriptionRu());
+            default -> dto.setDescription(entity.getDescriptionUz());
         }
         dto.setId(entity.getId());
         dto.setName(entity.getName());
