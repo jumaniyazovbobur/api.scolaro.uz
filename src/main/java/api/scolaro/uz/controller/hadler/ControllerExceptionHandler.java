@@ -16,17 +16,17 @@ import org.springframework.web.server.MethodNotAllowedException;
 public class ControllerExceptionHandler {
     @ExceptionHandler({ItemNotFoundException.class})
     public ResponseEntity<ApiResponse<?>> handlerException(ItemNotFoundException e) {
-        return ResponseEntity.ok(new ApiResponse<>(404, true, e.getMessage()));
+        return ResponseEntity.ok(new ApiResponse<>(e.getMessage(), 404, true ));
     }
 
     @ExceptionHandler({AppBadRequestException.class})
     public ResponseEntity<ApiResponse<?>> handlerException(AppBadRequestException e) {
-        return ResponseEntity.ok(new ApiResponse<>(400, true, e.getMessage()));
+        return ResponseEntity.ok(new ApiResponse<>(e.getMessage(),400, true));
     }
 
     @ExceptionHandler(MethodNotAllowedException.class)
     public ResponseEntity<ApiResponse<?>> handler(MethodNotAllowedException exp) {
-        return ResponseEntity.ok(new ApiResponse<>(405, true, exp.getMessage()));
+        return ResponseEntity.ok(new ApiResponse<>(exp.getMessage(), 405, true));
     }
 
 //    @ExceptionHandler(UnAuthorizedException.class)
@@ -41,18 +41,18 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ApiResponse<?>> handler(AccessDeniedException e) {
-        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.METHOD_NOT_ALLOWED.value(), true, e.getMessage()));
+        return ResponseEntity.ok(new ApiResponse<>(e.getMessage(), HttpStatus.METHOD_NOT_ALLOWED.value(), true));
     }
 
     @ExceptionHandler(SmsLimitOverException.class)
     public ResponseEntity<ApiResponse<?>> handler(SmsLimitOverException e) {
-        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.METHOD_NOT_ALLOWED.value(), true, e.getMessage()));
+        return ResponseEntity.ok(new ApiResponse<>(e.getMessage(), HttpStatus.METHOD_NOT_ALLOWED.value(), true));
     }
 
     @ExceptionHandler({RuntimeException.class})
     public ResponseEntity<?> handlerException(RuntimeException e) {
         e.printStackTrace();
-        return ResponseEntity.ok(new ApiResponse<>(500, true, e.getMessage()));
+        return ResponseEntity.ok(new ApiResponse<>(e.getMessage(),500, true));
     }
 
 }
