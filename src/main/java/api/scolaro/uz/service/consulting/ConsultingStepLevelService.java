@@ -83,17 +83,17 @@ public class ConsultingStepLevelService {
         for (ConsultingStepLevelEntity entity : entityList) {
             ConsultingStepLevelResponseDTO dto = new ConsultingStepLevelResponseDTO();
             dto.setId(entity.getId());
-            switch (language) {
-                case uz -> dto.setName(entity.getNameUz());
-                case en -> dto.setName(entity.getNameEn());
-                default -> dto.setName(entity.getNameRu());
-            }
-            switch (language) {
-                case uz -> dto.setDescription(entity.getDescriptionUz());
-                case en -> dto.setDescription(entity.getDescriptionEn());
-                default -> dto.setDescription(entity.getDescriptionRu());
-            }
             dto.setOrderNumber(entity.getOrderNumber());
+            switch (language) {
+                case ru -> dto.setName(entity.getNameRu());
+                case en -> dto.setName(entity.getNameEn());
+                default -> dto.setName(entity.getNameUz());
+            }
+            switch (language) {
+                case ru -> dto.setDescription(entity.getDescriptionRu());
+                case en -> dto.setDescription(entity.getDescriptionEn());
+                default -> dto.setDescription(entity.getDescriptionUz());
+            }
             dtoList.add(dto);
         }
         return dtoList;
