@@ -1,6 +1,7 @@
 package api.scolaro.uz.entity.consulting;
 
 import api.scolaro.uz.entity.BaseEntity;
+import api.scolaro.uz.enums.AttachType;
 import api.scolaro.uz.enums.StepLevelStatus;
 import api.scolaro.uz.enums.StepLevelType;
 import jakarta.persistence.*;
@@ -22,12 +23,16 @@ public class ConsultingStepLevelEntity extends BaseEntity {
     private String nameRu;
     @Column(name = "nameEn")
     private String nameEn;
-    @Column(name = "step_level_type")
-    private StepLevelType stepLevelType;
+    //    @Column(name = "step_level_type")
+//    private StepLevelType stepLevelType;
     @Column(name = "order_number")
     private Integer orderNumber;
-    @Column(name = "description")
-    private String description;
+    @Column(name = "description_uz")
+    private String descriptionUz;
+    @Column(name = "description_ru")
+    private String descriptionRu;
+    @Column(name = "description_en")
+    private String descriptionEn;
     @Column(name = "consulting_step_id")
     private String consultingStepId;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -43,6 +48,7 @@ public class ConsultingStepLevelEntity extends BaseEntity {
     private LocalDateTime startedDate;
     @Column(name = "finished_date")
     private LocalDateTime finishedDate;
+    @Enumerated(EnumType.STRING)
     @Column(name = "step_level_status")
     private StepLevelStatus stepLevelStatus;
 }

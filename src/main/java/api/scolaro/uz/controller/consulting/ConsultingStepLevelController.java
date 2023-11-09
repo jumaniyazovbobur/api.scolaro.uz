@@ -25,7 +25,7 @@ import java.util.List;
 public class ConsultingStepLevelController {
     private final ConsultingStepLevelService consultingStepLevelService;
 
-    @PostMapping("/")
+    @PostMapping("")
     @Operation(summary = "Create consulting step level")
     public ResponseEntity<ApiResponse<String>> create(@RequestBody @Valid ConsultingStepLevelCreateDTO dto) {
         log.info("Create consulting step level {}", dto.getNameUz());
@@ -34,12 +34,11 @@ public class ConsultingStepLevelController {
 
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @GetMapping("/{id}")
-    @Operation(summary = "Get consulting step level", description = "")
+    @Operation(summary = "Get consulting step level by id", description = "")
     public ResponseEntity<ApiResponse<ConsultingStepLevelDTO>> getById(@PathVariable("id") String id) {
         log.info("Get consulting stepLevel by id {}", id);
         return ResponseEntity.ok(consultingStepLevelService.getById(id));
     }
-
 
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @PutMapping("/{id}")
@@ -58,13 +57,12 @@ public class ConsultingStepLevelController {
         return ResponseEntity.ok(consultingStepLevelService.delete(id));
     }
 
-
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @GetMapping("/step/{id}")
-    @Operation(summary = "Get By consulting id")
-    public ResponseEntity<ApiResponse<List<ConsultingStepLevelDTO>>> getConsultingStepLevelListByConsultingStepId(@PathVariable("id") String stepLevelId) {
-        log.info("Request for get By Consulting id {}", stepLevelId);
-        return ResponseEntity.ok(ApiResponse.ok(consultingStepLevelService.getConsultingStepLevelListByConsultingStepId(stepLevelId)));
+    @Operation(summary = "Get stepLevel list by stepId")
+    public ResponseEntity<ApiResponse<List<ConsultingStepLevelDTO>>> getConsultingStepLevelListByConsultingStepId(@PathVariable("id") String stepId) {
+        log.info("Get stepLevel list by stepId {} ", stepId);
+        return ResponseEntity.ok(ApiResponse.ok(consultingStepLevelService.getConsultingStepLevelListByConsultingStepId(stepId)));
     }
 
 

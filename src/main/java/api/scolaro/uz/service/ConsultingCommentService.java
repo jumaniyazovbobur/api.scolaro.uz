@@ -3,14 +3,12 @@ package api.scolaro.uz.service;
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.FilterResultDTO;
-import api.scolaro.uz.dto.appApplication.AppApplicationFilterDTO;
 import api.scolaro.uz.dto.consultingComment.ConsultingCommentCreateDTO;
 import api.scolaro.uz.dto.consultingComment.ConsultingCommentFilterDTO;
 import api.scolaro.uz.dto.consultingComment.ConsultingCommentResponseDTO;
-import api.scolaro.uz.entity.AppApplicationEntity;
+import api.scolaro.uz.entity.application.AppApplicationEntity;
 import api.scolaro.uz.entity.ConsultingCommentEntity;
 import api.scolaro.uz.enums.AppStatus;
-import api.scolaro.uz.mapper.AppApplicationFilterMapperDTO;
 import api.scolaro.uz.mapper.ConsultingCommentFilterMapperDTO;
 import api.scolaro.uz.repository.consulting.ConsultingCommentRepository;
 import api.scolaro.uz.repository.appApplication.AppApplicationRepository;
@@ -18,7 +16,6 @@ import api.scolaro.uz.repository.consulting.ConsultingRepository;
 import api.scolaro.uz.repository.consulting.CustomConsultingCommentRepository;
 import api.scolaro.uz.service.consulting.ConsultingService;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -26,8 +23,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.*;
 
 @Service

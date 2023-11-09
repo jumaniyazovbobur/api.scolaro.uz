@@ -1,5 +1,8 @@
-package api.scolaro.uz.entity;
+package api.scolaro.uz.entity.application;
 
+import api.scolaro.uz.entity.BaseEntity;
+import api.scolaro.uz.entity.ProfileEntity;
+import api.scolaro.uz.entity.UniversityEntity;
 import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.entity.consulting.ConsultingStepEntity;
 import api.scolaro.uz.entity.consulting.ConsultingStepLevelEntity;
@@ -68,7 +71,7 @@ public class AppApplicationEntity extends BaseEntity {
     @JoinColumn(name = "consulting_step_level_id", insertable = false, updatable = false)
     private ConsultingStepLevelEntity consultingStepLevel;
     @Column(name = "consulting_step_level_id")
-    private String consultingStepLevelId;
+    private String consultingStepLevelId; // TODO remove it later
 
     @Enumerated(EnumType.STRING)
     @Column(name = "application_step_level_status")

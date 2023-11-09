@@ -1,6 +1,5 @@
 package api.scolaro.uz.dto.consultingTariff;
 
-import api.scolaro.uz.enums.ConsultingTarifType;
 import api.scolaro.uz.enums.GeneralStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;
@@ -26,7 +25,7 @@ public class ConsultingTariffRequestDTO {
     private Double price;
     @NotNull(message = "Status required")
     private GeneralStatus status;
-    @NotNull(message = "Tariff Type required")
-    private ConsultingTarifType tariffType;
-    private Integer order;
+    //    @NotNull(message = "Tariff Type required")
+//    private ConsultingTarifType tariffType;
+    private Integer orderNumber;
 }

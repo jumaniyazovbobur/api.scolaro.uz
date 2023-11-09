@@ -1,0 +1,95 @@
+### TEST Create  consulting (pswd - akrpwg)
+POST http://localhost:8081/api/v1/consulting/
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkyMzcxMTIsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTk4NDE5MTIsImlzcyI6IkphdmEgYmFja2VuZCJ9.DAbABii2SavtgSHLapLlhc3PIZvev24kfNUibfEH4GPvSTDs2RFdGZf13E-Y_9QJn-sNFYgIg1nSda-5420Hxg
+Content-Type: application/json
+
+{
+  "name": "Brain Development Consulting",
+  "phone": "998915721213",
+  "address": "Toshkent shahri",
+  "ownerName": "Bigman",
+  "ownerSurname": "Bigmanjon",
+  "about": "Biz vawe kuchaygan consaltingmiz",
+  "photoId" : "402880e88ba26b18018ba26d4df40000"
+}
+
+### Test Student Registration
+POST http://localhost:8081/api/v1/auth/profile/registration
+Content-Type: application/json
+
+{
+  "name": "TestStudentJon",
+  "surname": "testStudentSurname",
+  "phoneNumber": "998915721213",
+  "password": "123456",
+  "nickName": "bigman",
+  "countryId": 1,
+  "address": "Toshkent viloyati",
+  "gender": "MALE",
+  "photo_id": "402880ec8ba01f8a018ba02ea4320000"
+}
+
+### Student sms registration verification
+POST http://localhost:8081/api/v1/auth/profile/registration/verification
+Content-Type: application/json
+
+
+{
+  "phone": "998915721213",
+  "code": "11111"
+}
+
+
+### Create consulting tariff
+POST http://localhost:8081/api/v1/consulting-tariff
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkyMzczMTMsImlkIjoiNDAyODgwZTg4YmEyNmIxODAxOGJhMjZkYTI0NzAwMDIiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk5ODQyMTEzLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.q3r1HgdjAAz1f-TAaulTn9yqwjDCmajQnFzDgfpSF2vWsXw4I14zDoc2kZipMqP06jpW4X6Rgn54xi8N8LpvOA
+
+{
+  "descriptionUz": "Brain uz 1",
+  "descriptionRu": "Brain ru 1",
+  "descriptionEn": "Brain en 1",
+  "name": "Yaxshi Ta'riff",
+  "price": 5600,
+  "status": "ACTIVE",
+  "tariffType": "CONSULTING",
+  "orderNumber": 1
+}
+
+
+### Create consulting step
+POST http://localhost:8081/api/v1/consulting-step
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkyMzczMTMsImlkIjoiNDAyODgwZTg4YmEyNmIxODAxOGJhMjZkYTI0NzAwMDIiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk5ODQyMTEzLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.q3r1HgdjAAz1f-TAaulTn9yqwjDCmajQnFzDgfpSF2vWsXw4I14zDoc2kZipMqP06jpW4X6Rgn54xi8N8LpvOA
+Content-Type: application/json
+
+{
+  "name": "Test Step 1",
+  "description": "some big description",
+  "orderNumber": 1
+}
+
+
+
+### Create consulting step level
+POST http://localhost:8081/api/v1/consulting-step-level
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkyMzczMTMsImlkIjoiNDAyODgwZTg4YmEyNmIxODAxOGJhMjZkYTI0NzAwMDIiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk5ODQyMTEzLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.q3r1HgdjAAz1f-TAaulTn9yqwjDCmajQnFzDgfpSF2vWsXw4I14zDoc2kZipMqP06jpW4X6Rgn54xi8N8LpvOA
+Content-Type: application/json
+
+{
+  "nameUz": "2-Bosqish",
+  "nameRu": "2-Bosqish",
+  "nameEn": "2-Bosqish",
+  "orderNumber": 2,
+  "description": "Hi everyone",
+  "consultingStepId": "402880e88ba27c4c018ba27cddfc0000"
+}
+
+### Create appApplication
+POST localhost:8081/api/v1/app-application
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkyNDE1MDcsImlkIjoiNDAyODgwZTg4YmEyNmIxODAxOGJhMjZlZmQwZTAwMDQiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNjk5ODQ2MzA3LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.NWuZleLI8MHHzuwlEB1_aArLA_7aCfpNj0t3UrIzD-VNAK3QQ7BFDhkBkGLD10XXiCtyOuu3CrF8kpofnTPw0Q
+
+{
+  "consultingId":"402880e88ba26b18018ba26da2470002",
+  "universityId": 1
+}

@@ -1,7 +1,7 @@
 package api.scolaro.uz.entity.consulting;
 
 import api.scolaro.uz.entity.BaseEntity;
-import api.scolaro.uz.enums.ConsultingTarifType;
+import api.scolaro.uz.enums.ConsultingTariffType;
 import api.scolaro.uz.enums.GeneralStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -12,11 +12,11 @@ import lombok.Setter;
 @Entity
 @Table(name = "consulting_tariff")
 public class ConsultingTariffEntity extends BaseEntity {
-    @Column(name = "description_uz",columnDefinition = "text")
+    @Column(name = "description_uz", columnDefinition = "text")
     private String descriptionUz;
-    @Column(name = "description_ru",columnDefinition = "text")
+    @Column(name = "description_ru", columnDefinition = "text")
     private String descriptionRu;
-    @Column(name = "description_en",columnDefinition = "text")
+    @Column(name = "description_en", columnDefinition = "text")
     private String descriptionEn;
     @Column(name = "name", columnDefinition = "text")
     private String name;
@@ -32,7 +32,7 @@ public class ConsultingTariffEntity extends BaseEntity {
     private GeneralStatus status;
     @Enumerated(EnumType.STRING)
     @Column(name = "tariff_type")
-    private ConsultingTarifType tariffType;
-    @Column(name = "orders")
-    private Integer order;
+    private ConsultingTariffType tariffType;
+    @Column(name = "order_number")
+    private Integer orderNumber;
 }

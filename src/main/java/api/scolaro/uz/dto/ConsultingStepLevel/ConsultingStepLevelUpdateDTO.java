@@ -10,5 +10,7 @@ public class ConsultingStepLevelUpdateDTO {
     private String nameRu;
     private String nameEn;
     private Integer orderNumber;
-    private String description;
+    private String descriptionUz;
+    private String descriptionRu;
+    private String descriptionEn;
 }

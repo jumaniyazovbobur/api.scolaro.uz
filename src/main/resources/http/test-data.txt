@@ -1,0 +1,14 @@
+--- Admin
+{
+  "phone": "998938080831",
+  "password": "123456"
+}
+
+--- Consulting
+login:
+
+
+
+
+
+applicationId ; 402880e88ba2ae64018ba2b330120000

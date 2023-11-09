@@ -4,6 +4,7 @@ public enum AttachType {
     PASSPORT("Passport", "Passport", "Паспорт"),
     REGISTRATION("Ro'yxatdan o'tgan joy", "Registration", "Прописка"),
     OTHER("Boshqa", "Other", "Другой");
+    // Diplome
 
     private String nameUz;
     private String nameEn;

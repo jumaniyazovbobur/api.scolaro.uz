@@ -1,6 +1,6 @@
 ### Create consulting
 POST http://localhost:8081/api/v1/consulting/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTg3NDkwNjIsImlkIjoiNDAyODgwZTQ4Yjc0ZTZjODAxOGI3NGU3MTk4MTAwMDAiLCJwaG9uZSI6Ijk5ODkzMDY3MTQyNiIsInJvbGVzIjoiUk9MRV9BRE1JTiIsImV4cCI6MTY5OTM1Mzg2MiwiaXNzIjoiSmF2YSBiYWNrZW5kIn0.JJyIZYLyKvb-gblA7wKP4Bk-RmSY0W3mj5XjSTNlsNIZKlLe0coPxMQddqwPDz6RSEkIWlbwKUWqCkF1s6SDTg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkwMjc5NDMsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTk2MzI3NDMsImlzcyI6IkphdmEgYmFja2VuZCJ9.tIu0zoHsm1UWRf4xhE2_rfv_XX4FeB-5D3UQ61ubfLduetj_kMRlnp-Lcw9u9Fu2iY9Di6QBXeUyfJOS-jIRwQ
 Content-Type: application/json
 
 {
@@ -10,9 +10,23 @@ Content-Type: application/json
   "ownerName": "Maxmud",
   "ownerSurname": "Maxmudov",
   "about": "Biz vawe kuchaygan consaltingmiz",
-  "photoId" : "402880e78b7093f0018b70a6431f0007"
+  "photoId" : "402880e48b95f18e018b95f6959a0004"
 }
 
+### Create consulting for PRODUCT
+POST http://api.app.mazgi.uz/api/v1/consulting/
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkwMjc5NDMsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTk2MzI3NDMsImlzcyI6IkphdmEgYmFja2VuZCJ9.tIu0zoHsm1UWRf4xhE2_rfv_XX4FeB-5D3UQ61ubfLduetj_kMRlnp-Lcw9u9Fu2iY9Di6QBXeUyfJOS-jIRwQ
+Content-Type: application/json
+
+{
+"name": "Brain consulting",
+"phone": "998997795710",
+"address": "Toshkent shahri",
+"ownerName": "Maxmud",
+"ownerSurname": "Maxmudov",
+"about": "Biz BRAIN CONSULTING",
+"photoId" : "8080b7ef8ba46236018ba8f2ed1f000b"
+}
 
 
 ### Update consilting
@@ -43,11 +57,11 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTc1MjUzODUsImlkIjoiOTA5M
 
 ### Consulting filter
 POST http://localhost:8081/api/v1/consulting/filter
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTc1MjUzODUsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTgxMzAxODUsImlzcyI6IkphdmEgYmFja2VuZCJ9.GB990Srbv-k6FsELGc1Ts7qybi5fSNTqIz6iPOUnwXCpUl7lAu1NFAluW8yYkfxPr9V9JXkY1wdIOwkdHSaPqQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkyNDE2MTMsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTk4NDY0MTMsImlzcyI6IkphdmEgYmFja2VuZCJ9.8JMttU8vNH92ZGM53194MyEgASUJzH-OlcjpuLy4odra1dzacxUYZQ2sZkdvqFNHps72XmoLm8P6ygx_2XwI3w
 Content-Type: application/json
 
 {
-  "phone": "998997795710"
+
 }
 
 

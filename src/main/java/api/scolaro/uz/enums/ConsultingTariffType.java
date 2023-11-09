@@ -1,5 +1,5 @@
 package api.scolaro.uz.enums;
 
-public enum ConsultingTarifType {
+public enum ConsultingTariffType {
     TEMPLATE,CONSULTING
 }

@@ -1,18 +1,17 @@
 ### Create consulting tariff
 POST http://localhost:8081/api/v1/consulting-tariff
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTgwNTQyNjMsImlkIjoiNDAyODgwZTY4YjM4NDkzZjAxOGIzODRhMzhhNjAwMDIiLCJwaG9uZSI6Ijk5ODk5Nzc5NTcxMCIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk4NjU5MDYzLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.M860WN_YL_Ogja_RG0IlCHTb63ZtLs8oGJEtyZE33sLg9QU_TZh-AH7VMcWOd2khXwlQ_yLZJr-7h0LDk59-aQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkyMzYwODcsImlkIjoiNDAyODgwZWM4YmEwMWY4YTAxOGJhMDM2Y2MyZjAwMDIiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk5ODQwODg3LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.uVF2BjQJ2wcYUvYY5MPdqhWXsQp2tAES2mdxC58Ws4g5VqsHQ5Q6hpWTgQ42-z3xw5akhFeDBk-fWCGIUfhKrw
 
 {
-  "descriptionUz": "Brain uz",
-  "descriptionRu": "Brain ru",
-  "descriptionEn": "Brain en",
+  "descriptionUz": "Brain uz 1",
+  "descriptionRu": "Brain ru 1",
+  "descriptionEn": "Brain en 1",
   "name": "Yaxshi Ta'riff",
   "price": 5600,
-  "consultingId": "402880e68b38493f018b384a38a60002",
   "status": "ACTIVE",
   "tariffType": "CONSULTING",
-  "order": 3
+  "orderNumber": 1
 }
 
 
@@ -34,22 +33,32 @@ Content-Type: application/json
   "price": 5600,
   "status": "ACTIVE",
   "tariffType": "CONSULTING",
-  "order": 2
+  "orderNumber": 2
 }
 
-###
+### Delete consulting tariff by id
 DELETE http://localhost:8081/api/v1/consulting-tariff/c0e0008b-ef79-4363-bcd0-a734e14dbfd9
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkwMDU0NjEsImlkIjoiNDAyODgwZTY4YjM4NDkzZjAxOGIzODRhMzhhNjAwMDIiLCJwaG9uZSI6Ijk5ODk5Nzc5NTcxMCIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk5NjEwMjYxLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.Df2I9ziFNJFfWsFNpBVRVCVHKMg65rAsK3Ek58WJbjtvaQrHpgG1Dw0ywju78IjLCpm81ZucEZGjgVIUFDt6Fg
 
-### Get Consulting Tariff By  Consulting Id
-GET http://localhost:8081/api/v1/consulting-tariff/consulting/402880e68b38493f018b384a38a60002
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkwMDU0NjEsImlkIjoiNDAyODgwZTY4YjM4NDkzZjAxOGIzODRhMzhhNjAwMDIiLCJwaG9uZSI6Ijk5ODk5Nzc5NTcxMCIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk5NjEwMjYxLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.Df2I9ziFNJFfWsFNpBVRVCVHKMg65rAsK3Ek58WJbjtvaQrHpgG1Dw0ywju78IjLCpm81ZucEZGjgVIUFDt6Fg
+### Get consulting tariff list
+GET http://localhost:8081/api/v1/consulting-tariff/current
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkyMzczMTMsImlkIjoiNDAyODgwZTg4YmEyNmIxODAxOGJhMjZkYTI0NzAwMDIiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk5ODQyMTEzLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.q3r1HgdjAAz1f-TAaulTn9yqwjDCmajQnFzDgfpSF2vWsXw4I14zDoc2kZipMqP06jpW4X6Rgn54xi8N8LpvOA
 Accept-Language: en
 
-
-
-### Get Consulting Tariff List Template tariff
+### Get Template tariff list
 GET http://localhost:8081/api/v1/consulting-tariff/template-list
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTcxOTYyNzMsImlkIjoiNDAyODgwZTk4YjI4YzY0NTAxOGIyOGM2ZmMyMTAwMDEiLCJwaG9uZSI6Ijk5ODk5Nzc5NTcxMCIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk3ODAxMDczLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.20B1jC4Yp6sJyId2xVYdN2892woWgRuXGF8g-Eq7sb0FCby0NgWiwL-j8_yiYrGOLBgrrCsexjtO6mm2p-sehQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkyMzczMTMsImlkIjoiNDAyODgwZTg4YmEyNmIxODAxOGJhMjZkYTI0NzAwMDIiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk5ODQyMTEzLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.q3r1HgdjAAz1f-TAaulTn9yqwjDCmajQnFzDgfpSF2vWsXw4I14zDoc2kZipMqP06jpW4X6Rgn54xi8N8LpvOA
 Accept-Language: en
 
+
+### Copy template tariff
+GET http://localhost:8081/api/v1/consulting-tariff/template/a36265d0-2ca3-41ae-b963-b64f1e6645b1/copy
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkyMzczMTMsImlkIjoiNDAyODgwZTg4YmEyNmIxODAxOGJhMjZkYTI0NzAwMDIiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk5ODQyMTEzLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.q3r1HgdjAAz1f-TAaulTn9yqwjDCmajQnFzDgfpSF2vWsXw4I14zDoc2kZipMqP06jpW4X6Rgn54xi8N8LpvOA
+Accept-Language: en
+
+
+
+### Get consulting tariff list by consultingId (not used)
+#GET http://localhost:8081/api/v1/consulting-tariff/consulting/402880e68b38493f018b384a38a60002
+#Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkyMzYwODcsImlkIjoiNDAyODgwZWM4YmEwMWY4YTAxOGJhMDM2Y2MyZjAwMDIiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk5ODQwODg3LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.uVF2BjQJ2wcYUvYY5MPdqhWXsQp2tAES2mdxC58Ws4g5VqsHQ5Q6hpWTgQ42-z3xw5akhFeDBk-fWCGIUfhKrw
+#Accept-Language: en

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 @RequiredArgsConstructor
 @Repository
 public class UniversityCustomRepository {
@@ -28,16 +29,12 @@ public class UniversityCustomRepository {
         }
         if (dto.getCountryId() != null) {
             builder.append(" and u.countryId = :countryId");
-            params.put("countryId",  dto.getCountryId() );
+            params.put("countryId", dto.getCountryId());
         }
 
-        if (dto.getBeginRating() != null) {
-            builder.append(" and u.rating>=:beginRating");
-            params.put("beginRating", dto.getBeginRating());
-        }
-        if (dto.getEndRating() != null) {
-            builder.append(" and u.rating<=:endRating");
-            params.put("endRating", dto.getEndRating());
+        if (dto.getRating() != null) {
+            builder.append(" and u.rating =:rating");
+            params.put("rating", dto.getRating());
         }
         countBuilder.append(builder);
         builder.append(" order by u.rating ASC ");

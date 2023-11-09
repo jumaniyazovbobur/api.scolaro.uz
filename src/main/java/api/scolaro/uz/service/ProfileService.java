@@ -1,12 +1,10 @@
 package api.scolaro.uz.service;
 
 
-import api.scolaro.uz.config.details.CustomUserDetails;
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.SmsDTO;
-import api.scolaro.uz.dto.attach.AttachResponseDTO;
 import api.scolaro.uz.dto.auth.AuthNickNameDTO;
 import api.scolaro.uz.dto.profile.*;
 
@@ -14,7 +12,6 @@ import api.scolaro.uz.dto.profile.*;
 import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.sms.SmsType;
-import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.profile.CustomProfileRepository;
 import api.scolaro.uz.repository.profile.ProfileRepository;
@@ -56,8 +53,8 @@ public class ProfileService {
 
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
-        if (dto.getPhoneId() != null) {
-            entity.setPhotoId(dto.getPhoneId());
+        if (dto.getPhotoId() != null) {
+            entity.setPhotoId(dto.getPhotoId());
         }
 
         profileRepository.save(entity);

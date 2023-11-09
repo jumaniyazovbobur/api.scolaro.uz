@@ -50,7 +50,7 @@ public class ConsultingController {
      */
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/")
+    @PostMapping({"/", ""})
     @Operation(summary = "Create consulting", description = "for admin")
     public ResponseEntity<ApiResponse<ConsultingResponseDTO>> create(@RequestBody @Valid ConsultingCreateDTO dto) {
         log.info("Create consulting {}", dto.getName());
@@ -89,7 +89,7 @@ public class ConsultingController {
     @PutMapping("/{id}")
     @Operation(summary = "Update consulting detail as admin", description = "")
     public ResponseEntity<ApiResponse<ConsultingResponseDTO>> updateConsulting(@PathVariable("id") String id,
-                                                           @Valid @RequestBody ConsultingUpdateDTO dto) {
+                                                                               @Valid @RequestBody ConsultingUpdateDTO dto) {
         log.info("Update consulting detail {}", dto.getName());
         return ResponseEntity.ok(consultingService.updateConsulting(id, dto));
     }
@@ -136,7 +136,7 @@ public class ConsultingController {
     @PutMapping("/change-status/{id}")
     @Operation(summary = "Change consulting status api", description = "for admin")
     public ResponseEntity<ApiResponse<String>> changeStatus(@PathVariable("id") String id,
-                                                       @RequestParam("status") GeneralStatus status) {
+                                                            @RequestParam("status") GeneralStatus status) {
         log.info("Change status {}", id);
         return ResponseEntity.ok(consultingService.changeStatus(id, status));
     }

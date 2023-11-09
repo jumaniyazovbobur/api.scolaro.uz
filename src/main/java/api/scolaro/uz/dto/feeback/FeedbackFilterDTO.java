@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class FeedbackFilterDTO {
-    private String content;
     private String personId;
     private FeedBackType feedBackType;
     private LocalDate fromDate;

@@ -14,7 +14,6 @@ import java.util.List;
 @Repository
 public interface SimpleMessageRepository extends JpaRepository<SimpleMessageEntity, String> {
 
-    // TODO  ustozdan so'riman
 
 /*
     @Query(value = "select * from simple_message as s " +

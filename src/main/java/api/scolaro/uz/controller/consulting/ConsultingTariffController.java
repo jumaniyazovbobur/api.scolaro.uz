@@ -42,6 +42,13 @@ public class ConsultingTariffController {
         return ResponseEntity.ok(consultingTariffService.getById(id, language));
     }
 
+    @GetMapping("/{id}/detail")
+    @Operation(summary = "Get consulting tariff detail by id", description = "for consulting")
+    public ResponseEntity<ApiResponse<ConsultingTariffResponseDTO>> getConsultingTariffDetailById(@PathVariable("id") String id) {
+        log.info("Get Consulting tariff detail By Id ");
+        return ResponseEntity.ok(consultingTariffService.getDetailById(id));
+    }
+
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @PutMapping("/{id}")
     @Operation(summary = "Update consulting tariff", description = "for consulting")
@@ -58,13 +65,14 @@ public class ConsultingTariffController {
         return ResponseEntity.ok(consultingTariffService.delete(id));
     }
 
-    @GetMapping("/consulting/{id}")
+   /* @GetMapping("/consulting/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Get consulting tariff list by consulting id ", description = "for consulting")
     public ResponseEntity<ApiResponse<List<ConsultingTariffResponseDTO>>> getAllByCurrentConsulting(@PathVariable("id") String consultingId,
                                                                                                     @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Get consulting tariff list by consultingId ");
         return ResponseEntity.ok(consultingTariffService.getAllByConsultingId(consultingId, language));
-    }
+    }*/
 
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @GetMapping("/current")
@@ -75,10 +83,20 @@ public class ConsultingTariffController {
     }
 
     @GetMapping("/template-list")
-    @Operation(summary = "Get ConsultingTariff list where type is Template", description = "for consulting")
+    @Operation(summary = "Get template tariff list", description = "for consulting")
     public ResponseEntity<ApiResponse<List<ConsultingTariffResponseDTO>>> getTemplateList(@RequestHeader(value = "Accept-Language",
             defaultValue = "uz") AppLanguage language) {
-        log.info("Get Consulting tariff Template type ");
+        log.info("Get template tariff list ");
         return ResponseEntity.ok(consultingTariffService.getTemplateList(language));
     }
+
+
+    @PreAuthorize("hasRole('ROLE_CONSULTING')")
+    @GetMapping("/template/{id}/copy")
+    @Operation(summary = "Copy template tariff to consulting tariff", description = "for consulting")
+    public ResponseEntity<ApiResponse<?>> copyTemplateTariff(@PathVariable("id") String templateTariffId) {
+        log.info("Copy template tariff to consulting tariff");
+        return ResponseEntity.ok(consultingTariffService.copyTemplateToConsultingTariff(templateTariffId));
+    }
+
 }
