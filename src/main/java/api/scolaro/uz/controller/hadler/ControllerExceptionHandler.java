@@ -1,6 +1,7 @@
 package api.scolaro.uz.controller.hadler;
 
 
+import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.exp.SmsLimitOverException;
@@ -14,18 +15,18 @@ import org.springframework.web.server.MethodNotAllowedException;
 @ControllerAdvice
 public class ControllerExceptionHandler {
     @ExceptionHandler({ItemNotFoundException.class})
-    public ResponseEntity<?> handlerException(ItemNotFoundException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
+    public ResponseEntity<ApiResponse<?>> handlerException(ItemNotFoundException e) {
+        return ResponseEntity.ok(new ApiResponse<>(404, true, e.getMessage()));
     }
 
     @ExceptionHandler({AppBadRequestException.class})
-    public ResponseEntity<?> handlerException(AppBadRequestException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
+    public ResponseEntity<ApiResponse<?>> handlerException(AppBadRequestException e) {
+        return ResponseEntity.ok(new ApiResponse<>(400, true, e.getMessage()));
     }
 
     @ExceptionHandler(MethodNotAllowedException.class)
-    public ResponseEntity<?> handler(MethodNotAllowedException exp) {
-        return ResponseEntity.badRequest().body(exp.getMessage());
+    public ResponseEntity<ApiResponse<?>> handler(MethodNotAllowedException exp) {
+        return ResponseEntity.ok(new ApiResponse<>(405, true, exp.getMessage()));
     }
 
 //    @ExceptionHandler(UnAuthorizedException.class)
@@ -39,19 +40,19 @@ public class ControllerExceptionHandler {
 //    }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<String> handler(AccessDeniedException e) {
-        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+    public ResponseEntity<ApiResponse<?>> handler(AccessDeniedException e) {
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.METHOD_NOT_ALLOWED.value(), true, e.getMessage()));
     }
 
     @ExceptionHandler(SmsLimitOverException.class)
-    public ResponseEntity<String> handler(SmsLimitOverException e) {
-        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+    public ResponseEntity<ApiResponse<?>> handler(SmsLimitOverException e) {
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.METHOD_NOT_ALLOWED.value(), true, e.getMessage()));
     }
 
     @ExceptionHandler({RuntimeException.class})
     public ResponseEntity<?> handlerException(RuntimeException e) {
         e.printStackTrace();
-        return ResponseEntity.internalServerError().body(e.getMessage());
+        return ResponseEntity.ok(new ApiResponse<>(500, true, e.getMessage()));
     }
 
 }
