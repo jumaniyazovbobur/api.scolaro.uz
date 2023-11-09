@@ -241,7 +241,7 @@ public class ProfileService {
         return optional.get();*/
         return profileRepository.findByIdAndVisibleTrue(id).orElseThrow(() -> {
             log.warn("Employee not Found");
-            throw new ItemNotFoundException(resourceMessageService.getMessage("profile.not-found"));
+            return new ItemNotFoundException(resourceMessageService.getMessage("profile.not-found"));
         });
     }
 
