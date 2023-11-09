@@ -227,6 +227,7 @@ public class ConsultingService {
         currentConsulting.setId(details.getId());
         currentConsulting.setName(details.getName());
         currentConsulting.setPhone(details.getPhone());
+        currentConsulting.setRoleList(personRoleService.getProfileRoleList(details.getId()));
         if (details.getPhotoId() != null){
             currentConsulting.setPhoto(attachService.getResponseAttach(details.getPhotoId()));
         }

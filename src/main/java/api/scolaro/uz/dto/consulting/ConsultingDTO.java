@@ -2,8 +2,11 @@ package api.scolaro.uz.dto.consulting;
 
 
 import api.scolaro.uz.dto.attach.AttachDTO;
+import api.scolaro.uz.enums.RoleEnum;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 
 @Getter
@@ -16,4 +19,5 @@ public class ConsultingDTO {
     private String address;
     private String about;
     private AttachDTO photo;
+    private List<RoleEnum> roleList;
 }

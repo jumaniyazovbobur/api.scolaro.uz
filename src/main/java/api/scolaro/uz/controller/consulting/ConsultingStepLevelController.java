@@ -5,6 +5,8 @@ import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelCreateDTO;
 import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelDTO;
 import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelUpdateDTO;
+import api.scolaro.uz.dto.consultingStep.ConsultingStepLevelResponseDTO;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.consulting.ConsultingStepLevelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -60,9 +62,10 @@ public class ConsultingStepLevelController {
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @GetMapping("/step/{id}")
     @Operation(summary = "Get stepLevel list by stepId")
-    public ResponseEntity<ApiResponse<List<ConsultingStepLevelDTO>>> getConsultingStepLevelListByConsultingStepId(@PathVariable("id") String stepId) {
+    public ResponseEntity<ApiResponse<List<ConsultingStepLevelResponseDTO>>> getConsultingStepLevelListByConsultingStepId(@PathVariable("id") String stepId,
+                                                                                                                          @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Get stepLevel list by stepId {} ", stepId);
-        return ResponseEntity.ok(ApiResponse.ok(consultingStepLevelService.getConsultingStepLevelListByConsultingStepId(stepId)));
+        return ResponseEntity.ok(ApiResponse.ok(consultingStepLevelService.getConsultingStepLevelListByConsultingStepId(stepId,language)));
     }
 
 

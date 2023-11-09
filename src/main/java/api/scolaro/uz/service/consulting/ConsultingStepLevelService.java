@@ -4,8 +4,8 @@ import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelCreateDTO;
 import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelDTO;
-import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelResponseDTO;
 import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelUpdateDTO;
+import api.scolaro.uz.dto.consultingStep.ConsultingStepLevelResponseDTO;
 import api.scolaro.uz.entity.consulting.ConsultingStepLevelEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.StepLevelType;
@@ -77,23 +77,23 @@ public class ConsultingStepLevelService {
         return new ApiResponse<>(200, false, toDTO(get(id)));
     }
 
-    public List<ConsultingStepLevelDTO> getConsultingStepLevelListByConsultingStepId(String consultingStepId, AppLanguage language) {
+    public List<ConsultingStepLevelResponseDTO> getConsultingStepLevelListByConsultingStepId(String consultingStepId, AppLanguage language) {
         List<ConsultingStepLevelEntity> entityList = consultingStepLevelRepository.getAllByConsultingStepId(consultingStepId);
-        List<ConsultingStepLevelDTO> dtoList = new LinkedList<>();
+        List<ConsultingStepLevelResponseDTO> dtoList = new LinkedList<>();
         for (ConsultingStepLevelEntity entity : entityList) {
-            ConsultingStepLevelDTO dto = new ConsultingStepLevelDTO();
+            ConsultingStepLevelResponseDTO dto = new ConsultingStepLevelResponseDTO();
             dto.setId(entity.getId());
-            switch (language) {
-                case uz -> dto.setName(entity.getNameUz());
-                case en -> dto.setName(entity.getNameEn());
-                default -> dto.setName(entity.getNameRu());
-            }
-            switch (language) {
-                case uz -> dto.setDescription(entity.getDescriptionUz());
-                case en -> dto.setDescription(entity.getDescriptionEn());
-                default -> dto.setDescription(entity.getDescriptionRu());
-            }
             dto.setOrderNumber(entity.getOrderNumber());
+            switch (language) {
+                case ru -> dto.setName(entity.getNameRu());
+                case en -> dto.setName(entity.getNameEn());
+                default -> dto.setName(entity.getNameUz());
+            }
+            switch (language) {
+                case ru -> dto.setDescription(entity.getDescriptionRu());
+                case en -> dto.setDescription(entity.getDescriptionEn());
+                default -> dto.setDescription(entity.getDescriptionUz());
+            }
             dtoList.add(dto);
         }
         return dtoList;
