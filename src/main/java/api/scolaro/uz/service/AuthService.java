@@ -146,6 +146,7 @@ public class AuthService {
         dto.setCountryId(entity.getCountryId());
         dto.setSurname(entity.getSurname());
         dto.setPhone(entity.getPhone());
+        dto.setAttachDTO(attachService.getResponseAttach(entity.getPhotoId()));
         dto.setName(entity.getName());
         dto.setRoleList(personRoleService.getProfileRoleList(entity.getId()));
         String jwt = JwtUtil.encode(entity.getId(), entity.getPhone(), dto.getRoleList());
@@ -156,6 +157,7 @@ public class AuthService {
     private AuthResponseDTO getClientAuthorizationResponse(ConsultingEntity entity) {
         AuthResponseDTO dto = new AuthResponseDTO();
         dto.setName(entity.getName());
+        dto.setAttachDTO(attachService.getResponseAttach(entity.getPhotoId()));
         dto.setRoleList(personRoleService.getProfileRoleList(entity.getId()));
         String jwt = JwtUtil.encode(entity.getId(), entity.getPhone(), dto.getRoleList());
         dto.setJwt(jwt);
