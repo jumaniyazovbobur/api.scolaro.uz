@@ -14,5 +14,5 @@ public class ConsultingStepDTO {
     private Integer orderNumber;
     private String description;
     private String consultingId;
-    private List<ConsultingStepLevelDTO> levelList;
+    private List<ConsultingStepLevelResponseDTO> levelList;
 }
