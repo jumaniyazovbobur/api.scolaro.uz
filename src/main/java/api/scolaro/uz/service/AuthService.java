@@ -82,7 +82,7 @@ public class AuthService {
         return new ApiResponse<>(200, false, "Success");
     }
 
-    public ApiResponse<String> profileRegistrationVerification(SmsDTO dto) {
+    public ApiResponse<AuthResponseDTO> profileRegistrationVerification(SmsDTO dto) {
         boolean validate = PhoneUtil.validatePhone(dto.getPhone());
         if (!validate) {
             log.info("Phone not Valid! phone = {}", dto.getPhone());
@@ -103,12 +103,12 @@ public class AuthService {
 
         ApiResponse<String> smsResponse = smsHistoryService.checkSmsCode(dto.getPhone(), dto.getCode());
         if (smsResponse.getIsError()) {
-            return smsResponse;
+            return new ApiResponse<>(400, true, null);
         }
         // change client status
         profileRepository.updateStatus(dto.getPhone(), GeneralStatus.ACTIVE);
         AuthResponseDTO responseDTO = getClientAuthorizationResponse(userOptional.get());
-        return new ApiResponse<>(200, false, "Success registration");
+        return new ApiResponse<>(200, false, responseDTO);
 
     }
 
@@ -143,7 +143,7 @@ public class AuthService {
         AuthResponseDTO dto = new AuthResponseDTO();
         dto.setId(entity.getId());
         dto.setNickName(entity.getNickName());
-        dto.setCountryId(entity.getCountryId());
+        dto.setCountryId(entity.getCountryId()); // TODO (county {id,name})
         dto.setSurname(entity.getSurname());
         dto.setPhone(entity.getPhone());
         dto.setAttachDTO(attachService.getResponseAttach(entity.getPhotoId()));
