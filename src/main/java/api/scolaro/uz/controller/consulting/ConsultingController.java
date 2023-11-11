@@ -85,6 +85,13 @@ public class ConsultingController {
         return ResponseEntity.ok(consultingService.deleted(id));
     }
 
+    @DeleteMapping("/delete-account")
+    @Operation(summary = "Delete your consulting api", description = "for consulting")
+    public ResponseEntity<ApiResponse<?>> deletedOwn() {
+        log.info("Delete your consulting");
+        return ResponseEntity.ok(consultingService.deleteAccount());
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Update consulting detail as admin", description = "")

@@ -7,6 +7,7 @@ import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.consulting.*;
 import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
+import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
@@ -16,6 +17,7 @@ import api.scolaro.uz.repository.consulting.ConsultingRepository;
 import api.scolaro.uz.repository.consulting.CustomConsultingRepository;
 import api.scolaro.uz.service.AttachService;
 import api.scolaro.uz.service.PersonRoleService;
+import api.scolaro.uz.service.ResourceMessageService;
 import api.scolaro.uz.service.sms.SmsHistoryService;
 import api.scolaro.uz.util.JwtUtil;
 import api.scolaro.uz.util.MD5Util;
@@ -46,6 +48,7 @@ public class ConsultingService {
     private final AttachService attachService;
 
     private final SmsHistoryService smsService;
+    private final ResourceMessageService resourceMessageService;
 
     public ApiResponse<ConsultingResponseDTO> create(ConsultingCreateDTO dto) {
         if (dto.getPhone().startsWith("+")) {
@@ -57,8 +60,14 @@ public class ConsultingService {
         }
         Optional<ConsultingEntity> optional = consultingRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
         if (optional.isPresent()) {
-            log.info("Exception : Phone exist {}", dto.getPhone());
-            return ApiResponse.bad("Phone exist");
+            ConsultingEntity entity = optional.get();
+            if (!entity.getStatus().equals(GeneralStatus.NOT_ACTIVE)) {
+                log.info("Exception : Consulting status is at ACTIVE or BLOCK status {}", dto.getPhone());
+                return ApiResponse.bad("Exception : Consulting is at ACTIVE or BLOCK status");
+            }
+            log.info("Exception : Consulting visible is TRUE {}", dto.getPhone());
+            return ApiResponse.bad("Exception : Consulting visible is TRUE");
+
         }
         // random sms password
         String smsPassword = RandomUtil.getRandomString(6);
@@ -228,11 +237,11 @@ public class ConsultingService {
         currentConsulting.setName(details.getName());
         currentConsulting.setPhone(details.getPhone());
         currentConsulting.setRoleList(personRoleService.getProfileRoleList(details.getId()));
-        if (details.getPhotoId() != null){
+        if (details.getPhotoId() != null) {
             currentConsulting.setPhoto(attachService.getResponseAttach(details.getPhotoId()));
         }
         currentConsulting.setAddress(details.getAddress());
-        return new ApiResponse<>(200,false,currentConsulting);
+        return new ApiResponse<>(200, false, currentConsulting);
     }
 
     public ConsultingEntity get(String id) {
@@ -245,7 +254,7 @@ public class ConsultingService {
     }
 
     public ConsultingResponseDTO getConsultingForApp(String id) {
-        ConsultingEntity entity=get(id);
+        ConsultingEntity entity = get(id);
         ConsultingResponseDTO dto = new ConsultingResponseDTO();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
@@ -256,5 +265,15 @@ public class ConsultingService {
         dto.setOwnerSurName(entity.getOwnerSurname());
         dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
         return dto;
+    }
+
+    public ApiResponse<String> deleteAccount() {
+        ConsultingEntity entity = get(EntityDetails.getCurrentUserId());
+        int result = consultingRepository.deleteAccount(entity.getId(), EntityDetails.getCurrentUserId(), LocalDateTime.now());
+        if (result == 1) {
+            log.info("Consulting deleted");
+            return new ApiResponse<>(200, false, resourceMessageService.getMessage("success.delete"));
+        }
+        return new ApiResponse<>(200, false, resourceMessageService.getMessage("fail.delete"));
     }
 }

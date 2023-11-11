@@ -93,6 +93,10 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTY1OTAyNTMsImlkIjoiOTA5M
 GET http://api.app.mazgi.uz/api/v1/profile/
 
 
+###
+DELETE http://localhost:8081/api/v1/profile/delete-account
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTk2MjI5ODksImlkIjoiNDAyODgwZWY4YmI5Njk2MDAxOGJiOTZiYWI1ZjAwMDAiLCJwaG9uZSI6Ijk5ODk5Nzc5NTcxMCIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNzAwMjI3Nzg5LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.tO9OgyvEP2e74ofuGyzE90a5FuI5NgNDZQToPr0jSirK7SmYNJ-rlI4aExIefy3upHfIm3ZHzyfo5W1dtR-mXQ
+
 
 
 

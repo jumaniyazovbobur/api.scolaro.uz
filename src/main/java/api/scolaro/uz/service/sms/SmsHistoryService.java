@@ -27,7 +27,7 @@ public class SmsHistoryService {
     private static final int smsCountLimit = 3;
 
     public void sendRegistrationSms(String phoneNumber) {
-        String smsCode = "11111";//RandomUtil.getRandomSmsCode();
+        String smsCode = RandomUtil.getRandomSmsCode();
         String text = "Scolaro ro'yhatdan o'tish tasdiqlash kodi: \n" + smsCode;
         sendMessage(phoneNumber, text, SmsType.REGISTRATION, smsCode);
     }

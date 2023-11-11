@@ -24,6 +24,13 @@ public interface ConsultingRepository extends JpaRepository<ConsultingEntity, St
                 @Param("deletedId") String deleteId,
                 @Param("date") LocalDateTime date);
 
+    @Transactional
+    @Modifying
+    @Query("update ConsultingEntity set visible=false , deletedId=:deletedId, deletedDate=:date, status='NOT_ACTIVE' where id=:id")
+    int deleteAccount(@Param("id") String id,
+                      @Param("deletedId") String deleteId,
+                      @Param("date") LocalDateTime date);
+
     Optional<ConsultingEntity> findByPhoneAndVisibleIsTrue(String phone);
 
     @Transactional

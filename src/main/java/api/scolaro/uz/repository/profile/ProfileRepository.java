@@ -30,8 +30,7 @@ public interface ProfileRepository extends JpaRepository<ProfileEntity, String> 
     @Transactional
     @Modifying
     @Query("update ProfileEntity set name =:name, surname=:surname, photoId=:photoId where id =:id")
-    int updateDetail(@Param("id") String id, @Param("name") String name, @Param("surname") String surname,@Param("photoId") String photoId);
-
+    int updateDetail(@Param("id") String id, @Param("name") String name, @Param("surname") String surname, @Param("photoId") String photoId);
 
 
     @Transactional
@@ -41,21 +40,39 @@ public interface ProfileRepository extends JpaRepository<ProfileEntity, String> 
 
     @Modifying
     @Transactional
-    @Query("update ProfileEntity set status = ?2 where  phone = ?1")
-    void updateStatus(String phone, GeneralStatus active);
+    @Query("update ProfileEntity set status = ?2 where  id = ?1")
+    void updateStatus(String id, GeneralStatus active);
 
+
+    @Modifying
+    @Transactional
+    @Query("update ProfileEntity set status = ?2,visible=true where  phone = ?1")
+    void updateStatusAndVisibleTrue(String phone, GeneralStatus active);
     Optional<ProfileEntity> findByPhoneAndVisibleIsTrue(String phone);
 
 
     Optional<ProfileEntity> findByIdAndVisibleTrue(String id);
+
     Optional<ProfileEntity> findByNickName(String nickName);
 
+    @Query(value = "select * " +
+            "from profile where phone =:phone " +
+            "order by created_date desc limit 1 ",
+            nativeQuery = true)
+    ProfileEntity getProfileEntityDesc(@Param("phone") String phone);
     @Transactional
     @Modifying
     @Query("update ProfileEntity set visible=false, deletedId=:deletedId, deletedDate=:date where id=:id")
     int deleted(@Param("id") String id,
                 @Param("deletedId") String deletedId,
                 @Param("date") LocalDateTime date);
+
+    @Transactional
+    @Modifying
+    @Query("update ProfileEntity set visible=false, deletedId=:deletedId, deletedDate=:date, status='NOT_ACTIVE' where id=:id")
+    int deleteAccount(@Param("id") String id,
+                      @Param("deletedId") String deletedId,
+                      @Param("date") LocalDateTime date);
 
     @Transactional
     @Modifying
@@ -69,6 +86,7 @@ public interface ProfileRepository extends JpaRepository<ProfileEntity, String> 
     void changeNewPhone(@Param("id") String id,
                         @Param("newPhone") String newPhone,
                         @Param("code") String code);
+
     @Transactional
     @Modifying
     @Query("update ProfileEntity set phone = :phone where id=:id")

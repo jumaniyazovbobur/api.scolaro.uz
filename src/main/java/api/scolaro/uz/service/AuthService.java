@@ -47,19 +47,24 @@ public class AuthService {
             return new ApiResponse<>(resourceMessageService.getMessage("phone.validation.not-valid"), 400, true);
         }
 
-        Optional<ProfileEntity> profileEntity = profileRepository.findByPhone(dto.getPhoneNumber());
+        Optional<ProfileEntity> profileEntity = profileRepository.findByPhoneAndVisibleIsTrue(dto.getPhoneNumber());
 
         if (profileEntity.isPresent()) {
-            if (profileEntity.get().getStatus().equals(GeneralStatus.ACTIVE) || profileEntity.get().getStatus().equals(GeneralStatus.BLOCK)) {
+            ProfileEntity entity = profileEntity.get();
+            if (!entity.getStatus().equals(GeneralStatus.NOT_ACTIVE)) {
                 log.warn("PhoneNumber already exist {}", dto.getPhoneNumber());
                 return new ApiResponse<>(resourceMessageService.getMessage("phone.already.exists"), 400, true);
             }
 
-            if (profileEntity.get().getStatus().equals(GeneralStatus.NOT_ACTIVE)) {
-                // send sms for complete registration
-                smsHistoryService.sendRegistrationSms(dto.getPhoneNumber());
-                return new ApiResponse<>(200, false);
+            if (entity.getVisible()) {
+                log.warn("PhoneNumber already exist. Visible true {}", dto.getPhoneNumber());
+                return new ApiResponse<>(resourceMessageService.getMessage("phone.already.exists"), 400, true);
             }
+//            if (profileEntity.get().getStatus().equals(GeneralStatus.NOT_ACTIVE)) {
+//                // send sms for complete registration
+//                smsHistoryService.sendRegistrationSms(dto.getPhoneNumber());
+//                return new ApiResponse<>(200, false);
+//            }
         }
         //user create
         ProfileEntity userEntity = new ProfileEntity();
@@ -90,6 +95,7 @@ public class AuthService {
         }
 
         Optional<ProfileEntity> userOptional = profileRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
+//        Optional<ProfileEntity> userOptional = profileRepository.findByPhone(dto.getPhone());
 
         if (userOptional.isEmpty()) {
             log.warn("Client not found! phone = {}", dto.getPhone());
@@ -106,10 +112,10 @@ public class AuthService {
             return smsResponse;
         }
         // change client status
-        profileRepository.updateStatus(dto.getPhone(), GeneralStatus.ACTIVE);
+        ProfileEntity entity = profileRepository.getProfileEntityDesc(dto.getPhone());
+        profileRepository.updateStatus(entity.getId(), GeneralStatus.ACTIVE);
         AuthResponseDTO responseDTO = getClientAuthorizationResponse(userOptional.get());
         return new ApiResponse<>(200, false, "Success registration");
-
     }
 
 

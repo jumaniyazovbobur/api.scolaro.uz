@@ -100,6 +100,18 @@ public class ProfileService {
         return ApiResponse.ok("Success");
     }
 
+
+    public ApiResponse<?> deleteAccount() {
+        ProfileEntity entity = get(EntityDetails.getCurrentUserId());
+        int result = profileRepository.deleteAccount(entity.getId(), EntityDetails.getCurrentUserId(), LocalDateTime.now());
+        if (result==1){
+            log.info("Profile deleted");
+            return new ApiResponse<>(200,false,resourceMessageService.getMessage("success.delete"));
+        }
+        return new ApiResponse<>(200,false,resourceMessageService.getMessage("fail.delete"));
+    }
+
+
     public ApiResponse<?> updatePassword(UpdatePasswordDTO dto) {
         ProfileDTO currentProfile = getCurrentProfileDetail();
         if (!dto.getNewPassword().equals(dto.getConfirmPassword())) {
@@ -240,7 +252,7 @@ public class ProfileService {
         }
         return optional.get();*/
         return profileRepository.findByIdAndVisibleTrue(id).orElseThrow(() -> {
-            log.warn("Employee not Found");
+            log.warn("Profile not Found");
             return new ItemNotFoundException(resourceMessageService.getMessage("profile.not-found"));
         });
     }

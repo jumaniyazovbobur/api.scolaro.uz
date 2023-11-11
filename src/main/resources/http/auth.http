@@ -5,7 +5,7 @@ Content-Type: application/json
 {
   "name": "asd",
   "surname": "asd",
-  "phoneNumber": "998915721213",
+  "phoneNumber": "998997795710",
   "password": "123456",
   "nickName": "bigman",
   "countryId": 1,
@@ -37,8 +37,8 @@ Content-Type: application/json
 
 
 {
-  "phone": "998915721213",
-  "code": "11111"
+  "phone": "998997795710",
+  "code": "56447"
 }
 
 ### Student (Profile) login
@@ -79,7 +79,7 @@ Content-Type: application/json
 
 {
   "phone": "998997795710",
-  "password": "akrpwg"
+  "password": "vpihn9"
 }
 
 
@@ -143,4 +143,3 @@ Content-Type: application/json
 {
   "nickName" : "maxmud123"
 }
-

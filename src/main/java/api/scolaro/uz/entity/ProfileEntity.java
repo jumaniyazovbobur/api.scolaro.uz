@@ -19,7 +19,7 @@ public class ProfileEntity extends BaseEntity {
     private String name;
     @Column(name = "surname")
     private String surname;
-    @Column(name = "phone", unique = true)
+    @Column(name = "phone")
     private String phone;
     @Column(name = "password")
     private String password;

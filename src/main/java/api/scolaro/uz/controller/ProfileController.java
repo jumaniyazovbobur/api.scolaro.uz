@@ -8,7 +8,6 @@ import api.scolaro.uz.dto.profile.*;
 
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.service.ProfileService;
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -96,6 +95,13 @@ public class ProfileController {
         log.info("Update phone {}",phone);
         return ResponseEntity.ok(profileService.updatePhone(phone));
     }
+
+    @DeleteMapping("/delete-account")
+    @Operation(summary = "Delete your profile api", description = "for user")
+    public ResponseEntity<ApiResponse<?>> deletedOwn() {
+        log.info("Delete your profile");
+        return ResponseEntity.ok(profileService.deleteAccount());
+    }
     /**
      * FOR USER
      */
@@ -130,6 +136,7 @@ public class ProfileController {
         log.info("Change status {}", id);
         return ResponseEntity.ok(profileService.changeStatus(id, status));
     }
+
 
 
 }

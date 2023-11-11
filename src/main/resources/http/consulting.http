@@ -1,16 +1,15 @@
 ### Create consulting
 POST http://localhost:8081/api/v1/consulting/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkwMjc5NDMsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTk2MzI3NDMsImlzcyI6IkphdmEgYmFja2VuZCJ9.tIu0zoHsm1UWRf4xhE2_rfv_XX4FeB-5D3UQ61ubfLduetj_kMRlnp-Lcw9u9Fu2iY9Di6QBXeUyfJOS-jIRwQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTk2Nzc1NzYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDAyODIzNzYsImlzcyI6IkphdmEgYmFja2VuZCJ9.rfTobqCOiRtu39MmlO5RgwGoA_RDqlJ2xED4kskuGgEaBldnGmTcryI-D2tg7eiaFelrcyIx1RaA6gBQhv8HOQ
 Content-Type: application/json
 
 {
   "name": "Brain consulting",
-  "phone": "998930671423",
+  "phone": "998997795710",
   "address": "Toshkent shahri",
   "ownerName": "Maxmud",
   "ownerSurname": "Maxmudov",
-  "about": "Biz vawe kuchaygan consaltingmiz",
-  "photoId" : "402880e48b95f18e018b95f6959a0004"
+  "about": "Biz vawe kuchaygan consaltingmiz"
 }
 
 ### Create consulting for PRODUCT
@@ -106,6 +105,10 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4OTI5MTQsImlkIjoiNDAyO
 PUT http://localhost:8081/api/v1/consulting/change-status/402880e48adae419018adae9fdfc0001?status=ACTIVE
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDYxMjYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY0MTA5MjYsImlzcyI6IkphdmEgYmFja2VuZCJ9.5i-zp9w0jxobonVZyh5ZjTVEVsHEkVUH0i7dLW19SDD60DVsYGpADR-QmzSBvbG3VHNVw6OncApX_JGf5S405g
 
+
+###
+DELETE http://localhost:8081/api/v1/consulting/delete-account
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTk2Nzg0NTksImlkIjoiNDAyODgxZWU4YmJjYjg4ODAxOGJiY2JhNzExYjAwMDEiLCJwaG9uZSI6Ijk5ODk5Nzc5NTcxMCIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNzAwMjgzMjU5LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.IspfoleyjGDktjqKK187yaX680cruxcS_WtGAlAfKikiYDfiX7gv25FzfSdyZVXOa0dqYrtgRp0ABt0gS6BgFQ
 
 
 

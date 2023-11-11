@@ -32,7 +32,7 @@ public class CustomUserDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String phone) throws UsernameNotFoundException {
-        Optional<ProfileEntity> profileOptional = profileRepository.findByPhone(phone);
+        Optional<ProfileEntity> profileOptional = profileRepository.findByPhoneAndVisibleIsTrue(phone);
         if (profileOptional.isEmpty()) {
             throw new UsernameNotFoundException("Username not found");
         }
@@ -45,7 +45,7 @@ public class CustomUserDetailsService implements UserDetailsService {
      * Consulting
      */
     public UserDetails loadConsultingByPhone(String phone) throws UsernameNotFoundException {
-        Optional<ConsultingEntity> consultingOptional = consultingRepository.findByPhone(phone);
+        Optional<ConsultingEntity> consultingOptional = consultingRepository.findByPhoneAndVisibleIsTrue(phone);
         if (consultingOptional.isEmpty()) {
             throw new UsernameNotFoundException("Username not found");
         }
