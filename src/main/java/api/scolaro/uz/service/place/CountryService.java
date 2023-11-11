@@ -8,6 +8,7 @@ import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.place.CountryRepository;
+import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -138,5 +139,9 @@ public class CountryService {
         return dto;
     }
 
+    public CountryResponseDTO getById(Long id, AppLanguage language) {
+        CountryEntity entity = get(id);
+        return toDTO(entity, language);
+    }
 
 }

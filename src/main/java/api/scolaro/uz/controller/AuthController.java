@@ -5,6 +5,7 @@ import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.auth.*;
 import api.scolaro.uz.dto.auth.AuthRequestDTO;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.AuthService;
 import api.scolaro.uz.service.ProfileService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,16 +38,18 @@ public class AuthController {
 
     @Operation(summary = "User registration verification", description = "Method used for user registration verification")
     @PostMapping("/profile/registration/verification")
-    public ResponseEntity<ApiResponse<AuthResponseDTO>> registrationVerification(@RequestBody @Valid SmsDTO dto) {
+    public ResponseEntity<ApiResponse<AuthResponseDTO>> registrationVerification(@RequestBody @Valid SmsDTO dto,
+                                                                                 @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Registration verification {}", dto);
-        return ResponseEntity.ok(authService.profileRegistrationVerification(dto));
+        return ResponseEntity.ok(authService.profileRegistrationVerification(dto,language));
     }
 
     @Operation(summary = "Profile login", description = "Method profile for  Login")
     @PostMapping("/profile/login")
-    public ResponseEntity<ApiResponse<AuthResponseDTO>> profileLogin(@RequestBody @Valid AuthRequestProfileDTO dto) {
+    public ResponseEntity<ApiResponse<AuthResponseDTO>> profileLogin(@RequestBody @Valid AuthRequestProfileDTO dto,
+                                                                     @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Client login {}", dto);
-        return ResponseEntity.ok(authService.profileLogin(dto));
+        return ResponseEntity.ok(authService.profileLogin(dto,language));
     }
 
     @PostMapping("/profile/reset-password")
@@ -58,9 +61,10 @@ public class AuthController {
 
     @PutMapping("/profile/reset/confirm")
     @Operation(summary = "Profile reset password confirm", description = "Method profile for  reset password confirm")
-    public ResponseEntity<ApiResponse<AuthResponseDTO>> resetPasswordConfirm(@Valid @RequestBody ResetPasswordConfirmDTO dto) {
+    public ResponseEntity<ApiResponse<AuthResponseDTO>> resetPasswordConfirm(@Valid @RequestBody ResetPasswordConfirmDTO dto,
+                                                                             @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Client Reset password confirm {}", dto);
-        return ResponseEntity.ok(authService.resetPasswordConfirm(dto));
+        return ResponseEntity.ok(authService.resetPasswordConfirm(dto,language));
     }
 
     @GetMapping("")

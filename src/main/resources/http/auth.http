@@ -1,6 +1,7 @@
 ### Student register
 POST http://localhost:8081/api/v1/auth/profile/registration
 Content-Type: application/json
+Accept-Language: ru
 
 {
   "name": "asd",
@@ -34,11 +35,11 @@ Content-Type: application/json
 ### Student sms verification
 POST http://localhost:8081/api/v1/auth/profile/registration/verification
 Content-Type: application/json
-
+Accept-Language: ru
 
 {
   "phone": "998997795710",
-  "code": "56447"
+  "code": "57676"
 }
 
 ### Student (Profile) login

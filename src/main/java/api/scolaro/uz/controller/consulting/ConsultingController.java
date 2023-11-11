@@ -85,7 +85,7 @@ public class ConsultingController {
         return ResponseEntity.ok(consultingService.deleted(id));
     }
 
-    @DeleteMapping("/delete-account")
+    @DeleteMapping("/delete-accTOount")
     @Operation(summary = "Delete your consulting api", description = "for consulting")
     public ResponseEntity<ApiResponse<?>> deletedOwn() {
         log.info("Delete your consulting");

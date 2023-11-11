@@ -9,11 +9,13 @@ import api.scolaro.uz.dto.auth.AuthRequestDTO;
 
 import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.entity.ProfileEntity;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.consulting.ConsultingRepository;
 import api.scolaro.uz.repository.profile.ProfileRepository;
+import api.scolaro.uz.service.place.CountryService;
 import api.scolaro.uz.service.sms.SmsHistoryService;
 import api.scolaro.uz.util.JwtUtil;
 import api.scolaro.uz.util.MD5Util;
@@ -36,8 +38,8 @@ public class AuthService {
     private final SmsHistoryService smsHistoryService;
     private final PasswordEncoder passwordEncoder;
     private final ConsultingRepository consultingRepository;
-    private final ProfileService profileService;
     private final AttachService attachService;
+    private final CountryService countryService;
 
     public ApiResponse<String> registration(AuthRequestDTO dto) {
         boolean validate = PhoneUtil.validatePhone(dto.getPhoneNumber());
@@ -86,7 +88,7 @@ public class AuthService {
         return new ApiResponse<>(200, false, "Success");
     }
 
-    public ApiResponse<AuthResponseDTO> profileRegistrationVerification(SmsDTO dto) {
+    public ApiResponse<AuthResponseDTO> profileRegistrationVerification(SmsDTO dto,AppLanguage language) {
         boolean validate = PhoneUtil.validatePhone(dto.getPhone());
         if (!validate) {
             log.info("Phone not Valid! phone = {}", dto.getPhone());
@@ -112,13 +114,13 @@ public class AuthService {
         // change client status
         ProfileEntity entity = profileRepository.getProfileEntityDesc(dto.getPhone());
         profileRepository.updateStatus(entity.getId(), GeneralStatus.ACTIVE);
-        AuthResponseDTO responseDTO = getClientAuthorizationResponse(userOptional.get());
+        AuthResponseDTO responseDTO = getClientAuthorizationResponse(userOptional.get(),language);
         return new ApiResponse<>(200, false, responseDTO);
 
     }
 
 
-    public ApiResponse<AuthResponseDTO> profileLogin(AuthRequestProfileDTO dto) {
+    public ApiResponse<AuthResponseDTO> profileLogin(AuthRequestProfileDTO dto,AppLanguage language) {
         boolean validate = PhoneUtil.validatePhone(dto.getPhone());
         if (!validate) {
             log.info("Phone not valid! phone = {}", dto.getPhone());
@@ -140,15 +142,15 @@ public class AuthService {
             return new ApiResponse<>(resourceMessageService.getMessage("username.password.wrong"), 400, true);
         }
 
-        return new ApiResponse<>(200, false, getClientAuthorizationResponse(profile));
+        return new ApiResponse<>(200, false, getClientAuthorizationResponse(profile,language));
     }
 
 
-    private AuthResponseDTO getClientAuthorizationResponse(ProfileEntity entity) {
+    private AuthResponseDTO getClientAuthorizationResponse(ProfileEntity entity, AppLanguage language) {
         AuthResponseDTO dto = new AuthResponseDTO();
         dto.setId(entity.getId());
         dto.setNickName(entity.getNickName());
-        dto.setCountryId(entity.getCountryId()); // TODO (county {id,name})
+        dto.setCountry(countryService.getById(entity.getCountryId(), language)); // TODO (county {id,name})
         dto.setSurname(entity.getSurname());
         dto.setPhone(entity.getPhone());
         dto.setAttachDTO(attachService.getResponseAttach(entity.getPhotoId()));
@@ -223,7 +225,7 @@ public class AuthService {
 
     }
 
-    public ApiResponse<AuthResponseDTO> resetPasswordConfirm(ResetPasswordConfirmDTO dto) {
+    public ApiResponse<AuthResponseDTO> resetPasswordConfirm(ResetPasswordConfirmDTO dto,AppLanguage language) {
         boolean validate = PhoneUtil.validatePhone(dto.getPhone());
         //validate phone number
         if (!validate) {
@@ -253,7 +255,7 @@ public class AuthService {
         }
 
         profileRepository.updatePassword(profile.getId(), MD5Util.getMd5(dto.getNewPassword()));
-        return new ApiResponse<>(200, false, getClientAuthorizationResponse(profile));
+        return new ApiResponse<>(200, false, getClientAuthorizationResponse(profile,language));
     }
 
     /*
