@@ -53,6 +53,9 @@ public class ProfileService {
 
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
+        if (dto.getCountryId() != null) {
+            entity.setCountryId(dto.getCountryId());
+        }
         if (dto.getPhotoId() != null) {
             entity.setPhotoId(dto.getPhotoId());
         }
@@ -104,11 +107,11 @@ public class ProfileService {
     public ApiResponse<?> deleteAccount() {
         ProfileEntity entity = get(EntityDetails.getCurrentUserId());
         int result = profileRepository.deleteAccount(entity.getId(), EntityDetails.getCurrentUserId(), LocalDateTime.now());
-        if (result==1){
+        if (result == 1) {
             log.info("Profile deleted");
-            return new ApiResponse<>(200,false,resourceMessageService.getMessage("success.delete"));
+            return new ApiResponse<>(200, false, resourceMessageService.getMessage("success.delete"));
         }
-        return new ApiResponse<>(200,false,resourceMessageService.getMessage("fail.delete"));
+        return new ApiResponse<>(200, false, resourceMessageService.getMessage("fail.delete"));
     }
 
 

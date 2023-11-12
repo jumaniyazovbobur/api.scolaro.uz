@@ -13,5 +13,6 @@ public class ProfileUpdateDTO {
     private String name;
     @NotBlank(message = "Surname is required")
     private String surname;
+    private Long countryId;
     private String photoId;
 }

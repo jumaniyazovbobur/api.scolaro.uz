@@ -1,12 +1,12 @@
 ### Update profile
-PUT http://localhost:8081/api/v1/profile/update
+PUT http://localhost:8081/api/v1/profile/update/402880e58bbd8b90018bbd8f46260003
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MjQ0NTAsImlkIjoiNDAyODgwZTg4YWQ1ZGMyZTAxOGFkNWRlNDQyNTAwMDAiLCJwaG9uZSI6Ijk5ODk0NDQ5NzM5NyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNjk2NDI5MjUwLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.w4rcDDov1b53HB2bQQi-QaLWhvljm0fU--z_0TJ0B36X8lb6qodAZHnXtEofcPmNNu9ij7Ffrjm761g3kqLHVw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTk4MDY0NTMsImlkIjoiNDAyODgwZTU4YmJkOGI5MDAxOGJiZDhmNDYyNjAwMDMiLCJwaG9uZSI6Ijk5ODk5Nzc5NTcxMCIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNzAwNDExMjUzLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.xWwwO-kysPzbk5Rw9ZpJBYHctdnQuw7OTGp8zm4PsqwCx2i7dTrBcpQKJw7SoDW7DHiOHXwjLnGpeAfTLU4FJQ
 
 {
   "name": "Bekzodjon",
-  "surname": "Nosirovvv"
-
+  "surname": "Nosirovvv",
+  "countryId": 6
 }
 
 
