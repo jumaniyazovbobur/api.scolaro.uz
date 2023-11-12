@@ -1,9 +1,12 @@
 package api.scolaro.uz.dto.university;
 
+import api.scolaro.uz.enums.UniversityDegreeType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,4 +21,5 @@ public class UniversityCreateDTO {
     private Long countryId;
     private String photoId;
     private String description;
+    private List<UniversityDegreeType> degreeList;
 }
