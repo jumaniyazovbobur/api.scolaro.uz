@@ -8,6 +8,7 @@ import api.scolaro.uz.dto.university.UniversityFilterDTO;
 import api.scolaro.uz.dto.university.UniversityResponseDTO;
 import api.scolaro.uz.dto.university.UniversityUpdateDTO;
 import api.scolaro.uz.entity.UniversityEntity;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.university.UniversityCustomRepository;
 import api.scolaro.uz.repository.university.UniversityRepository;
@@ -29,6 +30,7 @@ public class UniversityService {
     private final UniversityRepository universityRepository;
     private final UniversityCustomRepository customRepository;
     private final AttachService attachService;
+    private final UniversityDegreeService universityDegreeService;
 
 
     public ApiResponse<UniversityResponseDTO> create(UniversityCreateDTO dto) {
@@ -41,6 +43,7 @@ public class UniversityService {
         entity.setDescription(dto.getDescription());
         entity.setCreatedId(EntityDetails.getCurrentUserId());
         universityRepository.save(entity);
+        universityDegreeService.merger(entity.getId(), dto.getDegreeList()); //merge university degreeType
         return ApiResponse.ok(toDTO(entity));
     }
 
@@ -59,12 +62,22 @@ public class UniversityService {
         entity.setCountryId(dto.getCountryId());
         entity.setDescription(dto.getDescription());
         universityRepository.save(entity);
+        universityDegreeService.merger(entity.getId(), dto.getDegreeList()); //merge university degreeType
         return ApiResponse.ok(toDTO(entity));
     }
 
     public ApiResponse<UniversityResponseDTO> getById(Long id) {
         UniversityEntity entity = get(id);
-        return ApiResponse.ok(toDTO(entity));
+        UniversityResponseDTO responseDTO = toDTO(entity);
+        responseDTO.setDegreeTypeList(universityDegreeService.getUniversityDegreeTypeList(id));
+        return ApiResponse.ok(responseDTO);
+    }
+
+    public ApiResponse<UniversityResponseDTO> getByIdDetail(Long id, AppLanguage appLanguage) {
+        UniversityEntity entity = get(id);
+        UniversityResponseDTO responseDTO = toDTO(entity);
+        responseDTO.setDegreeList(universityDegreeService.getUniversityDegreeTypeList(id, appLanguage));
+        return ApiResponse.ok(responseDTO);
     }
 
 

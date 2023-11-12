@@ -5,6 +5,7 @@ import api.scolaro.uz.dto.university.UniversityCreateDTO;
 import api.scolaro.uz.dto.university.UniversityFilterDTO;
 import api.scolaro.uz.dto.university.UniversityResponseDTO;
 import api.scolaro.uz.dto.university.UniversityUpdateDTO;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.UniversityService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,7 +40,7 @@ public class UniversityController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
-    @Operation(summary = "Get university", description = "")
+    @Operation(summary = "Get university for admin", description = "")
     public ResponseEntity<ApiResponse<UniversityResponseDTO>> get(@PathVariable("id") Long id) {
         log.info("Get university {}", id);
         return ResponseEntity.ok(universityService.getById(id));
@@ -68,9 +69,10 @@ public class UniversityController {
 
     @GetMapping("/{id}/detail")
     @Operation(summary = "Get university detail by id (Public)", description = "")
-    public ResponseEntity<ApiResponse<UniversityResponseDTO>> getUniversityDetailById(@PathVariable("id") Long id) {
+    public ResponseEntity<ApiResponse<UniversityResponseDTO>> getUniversityDetailById(@PathVariable("id") Long id, @RequestHeader(value = "Accept-Language",
+            defaultValue = "uz") AppLanguage appLanguage) {
         log.info("Get university {}", id);
-        return ResponseEntity.ok(universityService.getById(id));
+        return ResponseEntity.ok(universityService.getByIdDetail(id, appLanguage));
     }
 
     @GetMapping("/filter")

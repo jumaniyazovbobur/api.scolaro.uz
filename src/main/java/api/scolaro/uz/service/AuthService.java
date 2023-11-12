@@ -88,7 +88,7 @@ public class AuthService {
         return new ApiResponse<>(200, false, "Success");
     }
 
-    public ApiResponse<AuthResponseDTO> profileRegistrationVerification(SmsDTO dto,AppLanguage language) {
+    public ApiResponse<AuthResponseDTO> profileRegistrationVerification(SmsDTO dto, AppLanguage language) {
         boolean validate = PhoneUtil.validatePhone(dto.getPhone());
         if (!validate) {
             log.info("Phone not Valid! phone = {}", dto.getPhone());
@@ -114,13 +114,13 @@ public class AuthService {
         // change client status
         ProfileEntity entity = profileRepository.getProfileEntityDesc(dto.getPhone());
         profileRepository.updateStatus(entity.getId(), GeneralStatus.ACTIVE);
-        AuthResponseDTO responseDTO = getClientAuthorizationResponse(userOptional.get(),language);
+        AuthResponseDTO responseDTO = getClientAuthorizationResponse(userOptional.get(), language);
         return new ApiResponse<>(200, false, responseDTO);
 
     }
 
 
-    public ApiResponse<AuthResponseDTO> profileLogin(AuthRequestProfileDTO dto,AppLanguage language) {
+    public ApiResponse<AuthResponseDTO> profileLogin(AuthRequestProfileDTO dto, AppLanguage language) {
         boolean validate = PhoneUtil.validatePhone(dto.getPhone());
         if (!validate) {
             log.info("Phone not valid! phone = {}", dto.getPhone());
@@ -142,7 +142,7 @@ public class AuthService {
             return new ApiResponse<>(resourceMessageService.getMessage("username.password.wrong"), 400, true);
         }
 
-        return new ApiResponse<>(200, false, getClientAuthorizationResponse(profile,language));
+        return new ApiResponse<>(200, false, getClientAuthorizationResponse(profile, language));
     }
 
 
@@ -150,7 +150,9 @@ public class AuthService {
         AuthResponseDTO dto = new AuthResponseDTO();
         dto.setId(entity.getId());
         dto.setNickName(entity.getNickName());
-        dto.setCountry(countryService.getById(entity.getCountryId(), language)); // TODO (county {id,name})
+        if (entity.getCountryId() != null) {
+            dto.setCountry(countryService.getById(entity.getCountryId(), language));
+        }
         dto.setSurname(entity.getSurname());
         dto.setPhone(entity.getPhone());
         dto.setAttachDTO(attachService.getResponseAttach(entity.getPhotoId()));
@@ -225,7 +227,7 @@ public class AuthService {
 
     }
 
-    public ApiResponse<AuthResponseDTO> resetPasswordConfirm(ResetPasswordConfirmDTO dto,AppLanguage language) {
+    public ApiResponse<AuthResponseDTO> resetPasswordConfirm(ResetPasswordConfirmDTO dto, AppLanguage language) {
         boolean validate = PhoneUtil.validatePhone(dto.getPhone());
         //validate phone number
         if (!validate) {
@@ -255,7 +257,7 @@ public class AuthService {
         }
 
         profileRepository.updatePassword(profile.getId(), MD5Util.getMd5(dto.getNewPassword()));
-        return new ApiResponse<>(200, false, getClientAuthorizationResponse(profile,language));
+        return new ApiResponse<>(200, false, getClientAuthorizationResponse(profile, language));
     }
 
     /*

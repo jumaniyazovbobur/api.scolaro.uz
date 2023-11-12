@@ -1,14 +1,18 @@
 ###CREATE UNIVERSITY
 POST http://localhost:8081/api/v1/university
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkyNDAzMDUsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTk4NDUxMDUsImlzcyI6IkphdmEgYmFja2VuZCJ9.uYp7qA1s7b1tJi2Sw1WuNZs3qbvPXYUwAq2mJvB4dSO5_TU5OrQMS-PPlkp00nccwgRFyoSD-gM8J4WvcDXnUA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTk3ODYwNjMsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDAzOTA4NjMsImlzcyI6IkphdmEgYmFja2VuZCJ9.kWyofrDf9P2HGBc6Nj1ZmPJrmvpnCXGGXbuJJMzXMBqY_VKbfRNeMvZ83S_kSQLXpyCv9uyikII5GmuHuseGmw
 
 
 {
-  "name": "BUXDU",
-  "webSite": "www.nuuz.uz",
-  "rating": 5,
-  "countryId": 1
+  "name": "BUXDU4",
+  "webSite": "www.nuuz3.uz",
+  "rating": 6,
+  "countryId": 1,
+  "degreeList": [
+    "Bachelor",
+    "MasterDegree"
+  ]
 }
 
 
@@ -31,8 +35,8 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTYyNjI1NDIsImlkIjoiOTA5M
 
 
 ###GET BY ID UNIVERSITY
-GET http://localhost:8081/api/v1/university/1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTYyNjI1NDIsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY4NjczNDIsImlzcyI6IkphdmEgYmFja2VuZCJ9.y0zxd2v2--laY6asCk5-lk-2n7MrMy2QArgeydiUSA5tFCbldQKOSZn3ZiiA8U2fZn2KEDvRhm6uSSYDCcsS8A
+GET http://localhost:8081/api/v1/university/6
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTk3ODYwNjMsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDAzOTA4NjMsImlzcyI6IkphdmEgYmFja2VuZCJ9.kWyofrDf9P2HGBc6Nj1ZmPJrmvpnCXGGXbuJJMzXMBqY_VKbfRNeMvZ83S_kSQLXpyCv9uyikII5GmuHuseGmw
 
 
 ### University filter
@@ -44,7 +48,7 @@ Content-Type: application/json
 
 
 ### Get university detail by id
-GET http://localhost:8081/api/v1/university/1/detail
+GET http://localhost:8081/api/v1/university/6/detail
 
 
 
