@@ -71,7 +71,7 @@ public class UniversityService {
     public PageImpl<UniversityResponseDTO> filter(int page, int size, UniversityFilterDTO dto) {
         Pageable pageable = PageRequest.of(page, size);
         FilterResultDTO<UniversityEntity> universityList = customRepository.filterPagination(dto, page, size);
-        return new PageImpl<UniversityResponseDTO>(universityList.getContent().stream().map(this::toDTO).toList(), pageable,
+        return new PageImpl<>(universityList.getContent().stream().map(this::toDTO).toList(), pageable,
                 universityList.getTotalElement());
     }
 

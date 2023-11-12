@@ -73,7 +73,7 @@ public class UniversityController {
         return ResponseEntity.ok(universityService.getById(id));
     }
 
-    @GetMapping("/filter")
+    @PostMapping("/filter")
     @Operation(summary = "Get university list filter", description = "")
     public ResponseEntity<PageImpl<UniversityResponseDTO>> filter(@RequestBody UniversityFilterDTO dto,
                                                                   @RequestParam(value = "page", defaultValue = "1") int page,

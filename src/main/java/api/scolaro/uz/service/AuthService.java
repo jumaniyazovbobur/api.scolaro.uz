@@ -150,7 +150,7 @@ public class AuthService {
         AuthResponseDTO dto = new AuthResponseDTO();
         dto.setId(entity.getId());
         dto.setNickName(entity.getNickName());
-        dto.setCountry(countryService.getById(entity.getCountryId(), language)); // TODO (county {id,name})
+        dto.setCountry(countryService.getById(entity.getCountryId(), language));
         dto.setSurname(entity.getSurname());
         dto.setPhone(entity.getPhone());
         dto.setAttachDTO(attachService.getResponseAttach(entity.getPhotoId()));
