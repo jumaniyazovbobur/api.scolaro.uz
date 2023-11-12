@@ -95,6 +95,9 @@ public class UniversityService {
         dto.setRating(entity.getRating());
         dto.setCountryId(entity.getCountryId());
         dto.setWebSite(entity.getWebSite());
+        if (entity.getPhotoId() != null){
+            dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
+        }
         dto.setDescription(entity.getDescription());
         return dto;
     }

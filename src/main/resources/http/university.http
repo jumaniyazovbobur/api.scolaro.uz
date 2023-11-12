@@ -1,7 +1,7 @@
 ###CREATE UNIVERSITY
 POST http://localhost:8081/api/v1/university
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTk3ODYwNjMsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDAzOTA4NjMsImlzcyI6IkphdmEgYmFja2VuZCJ9.kWyofrDf9P2HGBc6Nj1ZmPJrmvpnCXGGXbuJJMzXMBqY_VKbfRNeMvZ83S_kSQLXpyCv9uyikII5GmuHuseGmw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTk4MDc4OTIsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDA0MTI2OTIsImlzcyI6IkphdmEgYmFja2VuZCJ9.YLNB3n14JWiAgbRT9o80bscuWm0YcgKwEmmHkBMDAoQyFdn5DA5fSO8wR8G9-g-zA9oBv-w7CBHvt6x54upfgw
 
 
 {
@@ -9,6 +9,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTk3ODYwNjMsImlkIjoiOTA5M
   "webSite": "www.nuuz3.uz",
   "rating": 6,
   "countryId": 1,
+  "photoId": "4028abb98bc471a5018bc475bbad0000",
   "degreeList": [
     "Bachelor",
     "MasterDegree"
@@ -35,7 +36,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTYyNjI1NDIsImlkIjoiOTA5M
 
 
 ###GET BY ID UNIVERSITY
-GET http://localhost:8081/api/v1/university/6
+GET http://localhost:8081/api/v1/university/2
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTk3ODYwNjMsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDAzOTA4NjMsImlzcyI6IkphdmEgYmFja2VuZCJ9.kWyofrDf9P2HGBc6Nj1ZmPJrmvpnCXGGXbuJJMzXMBqY_VKbfRNeMvZ83S_kSQLXpyCv9uyikII5GmuHuseGmw
 
 
