@@ -1,13 +1,12 @@
 ###CREATE UNIVERSITY
 POST http://localhost:8081/api/v1/university
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTk4MDc4OTIsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDA0MTI2OTIsImlzcyI6IkphdmEgYmFja2VuZCJ9.YLNB3n14JWiAgbRT9o80bscuWm0YcgKwEmmHkBMDAoQyFdn5DA5fSO8wR8G9-g-zA9oBv-w7CBHvt6x54upfgw
-
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDAxMTYyNTYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDA3MjEwNTYsImlzcyI6IkphdmEgYmFja2VuZCJ9.UZH8Fuy76OqEWFLxgY10d1Ak3hTtgV05ooeLDvydKz5gI1EI0m6qhXMWuskWJSrvj0JJ9QpqLquP2LTwXXlOJw
 
 {
-  "name": "BUXDU4",
-  "webSite": "www.nuuz3.uz",
-  "rating": 6,
+  "name": "TATU2",
+  "webSite": "www.tuit2.uz",
+  "rating": 1,
   "countryId": 1,
   "photoId": "4028abb98bc471a5018bc475bbad0000",
   "degreeList": [
@@ -51,6 +50,9 @@ Content-Type: application/json
 ### Get university detail by id
 GET http://localhost:8081/api/v1/university/6/detail
 
+### Get top university
+GET http://localhost:8081/api/v1/university/top-university
+Accept-Language: uz
 
 
 

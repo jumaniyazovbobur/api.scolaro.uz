@@ -31,6 +31,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -275,5 +276,11 @@ public class ConsultingService {
             return new ApiResponse<>(200, false, resourceMessageService.getMessage("success.delete"));
         }
         return new ApiResponse<>(200, false, resourceMessageService.getMessage("fail.delete"));
+    }
+
+    public ApiResponse<List<ConsultingResponseDTO>> getTopConsulting() {
+        List<ConsultingEntity> list = consultingRepository.getTopConsulting();
+        List<ConsultingResponseDTO> dtoList = list.stream().map(this::toDTO).toList();
+        return new ApiResponse<>(200,false,dtoList);
     }
 }
