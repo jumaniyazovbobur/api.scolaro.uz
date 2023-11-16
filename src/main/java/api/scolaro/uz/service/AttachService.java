@@ -184,13 +184,12 @@ public class AttachService {
         return attachDTO;
     }
 
-
     public AttachDTO getResponseAttach(String id) {
-        return id == null ? new AttachDTO() : new AttachDTO(id, getUrl(id));
+        return id == null ? null : new AttachDTO(id, getUrl(id));
     }
 
     public AttachDTO getResponseAttachWithExtension(String id, String extension) {
-        return id == null ? new AttachDTO() : new AttachDTO(id, getUrl(id), extension);
+        return id == null ? null : new AttachDTO(id, getUrl(id), extension);
     }
 
 
