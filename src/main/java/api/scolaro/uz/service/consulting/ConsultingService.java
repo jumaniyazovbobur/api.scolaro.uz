@@ -283,4 +283,10 @@ public class ConsultingService {
         List<ConsultingResponseDTO> dtoList = list.stream().map(this::toDTO).toList();
         return new ApiResponse<>(200,false,dtoList);
     }
+
+    public PageImpl<ConsultingResponseDTO> filterForTopConsulting(ConsultingTopFilterDTO dto, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        FilterResultDTO<ConsultingEntity> filterResultDTO = customRepository.filterPaginationForTopConsulting(dto, page, size);
+        return new PageImpl<>(filterResultDTO.getContent().stream().map(this::toDTO).toList(), pageable, filterResultDTO.getTotalElement());
+    }
 }

@@ -1,10 +1,7 @@
 package api.scolaro.uz.controller;
 
 import api.scolaro.uz.dto.ApiResponse;
-import api.scolaro.uz.dto.university.UniversityCreateDTO;
-import api.scolaro.uz.dto.university.UniversityFilterDTO;
-import api.scolaro.uz.dto.university.UniversityResponseDTO;
-import api.scolaro.uz.dto.university.UniversityUpdateDTO;
+import api.scolaro.uz.dto.university.*;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.UniversityService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -79,16 +76,18 @@ public class UniversityController {
 
     @PostMapping("/filter")
     @Operation(summary = "Get university list filter", description = "")
-    public ResponseEntity<PageImpl<UniversityResponseDTO>> filter(@RequestBody UniversityFilterDTO dto,
+    public ResponseEntity<PageImpl<UniversityResponseFilterDTO>> filter(@RequestBody UniversityFilterDTO dto,
                                                                   @RequestParam(value = "page", defaultValue = "1") int page,
-                                                                  @RequestParam(value = "size", defaultValue = "30") int size) {
+                                                                  @RequestParam(value = "size", defaultValue = "30") int size,
+                                                                  @RequestHeader(value = "Accept-Language",
+                                                                          defaultValue = "uz") AppLanguage appLanguage) {
         log.info("Get filter university");
-        return ResponseEntity.ok(universityService.filter(page - 1, size, dto));
+        return ResponseEntity.ok(universityService.filter(page - 1, size, dto,appLanguage));
     }
 
     @GetMapping("/top-university")
     @Operation(summary = "Get top university list filter", description = "")
-    public ResponseEntity<ApiResponse<List<UniversityResponseDTO>>> getTopUniversity(@RequestHeader(value = "Accept-Language",
+    public ResponseEntity<ApiResponse<List<UniversityResponseFilterDTO>>> getTopUniversity(@RequestHeader(value = "Accept-Language",
             defaultValue = "uz") AppLanguage appLanguage) {
         log.info("Get top university");
         return ResponseEntity.ok(universityService.getTopUniversity(appLanguage));

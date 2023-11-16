@@ -40,10 +40,12 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTk3ODYwNjMsImlkIjoiOTA5M
 
 
 ### University filter
-GET http://localhost:8081/api/v1/university/filter
+POST http://localhost:8081/api/v1/university/filter
 Content-Type: application/json
+Accept-Language: uz
 
 {
+  "name": "2"
 }
 
 

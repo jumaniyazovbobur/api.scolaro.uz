@@ -3,15 +3,13 @@ package api.scolaro.uz.service;
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.FilterResultDTO;
-import api.scolaro.uz.dto.university.UniversityCreateDTO;
-import api.scolaro.uz.dto.university.UniversityFilterDTO;
-import api.scolaro.uz.dto.university.UniversityResponseDTO;
-import api.scolaro.uz.dto.university.UniversityUpdateDTO;
+import api.scolaro.uz.dto.university.*;
 import api.scolaro.uz.entity.UniversityEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.university.UniversityCustomRepository;
 import api.scolaro.uz.repository.university.UniversityRepository;
+import api.scolaro.uz.service.place.CountryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
@@ -33,6 +31,7 @@ public class UniversityService {
     private final UniversityCustomRepository customRepository;
     private final AttachService attachService;
     private final UniversityDegreeService universityDegreeService;
+    private final CountryService countryService;
 
 
     public ApiResponse<UniversityResponseDTO> create(UniversityCreateDTO dto) {
@@ -83,11 +82,16 @@ public class UniversityService {
     }
 
 
-    public PageImpl<UniversityResponseDTO> filter(int page, int size, UniversityFilterDTO dto) {
+    public PageImpl<UniversityResponseFilterDTO> filter(int page, int size, UniversityFilterDTO dto, AppLanguage language) {
         Pageable pageable = PageRequest.of(page, size);
         FilterResultDTO<UniversityEntity> universityList = customRepository.filterPagination(dto, page, size);
-        return new PageImpl<>(universityList.getContent().stream().map(this::toDTO).toList(), pageable,
-                universityList.getTotalElement());
+        List<UniversityResponseFilterDTO> dtoList = new LinkedList<>();
+
+        for (UniversityEntity entity : universityList.getContent()) {
+            UniversityResponseFilterDTO dto1 = toDTOForTop(entity, language);
+            dtoList.add(dto1);
+        }
+        return new PageImpl<>(dtoList, pageable, universityList.getTotalElement());
     }
 
     private UniversityResponseDTO toDTO(UniversityEntity entity) {
@@ -100,6 +104,23 @@ public class UniversityService {
         if (entity.getPhotoId() != null) {
             dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
         }
+        dto.setDescription(entity.getDescription());
+        return dto;
+    }
+
+    private UniversityResponseFilterDTO toDTOForTop(UniversityEntity entity, AppLanguage language) {
+        UniversityResponseFilterDTO dto = new UniversityResponseFilterDTO();
+        dto.setId(entity.getId());
+        dto.setName(entity.getName());
+        dto.setRating(entity.getRating());
+        if (entity.getCountryId() != null) {
+            dto.setCountry(countryService.getById(entity.getCountryId(), language));
+        }
+        dto.setWebSite(entity.getWebSite());
+        if (entity.getPhotoId() != null) {
+            dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
+        }
+        dto.setDegreeList(universityDegreeService.getUniversityDegreeTypeList(entity.getId(), language));
         dto.setDescription(entity.getDescription());
         return dto;
     }
@@ -122,12 +143,11 @@ public class UniversityService {
         return dto;
     }
 
-    public ApiResponse<List<UniversityResponseDTO>> getTopUniversity(AppLanguage language) {
+    public ApiResponse<List<UniversityResponseFilterDTO>> getTopUniversity(AppLanguage language) {
         List<UniversityEntity> list = universityRepository.getTopUniversity();
-        List<UniversityResponseDTO> dtoList = new LinkedList<>();
+        List<UniversityResponseFilterDTO> dtoList = new LinkedList<>();
         for (UniversityEntity entity : list) {
-            UniversityResponseDTO dto = toDTO(entity);
-            dto.setDegreeList(universityDegreeService.getUniversityDegreeTypeList(entity.getId(), language));
+            UniversityResponseFilterDTO dto = toDTOForTop(entity, language);
             dtoList.add(dto);
         }
         return new ApiResponse<>(200, false, dtoList);

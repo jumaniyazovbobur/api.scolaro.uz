@@ -20,6 +20,5 @@ public interface ContinentCountryRepository extends JpaRepository<ContinentCount
     @Query("Delete FROM ContinentCountryEntity where continentId =:continentId  and countryId=:countryId")
     void deleted(@Param("continentId") Long continentId, @Param("countryId") Long countryId);
 
-
     Optional<ContinentCountryEntity> findByContinentIdAndCountryId(Long conId, Long countId);
 }

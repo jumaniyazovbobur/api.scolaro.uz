@@ -113,7 +113,13 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTk2Nzg0NTksImlkIjoiNDAyO
 ### Get top consulting
 GET http://localhost:8081/api/v1/consulting/top-consulting
 
+### Consulting filter for top consulting
+POST http://localhost:8081/api/v1/consulting/top-consulting/filter
+Content-Type: application/json
 
+{
+    "name" : "consult"
+}
 
 
 

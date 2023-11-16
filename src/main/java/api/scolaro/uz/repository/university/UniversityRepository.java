@@ -18,7 +18,6 @@ public interface UniversityRepository extends JpaRepository<UniversityEntity,Lon
                 @Param("deletedId") String deleteId,
                 @Param("date") LocalDateTime date);
 
-    @Query(value = "select * " +
-            " from university  where visible=true order by rating limit 10 ", nativeQuery = true)
+    @Query(value = "select * from university  where visible=true order by rating limit 10 ", nativeQuery = true)
     List<UniversityEntity> getTopUniversity();
 }

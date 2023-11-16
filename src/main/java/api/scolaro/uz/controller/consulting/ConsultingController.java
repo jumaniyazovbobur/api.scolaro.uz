@@ -160,4 +160,11 @@ public class ConsultingController {
         return ResponseEntity.ok(consultingService.getTopConsulting());
     }
 
+    @PostMapping("/top-consulting/filter")
+    @Operation(summary = "Filter top consulting api", description = "for all")
+    public ResponseEntity<PageImpl<ConsultingResponseDTO>> filterTopConsulting(@RequestBody ConsultingTopFilterDTO consultingFilterDTO,
+                                                                  @RequestParam(value = "page", defaultValue = "1") int page,
+                                                                  @RequestParam(value = "size", defaultValue = "30") int size) {
+        return ResponseEntity.ok(consultingService.filterForTopConsulting(consultingFilterDTO, page - 1, size));
+    }
 }
