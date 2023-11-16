@@ -17,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/university")
 @RequiredArgsConstructor
@@ -84,5 +86,12 @@ public class UniversityController {
         return ResponseEntity.ok(universityService.filter(page - 1, size, dto));
     }
 
+    @GetMapping("/top-university")
+    @Operation(summary = "Get top university list filter", description = "")
+    public ResponseEntity<ApiResponse<List<UniversityResponseDTO>>> getTopUniversity(@RequestHeader(value = "Accept-Language",
+            defaultValue = "uz") AppLanguage appLanguage) {
+        log.info("Get top university");
+        return ResponseEntity.ok(universityService.getTopUniversity(appLanguage));
+    }
 
 }

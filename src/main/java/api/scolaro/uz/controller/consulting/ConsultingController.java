@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/consulting")
 @RequiredArgsConstructor
@@ -146,6 +148,16 @@ public class ConsultingController {
                                                             @RequestParam("status") GeneralStatus status) {
         log.info("Change status {}", id);
         return ResponseEntity.ok(consultingService.changeStatus(id, status));
+    }
+
+    /**
+     * FOR ALL
+     */
+    @GetMapping("/top-consulting")
+    @Operation(summary = "Get by id api", description = "for admin")
+    public ResponseEntity<ApiResponse<List<ConsultingResponseDTO>>> getTopConsulting() {
+        log.info("Get top consulting ");
+        return ResponseEntity.ok(consultingService.getTopConsulting());
     }
 
 }

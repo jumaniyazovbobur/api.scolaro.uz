@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -58,4 +59,7 @@ public interface ConsultingRepository extends JpaRepository<ConsultingEntity, St
     @Query("update ConsultingEntity set status = :status where id=:id")
     int changeStatus(@Param("id") String id,
                      @Param("status") GeneralStatus status);
+
+    @Query(value = "select * from consulting where visible=true limit 6 ", nativeQuery = true)
+    List<ConsultingEntity> getTopConsulting();
 }

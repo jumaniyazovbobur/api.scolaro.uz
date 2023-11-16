@@ -20,6 +20,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -95,7 +97,7 @@ public class UniversityService {
         dto.setRating(entity.getRating());
         dto.setCountryId(entity.getCountryId());
         dto.setWebSite(entity.getWebSite());
-        if (entity.getPhotoId() != null){
+        if (entity.getPhotoId() != null) {
             dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
         }
         dto.setDescription(entity.getDescription());
@@ -118,5 +120,16 @@ public class UniversityService {
         dto.setName(entity.getName());
         dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
         return dto;
+    }
+
+    public ApiResponse<List<UniversityResponseDTO>> getTopUniversity(AppLanguage language) {
+        List<UniversityEntity> list = universityRepository.getTopUniversity();
+        List<UniversityResponseDTO> dtoList = new LinkedList<>();
+        for (UniversityEntity entity : list) {
+            UniversityResponseDTO dto = toDTO(entity);
+            dto.setDegreeList(universityDegreeService.getUniversityDegreeTypeList(entity.getId(), language));
+            dtoList.add(dto);
+        }
+        return new ApiResponse<>(200, false, dtoList);
     }
 }

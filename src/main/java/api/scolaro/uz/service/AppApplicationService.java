@@ -114,7 +114,7 @@ public class AppApplicationService {
         if (entity.getConsultingTariffId() != null) {
             dto.setTariff(consultingTariffService.getById(entity.getConsultingTariffId(), lang).getData());
         }
-        return new ApiResponse<>(200, true, dto);
+        return new ApiResponse<>(200, false, dto);
     }
 
     public ApiResponse<String> changeStatus(String id, AppApplicationChangeStatusDTO dto) {

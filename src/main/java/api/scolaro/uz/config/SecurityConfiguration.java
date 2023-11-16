@@ -47,6 +47,8 @@ public class SecurityConfiguration {
             "/api/v1/attach/download/*",
             "/api/v1/country/public/**",
             "/api/v1/university/filter",
+            "/api/v1/university/top-university",
+            "/api/v1/consulting/top-consulting",
             "/api/v1/university/*/detail"
     };
 
