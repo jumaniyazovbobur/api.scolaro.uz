@@ -3,7 +3,8 @@ package api.scolaro.uz.controller;
 import api.scolaro.uz.dto.scholarShip.ScholarShipFilterDTO;
 import api.scolaro.uz.dto.scholarShip.ScholarShipRequestDTO;
 import api.scolaro.uz.dto.scholarShip.ScholarShipUpdateDTO;
-import api.scolaro.uz.service.ScholarShipService;
+import api.scolaro.uz.enums.AppLanguage;
+import api.scolaro.uz.service.scholarShip.ScholarShipService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -21,35 +22,37 @@ import org.springframework.web.bind.annotation.*;
 public class ScholarShipController {
 
     private final ScholarShipService scholarShipService;
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "ScholarShip create", description = "Method ScholarShip create")
     @PostMapping("")
-    public ResponseEntity<?> create(@RequestBody @Valid ScholarShipRequestDTO dto){
-        log.info("Create ScholarShip {}" ,dto);
+    public ResponseEntity<?> create(@RequestBody @Valid ScholarShipRequestDTO dto) {
+        log.info("Create ScholarShip {}", dto);
         return ResponseEntity.ok(scholarShipService.create(dto));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "ScholarShip get By Id", description = "Method ScholarShip get By Id")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable String id){
-        log.info("Get ById ScholarShip {}" ,id);
-        return ResponseEntity.ok(scholarShipService.getById(id));
+    public ResponseEntity<?> getById(@PathVariable String id, @RequestHeader(value = "Accept-Language",
+            defaultValue = "uz") AppLanguage appLanguage) {
+        log.info("Get ById ScholarShip {}", id);
+        return ResponseEntity.ok(scholarShipService.getById(id, appLanguage));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "ScholarShip update", description = "Method ScholarShip update")
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable String id, @RequestBody ScholarShipUpdateDTO dto){
-        log.info("update ScholarShip {}" ,id);
-        return ResponseEntity.ok(scholarShipService.update(id,dto));
+    public ResponseEntity<?> update(@PathVariable String id, @RequestBody ScholarShipUpdateDTO dto) {
+        log.info("update ScholarShip {}", id);
+        return ResponseEntity.ok(scholarShipService.update(id, dto));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "ScholarShip delete", description = "Method ScholarShip delete")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable String id){
-        log.info("delete ScholarShip {}" ,id);
+    public ResponseEntity<?> delete(@PathVariable String id) {
+        log.info("delete ScholarShip {}", id);
         return ResponseEntity.ok(scholarShipService.delete(id));
     }
 
@@ -58,9 +61,19 @@ public class ScholarShipController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> filter(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                     @RequestParam(value = "size", defaultValue = "5") Integer size,
-                                    @RequestBody ScholarShipFilterDTO dto) {
-
+                                    @RequestBody ScholarShipFilterDTO dto,
+                                    @RequestHeader(value = "Accept-Language",
+                                            defaultValue = "uz") AppLanguage appLanguage) {
         log.info("Filtered scholarShipList page={},size={}", page, size);
-        return ResponseEntity.ok(scholarShipService.filter(dto,page, size));
+        return ResponseEntity.ok(scholarShipService.filter(dto, page, size, appLanguage));
+    }
+
+
+    @Operation(summary = "ScholarShip get top grand", description = "Method ScholarShip get By Id")
+    @GetMapping("/top-grands")
+    public ResponseEntity<?> getTopGrand(@RequestHeader(value = "Accept-Language",
+            defaultValue = "uz") AppLanguage appLanguage) {
+        log.info("Get top grand ScholarShip ");
+        return ResponseEntity.ok(scholarShipService.getTopGrand(appLanguage));
     }
 }

@@ -1,7 +1,7 @@
 package api.scolaro.uz.repository.scholarShip;
 
 import api.scolaro.uz.dto.scholarShip.ScholarShipFilterDTO;
-import api.scolaro.uz.entity.ScholarShipEntity;
+import api.scolaro.uz.entity.scholarShip.ScholarShipEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

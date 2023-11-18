@@ -86,7 +86,6 @@ public class UniversityService {
         Pageable pageable = PageRequest.of(page, size);
         FilterResultDTO<UniversityEntity> universityList = customRepository.filterPagination(dto, page, size);
         List<UniversityResponseFilterDTO> dtoList = new LinkedList<>();
-
         for (UniversityEntity entity : universityList.getContent()) {
             UniversityResponseFilterDTO dto1 = toDTOForTop(entity, language);
             dtoList.add(dto1);

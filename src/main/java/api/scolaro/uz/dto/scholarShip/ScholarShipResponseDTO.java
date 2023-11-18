@@ -1,8 +1,12 @@
 package api.scolaro.uz.dto.scholarShip;
 
+import api.scolaro.uz.dto.KeyValueDTO;
 import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.dto.attach.AttachResponseDTO;
+import api.scolaro.uz.dto.university.UniversityResponseDTO;
+import api.scolaro.uz.dto.university.UniversityResponseFilterDTO;
 import api.scolaro.uz.enums.DegreeType;
+import api.scolaro.uz.enums.UniversityDegreeType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +14,7 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,6 +25,9 @@ public class ScholarShipResponseDTO {
     private String description;
     private AttachDTO attach;
     private LocalDate expiredDate;
-    private DegreeType degreeType;
+    private LocalDate startDate;
+    private Integer price;
+    private Long universityId;
+    private List<KeyValueDTO> degreeTypeList;
     private LocalDateTime createdDate;
 }

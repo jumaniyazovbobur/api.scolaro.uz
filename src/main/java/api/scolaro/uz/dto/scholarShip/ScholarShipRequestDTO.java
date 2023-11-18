@@ -1,6 +1,7 @@
 package api.scolaro.uz.dto.scholarShip;
 
 import api.scolaro.uz.enums.DegreeType;
+import api.scolaro.uz.enums.UniversityDegreeType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,8 +25,14 @@ public class ScholarShipRequestDTO {
     private String photoId;
     @NotNull(message = "Expired date required")
     private LocalDate expiredDate;
-    @NotNull(message = "Degree Type required")
-    private DegreeType degreeType;
+    @NotNull(message = "Start date required")
+    private LocalDate startDate;
+    @NotNull(message = "University is required")
+    private Long universityId;
+    @NotNull(message = "price is required")
+    private Integer price;
+    @NotNull(message = "degreeTypeList required")
+    private List<UniversityDegreeType> degreeTypeList;
 
 
 }

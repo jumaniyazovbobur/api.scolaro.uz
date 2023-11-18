@@ -14,7 +14,7 @@ public class UniversityDegreeTypeEntity extends BaseEntity {
     @Column(name = "university_id")
     private Long universityId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "application_id", insertable = false, updatable = false)
+    @JoinColumn(name = "university_id", insertable = false, updatable = false)
     private UniversityEntity universityEntity;
 
     @Column(name = "degree_type")
