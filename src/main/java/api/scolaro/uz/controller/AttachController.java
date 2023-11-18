@@ -63,6 +63,13 @@ public class AttachController {
         return attachService.download(fileName);
     }
 
+    @GetMapping("/download/{id}/{fileName}")
+    @Operation(summary = "download file api", description = "")
+    public ResponseEntity<Resource> downloadForMobile(@PathVariable("id") String id) {
+        log.info("download attach  ={}", id);
+        return attachService.downloadByAttachId(id);
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/delete/{fileName}")
     @Operation(summary = "delete file api", description = "")

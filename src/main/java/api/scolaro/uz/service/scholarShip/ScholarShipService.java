@@ -61,35 +61,21 @@ public class ScholarShipService {
 
     public ApiResponse<?> getById(String id, AppLanguage language) {
         ScholarShipEntity entity = get(id);
-        ScholarShipResponseDTO dto = new ScholarShipResponseDTO();
-        dto.setId(entity.getId());
-        dto.setName(entity.getName());
-        dto.setCreatedDate(entity.getCreatedDate());
-        dto.setDescription(entity.getDescription());
-        dto.setExpiredDate(entity.getExpiredDate());
-        dto.setStartDate(entity.getStartDate());
-        dto.setPrice(entity.getPrice());
-        dto.setUniversityId(entity.getUniversityId());
-        dto.setAttach(attachService.getResponseAttach(entity.getPhotoId()));
-        dto.setDegreeTypeList(scholarShipDegreeService.getScholarShipDegreeTypeList(entity.getId(), language));
-        if (entity.getPhotoId() != null) {
-            dto.setAttach(attachService.getResponseAttach(entity.getPhotoId()));
-        }
-        return new ApiResponse<>(200, false, dto);
+        return new ApiResponse<>(200, false, toDTO(entity, language));
     }
 
-    public ApiResponse<?> update(String id, ScholarShipUpdateDTO dto) {
+    public ApiResponse<?> update(String id, ScholarShipUpdateDTO dto, AppLanguage language) {
         ScholarShipEntity entity = get(id);
-        entity.setName(dto.getName());
+        entity.setPrice(dto.getPrice());
+        entity.setStartDate(dto.getStartDate());
         entity.setDescription(dto.getDescription());
-//        entity.setDegreeType(dto.getDegreeType());
+        entity.setName(entity.getName());
         entity.setExpiredDate(dto.getExpiredDate());
-        if (dto.getAttach() != null) {
-            entity.setPhotoId(dto.getAttach().getId());
+        if (dto.getAttachId() != null) {
+            entity.setPhotoId(dto.getAttachId());
         }
-
         scholarShipRepository.save(entity);
-        return new ApiResponse<>(200, false, toDTO(entity));
+        return new ApiResponse<>(200, false, toDTO(entity, language));
     }
 
     public ApiResponse<?> delete(String id) {
@@ -100,18 +86,21 @@ public class ScholarShipService {
         return new ApiResponse<>(resourceMessageService.getMessage("fail.delete"), 200, false);
     }
 
-    public ScholarShipResponseDTO toDTO(ScholarShipEntity entity) {
-        ScholarShipResponseDTO dto = new ScholarShipResponseDTO();
-        dto.setId(entity.getId());
-        dto.setName(entity.getName());
-        dto.setCreatedDate(entity.getCreatedDate());
-        dto.setDescription(entity.getDescription());
-        dto.setExpiredDate(entity.getExpiredDate());
-//        dto.setDegreeType(entity.getDegreeType());
+    public ScholarShipResponseDTO toDTO(ScholarShipEntity entity, AppLanguage language) {
+        ScholarShipResponseDTO dto1 = new ScholarShipResponseDTO();
+        dto1.setId(entity.getId());
+        dto1.setPrice(entity.getPrice());
+        dto1.setStartDate(entity.getStartDate());
+        dto1.setName(entity.getName());
+        dto1.setDescription(entity.getDescription());
+        dto1.setUniversityId(entity.getUniversityId());
+        dto1.setExpiredDate(entity.getExpiredDate());
+        dto1.setDegreeTypeList(scholarShipDegreeService.getScholarShipDegreeTypeList(entity.getId(), language));
+        dto1.setCreatedDate(entity.getCreatedDate());
         if (entity.getPhotoId() != null) {
-            dto.setAttach(attachService.getResponseAttach(entity.getPhotoId()));
+            dto1.setAttach(attachService.getResponseAttach(entity.getPhotoId()));
         }
-        return dto;
+        return dto1;
     }
 
 
@@ -120,20 +109,9 @@ public class ScholarShipService {
         Page<ScholarShipEntity> all = scholarShipFilterRepository.filter(dto, page, size);
         List<ScholarShipEntity> content = all.getContent();
         List<ScholarShipResponseDTO> dtoList = new LinkedList<>();
-
         for (ScholarShipEntity entity : content) {
-            ScholarShipResponseDTO dto1 = new ScholarShipResponseDTO();
-            dto1.setId(entity.getId());
-            dto1.setPrice(entity.getPrice());
-            dto1.setStartDate(entity.getStartDate());
-            dto1.setName(entity.getName());
-            dto1.setDescription(entity.getDescription());
-            dto1.setExpiredDate(entity.getExpiredDate());
-            dto1.setDegreeTypeList(scholarShipDegreeService.getScholarShipDegreeTypeList(entity.getId(), language));
-            dto1.setCreatedDate(entity.getCreatedDate());
-            if (entity.getPhotoId() != null) {
-                dto1.setAttach(attachService.getResponseAttach(entity.getPhotoId()));
-            }
+            ScholarShipResponseDTO dto1 = toDTO(entity, language);
+            dtoList.add(dto1);
         }
         return new PageImpl<>(dtoList, paging, all.getTotalElements());
     }
@@ -149,21 +127,10 @@ public class ScholarShipService {
 
 
     public ApiResponse<?> getTopGrand(AppLanguage language) {
-
         List<ScholarShipEntity> list = scholarShipRepository.getTopScholarShip();
         List<ScholarShipResponseDTO> dtoList = new LinkedList<>();
         for (ScholarShipEntity entity : list) {
-            ScholarShipResponseDTO dto = new ScholarShipResponseDTO();
-            dto.setId(entity.getId());
-            dto.setName(entity.getName());
-            dto.setDescription(entity.getDescription());
-            dto.setStartDate(entity.getStartDate());
-            dto.setExpiredDate(entity.getExpiredDate());
-            dto.setPrice(entity.getPrice());
-            dto.setUniversityId(entity.getUniversityId());
-            dto.setAttach(attachService.getResponseAttach(entity.getPhotoId()));
-            dto.setDegreeTypeList(scholarShipDegreeService.getScholarShipDegreeTypeList(entity.getId(), language));
-            dto.setCreatedDate(entity.getCreatedDate());
+            ScholarShipResponseDTO dto = toDTO(entity, language);
             dtoList.add(dto);
         }
         return new ApiResponse<>(200, false, dtoList);

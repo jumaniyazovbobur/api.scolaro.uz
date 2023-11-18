@@ -15,7 +15,8 @@ import java.time.LocalDateTime;
 public class ScholarShipUpdateDTO {
     private String name;
     private String description;
-    private AttachResponseDTO attach;
+    private String attachId;
+    private Integer price;
     private LocalDate expiredDate;
-    private DegreeType degreeType;
+    private LocalDate startDate;
 }

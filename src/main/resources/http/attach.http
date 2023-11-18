@@ -31,3 +31,5 @@ Content-Disposition: form-data; name="file"; filename="dimplom-data.pdf"
 
 < C:\Users\Bobur_Jumaniyazov\Desktop\images\testjon.jpg
 
+### DOWNLOAD BY ID
+GET http://localhost:8081/api/v1/attach/download/4028abb98bc471a5018bc475bbad0000/1.jpg

@@ -124,6 +124,22 @@ public class AttachService {
             throw new RuntimeException("Error: " + e.getMessage());
         }
     }
+    public ResponseEntity<Resource> downloadByAttachId(String id) {
+        AttachEntity entity = getEntity(id);
+        try {
+            Path file = Paths.get(getPath(entity));
+            Resource resource = new UrlResource(file.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + entity.getOrigenName() + "\"").body(resource);
+            } else {
+                log.warn("Attach error : Could not read the file!");
+                throw new RuntimeException("Could not read the file!");
+            }
+        } catch (MalformedURLException e) {
+            log.warn("Attach error : {}", e.getMessage());
+            throw new RuntimeException("Error: " + e.getMessage());
+        }
+    }
 
 
     public boolean delete(String fileName) {

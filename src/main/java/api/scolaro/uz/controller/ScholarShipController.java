@@ -43,9 +43,12 @@ public class ScholarShipController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "ScholarShip update", description = "Method ScholarShip update")
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable String id, @RequestBody ScholarShipUpdateDTO dto) {
+    public ResponseEntity<?> update(@PathVariable String id,
+                                    @RequestBody ScholarShipUpdateDTO dto,
+                                    @RequestHeader(value = "Accept-Language",
+                                            defaultValue = "uz") AppLanguage appLanguage) {
         log.info("update ScholarShip {}", id);
-        return ResponseEntity.ok(scholarShipService.update(id, dto));
+        return ResponseEntity.ok(scholarShipService.update(id, dto,appLanguage));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
