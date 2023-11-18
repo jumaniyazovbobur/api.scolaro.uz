@@ -2,6 +2,7 @@ package api.scolaro.uz.service.scholarShip;
 
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.scholarShip.ScholarShipFilterDTO;
 import api.scolaro.uz.dto.scholarShip.ScholarShipRequestDTO;
 import api.scolaro.uz.dto.scholarShip.ScholarShipResponseDTO;
@@ -10,6 +11,8 @@ import api.scolaro.uz.entity.UniversityEntity;
 import api.scolaro.uz.entity.scholarShip.ScholarShipEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.exp.ItemNotFoundException;
+import api.scolaro.uz.mapper.AppApplicationFilterMapperDTO;
+import api.scolaro.uz.mapper.ScholarShipMapperDTO;
 import api.scolaro.uz.repository.scholarShip.ScholarShipFilterRepository;
 import api.scolaro.uz.repository.scholarShip.ScholarShipRepository;
 import api.scolaro.uz.service.AttachService;
@@ -104,16 +107,10 @@ public class ScholarShipService {
     }
 
 
-    public Page<ScholarShipResponseDTO> filter(ScholarShipFilterDTO dto, Integer page, Integer size, AppLanguage language) {
-        Pageable paging = PageRequest.of(page, size);
-        Page<ScholarShipEntity> all = scholarShipFilterRepository.filter(dto, page, size);
-        List<ScholarShipEntity> content = all.getContent();
-        List<ScholarShipResponseDTO> dtoList = new LinkedList<>();
-        for (ScholarShipEntity entity : content) {
-            ScholarShipResponseDTO dto1 = toDTO(entity, language);
-            dtoList.add(dto1);
-        }
-        return new PageImpl<>(dtoList, paging, all.getTotalElements());
+    public ApiResponse<Page<ScholarShipMapperDTO>> filter(ScholarShipFilterDTO dto, Integer page, Integer size, AppLanguage language) {
+        FilterResultDTO<ScholarShipMapperDTO> filterResult = scholarShipFilterRepository.filter(dto, page, size,language);
+        Page<ScholarShipMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
+        return ApiResponse.ok(pageObj);
     }
 
     public ScholarShipEntity get(String id) {

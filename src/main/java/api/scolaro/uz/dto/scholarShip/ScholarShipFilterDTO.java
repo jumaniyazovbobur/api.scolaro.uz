@@ -12,10 +12,10 @@ import java.time.LocalDate;
 @Setter
 @ToString
 public class ScholarShipFilterDTO {
-    private String name;
-    private Boolean visible;
-    private LocalDate expiredDate;
-    private DegreeType degreeType;
-    private LocalDate dateFrom;
-    private LocalDate dateTo;
+    private String universityName;
+//    private Boolean visible;
+//    private LocalDate expiredDate;
+//    private DegreeType degreeType;
+//    private LocalDate dateFrom;
+//    private LocalDate dateTo;
 }

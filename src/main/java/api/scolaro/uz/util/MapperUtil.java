@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 public class MapperUtil {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter formatterLocalDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public static Boolean getVisibleValue(Object o) {
         return o == null ? null : (Boolean) o;
@@ -44,7 +45,11 @@ public class MapperUtil {
         return LocalDateTime.parse(dateTime, ofPattern);
     }
 
-    public static LocalDateTime getLocalDateValue(Object o) {
+    public static LocalDateTime getLocalDateTimeValue(Object o) {
         return o == null ? null : LocalDateTime.parse(String.valueOf(o).substring(0,19), formatter);
+    }
+
+    public static LocalDate getLocalDateValue(Object o) {
+        return o == null ? null : LocalDate.parse(String.valueOf(o).substring(0,10), formatterLocalDate);
     }
 }

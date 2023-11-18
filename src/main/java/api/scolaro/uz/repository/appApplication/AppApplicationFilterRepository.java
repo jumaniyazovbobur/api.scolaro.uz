@@ -14,7 +14,6 @@ import api.scolaro.uz.util.MapperUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -92,7 +91,7 @@ public class AppApplicationFilterRepository {
         for (Object[] object : entityList) {
             AppApplicationFilterMapperDTO dto = new AppApplicationFilterMapperDTO();
             dto.setId(MapperUtil.getStringValue(object[0]));
-            dto.setCreatedDate(MapperUtil.getLocalDateValue(object[1]));
+            dto.setCreatedDate(MapperUtil.getLocalDateTimeValue(object[1]));
 //            dto.setAppVisible(MapperUtil.getVisibleValue(object[2]));
             dto.setStatus(AppStatus.valueOf(MapperUtil.getStringValue(object[3])));
 
@@ -167,7 +166,7 @@ public class AppApplicationFilterRepository {
         for (Object[] object : entityList) {
             AppApplicationFilterMapperDTO dto = new AppApplicationFilterMapperDTO();
             dto.setId(MapperUtil.getStringValue(object[0]));
-            dto.setCreatedDate(MapperUtil.getLocalDateValue(object[1]));
+            dto.setCreatedDate(MapperUtil.getLocalDateTimeValue(object[1]));
 //            dto.setAppVisible(MapperUtil.getVisibleValue(object[2]));
             dto.setStatus(AppStatus.valueOf(MapperUtil.getStringValue(object[3])));
 
@@ -249,7 +248,7 @@ public class AppApplicationFilterRepository {
         for (Object[] object : entityList) {
             AppApplicationFilterMapperDTO dto = new AppApplicationFilterMapperDTO();
             dto.setId(MapperUtil.getStringValue(object[0]));
-            dto.setCreatedDate(MapperUtil.getLocalDateValue(object[1]));
+            dto.setCreatedDate(MapperUtil.getLocalDateTimeValue(object[1]));
 //            dto.setAppVisible(MapperUtil.getVisibleValue(object[2]));
             dto.setStatus(AppStatus.valueOf(MapperUtil.getStringValue(object[3])));
 

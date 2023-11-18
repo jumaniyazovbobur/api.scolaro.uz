@@ -1,15 +1,9 @@
 package api.scolaro.uz.repository.consulting;
 
 import api.scolaro.uz.dto.FilterResultDTO;
-import api.scolaro.uz.dto.appApplication.AppApplicationFilterDTO;
-import api.scolaro.uz.dto.consulting.ConsultingDTO;
 import api.scolaro.uz.dto.consulting.ConsultingResponseFilterDTO;
 import api.scolaro.uz.dto.consultingComment.ConsultingCommentFilterDTO;
-import api.scolaro.uz.dto.profile.ProfileDTO;
 import api.scolaro.uz.dto.profile.ProfileResponseFilterDTO;
-import api.scolaro.uz.dto.university.UniversityResponseDTO;
-import api.scolaro.uz.enums.AppStatus;
-import api.scolaro.uz.mapper.AppApplicationFilterMapperDTO;
 import api.scolaro.uz.mapper.ConsultingCommentFilterMapperDTO;
 import api.scolaro.uz.service.AttachService;
 import api.scolaro.uz.util.MapperUtil;
@@ -94,7 +88,7 @@ public class CustomConsultingCommentRepository {
         for (Object[] object : entityList) {
             ConsultingCommentFilterMapperDTO dto = new ConsultingCommentFilterMapperDTO();
             dto.setId(MapperUtil.getStringValue(object[0]));
-            dto.setCreatedDate(MapperUtil.getLocalDateValue(object[1]));
+            dto.setCreatedDate(MapperUtil.getLocalDateTimeValue(object[1]));
             dto.setContent(MapperUtil.getStringValue(object[2]));
 
             ProfileResponseFilterDTO student = new ProfileResponseFilterDTO();

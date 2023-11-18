@@ -1,12 +1,7 @@
 package api.scolaro.uz.repository.simpleMessage;
 
 import api.scolaro.uz.dto.FilterResultDTO;
-import api.scolaro.uz.dto.appApplication.AppApplicationFilterConsultingDTO;
-import api.scolaro.uz.dto.profile.ProfileDTO;
-import api.scolaro.uz.dto.university.UniversityResponseDTO;
-import api.scolaro.uz.enums.AppStatus;
 import api.scolaro.uz.enums.MessageType;
-import api.scolaro.uz.mapper.AppApplicationFilterMapperDTO;
 import api.scolaro.uz.mapper.SimpleMessageMapperDTO;
 import api.scolaro.uz.service.AttachService;
 import api.scolaro.uz.util.MapperUtil;
@@ -73,7 +68,7 @@ public class SimpleMessageFilterRepository {
         for (Object[] object : entityList) {
             SimpleMessageMapperDTO dto = new SimpleMessageMapperDTO();
             dto.setId(MapperUtil.getStringValue(object[0]));
-            dto.setCreatedDate(MapperUtil.getLocalDateValue(object[1]));
+            dto.setCreatedDate(MapperUtil.getLocalDateTimeValue(object[1]));
             dto.setApplicationId(MapperUtil.getStringValue(object[2]));
             dto.setAttachDTO(attachService.getResponseAttachWithExtension(MapperUtil.getStringValue(object[3]),MapperUtil.getStringValue(object[4])));
             dto.setConsultingId(MapperUtil.getStringValue(object[5]));

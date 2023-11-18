@@ -1,10 +1,8 @@
 package api.scolaro.uz.repository.feedback;
 
 import api.scolaro.uz.dto.FilterResultDTO;
-import api.scolaro.uz.dto.PersonRoleDTO;
 import api.scolaro.uz.dto.feeback.FeedbackFilterDTO;
 import api.scolaro.uz.dto.profile.ProfileDTO;
-import api.scolaro.uz.dto.profile.ProfileResponseFilterDTO;
 import api.scolaro.uz.enums.FeedBackType;
 import api.scolaro.uz.mapper.FeedbackFilterMapperDTO;
 import api.scolaro.uz.service.AttachService;
@@ -13,7 +11,6 @@ import api.scolaro.uz.util.MapperUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -119,7 +116,7 @@ public class CustomFeedbackRepository {
         for (Object[] object : entityList) {
             FeedbackFilterMapperDTO dto = new FeedbackFilterMapperDTO();
             dto.setId(MapperUtil.getStringValue(object[0]));
-            dto.setCreatedDate(MapperUtil.getLocalDateValue(object[1]));
+            dto.setCreatedDate(MapperUtil.getLocalDateTimeValue(object[1]));
             dto.setContent(MapperUtil.getStringValue(object[2]));
             dto.setFeedBackType(FeedBackType.valueOf(MapperUtil.getStringValue(object[3])));
 
