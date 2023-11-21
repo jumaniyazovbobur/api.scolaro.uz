@@ -28,6 +28,7 @@ public class ScholarShipResponseDTO {
     private LocalDate startDate;
     private Integer price;
     private Long universityId;
+    private UniversityResponseDTO university;
     private List<KeyValueDTO> degreeTypeList;
     private LocalDateTime createdDate;
 }

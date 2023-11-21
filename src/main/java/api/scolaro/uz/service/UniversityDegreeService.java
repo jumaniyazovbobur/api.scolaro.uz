@@ -22,7 +22,7 @@ public class UniversityDegreeService {
         for (UniversityDegreeType type : UniversityDegreeType.values()) {
             uzList.add(new KeyValueDTO(type.name(), type.getNameUz()));
             enList.add(new KeyValueDTO(type.name(), type.getNameEn()));
-            ruList.add(new KeyValueDTO(type.name(), type.toString()));
+            ruList.add(new KeyValueDTO(type.name(), type.getNameRu()));
         }
     }
 

@@ -111,6 +111,36 @@ public class CountryService {
         });
     }
 
+    public ApiResponse<List<CountryResponseDTO>> getCountryListWithUniversity(AppLanguage lang) {
+        List<CountryResponseDTO> dtoList = new LinkedList<>();
+        if (lang.equals(AppLanguage.uz)) {
+            Iterable<CountryEntity> all = countryRepository.findAllByVisibleTrueOrderByNameUzAsc();
+            all.forEach(country -> {
+                CountryResponseDTO dto = new CountryResponseDTO();
+                dto.setId(country.getId());
+                dto.setName(country.getNameUz());
+                dtoList.add(dto);
+            });
+        } else if (lang.equals(AppLanguage.ru)) {
+            Iterable<CountryEntity> all = countryRepository.findAllByVisibleTrueOrderByNameRuAsc();
+            all.forEach(country -> {
+                CountryResponseDTO dto = new CountryResponseDTO();
+                dto.setId(country.getId());
+                dto.setName(country.getNameRu());
+                dtoList.add(dto);
+            });
+        } else if (lang.equals(AppLanguage.en)) {
+            Iterable<CountryEntity> all = countryRepository.findAllByVisibleTrueOrderByNameEnAsc();
+            all.forEach(country -> {
+                CountryResponseDTO dto = new CountryResponseDTO();
+                dto.setId(country.getId());
+                dto.setName(country.getNameEn());
+                dtoList.add(dto);
+            });
+        }
+        return new ApiResponse<>(200, false, dtoList);
+    }
+
 
     public List<CountryResponseDTO> search(String query, AppLanguage language) {
         List<CountryEntity> entityList = countryRepository.searchByName(query.toLowerCase());

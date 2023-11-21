@@ -16,8 +16,10 @@ TODO generate application number (AB12345)
 TODO attach/upload/application/step_level  - da murojat qilgan odam (student,consulting) shu applicationga file upload qila oladii yo'qmi tekshirish kerak
         // student bo'lsa student_id agar consulting bo'lsa consulting_id si teng bo'lishi kerak.
 TODO AttachType da qanday datalar bo'lishini so'rash kerak.
-TODO university test data.
+TODO university flyway data.
 TODO ConsultingStep template
+TODO Grantlar.
+TODO faculty flyway data.
 
 
 *ConsultingTariffEntity (

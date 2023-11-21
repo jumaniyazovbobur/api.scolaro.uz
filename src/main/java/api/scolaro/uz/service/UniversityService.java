@@ -77,10 +77,18 @@ public class UniversityService {
     public ApiResponse<UniversityResponseDTO> getByIdDetail(Long id, AppLanguage appLanguage) {
         UniversityEntity entity = get(id);
         UniversityResponseDTO responseDTO = toDTO(entity);
+        responseDTO.setCountry(countryService.getById(entity.getCountryId(), appLanguage));
         responseDTO.setDegreeList(universityDegreeService.getUniversityDegreeTypeList(id, appLanguage));
         return ApiResponse.ok(responseDTO);
     }
 
+
+    public UniversityResponseDTO getByIdDetailResponse(Long id, AppLanguage appLanguage) {
+        UniversityEntity entity = get(id);
+        UniversityResponseDTO responseDTO = toDTO(entity);
+        responseDTO.setDegreeList(universityDegreeService.getUniversityDegreeTypeList(id, appLanguage));
+        return responseDTO;
+    }
 
     public PageImpl<UniversityResponseFilterDTO> filter(int page, int size, UniversityFilterDTO dto, AppLanguage language) {
         Pageable pageable = PageRequest.of(page, size);
@@ -93,7 +101,7 @@ public class UniversityService {
         return new PageImpl<>(dtoList, pageable, universityList.getTotalElement());
     }
 
-    private UniversityResponseDTO toDTO(UniversityEntity entity) {
+    public UniversityResponseDTO toDTO(UniversityEntity entity) {
         UniversityResponseDTO dto = new UniversityResponseDTO();
         dto.setId(entity.getId());
         dto.setName(entity.getName());

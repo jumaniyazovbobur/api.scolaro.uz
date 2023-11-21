@@ -17,9 +17,16 @@ public class ConsultingUniversityEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "consulting_id", insertable = false, updatable = false)
     private ConsultingEntity consulting;
+
     @Column(name = "university_id")
     private Long universityId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "university_id", insertable = false, updatable = false)
     private UniversityEntity university;
+
+    @Column(name = "tariff_id")
+    private String tariffId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tariff_id", insertable = false, updatable = false)
+    private ConsultingTariffEntity tariff;
 }

@@ -14,8 +14,8 @@ import java.util.Optional;
 @Repository
 public interface ScholarShipRepository extends JpaRepository<ScholarShipEntity, String> {
     Optional<ScholarShipEntity> findByNameAndVisibleIsTrue(String name);
-    Optional<ScholarShipEntity> findByIdAndVisibleTrue(String name);
 
+    Optional<ScholarShipEntity> findByIdAndVisibleTrue(String name);
 
 
     @Modifying
@@ -23,6 +23,6 @@ public interface ScholarShipRepository extends JpaRepository<ScholarShipEntity, 
     @Query("update ScholarShipEntity t set t.deletedDate = ?2, t.visible = false where t.id = ?1")
     int updateDeletedDateAndVisible(String id, LocalDateTime deletedDate);
 
-    @Query("from ScholarShipEntity s  where s.visible = true and s.expiredDate >=now()")
+    @Query("from ScholarShipEntity s join fetch s.university where s.visible = true and s.expiredDate >=now()")
     List<ScholarShipEntity> getTopScholarShip();
 }

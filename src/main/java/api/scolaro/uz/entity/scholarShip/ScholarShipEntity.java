@@ -32,10 +32,10 @@ public class ScholarShipEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "university_id", insertable = false, updatable = false)
     private UniversityEntity university;
-    @Column(name = "photo_id")
-    private String photoId;
     @Column(name = "price")
     private Integer price;
+    @Column(name = "photo_id")
+    private String photoId;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_id", insertable = false, updatable = false)
     private AttachEntity photo;

@@ -17,9 +17,7 @@ public class ScholarShipDegreeTypeEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "scholar_ship_id", insertable = false, updatable = false)
     private ScholarShipEntity scholarShip;
-
     @Column(name = "degree_type")
     @Enumerated(EnumType.STRING)
     private UniversityDegreeType degreeType;
-
 }

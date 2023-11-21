@@ -58,7 +58,7 @@ public class RegionService {
         entity.setNameUz(dto.getNameUz());
         entity.setNameEn(dto.getNameEn());
         entity.setNameRu(dto.getNameRu());
-        entity.setVisible(dto.isVisible());
+        entity.setVisible(Boolean.TRUE);
         entity.setCreatedDate(dto.getCreatedDate());
         return entity;
     }

@@ -1,0 +1,29 @@
+### Create
+POST http://localhost:8081/api/v1/consulting-university
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDA1MzE2MDcsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTRiMzA5NDAwMjEiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNzAxMTM2NDA3LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.xDa2VoxQxcik2c23zvycHy4pbCJVxV_cF72w8JUMuLoE8BJIyEyNj08eQOQsx4tfe4sVCRKb1axGJcpVntM6IA
+
+[
+  {
+    "universityId": 7,
+    "tariffId": "8080b7ef8bb3c2d7018bb949601e000c"
+  },
+  {
+    "universityId": 8,
+    "tariffId": "8080b7ef8bb3c2d7018bb949601e000c"
+  },
+  {
+    "universityId": 9,
+    "tariffId": "8080b7ef8bb3c2d7018bb949601e000c"
+  },
+  {
+    "universityId": 10,
+    "tariffId": "8080b7ef8bb3c2d7018bb949601e000c"
+  }
+]
+
+
+### Get consulting university list
+GET http://localhost:8081/api/v1/consulting-university/country
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDA1MzE2MDcsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTRiMzA5NDAwMjEiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNzAxMTM2NDA3LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.xDa2VoxQxcik2c23zvycHy4pbCJVxV_cF72w8JUMuLoE8BJIyEyNj08eQOQsx4tfe4sVCRKb1axGJcpVntM6IA

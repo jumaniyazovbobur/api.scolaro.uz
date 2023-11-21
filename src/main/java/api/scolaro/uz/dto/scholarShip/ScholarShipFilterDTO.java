@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @ToString
 public class ScholarShipFilterDTO {
     private String universityName;
+    private String name;
 //    private Boolean visible;
 //    private LocalDate expiredDate;
 //    private DegreeType degreeType;

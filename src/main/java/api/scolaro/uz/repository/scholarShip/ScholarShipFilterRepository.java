@@ -36,7 +36,6 @@ public class ScholarShipFilterRepository {
     private final ScholarShipDegreeService scholarShipDegreeService;
 
 
-
     /*
      * FOR ADMIN
      * */
@@ -47,6 +46,11 @@ public class ScholarShipFilterRepository {
         if (filterDTO.getUniversityName() != null) {
             stringBuilder.append(" and lower(u.name) like :name");
             params.put("name", "%" + filterDTO.getUniversityName().toLowerCase() + "%");
+        }
+
+        if (filterDTO.getName() != null) {
+            stringBuilder.append(" and lower(s.name) like :scholarShiName");
+            params.put("scholarShiName", "%" + filterDTO.getName().toLowerCase() + "%");
         }
 
 
@@ -103,7 +107,6 @@ public class ScholarShipFilterRepository {
         }
         return new FilterResultDTO<>(mapperList, totalCount);
     }
-
 
 
 }
