@@ -53,6 +53,7 @@ public class SecurityConfiguration {
             "/api/v1/scholar-ship/filter",
             "/api/v1/scholar-ship/*/detail",
             "/api/v1/consulting/top-consulting/*",
+            "/api/v1/continent/public/get-all",
             "/api/v1/university/*/detail",
             "/api/v1/faculty/filter/public",
     };
