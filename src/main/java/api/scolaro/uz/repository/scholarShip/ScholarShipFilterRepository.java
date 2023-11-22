@@ -56,7 +56,7 @@ public class ScholarShipFilterRepository {
 
         StringBuilder selectBuilder = new StringBuilder("select s.id as sId, " +
                 "s.name as sName, " +
-                "s.description as sDescr, " +
+                "s.description as sDescr, " + // TODO remove
                 "s.price as sPrise, " +
                 "s.start_date as sSDate, " +
                 "s.expired_date as sEDate, " +

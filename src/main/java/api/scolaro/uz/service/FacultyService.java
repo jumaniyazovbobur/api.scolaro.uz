@@ -9,7 +9,9 @@ import api.scolaro.uz.entity.place.RegionEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.FacultyRepository;
+import api.scolaro.uz.repository.consulting.ConsultingCustomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,27 +26,8 @@ import java.util.List;
 public class FacultyService {
     @Autowired
     private FacultyRepository facultyRepository;
-
-    public ApiResponse<List<FacultyDTO>> filter(FacultyFilterDTO filterDTO, int page, int size) {
-        List<FacultyEntity> all = facultyRepository.getAllByVisibleIsTrueOrderByCreatedDateDesc();
-        List<FacultyDTO> dtoList = new ArrayList<>();
-        for (FacultyEntity entity : all) {
-            FacultyDTO dto = toDetailDTO(entity);
-            dtoList.add(dto);
-        }
-        return ApiResponse.ok(dtoList);
-    }
-
-    public ApiResponse<List<FacultyDTO>> filterPublic(AppLanguage appLanguage) {
-        List<FacultyEntity> all = facultyRepository.getAllByVisibleIsTrueOrderByCreatedDateDesc();
-        List<FacultyDTO> dtoList = new ArrayList<>();
-        for (FacultyEntity entity : all) {
-            FacultyDTO dto = toDTO(entity, appLanguage);
-            dtoList.add(dto);
-        }
-        return ApiResponse.ok(dtoList);
-    }
-
+    @Autowired
+    private ConsultingCustomRepository consultingCustomRepository;
 
     public FacultyDTO create(FacultyCreateDTO dto) {
         FacultyEntity entity = new FacultyEntity();
@@ -79,36 +62,13 @@ public class FacultyService {
         return toDetailDTO(entity);
     }
 
-    // filter, by lang filter
+    public ApiResponse<Page<FacultyDTO>> adminFilter(FacultyFilterDTO filterDTO, int page, int size) {
+        return ApiResponse.ok(consultingCustomRepository.adminFilter(filterDTO, page, size));
+    }
 
-//    public ApiResponse<PageImpl<FacultyDTO>> filter(FacultyFilterDTO dto, int page, int size) {
-//        Pageable pageable = PageRequest.of(page, size);
-//        Pageable  all = facultyRepository.getAllByVisibleIsTrueOrderByCreatedDateDesc(pageable);
-//        List<FacultyDTO> dtoList = new ArrayList<>();
-//        for (FacultyEntity entity ) {
-//            FacultyDTO dto = toDetailDTO(entity);
-//            dtoList.add(dto);
-//        }
-//        return dtoList;
-//        FilterResultDTO<ProfileEntity> filterResultDTO = customProfileRepository.filterPagination(dto, page, size);
-//        return ApiResponse.ok(new PageImpl<>(filterResultDTO
-//                .getContent()
-//                .stream()
-//                .map(this::getResponseDto)
-//                .toList(), pageable, filterResultDTO.getTotalElement()));
-//    }
-
-/*
-    public PageImpl<UniversityResponseFilterDTO> filter(int page, int size, UniversityFilterDTO dto) {
-        Pageable pageable = PageRequest.of(page, size);
-        FilterResultDTO<UniversityEntity> universityList = customRepository.filterPagination(dto, page, size);
-        List<UniversityResponseFilterDTO> dtoList = new LinkedList<>();
-        for (UniversityEntity entity : universityList.getContent()) {
-            UniversityResponseFilterDTO dto1 = toDTOForTop(entity, language);
-            dtoList.add(dto1);
-        }
-        return new PageImpl<>(dtoList, pageable, universityList.getTotalElement());
-    }*/
+    public ApiResponse<Page<FacultyDTO>> publicFilter(FacultyFilterDTO filterDTO, AppLanguage appLanguage, int page, int size) {
+        return ApiResponse.ok(consultingCustomRepository.publicFilter(filterDTO, appLanguage, page, size));
+    }
 
     public FacultyDTO toDTO(FacultyEntity entity, AppLanguage appLanguage) {
         FacultyDTO dto = new FacultyDTO();
