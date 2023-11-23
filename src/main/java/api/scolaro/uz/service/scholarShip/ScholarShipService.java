@@ -144,4 +144,15 @@ public class ScholarShipService {
         }
         return dto;
     }
+
+    public ApiResponse<List<ScholarShipResponseDTO>> getList(AppLanguage appLanguage) {
+        List<ScholarShipEntity> list = scholarShipRepository.findAllByVisibleTrue();
+        List<ScholarShipResponseDTO> dtoList = new LinkedList<>();
+        for (ScholarShipEntity entity : list) {
+            ScholarShipResponseDTO dto = toDTO(entity, appLanguage);
+            dto.setUniversity(universityService.toDTO(entity.getUniversity()));
+            dtoList.add(dto);
+        }
+        return new ApiResponse<>(200, false, dtoList);
+    }
 }

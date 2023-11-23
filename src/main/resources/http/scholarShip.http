@@ -1,7 +1,7 @@
 ### Create
 POST http://localhost:8081/api/v1/scholar-ship
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDA0OTY3NzgsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDExMDE1NzgsImlzcyI6IkphdmEgYmFja2VuZCJ9.Rf4wMqdFw1kFClIi-Q837DembphIb8cW6Ygr7vYb8WPE1BArthGgZXOCjiXPAPoS3oIrs7027zDejXwsdkPjMw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDA3NjQxMzIsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDEzNjg5MzIsImlzcyI6IkphdmEgYmFja2VuZCJ9.85ZQl0On1tm1rxDPQM8gRkgR-eyVljYSqKv5jhUQn8orPuj1fFv44TGT9_a5Qx7_aQtGJIfN-e-Rd5Y34AMIGg
 
 {
   "name": "MIT grand",
@@ -49,3 +49,9 @@ Content-Type: application/json
 ###
 GET http://localhost:8081/api/v1/scholar-ship/top-grant
 Accept-Language: uz
+
+### GET ALL
+GET http://localhost:8081/api/v1/scholar-ship/get-all
+Accept-Language: uz
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDA3NjQxMzIsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDEzNjg5MzIsImlzcyI6IkphdmEgYmFja2VuZCJ9.85ZQl0On1tm1rxDPQM8gRkgR-eyVljYSqKv5jhUQn8orPuj1fFv44TGT9_a5Qx7_aQtGJIfN-e-Rd5Y34AMIGg
+

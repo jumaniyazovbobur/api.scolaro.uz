@@ -16,6 +16,7 @@ public interface ScholarShipRepository extends JpaRepository<ScholarShipEntity, 
     Optional<ScholarShipEntity> findByNameAndVisibleIsTrue(String name);
 
     Optional<ScholarShipEntity> findByIdAndVisibleTrue(String name);
+    List<ScholarShipEntity> findAllByVisibleTrue();
 
 
     @Modifying

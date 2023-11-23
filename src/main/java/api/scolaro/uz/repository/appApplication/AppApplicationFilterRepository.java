@@ -128,15 +128,27 @@ public class AppApplicationFilterRepository {
         stringBuilder.append(" and p.id =:studentId");
         params.put("studentId", studentId);
 
-        StringBuilder selectBuilder = new StringBuilder("select a.id as appId, a.created_date as appCreatedDate, a.visible as appVisible,  " +
-                "a.status as appStatus, " +
-                "c.id as conId, c.name as conName, c.photo_id as conPhotoId, " +
-                "un.name as uniName, un.id as uniId, un.photo_id as uniPhotoId " +
-                "from app_application as a " +
-                "inner join profile as p on a.student_id=p.id " +
-                "inner join consulting as c on a.consulting_id=c.id " +
-                "inner join university as un on a.university_id=un.id " +
-                "where a.visible = true ");
+        StringBuilder selectBuilder = new StringBuilder("select a.id           as appId, " +
+                "       a.created_date as appCreatedDate, " +
+                "       a.visible      as appVisible, " +
+                "       a.status       as appStatus, " +
+                "       c.id           as conId, " +
+                "       c.name         as conName, " +
+                "       c.photo_id     as conPhotoId, " +
+                "       un.name        as uniName, " +
+                "       un.id          as uniId, " +
+                "       un.photo_id    as uniPhotoId, " +
+                "       p.id           as pId, " +
+                "       p.name         as pName, " +
+                "       p.surname      as pSurname, " +
+                "       p.photo_id     as pPhotoId, " +
+                "       p.phone        as pPhone, " +
+                "       p.created_date as pCreatedDate " +
+                " from app_application as a " +
+                "         inner join profile as p on a.student_id = p.id " +
+                "         inner join consulting as c on a.consulting_id = c.id " +
+                "         inner join university as un on a.university_id = un.id " +
+                " where a.visible = true ");
         selectBuilder.append(stringBuilder);
 
 
@@ -182,6 +194,14 @@ public class AppApplicationFilterRepository {
             university.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[9])));
             dto.setUniversity(university);
 
+            ProfileDTO student = new ProfileDTO();
+            student.setId(MapperUtil.getStringValue(object[10]));
+            student.setName(MapperUtil.getStringValue(object[11]));
+            student.setSurname(MapperUtil.getStringValue(object[12]));
+            student.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[13])));
+            student.setPhone(MapperUtil.getStringValue(object[14]));
+            student.setCreatedDate(MapperUtil.getLocalDateTimeValue(object[15]));
+            dto.setStudent(student);
             mapperList.add(dto);
         }
         return new FilterResultDTO<>(mapperList, totalCount);
@@ -191,35 +211,41 @@ public class AppApplicationFilterRepository {
     public FilterResultDTO<AppApplicationFilterMapperDTO> filterForConsulting(AppApplicationFilterConsultingDTO filterDTO, int page, int size) {
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, Object> params = new HashMap<>();
-        if (filterDTO.getStudentName() != null) {
-            stringBuilder.append(" and lower(p.name) like :name");
-            params.put("name", "%" + filterDTO.getStudentName().toLowerCase() + "%");
+        if (filterDTO.getName() != null) {
+            stringBuilder.append(" and (lower(p.name) like :query or lower(p.surname) like :query) ");
+            params.put("query", "%" + filterDTO.getName().toLowerCase() + "%");
         }
-        if (filterDTO.getStudentSurName() != null) {
-            stringBuilder.append(" and lower(p.surname) like :surname");
-            params.put("surname", "%" + filterDTO.getStudentSurName().toLowerCase() + "%");
-        }
+//        if (filterDTO.getStudentSurName() != null) {
+//            stringBuilder.append(" and lower(p.surname) like :surname");
+//            params.put("surname", "%" + filterDTO.getStudentSurName().toLowerCase() + "%");
+//        }
         if (filterDTO.getStatus() != null) {
-            stringBuilder.append(" and a.status =:status");
+            stringBuilder.append(" and a.status =:status ");
             params.put("status", filterDTO.getStatus().name());
         }
 
-        StringBuilder selectBuilder = new StringBuilder("select a.id as appId, " +
-                "a.created_date as appCreatedDate, " +
-                "a.visible as appVisible, " +
-                "a.status as appStatus, " +
-                "un.name as uniName, " +
-                "un.id as uniId, " +
-                "un.photo_id as uniPhotoId, " +
-                "p.id as sId, " +
-                "p.name as sName, " +
-                "p.surname as sSurname, " +
-                "p.photo_id as sPhotoId " +
-                "from app_application as a " +
-                "inner join profile as p on a.student_id=p.id " +
-                "inner join consulting as c on a.consulting_id=c.id " +
-                "inner join university as un on a.university_id=un.id " +
-                "where a.visible = true ");
+        StringBuilder selectBuilder = new StringBuilder("select a.id           as appId, " +
+                "       a.created_date as appCreatedDate, " +
+                "       a.visible      as appVisible, " +
+                "       a.status       as appStatus, " +
+                "       un.name        as uniName, " +
+                "       un.id          as uniId, " +
+                "       un.photo_id    as uniPhotoId, " +
+                "       p.id           as sId, " +
+                "       p.name         as sName, " +
+                "       p.surname      as sSurname, " +
+                "       p.photo_id     as sPhotoId, " +
+                "       c.id           as cId, " +
+                "       c.name         as cName, " +
+                "       c.address      as cAddress, " +
+                "       c.phone        as cPhone, " +
+                "       c.photo_id     as cPhotoId, " +
+                "       c.about        as cAbout " +
+                " from app_application as a " +
+                "         inner join profile as p on a.student_id = p.id " +
+                "         inner join consulting as c on a.consulting_id = c.id " +
+                "         inner join university as un on a.university_id = un.id " +
+                " where a.visible = true ");
         selectBuilder.append(stringBuilder);
 
         StringBuilder countBuilder = new StringBuilder("select count(*) " +
@@ -265,6 +291,14 @@ public class AppApplicationFilterRepository {
             student.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[10])));
             dto.setStudent(student);
 
+            ConsultingDTO consulting = new ConsultingDTO();
+            consulting.setId(MapperUtil.getStringValue(object[11]));
+            consulting.setName(MapperUtil.getStringValue(object[12]));
+            consulting.setAddress(MapperUtil.getStringValue(object[13]));
+            consulting.setPhone(MapperUtil.getStringValue(object[14]));
+            consulting.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[15])));
+            consulting.setAbout(MapperUtil.getStringValue(object[16]));
+            dto.setConsulting(consulting);
             mapperList.add(dto);
         }
         return new FilterResultDTO<>(mapperList, totalCount);

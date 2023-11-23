@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AppApplicationFilterConsultingDTO {
-    private String studentName;
-    private String studentSurName;
+    private String name;
     private AppStatus status;
 }

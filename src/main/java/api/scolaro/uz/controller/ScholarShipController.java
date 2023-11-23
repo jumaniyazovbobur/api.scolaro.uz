@@ -84,6 +84,15 @@ public class ScholarShipController {
         log.info("Filtered scholarShipList page={},size={}", page, size);
         return ResponseEntity.ok(scholarShipService.filter(dto, page, size, appLanguage));
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Operation(summary = "ScholarShip get By Id", description = "Method ScholarShip get By Id")
+    @GetMapping("/get-all")
+    public ResponseEntity<?> getList( @RequestHeader(value = "Accept-Language",
+            defaultValue = "uz") AppLanguage appLanguage) {
+        log.info("Get ScholarShip list");
+        return ResponseEntity.ok(scholarShipService.getList(appLanguage));
+    }
+
 
 
     @Operation(summary = "ScholarShip get top grant", description = "Method ScholarShip get By Id")
