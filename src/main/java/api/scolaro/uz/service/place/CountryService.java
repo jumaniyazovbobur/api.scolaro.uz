@@ -2,18 +2,20 @@ package api.scolaro.uz.service.place;
 
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.country.*;
+import api.scolaro.uz.dto.university.UniversityResponseFilterDTO;
+import api.scolaro.uz.entity.UniversityEntity;
 import api.scolaro.uz.entity.place.CountryEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
+import api.scolaro.uz.repository.place.CountryFilterRepository;
 import api.scolaro.uz.repository.place.CountryRepository;
 import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 
@@ -27,6 +29,7 @@ import java.util.List;
 public class CountryService {
 
     private final CountryRepository countryRepository;
+    private final CountryFilterRepository countryFilterRepository;
 
     public ApiResponse<CountryResponseDTO> countryCreate(CountryRequestDTO countryDTO) {
         CountryEntity countryEntity = new CountryEntity();
@@ -69,13 +72,22 @@ public class CountryService {
     }
 
 
-    public CountryPaginationDTO pagination(int page, int size) {
-        PageRequest pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createdDate");
-        Page<CountryEntity> all = countryRepository.getAllByVisibleTrue(pageable);
-        long totalElements = all.getTotalElements();
-        int totalPages = all.getTotalPages();
-        List<CountryResponseDTO> dtoList = all.stream().map(this::toDTO).toList();
-        return new CountryPaginationDTO(totalElements, totalPages, dtoList);
+    public PageImpl<CountryResponseDTO> pagination(CountryFilterDTO dto, int page, int size) {
+//        Page<CountryEntity> all = countryFilterRepository.filterPagination(pageable,page,size);
+//        long totalElements = all.getTotalElements();
+//        int totalPages = all.getTotalPages();
+//        List<CountryResponseDTO> dtoList = all.stream().map(this::toDTO).toList();
+//        return new CountryPaginationDTO(totalElements, totalPages, dtoList);
+
+
+        Pageable pageable = PageRequest.of(page, size);
+        FilterResultDTO<CountryEntity> countryList = countryFilterRepository.filterPagination(dto, page, size);
+        List<CountryResponseDTO> dtoList = new LinkedList<>();
+        for (CountryEntity entity : countryList.getContent()) {
+            CountryResponseDTO dto1 = toDTO(entity);
+            dtoList.add(dto1);
+        }
+        return new PageImpl<>(dtoList, pageable, countryList.getTotalElement());
     }
 
     public ApiResponse<CountryResponseDTO> update(Long id, CountryRequestDTO dto) {

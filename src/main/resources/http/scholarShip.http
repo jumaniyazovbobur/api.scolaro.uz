@@ -41,9 +41,10 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTcwMTg5NjIsImlkIjoiOTA5M
 ### ScholarShip Filter
 POST localhost:8081/api/v1/scholar-ship/filter?page=0&size=10
 Content-Type: application/json
+Accept-Language: uz
 
 {
-  "name": "it"
+  "name": ""
 }
 
 ###
