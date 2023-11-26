@@ -1,12 +1,14 @@
 ### Create consulting
 POST http://localhost:8081/api/v1/faculty
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDA2MjExOTQsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDEyMjU5OTQsImlzcyI6IkphdmEgYmFja2VuZCJ9.PRqi9I9POMlmRxRLwrDaPW3fG2YZDZ0bPxB3eONim7E3ghTbswqzWsm-VQwPt67FecB9V_x3e6NzQZN8TesBPg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDA4MzczMDEsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTRiMzA5NDAwMjEiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNzAxNDQyMTAxLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.Fwzy3CdF9LgdWpKjnRffcebGh2DG6_li26yX-xBJ0SdeChoEDi5CV1Sn5dcdj-BJ9_PUKihaE0XGRMSMuf9E9w
 Content-Type: application/json
 
 {
-  "nameUz": "name uz2",
-  "nameEn": "name en2",
-  "nameRu": "name ru2"
+  "nameUz": "Sub Biznes  faculty uz 1.2.2 ",
+  "nameEn": "Sub Biznes faculty en 1.2.2",
+  "nameRu": "Sub Biznes faculty ru 1.2.2",
+  "orderNumber": 2,
+  "parentId": "402880e48c01cac3018c01cf7fe50002"
 }
 
 
@@ -38,62 +40,12 @@ Content-Type: application/json
 {
 }
 
-
-### Delete consulting
-DELETE http://localhost:8081/api/v1/consulting/402880e48adae419018adae9fdfc0001
+### Faculty tree
+GET http://localhost:8081/api/v1/faculty/tree
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDA2MjExOTQsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDEyMjU5OTQsImlzcyI6IkphdmEgYmFja2VuZCJ9.PRqi9I9POMlmRxRLwrDaPW3fG2YZDZ0bPxB3eONim7E3ghTbswqzWsm-VQwPt67FecB9V_x3e6NzQZN8TesBPg
 
-
-### Update consulting phone
-PUT http://localhost:8081/api/v1/consulting/update-phone?phone=998337926848
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4OTA1OTEsImlkIjoiNDAyODgwZTQ4YWRhZTQxOTAxOGFkYWU5ZmRmYzAwMDEiLCJwaG9uZSI6Ijk5ODk0NDQ5NzM5NyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk2NDk1MzkxLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.0hXbvfqurH4zUvqbndawW1divphML5qBKEEf3Gg_fF2M0LGyBKVZB7RfhBQA6kFbRHueLUirKbjrCkO3EwGvnQ
-
-
-
-
-### Update phone verification
-PUT http://localhost:8081/api/v1/consulting/phone-verification
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4OTA1OTEsImlkIjoiNDAyODgwZTQ4YWRhZTQxOTAxOGFkYWU5ZmRmYzAwMDEiLCJwaG9uZSI6Ijk5ODk0NDQ5NzM5NyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk2NDk1MzkxLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.0hXbvfqurH4zUvqbndawW1divphML5qBKEEf3Gg_fF2M0LGyBKVZB7RfhBQA6kFbRHueLUirKbjrCkO3EwGvnQ
-
-{
-  "phone": "998337926848",
-  "code": "77335"
-}
-
-
-### Update password
-PUT http://localhost:8081/api/v1/consulting/update-password
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4OTI5MTQsImlkIjoiNDAyODgwZTQ4YWRhZTQxOTAxOGFkYWU5ZmRmYzAwMDEiLCJwaG9uZSI6Ijk5ODMzNzkyNjg0OCIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk2NDk3NzE0LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.f2A5F7uPI9O2abhqMH9ZNfi9nSdrv8jg30IOxpOuLHQ4ERDVY-iN4DRcg9_q58F1IkVjdI5b6r3NDBQGhjaBBQ
-
-{
-  "oldPassword": "rfr6dk",
-  "newPassword": "111111",
-  "confirmPassword": "111111"
-}
-
-
-### Change status
-PUT http://localhost:8081/api/v1/consulting/change-status/402880e48adae419018adae9fdfc0001?status=ACTIVE
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDYxMjYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY0MTA5MjYsImlzcyI6IkphdmEgYmFja2VuZCJ9.5i-zp9w0jxobonVZyh5ZjTVEVsHEkVUH0i7dLW19SDD60DVsYGpADR-QmzSBvbG3VHNVw6OncApX_JGf5S405g
-
-
-###
-DELETE http://localhost:8081/api/v1/consulting/delete-account
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTk2Nzg0NTksImlkIjoiNDAyODgxZWU4YmJjYjg4ODAxOGJiY2JhNzExYjAwMDEiLCJwaG9uZSI6Ijk5ODk5Nzc5NTcxMCIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNzAwMjgzMjU5LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.IspfoleyjGDktjqKK187yaX680cruxcS_WtGAlAfKikiYDfiX7gv25FzfSdyZVXOa0dqYrtgRp0ABt0gS6BgFQ
-
-### Get top consulting
-GET http://localhost:8081/api/v1/consulting/top-consulting
-
-### Consulting filter for top consulting
-POST http://localhost:8081/api/v1/consulting/top-consulting/filter
-Content-Type: application/json
-
-{
-  "name": "consult"
-}
-
+### Faculty sub
+GET http://localhost:8081/api/v1/faculty/402880ea8bf4eea3018bf4eec6960000/sub
 
 
 

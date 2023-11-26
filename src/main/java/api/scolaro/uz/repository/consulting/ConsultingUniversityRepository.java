@@ -19,16 +19,22 @@ public interface ConsultingUniversityRepository extends CrudRepository<Consultin
     @Modifying
     void deleteByConsultingIdAndUniversityId(String consultingId, Long universityId);
 
-    @Transactional
+    /*@Transactional
     @Modifying
     @Query("update ConsultingUniversityEntity set tariffId =:tariffId where consultingId =:consultingId and universityId=:universityId")
     void updateTariff(@Param("consultingId") String consultingId, @Param("universityId") Long universityId, @Param("tariffId") String tariffId);
+*/
+    @Transactional
+    @Modifying
+    @Query("update ConsultingUniversityEntity set universityId=:universityId where consultingId =:consultingId ")
+    void updateUniversity(@Param("consultingId") String consultingId, @Param("universityId") Long universityId);
+
 
     @Transactional
     @Modifying
     @Query(value = "select c.id,case when :lang = 'uz' then name_uz when :lang='en' then name_en else name_ru end as name,\n" +
             "       (select json_agg(temp_t1)\n" +
-            "        from (select u.id,u.name, cu.tariff_id from university u\n" +
+            "        from (select u.id,u.name from university u\n" +
             "                                                        left join consulting_university cu on u.id = cu.university_id\n" +
             "              where (cu.visible = true or cu is null)\n" +
             "                and u.visible =  true\n" +

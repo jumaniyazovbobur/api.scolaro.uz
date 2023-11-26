@@ -1,23 +1,22 @@
 ### Create message for students
 POST localhost:8081/api/v1/simple-message/student
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTgyMjAxNjQsImlkIjoiNDAyODgwZTY4YjM4MzBhNTAxOGIzODMwZTAzMTAwMDAiLCJwaG9uZSI6Ijk5ODk5Nzc5NTcxMCIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNjk4ODI0OTY0LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.JIglWA961LoUIdwkTggN3Yr7b332JR4ei4D5bgAt_4D2heLonNdBPFvr_p1zgsM4Y5Bcw2oQW8XIPwy6lsCaFA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDA5OTE1MDMsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTU0Njg2MzAwMjgiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNzAxNTk2MzAzLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.6yINxnDe60pd6KijKwlrQW3I4FkzOHLoWHqgWYTefNz5ORepKzcoopQVmcb8Zd5HgtkxyQYbJ1PRLo0EgP153w
 
 {
-  "applicationId":"402880ec8b5c4a16018b5c4ad0520000",
-  "attachId": "402880e68b38493f018b384979000000",
-  "message" : "Assalomu alaykum"
+  "applicationId":"8080b7ef8bae722c018bae85c0cf0002",
+  "attachId": "8080b7ef8bae722c018bae911b77000d",
+  "message" : "Diplom pdf"
 }
 
 ### Create message for consulting
 POST localhost:8081/api/v1/simple-message/consulting
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTgyMjA3MzUsImlkIjoiNDAyODgwZTY4YjM4NDkzZjAxOGIzODRhMzhhNjAwMDIiLCJwaG9uZSI6Ijk5ODk5Nzc5NTcxMCIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk4ODI1NTM1LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.9jp9B_Aj7Pv4AZINZpMUG4uArrYtfCozkSSHCPuSCUBvINMemp6yKEjPMn4Pl9udoJ3CZsYCi3lWzyMfrYsEdg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDA5OTEzOTMsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTRiMzA5NDAwMjEiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNzAxNTk2MTkzLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.rt6pLL69wVFjgtnmjKvDBmpPZZBRH8yHleLa-fv2AaH5YWoCTSDqCpMOUN6daD5JeM6wx5H1hkICDq4kXyLUFQ
 
 {
-  "applicationId":"402880ec8b5c4a16018b5c4ad0520000",
-  "attachId": "402880e68b38493f018b384979000000",
-  "message" : "Va alaykum assalom"
+  "applicationId":"8080b7ef8bae722c018bae85c0cf0002",
+  "message" : "Zo'r ku. biz bilgan edik"
 }
 
 ### Get List by AppId

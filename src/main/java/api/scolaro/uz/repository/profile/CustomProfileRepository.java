@@ -26,16 +26,16 @@ public class CustomProfileRepository {
         StringBuilder builder = new StringBuilder(" where p.visible=true");
         Map<String, Object> params = new LinkedHashMap<>();
         if (dto.getName() != null && !dto.getName().isBlank()) {
-            builder.append(" and p.name like :name");
-            params.put("name", "%" + dto.getName() + "%");
+            builder.append(" and lower(p.name) like :name");
+            params.put("name", "%" + dto.getName().toLowerCase() + "%");
         }
         if (dto.getSurname() != null && !dto.getSurname().isBlank()) {
-            builder.append(" and p.surname like :surname");
-            params.put("surname", "%" + dto.getSurname() + "%");
+            builder.append(" and lower(p.surname) like :surname");
+            params.put("surname", "%" + dto.getSurname().toLowerCase() + "%");
         }
         if (dto.getPhone() != null && !dto.getPhone().isBlank()) {
-            builder.append(" and p.phone = :phone");
-            params.put("phone", dto.getPhone());
+            builder.append(" and p.phone like :phone");
+            params.put("phone", "%" + dto.getPhone() + "%");
         }
         if (dto.getFromCreatedDate() != null) {
             builder.append(" and p.createdDate>=:from");

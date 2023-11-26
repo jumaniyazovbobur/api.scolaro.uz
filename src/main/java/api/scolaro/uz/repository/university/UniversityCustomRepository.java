@@ -24,8 +24,8 @@ public class UniversityCustomRepository {
         StringBuilder builder = new StringBuilder(" where u.visible=true");
         Map<String, Object> params = new LinkedHashMap<>();
         if (dto.getName() != null && !dto.getName().isBlank()) {
-            builder.append(" and u.name like :name");
-            params.put("name", "%" + dto.getName() + "%");
+            builder.append(" and lower(u.name) like :name");
+            params.put("name", "%" + dto.getName().toLowerCase() + "%");
         }
         if (dto.getCountryId() != null) {
             builder.append(" and u.countryId = :countryId");

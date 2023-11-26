@@ -18,5 +18,12 @@ public class FacultyEntity extends BaseEntity {
     private String nameRu;
     @Column(name = "name_en")
     private String nameEn;
+    @Column(name = "parent_id")
+    private String parentId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id", insertable = false, updatable = false)
+    private FacultyEntity parent;
+    @Column(name = "order_number")
+    private Integer orderNumber;
 }
 

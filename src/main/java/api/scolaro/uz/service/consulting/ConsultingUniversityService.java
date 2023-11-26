@@ -36,9 +36,10 @@ public class ConsultingUniversityService {
                         .findAny();
                 if (optional.isEmpty()) { // not exists
                     create(consultingId, newItem);
-                } else if (!optional.get().getTariffId().equals(newItem.getTariffId())) { // exists but with different tariff id
-                    updateTariff(consultingId, newItem.getUniversityId(), newItem.getTariffId());
                 }
+               /* else if (!optional.get().getTariffId().equals(newItem.getTariffId())) { // exists but with different tariff id
+                    updateTariff(consultingId, newItem.getUniversityId(), newItem.getTariffId());
+                }*/
             });
             oldList.forEach(oldItem -> {
                 long count = newList.stream()
@@ -55,12 +56,12 @@ public class ConsultingUniversityService {
         ConsultingUniversityEntity entity = new ConsultingUniversityEntity();
         entity.setConsultingId(consultingId);
         entity.setUniversityId(dto.getUniversityId());
-        entity.setTariffId(dto.getTariffId());
+        //entity.setTariffId(dto.getTariffId());
         consultingUniversityRepository.save(entity);
     }
 
-    public void updateTariff(String consultingId, Long universityId, String tariffId) {
-        consultingUniversityRepository.updateTariff(consultingId, universityId, tariffId);
+    public void updateUniversity(String consultingId, Long universityId, String tariffId) {
+        consultingUniversityRepository.updateUniversity(consultingId, universityId);
     }
 
     public List<CountryUniversityResponseDTO> getUniversityListWithConsulting(String consultingId, AppLanguage appLanguage) {

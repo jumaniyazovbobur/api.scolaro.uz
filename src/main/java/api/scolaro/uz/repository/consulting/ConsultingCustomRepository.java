@@ -37,8 +37,8 @@ public class ConsultingCustomRepository {
         StringBuilder builder = new StringBuilder(" where f.visible=true ");
         Map<String, Object> params = new LinkedHashMap<>();
         if (filter.getName() != null && !filter.getName().isBlank()) {
-            builder.append(" and f.name_uz like :name  or  f.name_en like :name or f.name_ru like :name ");
-            params.put("name", "%" + filter.getName() + "%");
+            builder.append(" and lower(f.name_uz) like :name  or  lower(f.name_en) like :name or lower(f.name_ru) like :name ");
+            params.put("name", "%" + filter.getName().toLowerCase() + "%");
         }
 
         countBuilder.append(builder);
@@ -72,8 +72,8 @@ public class ConsultingCustomRepository {
         StringBuilder builder = new StringBuilder(" where c.visible=true ");
         Map<String, Object> params = new LinkedHashMap<>();
         if (filter.getName() != null && !filter.getName().isBlank()) {
-            builder.append(" and f.name_uz like :name  or  f.name_en like :name or f.name_ru like :name ");
-            params.put("name", "%" + filter.getName() + "%");
+            builder.append(" and lower(f.name_uz) like :name  or  lower(f.name_en) like :name or lower(f.name_ru) like :name ");
+            params.put("name", "%" + filter.getName().toLowerCase() + "%");
         }
         countBuilder.append(builder);
         builder.append(" order by f.name ");

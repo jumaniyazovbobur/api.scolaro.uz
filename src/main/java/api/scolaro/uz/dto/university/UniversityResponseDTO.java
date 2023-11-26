@@ -1,5 +1,6 @@
 package api.scolaro.uz.dto.university;
 
+import api.scolaro.uz.dto.FacultyDTO;
 import api.scolaro.uz.dto.KeyValueDTO;
 import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.dto.country.CountryDTO;
@@ -25,4 +26,5 @@ public class UniversityResponseDTO {
     private List<UniversityDegreeType> degreeTypeList;
     private List<KeyValueDTO> degreeList;
     private CountryResponseDTO country;
+    private List<FacultyDTO> facultyList;
 }

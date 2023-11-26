@@ -22,4 +22,5 @@ public class UniversityCreateDTO {
     private String photoId;
     private String description;
     private List<UniversityDegreeType> degreeList;
+    private List<String> facultyList;
 }

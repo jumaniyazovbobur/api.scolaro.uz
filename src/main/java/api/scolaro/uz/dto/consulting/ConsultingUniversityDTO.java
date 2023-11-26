@@ -12,6 +12,6 @@ import lombok.Setter;
 public class ConsultingUniversityDTO {
     @NotNull
     private Long universityId;
-    @NotBlank
-    private String tariffId;
+//    @NotBlank
+//    private String tariffId;
 }

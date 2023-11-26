@@ -29,15 +29,33 @@ public class FacultyController {
     /**
      * PUBLIC
      */
-    @PostMapping("/filter/public")
+   /* @PostMapping("/filter/public") // TODO unknown
     @Operation(summary = "Public filter ", description = "")
     public ResponseEntity<ApiResponse<Page<FacultyDTO>>> filter(@RequestHeader(value = "Accept-Language",
             defaultValue = "uz") AppLanguage appLanguage, @RequestBody FacultyFilterDTO filterDTO,
                                                                 @RequestParam(value = "page", defaultValue = "1") int page,
                                                                 @RequestParam(value = "size", defaultValue = "50") int size) {
         return ResponseEntity.ok(facultyService.publicFilter(filterDTO, appLanguage, page, size));
+    }*/
+
+    @GetMapping("/tree")
+    @Operation(summary = "Get faculty tree ", description = "")
+    public ResponseEntity<ApiResponse<List<FacultyDTO>>> filter(@RequestHeader(value = "Accept-Language",
+            defaultValue = "uz") AppLanguage appLanguage) {
+        return ResponseEntity.ok(facultyService.getFacultyTree(appLanguage));
     }
 
+    @GetMapping("/{id}/sub")
+    @Operation(summary = "Get faculty sub list ", description = "")
+    public ResponseEntity<ApiResponse<List<FacultyDTO>>> facultySubList(@PathVariable("id") String parentFacultyId,
+                                                                        @RequestHeader(value = "Accept-Language", defaultValue = "uz")
+                                                                        AppLanguage appLanguage) {
+        return ResponseEntity.ok(facultyService.getSubFacultyList(parentFacultyId, appLanguage));
+    }
+
+    /**
+     * FOR ADMIN
+     */
     @PostMapping("")
     @Operation(summary = "Create faculty", description = "")
     public ResponseEntity<FacultyDTO> create(@RequestBody @Valid FacultyCreateDTO dto) {
@@ -63,15 +81,13 @@ public class FacultyController {
         return facultyService.deleteById(id);
     }
 
-    /**
-     * FOR ADMIN
-     */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
+   /* @PreAuthorize("hasRole('ROLE_ADMIN')") // TODO unknown
     @GetMapping("/filter/adm")
     @Operation(summary = "Faculty Filter  api", description = "")
     public ResponseEntity<ApiResponse<Page<FacultyDTO>>> filter(@RequestBody FacultyFilterDTO filterDTO,
                                                                 @RequestParam(value = "page", defaultValue = "1") int page,
                                                                 @RequestParam(value = "size", defaultValue = "30") int size) {
         return ResponseEntity.ok(facultyService.adminFilter(filterDTO, page - 1, size));
-    }
+    }*/
 }

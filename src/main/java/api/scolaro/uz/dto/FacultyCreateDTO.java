@@ -15,4 +15,6 @@ public class FacultyCreateDTO {
     private String nameRu;
     @NotBlank(message = "NameEn required")
     private String nameEn;
+    private int orderNumber;
+    private String parentId;
 }

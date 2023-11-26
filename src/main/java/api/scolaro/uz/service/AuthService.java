@@ -165,6 +165,7 @@ public class AuthService {
 
     private AuthResponseDTO getClientAuthorizationResponse(ConsultingEntity entity) {
         AuthResponseDTO dto = new AuthResponseDTO();
+        dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setAttachDTO(attachService.getResponseAttach(entity.getPhotoId()));
         dto.setRoleList(personRoleService.getProfileRoleList(entity.getId()));

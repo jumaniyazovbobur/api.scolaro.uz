@@ -56,6 +56,8 @@ public class SecurityConfiguration {
             "/api/v1/continent/public/get-all",
             "/api/v1/university/*/detail",
             "/api/v1/faculty/filter/public",
+            "/api/v1/faculty/tree",
+            "/api/v1/faculty/*/sub",
     };
 
 

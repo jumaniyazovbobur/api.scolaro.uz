@@ -40,9 +40,10 @@ public class UniversityController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
     @Operation(summary = "Get university for admin", description = "")
-    public ResponseEntity<ApiResponse<UniversityResponseDTO>> get(@PathVariable("id") Long id) {
+    public ResponseEntity<ApiResponse<UniversityResponseDTO>> get(@PathVariable("id") Long id,
+                                                                  @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage appLanguage) {
         log.info("Get university {}", id);
-        return ResponseEntity.ok(universityService.getById(id));
+        return ResponseEntity.ok(universityService.getById(id, appLanguage));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -68,8 +69,8 @@ public class UniversityController {
 
     @GetMapping("/{id}/detail")
     @Operation(summary = "Get university detail by id (Public)", description = "")
-    public ResponseEntity<ApiResponse<UniversityResponseDTO>> getUniversityDetailById(@PathVariable("id") Long id, @RequestHeader(value = "Accept-Language",
-            defaultValue = "uz") AppLanguage appLanguage) {
+    public ResponseEntity<ApiResponse<UniversityResponseDTO>> getUniversityDetailById(@PathVariable("id") Long id,
+                                                                                      @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage appLanguage) {
         log.info("Get university {}", id);
         return ResponseEntity.ok(universityService.getByIdDetail(id, appLanguage));
     }
@@ -77,12 +78,12 @@ public class UniversityController {
     @PostMapping("/filter")
     @Operation(summary = "Get university list filter", description = "")
     public ResponseEntity<PageImpl<UniversityResponseFilterDTO>> filter(@RequestBody UniversityFilterDTO dto,
-                                                                  @RequestParam(value = "page", defaultValue = "1") int page,
-                                                                  @RequestParam(value = "size", defaultValue = "30") int size,
-                                                                  @RequestHeader(value = "Accept-Language",
-                                                                          defaultValue = "uz") AppLanguage appLanguage) {
+                                                                        @RequestParam(value = "page", defaultValue = "1") int page,
+                                                                        @RequestParam(value = "size", defaultValue = "30") int size,
+                                                                        @RequestHeader(value = "Accept-Language",
+                                                                                defaultValue = "uz") AppLanguage appLanguage) {
         log.info("Get filter university");
-        return ResponseEntity.ok(universityService.filter(page - 1, size, dto,appLanguage));
+        return ResponseEntity.ok(universityService.filter(page - 1, size, dto, appLanguage));
     }
 
     @GetMapping("/top-university")

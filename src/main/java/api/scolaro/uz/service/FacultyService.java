@@ -8,6 +8,7 @@ import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.entity.place.RegionEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.exp.ItemNotFoundException;
+import api.scolaro.uz.mapper.FacultyTreeMapper;
 import api.scolaro.uz.repository.FacultyRepository;
 import api.scolaro.uz.repository.consulting.ConsultingCustomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -35,7 +37,9 @@ public class FacultyService {
         entity.setNameEn(dto.getNameEn());
         entity.setNameRu(dto.getNameRu());
         entity.setVisible(Boolean.TRUE);
+        entity.setParentId(dto.getParentId());
         entity.setCreatedDate(LocalDateTime.now());
+        entity.setOrderNumber(dto.getOrderNumber());
         facultyRepository.save(entity);
         return toDetailDTO(entity);
     }
@@ -45,6 +49,7 @@ public class FacultyService {
         entity.setNameUz(dto.getNameUz());
         entity.setNameEn(dto.getNameEn());
         entity.setNameRu(dto.getNameRu());
+        entity.setOrderNumber(dto.getOrderNumber());
         facultyRepository.save(entity);
         return toDetailDTO(entity);
     }
@@ -82,6 +87,7 @@ public class FacultyService {
                 dto.setName(entity.getNameRu());
         }
         dto.setCreatedDate(entity.getCreatedDate());
+        dto.setOrderNumber(entity.getOrderNumber());
         return dto;
     }
 
@@ -92,6 +98,7 @@ public class FacultyService {
         dto.setNameEn(entity.getNameEn());
         dto.setNameRu(entity.getNameRu());
         dto.setCreatedDate(entity.getCreatedDate());
+        dto.setOrderNumber(entity.getOrderNumber());
         return dto;
     }
 
@@ -99,6 +106,36 @@ public class FacultyService {
         return facultyRepository.findById(id).orElseThrow(() -> {
             throw new ItemNotFoundException("faculty not found");
         });
+    }
+
+    public ApiResponse<List<FacultyDTO>> getFacultyTree(AppLanguage appLanguage) {
+        List<FacultyTreeMapper> mapperList = facultyRepository.getFacultyTree(appLanguage.name());
+        List<FacultyDTO> dtoList = new LinkedList<>();
+        for (FacultyTreeMapper mapper : mapperList) {
+            FacultyDTO dto = new FacultyDTO();
+            dto.setId(mapper.getId());
+            dto.setName(mapper.getName());
+            dto.setOrderNumber(mapper.getOrderNumber());
+            dto.setSubFaculty(mapper.getSubFaculty());
+            dto.setUniversityCount(mapper.getUniversityCount());
+            dtoList.add(dto);
+        }
+        return ApiResponse.ok(dtoList);
+    }
+
+    public ApiResponse<List<FacultyDTO>> getSubFacultyList(String parentFacultyId, AppLanguage appLanguage) {
+        List<FacultyTreeMapper> mapperList = facultyRepository.getFacultySubList(parentFacultyId, appLanguage.name());
+        List<FacultyDTO> dtoList = new LinkedList<>();
+        for (FacultyTreeMapper mapper : mapperList) {
+            FacultyDTO dto = new FacultyDTO();
+            dto.setId(mapper.getId());
+            dto.setName(mapper.getName());
+            dto.setOrderNumber(mapper.getOrderNumber());
+            dto.setSubFaculty(mapper.getSubFaculty());
+            dto.setUniversityCount(mapper.getUniversityCount());
+            dtoList.add(dto);
+        }
+        return ApiResponse.ok(dtoList);
     }
 
 }

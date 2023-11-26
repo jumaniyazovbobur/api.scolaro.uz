@@ -26,13 +26,12 @@ import java.util.List;
 @Slf4j
 @Service
 public class UniversityService {
-
     private final UniversityRepository universityRepository;
     private final UniversityCustomRepository customRepository;
     private final AttachService attachService;
     private final UniversityDegreeService universityDegreeService;
     private final CountryService countryService;
-
+    private final UniversityFacultyService universityFacultyService;
 
     public ApiResponse<UniversityResponseDTO> create(UniversityCreateDTO dto) {
         UniversityEntity entity = new UniversityEntity();
@@ -45,6 +44,7 @@ public class UniversityService {
         entity.setCreatedId(EntityDetails.getCurrentUserId());
         universityRepository.save(entity);
         universityDegreeService.merger(entity.getId(), dto.getDegreeList()); //merge university degreeType
+        universityFacultyService.merger(entity.getId(), dto.getFacultyList());
         return ApiResponse.ok(toDTO(entity));
     }
 
@@ -63,14 +63,16 @@ public class UniversityService {
         entity.setCountryId(dto.getCountryId());
         entity.setDescription(dto.getDescription());
         universityRepository.save(entity);
-        universityDegreeService.merger(entity.getId(), dto.getDegreeList()); //merge university degreeType
+        universityDegreeService.merger(entity.getId(), dto.getDegreeList()); //merge university degreeType\
+        universityFacultyService.merger(entity.getId(), dto.getFacultyList());
         return ApiResponse.ok(toDTO(entity));
     }
 
-    public ApiResponse<UniversityResponseDTO> getById(Long id) {
+    public ApiResponse<UniversityResponseDTO> getById(Long id, AppLanguage appLanguage) {
         UniversityEntity entity = get(id);
         UniversityResponseDTO responseDTO = toDTO(entity);
-        responseDTO.setDegreeTypeList(universityDegreeService.getUniversityDegreeTypeList(id));
+        responseDTO.setDegreeTypeList(universityDegreeService.getUniversityDegreeTypeList(id)); // get degree list
+        responseDTO.setFacultyList(universityFacultyService.getUniversityFacultyList(id, appLanguage)); // ser faculty list
         return ApiResponse.ok(responseDTO);
     }
 
@@ -79,9 +81,9 @@ public class UniversityService {
         UniversityResponseDTO responseDTO = toDTO(entity);
         responseDTO.setCountry(countryService.getById(entity.getCountryId(), appLanguage));
         responseDTO.setDegreeList(universityDegreeService.getUniversityDegreeTypeList(id, appLanguage));
+        responseDTO.setFacultyList(universityFacultyService.getUniversityFacultyList(id, appLanguage));
         return ApiResponse.ok(responseDTO);
     }
-
 
     public UniversityResponseDTO getByIdDetailResponse(Long id, AppLanguage appLanguage) {
         UniversityEntity entity = get(id);
@@ -139,7 +141,6 @@ public class UniversityService {
         });
 
     }
-
 
     public UniversityResponseDTO getUniversityForApp(Long id) {
         UniversityEntity entity = get(id);

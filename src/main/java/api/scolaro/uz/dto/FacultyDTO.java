@@ -17,4 +17,7 @@ public class FacultyDTO {
     private String nameRu;
     private String nameEn;
     private LocalDateTime createdDate;
+    private int orderNumber;
+    private String subFaculty;
+    private Integer universityCount;
 }

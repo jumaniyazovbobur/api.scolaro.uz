@@ -1,31 +1,47 @@
-###CREATE UNIVERSITY
+### CREATE UNIVERSITY
 POST http://localhost:8081/api/v1/university
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDAxMTYyNTYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDA3MjEwNTYsImlzcyI6IkphdmEgYmFja2VuZCJ9.UZH8Fuy76OqEWFLxgY10d1Ak3hTtgV05ooeLDvydKz5gI1EI0m6qhXMWuskWJSrvj0JJ9QpqLquP2LTwXXlOJw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDA4OTQ5NjksImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDE0OTk3NjksImlzcyI6IkphdmEgYmFja2VuZCJ9.jyOGBIYCoPX02YsxKMLlIrkfjV9ah-wiHzwgjJuLwLw1II3Y4wZFoUJeIx67Dk1t0OdBpj5mSbQKymNE5qr97A
 
 {
-  "name": "TATU2",
-  "webSite": "www.tuit2.uz",
+  "name": "TATU3",
+  "webSite": "www.tuit3.uz",
   "rating": 1,
   "countryId": 1,
-  "photoId": "4028abb98bc471a5018bc475bbad0000",
+  "photoId": "8080b7ef8ba46236018ba4703e860000",
   "degreeList": [
     "Bachelor",
     "MasterDegree"
+  ],
+  "facultyList": [
+    "402880ea8bf4eea3018bf4eec6960000",
+    "402880e48c01cac3018c01cf60170001",
+    "402880e48c01cac3018c01cf7fe50002",
+    "402880e48c01cac3018c01cf9af90003",
+    "402880e48c01cac3018c01d1b0e40005"
   ]
 }
 
 
 ###UPDATE UNIVERSITY
-PUT http://localhost:8081/api/v1/university/update/1
+PUT http://localhost:8081/api/v1/university/5
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTYyNjI1NDIsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTY4NjczNDIsImlzcyI6IkphdmEgYmFja2VuZCJ9.y0zxd2v2--laY6asCk5-lk-2n7MrMy2QArgeydiUSA5tFCbldQKOSZn3ZiiA8U2fZn2KEDvRhm6uSSYDCcsS8A
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDA4OTQ5NjksImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDE0OTk3NjksImlzcyI6IkphdmEgYmFja2VuZCJ9.jyOGBIYCoPX02YsxKMLlIrkfjV9ah-wiHzwgjJuLwLw1II3Y4wZFoUJeIx67Dk1t0OdBpj5mSbQKymNE5qr97A
 
 {
-  "name": "TATU",
-  "webSite": "www.nuuz.uz",
+  "name": "Univer Math",
+  "webSite": "www.univermath.com",
   "rating": 1,
-  "countryId": 1
+  "countryId": 1,
+  "degreeList": [
+    "Bachelor",
+    "MasterDegree"
+  ],
+  "facultyList": [
+    "402880ea8bf4e7f6018bf4edd38b0000",
+    "402880e48c01cac3018c01ce6e200000",
+    "402880e48c01cac3018c01d1b0e40005"
+  ]
 }
 
 
@@ -35,8 +51,8 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTYyNjI1NDIsImlkIjoiOTA5M
 
 
 ###GET BY ID UNIVERSITY
-GET http://localhost:8081/api/v1/university/2
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTk3ODYwNjMsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDAzOTA4NjMsImlzcyI6IkphdmEgYmFja2VuZCJ9.kWyofrDf9P2HGBc6Nj1ZmPJrmvpnCXGGXbuJJMzXMBqY_VKbfRNeMvZ83S_kSQLXpyCv9uyikII5GmuHuseGmw
+GET http://localhost:8081/api/v1/university/5
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDA4OTQ5NjksImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDE0OTk3NjksImlzcyI6IkphdmEgYmFja2VuZCJ9.jyOGBIYCoPX02YsxKMLlIrkfjV9ah-wiHzwgjJuLwLw1II3Y4wZFoUJeIx67Dk1t0OdBpj5mSbQKymNE5qr97A
 
 
 ### University filter
@@ -50,7 +66,7 @@ Accept-Language: uz
 
 
 ### Get university detail by id
-GET http://localhost:8081/api/v1/university/6/detail
+GET http://localhost:8081/api/v1/university/5/detail
 
 ### Get top university
 GET http://localhost:8081/api/v1/university/top-university
