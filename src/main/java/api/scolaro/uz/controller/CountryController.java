@@ -1,9 +1,4 @@
 package api.scolaro.uz.controller;
-// PROJECT NAME -> api.dachatop
-// TIME -> 22:13
-// MONTH -> 07
-// DAY -> 30
-
 
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.country.*;
