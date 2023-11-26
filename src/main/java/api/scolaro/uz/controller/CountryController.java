@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -81,10 +82,11 @@ public class CountryController {
      */
     @ApiOperation(value = "Country pagination", notes = "Method : Country Pagination for admin", response = CountryPaginationDTO.class)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/pagination")
-    public ResponseEntity<CountryPaginationDTO> pagination(@RequestParam(value = "page", defaultValue = "1") int page,
-                                                           @RequestParam(value = "size", defaultValue = "30") int size) {
-        return ResponseEntity.ok().body(countryService.pagination(page - 1, size));
+    @PostMapping("/filter")
+    public ResponseEntity<PageImpl<CountryResponseDTO>> pagination(@RequestBody CountryFilterDTO dto,
+                                                                   @RequestParam(value = "page", defaultValue = "1") int page,
+                                                                   @RequestParam(value = "size", defaultValue = "30") int size) {
+        return ResponseEntity.ok().body(countryService.pagination(dto, page - 1, size));
     }
 
     /**
