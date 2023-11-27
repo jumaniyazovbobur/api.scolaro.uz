@@ -40,13 +40,13 @@ public class SimpleMessageFilterRepository {
                 "s.message as sMessage, " +
                 "s.message_type as sMessageType " +
                 "from simple_message as s " +
-                "inner join attach as a on s.attach_id=a.id " +
+                "left join attach as a on s.attach_id=a.id " +
                 "where visible =true ");
         selectBuilder.append(stringBuilder).append(" order by s.created_date desc ");
 
         StringBuilder countBuilder = new StringBuilder("select count(*) " +
                 "from simple_message as s " +
-                "inner join attach as a on s.attach_id=a.id " +
+                "left join attach as a on s.attach_id=a.id " +
                 "where s.visible=true ");
         countBuilder.append(stringBuilder);
 

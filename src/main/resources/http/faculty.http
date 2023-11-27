@@ -40,14 +40,21 @@ Content-Type: application/json
 {
 }
 
-### Faculty tree
+### Get first level faculty list with university count
+GET http://localhost:8081/api/v1/faculty/public/first-level-count
+
+
+### Get sub faculty tree with university count
+GET http://localhost:8081/api/v1/faculty/public/402880ea8bf4eea3018bf4eec6960000/sub/tree
+
+
+### Get faculty level for dropdown (first-level, sub level, inner sub level)
+GET http://localhost:8081/api/v1/faculty/public/level?parentId=402880ea8bf4eea3018bf4eec6960000
+
+
+### Get faculty tree with university count
 GET http://localhost:8081/api/v1/faculty/tree
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDA2MjExOTQsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDEyMjU5OTQsImlzcyI6IkphdmEgYmFja2VuZCJ9.PRqi9I9POMlmRxRLwrDaPW3fG2YZDZ0bPxB3eONim7E3ghTbswqzWsm-VQwPt67FecB9V_x3e6NzQZN8TesBPg
-
-### Faculty sub
-GET http://localhost:8081/api/v1/faculty/402880ea8bf4eea3018bf4eec6960000/sub
-
-
 
 
 

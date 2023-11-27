@@ -1,6 +1,7 @@
 package api.scolaro.uz.repository.place;
 
 import api.scolaro.uz.entity.place.CountryEntity;
+import api.scolaro.uz.mapper.CountryMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,12 +26,19 @@ public interface CountryRepository extends JpaRepository<CountryEntity, Long> {
     Optional<CountryEntity> findByIdAndVisibleTrue(Long id);
 
 
-//    @Query("SELECT  cou.id as cou_id,cou.visible as cou_visible,cou.createdDate as cou_createdDate," +
-//            " cou.nameEn as nameEn,cou.nameUz as nameUz," +
-//            " cou.nameRu as nameRu from CountryEntity as cou " +
-//            " WHERE cou.id=:id and cou.visible = true ")
-//    Optional<CountryMapper> getCountryByKey(@Param("id") Long id);
+    @Query(value = "select c.id, " +
+            "    CASE :lang WHEN 'uz' THEN c.name_uz WHEN 'en' THEN c.name_en else c.name_ru END as name, " +
+            "    (select count(*) from university u where u.country_id = c.id and u.visible=true) as universityCount " +
+            "from country as c where c.visible=true; ", nativeQuery = true)
+    List<CountryMapper> getCountryWithUniversityCount(@Param("lang") String lang);
 
+    @Query(value = "select c.id, " +
+            "    CASE :lang WHEN 'uz' THEN c.name_uz WHEN 'en' THEN c.name_en else c.name_ru END as name, " +
+            "    (select count(*) from university u where u.country_id = c.id and u.visible=true) as universityCount " +
+            "from country as c " +
+            "inner join continent_country cc on c.id = cc.country_id " +
+            "where c.visible=true and cc.continent_id =:continentId", nativeQuery = true)
+    List<CountryMapper> getCountryListWithUniversityCountByContinentId(@Param("continentId") Long continentId, @Param("lang") String lang);
 
     @Modifying
     @Transactional

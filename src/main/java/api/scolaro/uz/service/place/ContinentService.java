@@ -9,6 +9,7 @@ import api.scolaro.uz.entity.place.ContinentEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
+import api.scolaro.uz.mapper.ContinentMapper;
 import api.scolaro.uz.repository.ContinentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,6 +52,19 @@ public class ContinentService {
                 dtoList.add(dto);
             });
         }
+        return new ApiResponse<>(200, false, dtoList);
+    }
+
+    public ApiResponse<List<ContinentResponseDTO>> getContinentListWithUniversity(AppLanguage lang) {
+        List<ContinentResponseDTO> dtoList = new LinkedList<>();
+        List<ContinentMapper> entityList = continentRepository.getContinentListWithUniversityCount(lang.name());
+        entityList.forEach(mapper -> {
+            ContinentResponseDTO dto = new ContinentResponseDTO();
+            dto.setId(mapper.getId());
+            dto.setName(mapper.getName());
+            dto.setUniversityCount(mapper.getUniversityCount());
+            dtoList.add(dto);
+        });
         return new ApiResponse<>(200, false, dtoList);
     }
 
@@ -97,6 +111,10 @@ public class ContinentService {
         });
     }
 
+    public Object getContinentByIdWithUniversityCount(Long continentId, AppLanguage language) {
+        return null; // TODO
+    }
+
     private ContinentDTO toDTO(ContinentEntity entity) {
         ContinentDTO continentDTO = new ContinentDTO();
         continentDTO.setNameUz(entity.getNameUz());
@@ -111,4 +129,6 @@ public class ContinentService {
         ContinentEntity entity = get(id);
         return ApiResponse.ok(toDTO(entity));
     }
+
+
 }

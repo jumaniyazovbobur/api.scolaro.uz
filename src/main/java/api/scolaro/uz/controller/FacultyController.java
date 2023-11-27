@@ -37,25 +37,41 @@ public class FacultyController {
                                                                 @RequestParam(value = "size", defaultValue = "50") int size) {
         return ResponseEntity.ok(facultyService.publicFilter(filterDTO, appLanguage, page, size));
     }*/
-
-    @GetMapping("/tree")
-    @Operation(summary = "Get faculty tree ", description = "")
-    public ResponseEntity<ApiResponse<List<FacultyDTO>>> filter(@RequestHeader(value = "Accept-Language",
+    @GetMapping("/public/first-level-count")
+    @Operation(summary = "Get first level faculty list with university count", description = "Used in main page Category dropdown")
+    public ResponseEntity<ApiResponse<List<FacultyDTO>>> getFirstLevelFacultyListWithUniversityCount(@RequestHeader(value = "Accept-Language",
             defaultValue = "uz") AppLanguage appLanguage) {
-        return ResponseEntity.ok(facultyService.getFacultyTree(appLanguage));
+        return ResponseEntity.ok(facultyService.getFirstLevelFacultyListWithUniversityCount(appLanguage));
     }
 
-    @GetMapping("/{id}/sub")
-    @Operation(summary = "Get faculty sub list ", description = "")
-    public ResponseEntity<ApiResponse<List<FacultyDTO>>> facultySubList(@PathVariable("id") String parentFacultyId,
-                                                                        @RequestHeader(value = "Accept-Language", defaultValue = "uz")
-                                                                        AppLanguage appLanguage) {
-        return ResponseEntity.ok(facultyService.getSubFacultyList(parentFacultyId, appLanguage));
+    @GetMapping("/public/{parentId}/sub/tree")
+    @Operation(summary = "Get sub faculty tree with university count", description = "Used in main page Category dropdown when parent faculty selected")
+    public ResponseEntity<ApiResponse<List<FacultyDTO>>> getSubFacultyTreeWithUniversityCount(
+            @PathVariable("parentId") String parentFacultyId,
+            @RequestHeader(value = "Accept-Language",
+                    defaultValue = "uz") AppLanguage appLanguage) {
+        return ResponseEntity.ok(facultyService.getSubFacultyTreeWithUniversityCount(parentFacultyId, appLanguage));
+    }
+
+    @GetMapping("/public/level")
+    @Operation(summary = "Get faculty level for dropdown (first-level, sub level, inner sub level) ", description = "Used in university dashboard for assigning faculty to university")
+    public ResponseEntity<ApiResponse<List<FacultyDTO>>> facultyLevel(
+            @RequestParam(value = "parentId",required = false) String parentId,
+            @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage appLanguage) {
+        return ResponseEntity.ok(facultyService.facultyLevel(parentId, appLanguage));
     }
 
     /**
      * FOR ADMIN
      */
+    @GetMapping("/tree")
+    @Operation(summary = "Get faculty tree with university count", description = "Used for admin dashboard")
+    public ResponseEntity<ApiResponse<List<FacultyDTO>>> facultyTree(@RequestHeader(value = "Accept-Language",
+            defaultValue = "uz") AppLanguage appLanguage) {
+        return ResponseEntity.ok(facultyService.getFacultyTree(appLanguage));
+    }
+
+
     @PostMapping("")
     @Operation(summary = "Create faculty", description = "")
     public ResponseEntity<FacultyDTO> create(@RequestBody @Valid FacultyCreateDTO dto) {

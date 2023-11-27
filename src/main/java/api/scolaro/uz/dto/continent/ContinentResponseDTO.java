@@ -8,4 +8,5 @@ import lombok.Setter;
 public class ContinentResponseDTO {
     private Long id;
     private String name;
+    private Integer universityCount;
 }
