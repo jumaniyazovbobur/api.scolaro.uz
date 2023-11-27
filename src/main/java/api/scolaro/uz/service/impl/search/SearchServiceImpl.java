@@ -1,0 +1,29 @@
+package api.scolaro.uz.service.impl.search;
+
+import api.scolaro.uz.repository.search.CustomPaginationForSearch;
+import api.scolaro.uz.repository.search.SearchRepository;
+import api.scolaro.uz.service.search.SearchService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Service;
+
+
+/**
+ * @author 'Mukhtarov Sarvarbek' on 27.11.2023
+ * @project api.scolaro.uz
+ * @contact @sarvargo
+ */
+@Service
+@Primary
+@Slf4j
+@RequiredArgsConstructor
+public class SearchServiceImpl implements SearchService {
+
+    private final SearchRepository searchRepository;
+    @Override
+    public CustomPaginationForSearch search(String query, int page, int size) {
+
+        return searchRepository.search(query,"uz",page,size);
+    }
+}

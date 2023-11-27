@@ -1,15 +1,16 @@
 ### Create consulting
 POST http://localhost:8081/api/v1/consulting/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTk2Nzc1NzYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDAyODIzNzYsImlzcyI6IkphdmEgYmFja2VuZCJ9.rfTobqCOiRtu39MmlO5RgwGoA_RDqlJ2xED4kskuGgEaBldnGmTcryI-D2tg7eiaFelrcyIx1RaA6gBQhv8HOQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDEwODAwNTgsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDE2ODQ4NTgsImlzcyI6IkphdmEgYmFja2VuZCJ9.uqzMymslG585N4TAbQEKP5uA4LBgz4l6IPzmvsIeQcf76bZlriK5EEHYjBcwl-VlpAoDaI8iF9Z8pohq5NpXNA
 Content-Type: application/json
 
 {
-  "name": "Brain consulting",
-  "phone": "998997795710",
+  "name": "Test",
+  "phone": "998997795713",
   "address": "Toshkent shahri",
   "ownerName": "Maxmud",
   "ownerSurname": "Maxmudov",
-  "about": "Biz vawe kuchaygan consaltingmiz"
+  "about": "Biz vawe kuchaygan consaltingmiz",
+  "photoId": "2c9e40818c0f3f74018c0f77a82c0002"
 }
 
 ### Create consulting for PRODUCT
