@@ -15,7 +15,7 @@ from (select json_build_object('id', f.id,
                                'subFaculty', get_sub_faculty(f.id,lang),
                                'universityCount', get_faculty_university_count(f.id))::text as body
       from faculty as f
-      where parent_id = parent_faculty_id) as temp_table;
+      where parent_id = parent_faculty_id and visible=true) as temp_table;
 return result_json;
 end;
 $$;
