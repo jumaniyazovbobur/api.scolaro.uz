@@ -12,9 +12,9 @@ import java.util.List;
 @Getter
 @Setter
 public class CountryPaginationDTO {
-private long totalElements;
-private int  totalPages;
-private List<CountryResponseDTO> content;
+    private long totalElements;
+    private int totalPages;
+    private List<CountryResponseDTO> content;
 
     public CountryPaginationDTO(long totalElements, int totalPages, List<CountryResponseDTO> content) {
         this.totalElements = totalElements;
