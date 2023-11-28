@@ -1,14 +1,12 @@
 package api.scolaro.uz.controller.search;
 
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.repository.search.CustomPaginationForSearch;
 import api.scolaro.uz.service.search.SearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author 'Mukhtarov Sarvarbek' on 27.11.2023
@@ -25,9 +23,10 @@ public class SearchController {
     @GetMapping("")
     public ResponseEntity<CustomPaginationForSearch> search(@RequestParam(value = "query", required = false, defaultValue = "") String query,
                                                             @RequestParam(value = "page", defaultValue = "0") int page,
-                                                            @RequestParam(value = "size", defaultValue = "30") int size
+                                                            @RequestParam(value = "size", defaultValue = "30") int size,
+                                                            @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language
     ) {
         log.info("Search query={} page={}, size={}", query, page, size);
-        return ResponseEntity.ok(searchService.search(query,page,size));
+        return ResponseEntity.ok(searchService.search(query,page,size,language));
     }
 }
