@@ -47,7 +47,7 @@ end;$$
 select c.id,
        case when :lang = 'uz' then name_uz when :lang = 'en' then name_en else name_ru end as nama,
        (select json_agg(temp_t1)
-        from (select u.id, u.name, cu.tariff_id
+        from (select u.id, u.name, cu.id as cuId
               from university u
                        left join consulting_university cu on u.id = cu.university_id
               where (cu.visible = true or cu is null)
