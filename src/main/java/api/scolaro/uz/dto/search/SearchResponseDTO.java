@@ -1,5 +1,7 @@
 package api.scolaro.uz.dto.search;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,8 +14,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SearchResponseDTO {
     private String id;
     private String name;
     private String type; // UNIVERSITY,CONSULTING,COUNTRY,SCHOLAR
+    private String imageUrl;
+    private String description;
+    @JsonIgnore
+    private Long tempCount;
 }
