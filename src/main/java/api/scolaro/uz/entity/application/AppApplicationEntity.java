@@ -9,13 +9,11 @@ import api.scolaro.uz.entity.consulting.ConsultingStepLevelEntity;
 import api.scolaro.uz.entity.consulting.ConsultingTariffEntity;
 import api.scolaro.uz.enums.AppStatus;
 import api.scolaro.uz.enums.ApplicationStepLevelStatus;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import jakarta.persistence.*;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -77,6 +75,6 @@ public class AppApplicationEntity extends BaseEntity {
     @Column(name = "application_step_level_status")
     private ApplicationStepLevelStatus applicationStepLevelStatus;
 
-
-
+    @Column(name = "applicaiton_number")
+    private Long applicationNumber;
 }

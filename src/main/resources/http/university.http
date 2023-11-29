@@ -8,17 +8,13 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDA4OTQ5NjksImlkIjoiOTA5M
   "webSite": "www.tuit3.uz",
   "rating": 1,
   "countryId": 1,
-  "photoId": "8080b7ef8ba46236018ba4703e860000",
+  "photoId": "2c9c70818c1abd87018c1abedf9e0002",
   "degreeList": [
     "Bachelor",
     "MasterDegree"
   ],
   "facultyList": [
-    "402880ea8bf4eea3018bf4eec6960000",
-    "402880e48c01cac3018c01cf60170001",
-    "402880e48c01cac3018c01cf7fe50002",
-    "402880e48c01cac3018c01cf9af90003",
-    "402880e48c01cac3018c01d1b0e40005"
+    "2c9c70818c1abd87018c1abfbbb80006"
   ]
 }
 
