@@ -1,5 +1,6 @@
 package api.scolaro.uz.service.impl.search;
 
+import api.scolaro.uz.dto.search.res.SearchFilterResDTO;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.repository.search.CustomPaginationForSearch;
 import api.scolaro.uz.repository.search.SearchRepository;
@@ -24,7 +25,7 @@ public class SearchServiceImpl implements SearchService {
     private final SearchRepository searchRepository;
 
     @Override
-    public CustomPaginationForSearch search(String query, int page, int size, AppLanguage language) {
-        return searchRepository.search(query, language.name(), page, size);
+    public CustomPaginationForSearch search(SearchFilterResDTO dto, int page, int size, AppLanguage language) {
+        return searchRepository.search(dto, language.name(), page, size);
     }
 }

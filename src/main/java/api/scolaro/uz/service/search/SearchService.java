@@ -1,5 +1,6 @@
 package api.scolaro.uz.service.search;
 
+import api.scolaro.uz.dto.search.res.SearchFilterResDTO;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.repository.search.CustomPaginationForSearch;
 
@@ -9,5 +10,5 @@ import api.scolaro.uz.repository.search.CustomPaginationForSearch;
  * @contact @sarvargo
  */
 public interface SearchService {
-    CustomPaginationForSearch search(String query, int page, int size, AppLanguage language);
+    CustomPaginationForSearch search(SearchFilterResDTO dto, int page, int size, AppLanguage language);
 }

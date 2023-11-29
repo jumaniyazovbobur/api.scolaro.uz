@@ -1,5 +1,6 @@
 package api.scolaro.uz.controller.search;
 
+import api.scolaro.uz.dto.search.res.SearchFilterResDTO;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.repository.search.CustomPaginationForSearch;
 import api.scolaro.uz.service.search.SearchService;
@@ -20,13 +21,12 @@ import org.springframework.web.bind.annotation.*;
 public class SearchController {
     private final SearchService searchService;
 
-    @GetMapping("")
-    public ResponseEntity<CustomPaginationForSearch> search(@RequestParam(value = "query", required = false, defaultValue = "") String query,
+
+    @PostMapping("")
+    public ResponseEntity<CustomPaginationForSearch> search(@RequestBody(required = false) SearchFilterResDTO dto,
                                                             @RequestParam(value = "page", defaultValue = "0") int page,
                                                             @RequestParam(value = "size", defaultValue = "30") int size,
-                                                            @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language
-    ) {
-        log.info("Search query={} page={}, size={}", query, page, size);
-        return ResponseEntity.ok(searchService.search(query,page,size,language));
+                                                            @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
+        return ResponseEntity.ok(searchService.search(dto, page, size, language));
     }
 }
