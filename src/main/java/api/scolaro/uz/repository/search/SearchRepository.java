@@ -108,27 +108,51 @@ public class SearchRepository {
             if (Optional.ofNullable(dto.getCountryId()).isPresent()) {
                 // university in the country
                 universityQuery.append(" and university.country_id = :countryId");
+                countryQuery.append(" and false");
+                consultingQuery.append(" and false");
+                facultyQuery.append(" and false");
+                scholarQuery.append(" and false");
                 params.put("countryId", dto.getCountryId());
             }
             if (Optional.ofNullable(dto.getConsultingId()).isPresent()) {
                 consultingQuery.append(" and consulting.id = :consultingId");
+                countryQuery.append(" and false");
+                universityQuery.append(" and false");
+                facultyQuery.append(" and false");
+                scholarQuery.append(" and false");
                 params.put("consultingId", dto.getConsultingId());
             }
             if (Optional.ofNullable(dto.getFacultyId()).isPresent()) {
                 // getting university which university's faculty like
                 universityQuery.append(" and university.id in (select uf.university_id from university_faculty as uf where uf.faculty_id = :facultyId)");
+                countryQuery.append(" and false");
+                consultingQuery.append(" and false");
+                facultyQuery.append(" and false");
+                scholarQuery.append(" and false");
                 params.put("facultyId", dto.getFacultyId());
             }
             if (Optional.ofNullable(dto.getUniversityId()).isPresent()) {
                 universityQuery.append(" and university.id = :universityId");
+                countryQuery.append(" and false");
+                consultingQuery.append(" and false");
+                facultyQuery.append(" and false");
+                scholarQuery.append(" and false");
                 params.put("universityId", dto.getUniversityId());
             }
             if (Optional.ofNullable(dto.getScholarShipId()).isPresent()) {
                 scholarQuery.append(" and scholar.id = :scholarId");
+                countryQuery.append(" and false");
+                consultingQuery.append(" and false");
+                facultyQuery.append(" and false");
+                universityQuery.append(" and false");
                 params.put("scholarId", dto.getScholarShipId());
             }
             if (Optional.ofNullable(dto.getContinentId()).isPresent()) {
                 universityQuery.append(" and university.country_id in (select cc.country_id from continent_country cc where cc.continent_id = :continentId)");
+                countryQuery.append(" and false");
+                consultingQuery.append(" and false");
+                facultyQuery.append(" and false");
+                scholarQuery.append(" and false");
                 params.put("continentId", dto.getContinentId());
             }
         }
@@ -183,9 +207,17 @@ public class SearchRepository {
                     switch (string) {
                         case "FACULTY" -> res.setFaculty(searchResponseDTOS);
                         case "COUNTRY" -> res.setCountry(searchResponseDTOS);
-                        case "SCHOLAR", "UNIVERSITY", "CONSULTING" -> {
+                        case "SCHOLAR" -> {
                             long total = searchResponseDTOS.stream().map(SearchResponseDTO::getTempCount).findFirst().orElse(0L);
                             res.setScholar(new CustomPaginationDTO<>(total, searchResponseDTOS));
+                        }
+                        case "UNIVERSITY" -> {
+                            long total = searchResponseDTOS.stream().map(SearchResponseDTO::getTempCount).findFirst().orElse(0L);
+                            res.setUniversity(new CustomPaginationDTO<>(total, searchResponseDTOS));
+                        }
+                        case "CONSULTING" -> {
+                            long total = searchResponseDTOS.stream().map(SearchResponseDTO::getTempCount).findFirst().orElse(0L);
+                            res.setConsulting(new CustomPaginationDTO<>(total, searchResponseDTOS));
                         }
                     }
                 });

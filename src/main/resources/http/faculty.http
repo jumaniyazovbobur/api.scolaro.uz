@@ -1,14 +1,13 @@
 ### Create consulting
 POST http://localhost:8081/api/v1/faculty
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDA4MzczMDEsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTRiMzA5NDAwMjEiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNzAxNDQyMTAxLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.Fwzy3CdF9LgdWpKjnRffcebGh2DG6_li26yX-xBJ0SdeChoEDi5CV1Sn5dcdj-BJ9_PUKihaE0XGRMSMuf9E9w
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "nameUz": "Sub Biznes  faculty uz 1.2.2 ",
-  "nameEn": "Sub Biznes faculty en 1.2.2",
-  "nameRu": "Sub Biznes faculty ru 1.2.2",
-  "orderNumber": 2,
-  "parentId": "402880e48c01cac3018c01cf7fe50002"
+  "nameUz": "Biznes  faculty uz",
+  "nameEn": "Biznes faculty en",
+  "nameRu": "Biznes faculty ru",
+  "orderNumber": 1
 }
 
 
