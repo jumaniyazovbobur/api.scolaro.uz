@@ -34,5 +34,6 @@ public class AppApplicationResponseDTO {
     private Long universityId;
     private AppStatus status;
     private LocalDateTime createdDate;
+    private Long applicationNumber;
 
 }

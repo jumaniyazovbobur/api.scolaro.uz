@@ -1,13 +1,13 @@
 ### Create consulting
 POST http://localhost:8081/api/v1/faculty
-Authorization: Bearer {{token}}
+Authorization: Bearer {{adminToken}}
 Content-Type: application/json
 
 {
-  "nameUz": "Biznes  faculty uz",
-  "nameEn": "Biznes faculty en",
-  "nameRu": "Biznes faculty ru",
-  "orderNumber": 1
+  "nameUz": "Sub Biznes  faculty uz 1.2.2 ",
+  "nameEn": "Sub Biznes faculty en 1.2.2",
+  "nameRu": "Sub Biznes faculty ru 1.2.2",
+  "orderNumber": 2
 }
 
 

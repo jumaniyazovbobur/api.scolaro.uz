@@ -54,4 +54,6 @@ public interface AppApplicationRepository extends JpaRepository<AppApplicationEn
     int updateConsultingStepLevelStatusId(@Param("appId") String appId, @Param("consultingStepLevelStatusId") String consultingStepLevelStatusId);
 
 
+    @Query(value = "SELECT NEXTVAL('application_number_seq')",nativeQuery = true)
+    Long getSequenceApplicationNumber();
 }

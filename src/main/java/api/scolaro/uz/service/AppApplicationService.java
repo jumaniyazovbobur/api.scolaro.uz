@@ -55,6 +55,7 @@ public class AppApplicationService {
         entity.setConsultingId(consulting.getId());
         entity.setUniversityId(university.getId());
         entity.setStatus(AppStatus.TRAIL);
+        entity.setApplicationNumber(appApplicationRepository.getSequenceApplicationNumber());
 
         appApplicationRepository.save(entity);
         return new ApiResponse<>(200, false, toDTO(entity));
@@ -170,6 +171,7 @@ public class AppApplicationService {
         dto.setUniversityId(entity.getUniversityId());
         dto.setStudentId(entity.getStudentId());
         dto.setStatus(entity.getStatus());
+        dto.setApplicationNumber(entity.getApplicationNumber());
         return dto;
     }
 
