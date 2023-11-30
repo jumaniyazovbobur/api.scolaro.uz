@@ -1,20 +1,23 @@
 ### CREATE UNIVERSITY
 POST http://localhost:8081/api/v1/university
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDA4OTQ5NjksImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDE0OTk3NjksImlzcyI6IkphdmEgYmFja2VuZCJ9.jyOGBIYCoPX02YsxKMLlIrkfjV9ah-wiHzwgjJuLwLw1II3Y4wZFoUJeIx67Dk1t0OdBpj5mSbQKymNE5qr97A
+Authorization: Bearer {{token}}
 
 {
-  "name": "TATU3",
+  "name": "Milliy",
   "webSite": "www.tuit3.uz",
   "rating": 1,
   "countryId": 1,
-  "photoId": "2c9c70818c1abd87018c1abedf9e0002",
+  "photoId": "2c9e40818c0f3f74018c0f77a82c0002",
   "degreeList": [
     "Bachelor",
     "MasterDegree"
   ],
   "facultyList": [
-    "2c9c70818c1abd87018c1abfbbb80006"
+    "2c9c70818c1971ba018c197682840009",
+    "2c9c70818c1971ba018c19765ca00008",
+    "2c9c70818c1971ba018c197625960007",
+    "2c9c70818c1971ba018c1975ce4b0006"
   ]
 }
 

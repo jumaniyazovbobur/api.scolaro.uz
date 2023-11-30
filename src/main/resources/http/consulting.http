@@ -1,11 +1,11 @@
 ### Create consulting
 POST http://localhost:8081/api/v1/consulting/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDEwODAwNTgsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDE2ODQ4NTgsImlzcyI6IkphdmEgYmFja2VuZCJ9.uqzMymslG585N4TAbQEKP5uA4LBgz4l6IPzmvsIeQcf76bZlriK5EEHYjBcwl-VlpAoDaI8iF9Z8pohq5NpXNA
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "name": "Test",
-  "phone": "998997795713",
+  "name": "Asia consult",
+  "phone": "998997795714",
   "address": "Toshkent shahri",
   "ownerName": "Maxmud",
   "ownerSurname": "Maxmudov",
