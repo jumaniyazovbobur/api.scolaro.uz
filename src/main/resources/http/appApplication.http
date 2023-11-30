@@ -1,10 +1,10 @@
 ### Create appApplication
 POST localhost:8081/api/v1/app-application
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkyNDE1MDcsImlkIjoiNDAyODgwZTg4YmEyNmIxODAxOGJhMjZlZmQwZTAwMDQiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNjk5ODQ2MzA3LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.NWuZleLI8MHHzuwlEB1_aArLA_7aCfpNj0t3UrIzD-VNAK3QQ7BFDhkBkGLD10XXiCtyOuu3CrF8kpofnTPw0Q
+Authorization: Bearer {{studentToken}}
 
 {
-  "consultingId":"402880e88ba26b18018ba26da2470002",
+  "consultingId":"2c9c70818c1abd87018c1abf20590004",
   "universityId": 1
 }
 

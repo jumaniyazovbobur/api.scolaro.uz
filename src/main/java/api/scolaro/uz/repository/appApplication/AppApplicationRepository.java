@@ -42,4 +42,7 @@ public interface AppApplicationRepository extends JpaRepository<AppApplicationEn
     @Modifying
     @Query("update AppApplicationEntity set consultingStepId = :conStepId where id=:applicationId")
     int updateConStepId(@Param("applicationId") String applicationId, @Param("conStepId") String conStepId);
+
+    @Query(value = "SELECT NEXTVAL('application_number_seq')",nativeQuery = true)
+    Long getSequenceApplicationNumber();
 }

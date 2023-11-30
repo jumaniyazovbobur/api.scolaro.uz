@@ -6,13 +6,12 @@ Accept-Language: ru
 {
   "name": "asd",
   "surname": "asd",
-  "phoneNumber": "998997795710",
+  "phoneNumber": "998972322903",
   "password": "123456",
   "nickName": "bigman",
   "countryId": 1,
   "address": "Toshkent viloyati",
-  "gender": "MALE",
-  "photo_id": "402880e78b7093f0018b70a640840006"
+  "gender": "MALE"
 }
 
 
@@ -38,8 +37,8 @@ Content-Type: application/json
 Accept-Language: ru
 
 {
-  "phone": "998997795710",
-  "code": "57676"
+  "phone": "998972322903",
+  "code": "13626"
 }
 
 ### Student (Profile) login
