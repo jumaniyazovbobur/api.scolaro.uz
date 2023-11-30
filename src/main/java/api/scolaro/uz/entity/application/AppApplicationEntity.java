@@ -71,12 +71,17 @@ public class AppApplicationEntity extends BaseEntity {
     @JoinColumn(name = "consulting_step_level_id", insertable = false, updatable = false)
     private ConsultingStepLevelEntity consultingStepLevel;
     @Column(name = "consulting_step_level_id")
-    private String consultingStepLevelId; // TODO remove it later
+    private String consultingStepLevelId; // application current step level id
 
-    @Enumerated(EnumType.STRING)
+    /*@Enumerated(EnumType.STRING)
     @Column(name = "application_step_level_status")
-    private ApplicationStepLevelStatus applicationStepLevelStatus;
+    private ApplicationStepLevelStatus applicationStepLevelStatus;*/
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "consulting_step_level_status_id", insertable = false, updatable = false)
+    private AppApplicationLevelStatusEntity AppApplicationLevelStatus;
+    @Column(name = "consulting_step_level_status_id")
+    private String consultingStepLevelStatusId; // application current step level status id
 
 
 }

@@ -72,6 +72,12 @@ public class AppApplicationService {
         return ApiResponse.ok(pageObj);
     }
 
+    public ApiResponse<Page<AppApplicationFilterMapperDTO>> filterForStudent_mobile(int page, int size) {
+        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getForStudent_mobile(page, size);
+        Page<AppApplicationFilterMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
+        return ApiResponse.ok(pageObj);
+    }
+
     public ApiResponse<Page<AppApplicationFilterMapperDTO>> filterForConsulting(AppApplicationFilterConsultingDTO dto, int page, int size) {
         FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.filterForConsulting(dto, page, size);
         Page<AppApplicationFilterMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());

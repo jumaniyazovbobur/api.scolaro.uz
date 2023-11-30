@@ -15,7 +15,7 @@ public interface FacultyRepository extends CrudRepository<FacultyEntity, String>
             "       get_sub_faculty(f.id,'en') as subFaculty," +
             "       get_faculty_university_count(f.id) as universityCount " +
             "from faculty as f " +
-            "where parent_id isnull visible=true;", nativeQuery = true)
+            "where parent_id isnull and visible=true;", nativeQuery = true)
     List<FacultyTreeMapper> getFacultyTree(@Param("lang") String lang);
 
     @Query(value = "select f.id,\n" +

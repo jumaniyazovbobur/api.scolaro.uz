@@ -34,13 +34,22 @@ public class AppApplicationController {
         return ResponseEntity.ok(appApplicationService.create(dto));
     }
 
-    @Operation(summary = "Filter AppApplication for Student", description = "Method user for filtering AppApplication for Student")
+    @Operation(summary = "Filter AppApplication list for Student", description = "Method user for filtering AppApplication for Student")
     @GetMapping("/student")
     @PreAuthorize("hasRole('ROLE_STUDENT')")
     public ResponseEntity<?> filterForStudent(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                               @RequestParam(value = "size", defaultValue = "5") Integer size) {
-        log.info("Filtered appApplicationList for student page={},size={}", page, size);
+        log.info("Filtered appApplicationList list for student page={},size={}", page, size);
         return ResponseEntity.ok(appApplicationService.filterForStudent(page, size));
+    }
+
+    @Operation(summary = "Filter AppApplication [consulting] list for Student mobile", description = "Method user for filtering AppApplication for Student")
+    @GetMapping("/mobile/student")
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    public ResponseEntity<?> filterForStudent_mobile(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                     @RequestParam(value = "size", defaultValue = "5") Integer size) {
+        log.info("Filtered appApplicationList list for student page={},size={}", page, size);
+        return ResponseEntity.ok(appApplicationService.filterForStudent_mobile(page, size));
     }
 
     /**

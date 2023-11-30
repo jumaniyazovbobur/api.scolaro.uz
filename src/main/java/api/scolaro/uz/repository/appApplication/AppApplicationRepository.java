@@ -42,4 +42,16 @@ public interface AppApplicationRepository extends JpaRepository<AppApplicationEn
     @Modifying
     @Query("update AppApplicationEntity set consultingStepId = :conStepId where id=:applicationId")
     int updateConStepId(@Param("applicationId") String applicationId, @Param("conStepId") String conStepId);
+
+    @Transactional
+    @Modifying
+    @Query("update AppApplicationEntity set consultingStepLevelId = :consultingStepLevelId where id=:appId")
+    int updateConsultingStepLevelId(@Param("appId") String appId, @Param("consultingStepLevelId") String consultingStepLevelId);
+
+    @Transactional
+    @Modifying
+    @Query("update AppApplicationEntity set consultingStepLevelStatusId = :consultingStepLevelStatusId where id=:appId")
+    int updateConsultingStepLevelStatusId(@Param("appId") String appId, @Param("consultingStepLevelStatusId") String consultingStepLevelStatusId);
+
+
 }
