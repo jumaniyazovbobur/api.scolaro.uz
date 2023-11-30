@@ -81,7 +81,6 @@ public class AppApplicationEntity extends BaseEntity {
     @Column(name = "consulting_step_level_status_id")
     private String consultingStepLevelStatusId; // application current step level status id
 
-
-    @Column(name = "applicaiton_number")
+    @Column(name = "application_number")
     private Long applicationNumber;
 }
