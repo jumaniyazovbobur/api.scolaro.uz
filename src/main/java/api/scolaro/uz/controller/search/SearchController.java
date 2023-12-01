@@ -24,7 +24,7 @@ public class SearchController {
 
     @PostMapping("")
     public ResponseEntity<CustomPaginationForSearch> search(@RequestBody(required = false) SearchFilterResDTO dto,
-                                                            @RequestParam(value = "page", defaultValue = "0") int page,
+                                                            @RequestParam(value = "page", defaultValue = "1") int page,
                                                             @RequestParam(value = "size", defaultValue = "30") int size,
                                                             @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         return ResponseEntity.ok(searchService.search(dto, page, size, language));
