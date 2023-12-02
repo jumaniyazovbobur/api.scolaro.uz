@@ -1,13 +1,13 @@
 ### Upload a file
 POST http://localhost:8081/api/v1/attach/upload
 Content-Type: multipart/form-data; boundary=WebAppBoundary
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDEwNjY0NTgsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDE2NzEyNTgsImlzcyI6IkphdmEgYmFja2VuZCJ9.JDh_kdR3CkP_EnfvWvzbG6FmIeKwKOW9uutFYREhWkCUY3rrWGasBgFwzMkPvIV-lX9k7LzOHujThw4vrroQXA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDE1MTE5MDEsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDIxMTY3MDEsImlzcyI6IkphdmEgYmFja2VuZCJ9.XDlJQB_12Qo-DFtU8zXXyxtym1AgdOB54UNDTDdlTO7I3nNmT14rh_2vAXWe3fXb9ys_uwrQ-IS1GUVfeAXZZQ
 
 
 --WebAppBoundary
-Content-Disposition: form-data; name="file"; filename="1.jpg"
+Content-Disposition: form-data; name="file"; filename="11.jpg"
 
-< C:\Users\PRO-TEC\Pictures\white photo.jpg
+< C:\Users\Bobur_Jumaniyazov\Desktop\images\11.jpg
 
 ### Get all attach
 GET http://localhost:8081/api/v1/attach/get-all

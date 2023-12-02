@@ -63,11 +63,11 @@ public class AttachController {
         return attachService.download(fileName);
     }
 
-    @GetMapping("/download/{id}/{fileName}")
-    @Operation(summary = "download file api", description = "")
+    @GetMapping("/download/extension/{id}")
+    @Operation(summary = "Download file with extension ", description = "")
     public ResponseEntity<Resource> downloadForMobile(@PathVariable("id") String id) {
         log.info("download attach  ={}", id);
-        return attachService.downloadByAttachId(id);
+        return attachService.downloadFileWithExtension(id);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

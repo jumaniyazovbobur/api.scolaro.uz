@@ -124,7 +124,11 @@ public class AttachService {
             throw new RuntimeException("Error: " + e.getMessage());
         }
     }
-    public ResponseEntity<Resource> downloadByAttachId(String id) {
+
+    public ResponseEntity<Resource> downloadFileWithExtension(String id) {
+        // remove .extension from id
+        id = id.substring(0, id.lastIndexOf("."));
+
         AttachEntity entity = getEntity(id);
         try {
             Path file = Paths.get(getPath(entity));
