@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SearchFilterResDTO {
     String query;
-    String universityId;
+    Long universityId;
     String consultingId;
     String facultyId;
     Long countryId;
