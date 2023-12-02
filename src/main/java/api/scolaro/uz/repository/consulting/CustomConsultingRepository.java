@@ -76,8 +76,8 @@ public class CustomConsultingRepository {
         StringBuilder builder = new StringBuilder(" where c.visible=true ");
         Map<String, Object> params = new LinkedHashMap<>();
         if (dto.getName() != null && !dto.getName().isBlank()) {
-            builder.append(" and c.name like :name ");
-            params.put("name", "%" + dto.getName() + "%");
+            builder.append(" and lower(c.name) like :name ");
+            params.put("name", "%" + dto.getName().toLowerCase() + "%");
         }
         countBuilder.append(builder);
         builder.append(" order by c.createdDate ");

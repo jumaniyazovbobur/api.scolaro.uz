@@ -119,7 +119,7 @@ POST http://localhost:8081/api/v1/consulting/top-consulting/filter
 Content-Type: application/json
 
 {
-    "name" : "consult"
+    "name" : "br"
 }
 
 
