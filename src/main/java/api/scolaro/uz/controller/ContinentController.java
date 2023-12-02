@@ -38,6 +38,14 @@ public class ContinentController {
         return ResponseEntity.ok().body(continentService.getList(language));
     }
 
+    @Operation(summary = "Get continent list with university count ", description = "")
+    @GetMapping("/public/tree")
+    public ResponseEntity<ApiResponse<List<ContinentResponseDTO>>> getContinentListWithUniversityCount(@RequestHeader(value = "Accept-Language",
+            defaultValue = "uz") AppLanguage language) {
+        log.info("get continent list with university");
+        return ResponseEntity.ok().body(continentService.getContinentListWithUniversity(language));
+    }
+
     /**
      * ADMIN
      */

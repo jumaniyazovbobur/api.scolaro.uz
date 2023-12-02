@@ -123,8 +123,22 @@ public class FacultyService {
         return ApiResponse.ok(dtoList);
     }
 
-    public ApiResponse<List<FacultyDTO>> getSubFacultyList(String parentFacultyId, AppLanguage appLanguage) {
-        List<FacultyTreeMapper> mapperList = facultyRepository.getFacultySubList(parentFacultyId, appLanguage.name());
+    public ApiResponse<List<FacultyDTO>> getFirstLevelFacultyListWithUniversityCount(AppLanguage appLanguage) {
+        List<FacultyTreeMapper> mapperList = facultyRepository.getFirstLevelFacultyListWithUniversityCount(appLanguage.name());
+        List<FacultyDTO> dtoList = new LinkedList<>();
+        for (FacultyTreeMapper mapper : mapperList) {
+            FacultyDTO dto = new FacultyDTO();
+            dto.setId(mapper.getId());
+            dto.setName(mapper.getName());
+            dto.setOrderNumber(mapper.getOrderNumber());
+            dto.setUniversityCount(mapper.getUniversityCount());
+            dtoList.add(dto);
+        }
+        return ApiResponse.ok(dtoList);
+    }
+
+    public ApiResponse<List<FacultyDTO>> getSubFacultyTreeWithUniversityCount(String parentFacultyId, AppLanguage appLanguage) {
+        List<FacultyTreeMapper> mapperList = facultyRepository.getFacultySubTreeWithUniversityCount(parentFacultyId, appLanguage.name());
         List<FacultyDTO> dtoList = new LinkedList<>();
         for (FacultyTreeMapper mapper : mapperList) {
             FacultyDTO dto = new FacultyDTO();
@@ -133,6 +147,24 @@ public class FacultyService {
             dto.setOrderNumber(mapper.getOrderNumber());
             dto.setSubFaculty(mapper.getSubFaculty());
             dto.setUniversityCount(mapper.getUniversityCount());
+            dtoList.add(dto);
+        }
+        return ApiResponse.ok(dtoList);
+    }
+
+    public ApiResponse<List<FacultyDTO>> facultyLevel(String parentFacultyId, AppLanguage appLanguage) {
+        List<FacultyTreeMapper> mapperList;
+        if (parentFacultyId == null) {
+            mapperList = facultyRepository.getFirstLevelFacultyList(appLanguage.name());
+        } else {
+            mapperList = facultyRepository.getFacultySubList(parentFacultyId, appLanguage.name());
+        }
+        List<FacultyDTO> dtoList = new LinkedList<>();
+        for (FacultyTreeMapper mapper : mapperList) {
+            FacultyDTO dto = new FacultyDTO();
+            dto.setId(mapper.getId());
+            dto.setName(mapper.getName());
+            dto.setOrderNumber(mapper.getOrderNumber());
             dtoList.add(dto);
         }
         return ApiResponse.ok(dtoList);

@@ -13,12 +13,7 @@ import lombok.ToString;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
 public class CountryResponseDTO extends CountryRequestDTO {
-
     private Long id;
     private String name;
-
-    public CountryResponseDTO(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    private Integer universityCount;
 }

@@ -2,7 +2,9 @@
 GET http://localhost:8081/api/v1/continent/public/get-all
 Accept-Language: uz
 
-
+### Get continent List with university count
+GET http://localhost:8081/api/v1/continent/public/tree
+Accept-Language: ru
 
 
 ###CREATE Continent

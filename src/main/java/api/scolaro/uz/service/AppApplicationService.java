@@ -55,6 +55,7 @@ public class AppApplicationService {
         entity.setConsultingId(consulting.getId());
         entity.setUniversityId(university.getId());
         entity.setStatus(AppStatus.TRAIL);
+        entity.setApplicationNumber(appApplicationRepository.getSequenceApplicationNumber());
 
         appApplicationRepository.save(entity);
         return new ApiResponse<>(200, false, toDTO(entity));
@@ -66,14 +67,32 @@ public class AppApplicationService {
         return ApiResponse.ok(pageObj);
     }
 
-    public ApiResponse<Page<AppApplicationFilterMapperDTO>> filterForStudent(int page, int size) {
-        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getForStudent(page, size);
+    /**
+     * Student
+     */
+    public ApiResponse<Page<AppApplicationFilterMapperDTO>> getApplicationListForStudent_web(int page, int size) {
+        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getApplicationListForStudent(page, size);
         Page<AppApplicationFilterMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
         return ApiResponse.ok(pageObj);
     }
 
-    public ApiResponse<Page<AppApplicationFilterMapperDTO>> filterForConsulting(AppApplicationFilterConsultingDTO dto, int page, int size) {
-        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.filterForConsulting(dto, page, size);
+    public ApiResponse<Page<AppApplicationFilterMapperDTO>> getStudentApplicationConsultingList(int page, int size) {
+        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getStudentApplicationConsultingList(page, size);
+        Page<AppApplicationFilterMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
+        return ApiResponse.ok(pageObj);
+    }
+
+    public ApiResponse<Page<AppApplicationFilterMapperDTO>> getStudentApplicationUniversityListByConsultingId(String consultingId, int page, int size) {
+        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getStudentApplicationUniversityListByConsultingId(consultingId, page, size);
+        Page<AppApplicationFilterMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
+        return ApiResponse.ok(pageObj);
+    }
+
+    /**
+     * Consulting
+     */
+    public ApiResponse<Page<AppApplicationFilterMapperDTO>> applicationFilterForConsulting(AppApplicationFilterConsultingDTO dto, int page, int size) { // web
+        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getFilterApplicationListForConsulting(EntityDetails.getCurrentUserId(), dto, page, size);
         Page<AppApplicationFilterMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
         return ApiResponse.ok(pageObj);
     }
@@ -164,6 +183,7 @@ public class AppApplicationService {
         dto.setUniversityId(entity.getUniversityId());
         dto.setStudentId(entity.getStudentId());
         dto.setStatus(entity.getStatus());
+        dto.setApplicationNumber(entity.getApplicationNumber());
         return dto;
     }
 

@@ -34,8 +34,8 @@ public interface ConsultingUniversityRepository extends CrudRepository<Consultin
     @Modifying
     @Query(value = "select c.id,case when :lang = 'uz' then name_uz when :lang='en' then name_en else name_ru end as name,\n" +
             "       (select json_agg(temp_t1)\n" +
-            "        from (select u.id,u.name from university u\n" +
-            "                                                        left join consulting_university cu on u.id = cu.university_id\n" +
+            "        from (select u.id,u.name,cu.id as cuId from university u\n" +
+            "               left join consulting_university cu on u.id = cu.university_id\n" +
             "              where (cu.visible = true or cu is null)\n" +
             "                and u.visible =  true\n" +
             "                and (consulting_id = :consultingId or consulting_id is null )\n" +

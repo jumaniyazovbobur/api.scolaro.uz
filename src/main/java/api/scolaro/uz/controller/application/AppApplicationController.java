@@ -34,26 +34,45 @@ public class AppApplicationController {
         return ResponseEntity.ok(appApplicationService.create(dto));
     }
 
-    @Operation(summary = "Filter AppApplication for Student", description = "Method user for filtering AppApplication for Student")
+    @Operation(summary = "AppApplication list for Student. Web", description = "")
     @GetMapping("/student")
     @PreAuthorize("hasRole('ROLE_STUDENT')")
-    public ResponseEntity<?> filterForStudent(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                                              @RequestParam(value = "size", defaultValue = "5") Integer size) {
-        log.info("Filtered appApplicationList for student page={},size={}", page, size);
-        return ResponseEntity.ok(appApplicationService.filterForStudent(page, size));
+    public ResponseEntity<?> applicationListForStudent_web(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                           @RequestParam(value = "size", defaultValue = "5") Integer size) {
+        log.info("AppApplication list for student page={},size={}", page, size);
+        return ResponseEntity.ok(appApplicationService.getApplicationListForStudent_web(page, size));
+    }
+
+    @Operation(summary = "Filter Student AppApplicationConsulting list. Mobile", description = "Get Student ApplicationConsulting List for mobile. Mobile first page")
+    @GetMapping("/mobile/student/consulting")
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    public ResponseEntity<?> studentApplicationConsultingList_mobile(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                                     @RequestParam(value = "size", defaultValue = "20") Integer size) {
+        log.info("Filtered appApplicationList list for student page={},size={}", page, size);
+        return ResponseEntity.ok(appApplicationService.getStudentApplicationConsultingList(page, size));
+    }
+
+    @Operation(summary = "Filter Student AppApplicationUniversity list by consulting id. Mobile", description = "Get Student ApplicationUniversity List for mobile. Mobile second page")
+    @GetMapping("/mobile/student/{consultingId}/university")
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    public ResponseEntity<?> studentApplicationUniversityListByConsultingId_mobile(@PathVariable("consultingId") String consultingId,
+                                                                                   @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                                                   @RequestParam(value = "size", defaultValue = "20") Integer size) {
+        log.info("Filtered appApplicationList list for student page={},size={}", page, size);
+        return ResponseEntity.ok(appApplicationService.getStudentApplicationUniversityListByConsultingId(consultingId, page, size));
     }
 
     /**
      * CONSULTING
      */
-    @Operation(summary = "Filter AppApplication for Consulting", description = "Method user for filtering AppApplication for Consulting")
+    @Operation(summary = "Filter AppApplication for Consulting. Web", description = "Method user for filtering AppApplication for Consulting")
     @PostMapping("/consulting/filter")
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     public ResponseEntity<?> filterForConsulting(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                                  @RequestParam(value = "size", defaultValue = "5") Integer size,
                                                  @RequestBody AppApplicationFilterConsultingDTO dto) {
         log.info("Filtered appApplicationList for consulting page={},size={}", page, size);
-        return ResponseEntity.ok(appApplicationService.filterForConsulting(dto, page, size));
+        return ResponseEntity.ok(appApplicationService.applicationFilterForConsulting(dto, page, size));
     }
 
     @Operation(summary = "Change appApplication  status as consulting", description = "")

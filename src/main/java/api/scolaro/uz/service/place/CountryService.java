@@ -10,6 +10,7 @@ import api.scolaro.uz.entity.place.CountryEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
+import api.scolaro.uz.mapper.CountryMapper;
 import api.scolaro.uz.repository.place.CountryFilterRepository;
 import api.scolaro.uz.repository.place.CountryRepository;
 import io.swagger.models.auth.In;
@@ -71,6 +72,31 @@ public class CountryService {
         return new ApiResponse<>(200, false, dtoList);
     }
 
+    public ApiResponse<List<CountryResponseDTO>> getCountryListWithUniversityCount(AppLanguage lang) {
+        List<CountryMapper> entityList = countryRepository.getCountryWithUniversityCount(lang.name());
+        List<CountryResponseDTO> dtoList = new LinkedList<>();
+        entityList.forEach(mapper -> {
+            CountryResponseDTO dto = new CountryResponseDTO();
+            dto.setId(mapper.getId());
+            dto.setName(mapper.getName());
+            dto.setUniversityCount(mapper.getUniversityCount());
+            dtoList.add(dto);
+        });
+        return new ApiResponse<>(200, false, dtoList);
+    }
+
+    public ApiResponse<List<CountryResponseDTO>> getCountryListWithUniversityCountByContinentId(Long continentId, AppLanguage language) {
+        List<CountryMapper> entityList = countryRepository.getCountryListWithUniversityCountByContinentId(continentId, language.name());
+        List<CountryResponseDTO> dtoList = new LinkedList<>();
+        entityList.forEach(mapper -> {
+            CountryResponseDTO dto = new CountryResponseDTO();
+            dto.setId(mapper.getId());
+            dto.setName(mapper.getName());
+            dto.setUniversityCount(mapper.getUniversityCount());
+            dtoList.add(dto);
+        });
+        return new ApiResponse<>(200, false, dtoList);
+    }
 
     public PageImpl<CountryResponseDTO> pagination(CountryFilterDTO dto, int page, int size) {
 //        Page<CountryEntity> all = countryFilterRepository.filterPagination(pageable,page,size);
@@ -122,37 +148,6 @@ public class CountryService {
             return new ItemNotFoundException("Country not found");
         });
     }
-
-    public ApiResponse<List<CountryResponseDTO>> getCountryListWithUniversity(AppLanguage lang) {
-        List<CountryResponseDTO> dtoList = new LinkedList<>();
-        if (lang.equals(AppLanguage.uz)) {
-            Iterable<CountryEntity> all = countryRepository.findAllByVisibleTrueOrderByNameUzAsc();
-            all.forEach(country -> {
-                CountryResponseDTO dto = new CountryResponseDTO();
-                dto.setId(country.getId());
-                dto.setName(country.getNameUz());
-                dtoList.add(dto);
-            });
-        } else if (lang.equals(AppLanguage.ru)) {
-            Iterable<CountryEntity> all = countryRepository.findAllByVisibleTrueOrderByNameRuAsc();
-            all.forEach(country -> {
-                CountryResponseDTO dto = new CountryResponseDTO();
-                dto.setId(country.getId());
-                dto.setName(country.getNameRu());
-                dtoList.add(dto);
-            });
-        } else if (lang.equals(AppLanguage.en)) {
-            Iterable<CountryEntity> all = countryRepository.findAllByVisibleTrueOrderByNameEnAsc();
-            all.forEach(country -> {
-                CountryResponseDTO dto = new CountryResponseDTO();
-                dto.setId(country.getId());
-                dto.setName(country.getNameEn());
-                dtoList.add(dto);
-            });
-        }
-        return new ApiResponse<>(200, false, dtoList);
-    }
-
 
     public List<CountryResponseDTO> search(String query, AppLanguage language) {
         List<CountryEntity> entityList = countryRepository.searchByName(query.toLowerCase());
