@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -64,11 +65,23 @@ public class UniversityController {
     }
 
     /**
+     * CONSULTING
+     */
+    @PreAuthorize("hasRole('ROLE_CONSULTING')")
+    @GetMapping("/consulting/application")
+    @Operation(summary = "Get application university list for consulting. Consulting mobile first page", description = "")
+    public ResponseEntity<ApiResponse<Page<UniversityResponseDTO>>> getApplicationUniversityListForConsulting(@RequestParam(value = "page", defaultValue = "1") int page,
+                                                                                                              @RequestParam(value = "size", defaultValue = "30") int size) {
+        log.info("Get application university list for consulting. Consulting mobile first page");
+        return ResponseEntity.ok(universityService.getApplicationUniversityListForConsulting_mobile(page - 1, size));
+    }
+
+    /**
      * FOR PUBLIC AUTH
      */
 
     @GetMapping("/{id}/detail")
-    @Operation(summary = "Get university detail by id (Public)", description = "")
+    @Operation(summary = "Get university detail by id (Public). Used in university page", description = "")
     public ResponseEntity<ApiResponse<UniversityResponseDTO>> getUniversityDetailById(@PathVariable("id") Long id,
                                                                                       @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage appLanguage) {
         log.info("Get university {}", id);

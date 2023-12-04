@@ -32,4 +32,5 @@ public class AppApplicationFilterMapperDTO {
     private Long applicationNumber;
     private ConsultingStepLevelDTO consultingStepLevel;
     private AppApplicationLevelStatusDTO appApplicationLevelStatus;
+    private Long universityCount;
 }

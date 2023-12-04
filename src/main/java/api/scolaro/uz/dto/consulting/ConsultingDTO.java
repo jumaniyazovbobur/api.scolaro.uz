@@ -2,6 +2,7 @@ package api.scolaro.uz.dto.consulting;
 
 
 import api.scolaro.uz.dto.attach.AttachDTO;
+import api.scolaro.uz.dto.university.UniversityResponseDTO;
 import api.scolaro.uz.enums.RoleEnum;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
@@ -22,4 +23,5 @@ public class ConsultingDTO {
     private String about;
     private AttachDTO photo;
     private List<RoleEnum> roleList;
+   private List<UniversityResponseDTO> universityList;
 }

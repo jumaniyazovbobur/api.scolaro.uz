@@ -3,6 +3,7 @@ package api.scolaro.uz.dto.university;
 import api.scolaro.uz.dto.FacultyDTO;
 import api.scolaro.uz.dto.KeyValueDTO;
 import api.scolaro.uz.dto.attach.AttachDTO;
+import api.scolaro.uz.dto.consulting.ConsultingResponseDTO;
 import api.scolaro.uz.dto.country.CountryDTO;
 import api.scolaro.uz.dto.country.CountryResponseDTO;
 import api.scolaro.uz.enums.UniversityDegreeType;
@@ -23,8 +24,11 @@ public class UniversityResponseDTO {
     private Long countryId;
     private String description;
     private AttachDTO photo;
+    private AttachDTO logo;
     private List<UniversityDegreeType> degreeTypeList;
     private List<KeyValueDTO> degreeList;
     private CountryResponseDTO country;
     private List<FacultyDTO> facultyList;
+    private List<ConsultingResponseDTO> consultingList;
+    private Long studentCount;
 }

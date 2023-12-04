@@ -20,6 +20,7 @@ public class UniversityCreateDTO {
     @NotNull(message = "Country is required")
     private Long countryId;
     private String photoId;
+    private String logoId;
     private String description;
     private List<UniversityDegreeType> degreeList;
     private List<String> facultyList;

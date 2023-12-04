@@ -197,31 +197,32 @@ public class AppApplicationFilterRepository {
         return new FilterResultDTO<>(mapperList, totalCount);
     }
 
-    public FilterResultDTO<AppApplicationFilterMapperDTO> getStudentApplicationConsultingList(int page, int size) {
+    public FilterResultDTO<AppApplicationFilterMapperDTO> getApplicationConsultingListForStudent_mobile(int page, int size) {
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, Object> params = new HashMap<>();
 
         String studentId = EntityDetails.getCurrentUserId();
-        stringBuilder.append(" and a.student_id =:studentId");
         params.put("studentId", studentId);
 
-        StringBuilder selectBuilder = new StringBuilder("select " +
-                "       a.id           as appId, " +
-                "       a.created_date as appCreatedDate, " +
-                "       a.status       as appStatus, " +
-                "       c.id           as conId, " +
-                "       c.name         as conName, " +
-                "       c.photo_id     as conPhotoId " +
-                " from app_application as a " +
-                "         inner join consulting as c on a.consulting_id = c.id " +
-                " where a.visible = true ");
+        StringBuilder selectBuilder = new StringBuilder("select c.id  as conId, " +
+                "       c.name     as conName, " +
+                "       c.photo_id as conPhotoId, " +
+                "       (select  count(*) from app_application where consulting_id=c.id and student_id=:studentId and c.visible = true) as universityCount " +
+                "        from consulting as c " +
+                "        where c.visible = true " +
+                "        and c.id in (select consulting_id from app_application " +
+                "               where student_id =:studentId and visible = true " +
+                "               group by consulting_id)");
         selectBuilder.append(stringBuilder);
 
-
         StringBuilder countBuilder = new StringBuilder("select count(*) " +
-                "from app_application as a " +
-                "inner join consulting as c on a.consulting_id=c.id " +
-                "where a.visible = true ");
+                "from consulting as c " +
+                "where c.visible = true " +
+                "  and c.id in (select consulting_id " +
+                "               from app_application " +
+                "               where student_id =:studentId " +
+                "                 and visible = true " +
+                "               group by consulting_id) ");
         countBuilder.append(stringBuilder);
 
         Query selectQuery = entityManager.createNativeQuery(selectBuilder.toString());
@@ -241,22 +242,20 @@ public class AppApplicationFilterRepository {
 
         for (Object[] object : entityList) {
             AppApplicationFilterMapperDTO dto = new AppApplicationFilterMapperDTO();
-            dto.setId(MapperUtil.getStringValue(object[0]));
-            dto.setCreatedDate(MapperUtil.getLocalDateTimeValue(object[1]));
-            dto.setStatus(AppStatus.valueOf(MapperUtil.getStringValue(object[2])));
 
             ConsultingDTO consulting = new ConsultingDTO();
-            consulting.setId(MapperUtil.getStringValue(object[3]));
-            consulting.setName(MapperUtil.getStringValue(object[4]));
-            consulting.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[5])));
+            consulting.setId(MapperUtil.getStringValue(object[0]));
+            consulting.setName(MapperUtil.getStringValue(object[1]));
+            consulting.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[2])));
             dto.setConsulting(consulting);
 
+            dto.setUniversityCount(MapperUtil.getLongValue(object[3]));
             mapperList.add(dto);
         }
         return new FilterResultDTO<>(mapperList, totalCount);
     }
 
-    public FilterResultDTO<AppApplicationFilterMapperDTO> getStudentApplicationUniversityListByConsultingId(String consultingId, int page, int size) {
+    public FilterResultDTO<AppApplicationFilterMapperDTO> getApplicationUniversityListByConsultingIdForStudent_mobile(String consultingId, int page, int size) {
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, Object> params = new HashMap<>();
 
@@ -393,8 +392,78 @@ public class AppApplicationFilterRepository {
         return new FilterResultDTO<>(mapperList, totalCount);
     }
 
+
+    public FilterResultDTO<AppApplicationFilterMapperDTO> getApplicationStudentListForConsulting_mobile(String consultingId, AppApplicationFilterConsultingDTO filter, Long universityId, int page, int size) {
+        StringBuilder stringBuilder = new StringBuilder();
+        Map<String, Object> params = new HashMap<>();
+        params.put("consultingId", consultingId);
+        params.put("universityId", universityId);
+
+        if (filter.getName() != null) {
+            stringBuilder.append(" and lower(p.name) like :name ");
+            params.put("name", "%" + filter.getName().toLowerCase() + "%");
+        }
+
+        StringBuilder selectBuilder = new StringBuilder(
+                "SELECT aa.id as applicationId, " +
+                        "(select order_number from consulting_step_level where id = aa.consulting_step_level_id) as stepLevelOrderNumber, " +
+                        "(select aals.application_step_level_status from app_application_level_status aals  where aals.id = aa.consulting_step_level_id) as stepLevelStatus, " +
+                        "p.id,p.name, p.surname, p.phone, p.photo_id " +
+                        "from profile as p " +
+                        "inner join app_application aa on p.id = aa.student_id " +
+                        "where aa.consulting_id =:consultingId and aa.university_id=:universityId " +
+                        "and aa.visible = true ");
+        selectBuilder.append(stringBuilder);
+
+
+        StringBuilder countBuilder = new StringBuilder("select count(*) from app_application aa  " +
+                "where aa.consulting_id =:consultingId and aa.university_id=:universityId " +
+                "  and aa.visible = true ");
+        countBuilder.append(stringBuilder);
+
+        Query selectQuery = entityManager.createNativeQuery(selectBuilder.toString());
+        Query countQuery = entityManager.createNativeQuery(countBuilder.toString());
+        selectQuery.setMaxResults(size); // limit
+        selectQuery.setFirstResult(size * page); // offset
+
+        // params
+        for (Map.Entry<String, Object> param : params.entrySet()) {
+            selectQuery.setParameter(param.getKey(), param.getValue());
+            countQuery.setParameter(param.getKey(), param.getValue());
+        }
+
+        List<Object[]> entityList = selectQuery.getResultList();
+        Long totalCount = (Long) countQuery.getSingleResult();
+        List<AppApplicationFilterMapperDTO> mapperList = new LinkedList<>();
+
+        for (Object[] object : entityList) {
+            AppApplicationFilterMapperDTO dto = new AppApplicationFilterMapperDTO();
+            dto.setId(MapperUtil.getStringValue(object[0]));
+
+            ConsultingStepLevelDTO consultingStepLevelDTO = new ConsultingStepLevelDTO();
+            consultingStepLevelDTO.setOrderNumber(MapperUtil.getIntegerValue(object[1]));
+            dto.setConsultingStepLevel(consultingStepLevelDTO);
+
+            if (MapperUtil.getStringValue(object[2]) != null) {
+                dto.setApplicationStepLevelStatus(ApplicationStepLevelStatus.valueOf(MapperUtil.getStringValue(object[2])));
+            }
+
+            ProfileDTO student = new ProfileDTO();
+            student.setId(MapperUtil.getStringValue(object[3]));
+            student.setName(MapperUtil.getStringValue(object[4]));
+            student.setSurname(MapperUtil.getStringValue(object[5]));
+            student.setPhone(MapperUtil.getStringValue(object[6]));
+            student.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[7])));
+            dto.setStudent(student);
+
+            mapperList.add(dto);
+        }
+        return new FilterResultDTO<>(mapperList, totalCount);
+    }
+
+
     public FilterResultDTO<AppApplicationFilterMapperDTO> getFilterApplicationListForConsulting(String consultingId,
-                                                                                          AppApplicationFilterConsultingDTO filterDTO, int page, int size) {
+                                                                                                AppApplicationFilterConsultingDTO filterDTO, int page, int size) {
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, Object> params = new HashMap<>();
         if (filterDTO.getName() != null) {

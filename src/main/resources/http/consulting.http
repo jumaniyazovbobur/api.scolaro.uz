@@ -123,6 +123,8 @@ Content-Type: application/json
 }
 
 
+### Get consulting by id public
+GET http://localhost:8081/api/v1/consulting/public/8080b7ef8ba46236018badf6f52c001b
 
 
 

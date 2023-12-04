@@ -14,8 +14,8 @@ import java.util.List;
 public interface ConsultingUniversityRepository extends CrudRepository<ConsultingUniversityEntity, String> {
     @Query("from ConsultingUniversityEntity where consultingId =:consultingId")
     List<ConsultingUniversityEntity> getConsultingUniversityList(@Param("consultingId") String consultingId);
-
     @Transactional
+
     @Modifying
     void deleteByConsultingIdAndUniversityId(String consultingId, Long universityId);
 
