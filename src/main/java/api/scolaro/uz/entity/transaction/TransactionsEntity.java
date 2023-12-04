@@ -16,14 +16,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TransactionsEntity extends BaseEntity {
     private String profileId; // Profile consulting
-    private String profileType; // PROFILE,CONSULTING  to enum
-    private Long amount; // tiyn
+    private String profileType; // PROFILE,CONSULTING
+    private Long amount = 0L; // as tiyn 1sum = 100 tiyin
     private String paymeTransactionsId;
     private String transactionType; // DEBIT, CREDIT to enum
     private String status;  // to enum
     private String paymentType; // PAYME,
 
-
-    // TODO
-    //1.  balance in profile and consulting
 }
