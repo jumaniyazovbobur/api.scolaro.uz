@@ -66,14 +66,14 @@ public class AppApplicationController {
      * CONSULTING
      */
 
-    @Operation(summary = "Filter AppApplication for Consulting. Web", description = "Method user for filtering AppApplication for Consulting")
+    @Operation(summary = "Filter AppApplicationList for Consulting. Web", description = "Method user for filtering AppApplication for Consulting")
     @PostMapping("/consulting/filter")
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     public ResponseEntity<?> filterForConsulting(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                                  @RequestParam(value = "size", defaultValue = "5") Integer size,
                                                  @RequestBody AppApplicationFilterConsultingDTO dto) {
-        log.info("Filtered appApplicationList for consulting page={},size={}", page, size);
-        return ResponseEntity.ok(appApplicationService.applicationFilterForConsulting(dto, page, size));
+        log.info("Filter AppApplicationList for Consulting. Web. page={},size={}", page, size);
+        return ResponseEntity.ok(appApplicationService.getApplicationListForConsulting_web(dto, page, size));
     }
 
     @Operation(summary = "Get Application student list by countryId for Consulting. Mobile", description = "")
