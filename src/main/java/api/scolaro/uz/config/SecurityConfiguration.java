@@ -79,6 +79,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/continent-country/public/**").hasAnyRole("ADMIN", "STUDENT", "CONSULTING")
                         .requestMatchers(HttpMethod.GET, "/api/v1/consulting/comment/*").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/search").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/transaction/student/payme-callback").permitAll()
                         .anyRequest().authenticated()
         ).addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         http.csrf(AbstractHttpConfigurer::disable);

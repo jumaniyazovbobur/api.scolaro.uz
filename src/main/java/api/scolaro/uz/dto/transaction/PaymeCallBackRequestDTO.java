@@ -14,6 +14,8 @@ import lombok.*;
 @Setter
 @ToString
 public class PaymeCallBackRequestDTO {
+    private Long id;
+    private String jsonrpc;
     private String method;
     private PaymeCallbackParamsDTO params;
 }

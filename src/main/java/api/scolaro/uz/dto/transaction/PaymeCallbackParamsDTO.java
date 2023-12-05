@@ -2,10 +2,7 @@ package api.scolaro.uz.dto.transaction;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +16,7 @@ import java.util.Map;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class PaymeCallbackParamsDTO {
     private int amount;
     private Map<String, Object> account = new HashMap<>();
