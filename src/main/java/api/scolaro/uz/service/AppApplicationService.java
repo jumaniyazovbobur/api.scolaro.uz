@@ -71,19 +71,19 @@ public class AppApplicationService {
      * Student
      */
     public ApiResponse<Page<AppApplicationFilterMapperDTO>> getApplicationListForStudent_web(int page, int size) {
-        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getApplicationListForStudent(page, size);
+        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getApplicationListForStudent_web(EntityDetails.getCurrentUserId(), page, size);
         Page<AppApplicationFilterMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
         return ApiResponse.ok(pageObj);
     }
 
-    public ApiResponse<Page<AppApplicationFilterMapperDTO>> getStudentApplicationConsultingList(int page, int size) {
-        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getStudentApplicationConsultingList(page, size);
+    public ApiResponse<Page<AppApplicationFilterMapperDTO>> getApplicationConsultingListForStudent_mobile(int page, int size) {
+        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getApplicationConsultingListForStudent_mobile(page, size);
         Page<AppApplicationFilterMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
         return ApiResponse.ok(pageObj);
     }
 
-    public ApiResponse<Page<AppApplicationFilterMapperDTO>> getStudentApplicationUniversityListByConsultingId(String consultingId, int page, int size) {
-        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getStudentApplicationUniversityListByConsultingId(consultingId, page, size);
+    public ApiResponse<Page<AppApplicationFilterMapperDTO>> getApplicationUniversityListByConsultingIdForStudent_mobile(String consultingId, int page, int size) {
+        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getApplicationUniversityListByConsultingIdForStudent_mobile(consultingId, page, size);
         Page<AppApplicationFilterMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
         return ApiResponse.ok(pageObj);
     }
@@ -91,8 +91,15 @@ public class AppApplicationService {
     /**
      * Consulting
      */
-    public ApiResponse<Page<AppApplicationFilterMapperDTO>> applicationFilterForConsulting(AppApplicationFilterConsultingDTO dto, int page, int size) { // web
-        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getFilterApplicationListForConsulting(EntityDetails.getCurrentUserId(), dto, page, size);
+    public ApiResponse<Page<AppApplicationFilterMapperDTO>> getApplicationListForConsulting_web(AppApplicationFilterConsultingDTO dto, int page, int size) { // web
+        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getApplicationListForConsulting_web(EntityDetails.getCurrentUserId(), dto, page, size);
+        Page<AppApplicationFilterMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
+        return ApiResponse.ok(pageObj);
+    }
+
+    // returns student list by university id for which application was created. It is for consulting. Used in consulting mobile.
+    public ApiResponse<Page<AppApplicationFilterMapperDTO>> getApplicationStudentListByUniversityIdForConsulting_mobile(Long universityId, AppApplicationFilterConsultingDTO filter, int page, int size) {
+        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getApplicationStudentListForConsulting_mobile(EntityDetails.getCurrentUserId(), filter, universityId, page, size);
         Page<AppApplicationFilterMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
         return ApiResponse.ok(pageObj);
     }

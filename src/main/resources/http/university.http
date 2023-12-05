@@ -65,12 +65,16 @@ Accept-Language: uz
 
 
 ### Get university detail by id
-GET http://localhost:8081/api/v1/university/5/detail
+GET http://localhost:8081/api/v1/university/1/detail
 
 ### Get top university
 GET http://localhost:8081/api/v1/university/top-university
 Accept-Language: uz
 
+### Get application university list for consulting. Consulting mobile first page
+GET http://localhost:8081/api/v1/university/consulting/application
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDE2NTc5NjIsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTRiMzA5NDAwMjEiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNzAyMjYyNzYyLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.Tr_ofDY84pXQ_e-xsANHnrZaEglwkeliCkISBxNixPdA1iGxKlVhLWeRJ91SO_577-IOXc31Rv8J1AoJVUr7QQ
+Accept-Language: uz
 
 
 

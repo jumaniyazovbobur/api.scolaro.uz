@@ -7,11 +7,16 @@ import api.scolaro.uz.dto.university.*;
 import api.scolaro.uz.entity.UniversityEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.exp.ItemNotFoundException;
+import api.scolaro.uz.mapper.AppApplicationFilterMapperDTO;
+import api.scolaro.uz.repository.appApplication.AppApplicationFilterRepository;
 import api.scolaro.uz.repository.university.UniversityCustomRepository;
 import api.scolaro.uz.repository.university.UniversityRepository;
+import api.scolaro.uz.service.consulting.ConsultingService;
 import api.scolaro.uz.service.place.CountryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +37,8 @@ public class UniversityService {
     private final UniversityDegreeService universityDegreeService;
     private final CountryService countryService;
     private final UniversityFacultyService universityFacultyService;
+    @Autowired
+    private ConsultingService consultingService;
 
     public ApiResponse<UniversityResponseDTO> create(UniversityCreateDTO dto) {
         UniversityEntity entity = new UniversityEntity();
@@ -42,6 +49,7 @@ public class UniversityService {
         entity.setPhotoId(dto.getPhotoId());
         entity.setDescription(dto.getDescription());
         entity.setCreatedId(EntityDetails.getCurrentUserId());
+        entity.setLogoId(dto.getLogoId());
         universityRepository.save(entity);
         universityDegreeService.merger(entity.getId(), dto.getDegreeList()); //merge university degreeType
         universityFacultyService.merger(entity.getId(), dto.getFacultyList());
@@ -62,6 +70,8 @@ public class UniversityService {
         entity.setRating(dto.getRating());
         entity.setCountryId(dto.getCountryId());
         entity.setDescription(dto.getDescription());
+        entity.setPhotoId(dto.getPhotoId());
+        entity.setLogoId(dto.getLogoId());
         universityRepository.save(entity);
         universityDegreeService.merger(entity.getId(), dto.getDegreeList()); //merge university degreeType\
         universityFacultyService.merger(entity.getId(), dto.getFacultyList());
@@ -82,6 +92,7 @@ public class UniversityService {
         responseDTO.setCountry(countryService.getById(entity.getCountryId(), appLanguage));
         responseDTO.setDegreeList(universityDegreeService.getUniversityDegreeTypeList(id, appLanguage));
         responseDTO.setFacultyList(universityFacultyService.getUniversityFacultyList(id, appLanguage));
+        responseDTO.setConsultingList(consultingService.getUniversityConsultingList(id));  // university consulting list
         return ApiResponse.ok(responseDTO);
     }
 
@@ -112,6 +123,9 @@ public class UniversityService {
         dto.setWebSite(entity.getWebSite());
         if (entity.getPhotoId() != null) {
             dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
+        }
+        if (entity.getLogoId() != null) {
+            dto.setLogo(attachService.getResponseAttach(entity.getLogoId()));
         }
         dto.setDescription(entity.getDescription());
         return dto;
@@ -159,5 +173,22 @@ public class UniversityService {
             dtoList.add(dto);
         }
         return new ApiResponse<>(200, false, dtoList);
+    }
+
+    public List<UniversityResponseDTO> getConsultingUniversityList(String consultingId) {
+        List<UniversityEntity> entityList = universityRepository.getUniversityListByConsultingId(consultingId);
+        List<UniversityResponseDTO> dtoList = new LinkedList<>();
+        for (UniversityEntity entity : entityList) {
+            dtoList.add(toDTO(entity));
+        }
+        return dtoList;
+    }
+
+    // get university list for consulting. Consulting mobile first page
+    public ApiResponse<Page<UniversityResponseDTO>> getApplicationUniversityListForConsulting_mobile(int page, int size) {
+        String consultingId = EntityDetails.getCurrentUserId();
+        FilterResultDTO<UniversityResponseDTO> filterResult = customRepository.getApplicationUniversityListForConsulting_mobile(consultingId, page, size);
+        Page<UniversityResponseDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
+        return ApiResponse.ok(pageObj);
     }
 }

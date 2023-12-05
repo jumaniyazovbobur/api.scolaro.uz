@@ -28,6 +28,16 @@ public class ConsultingController {
     private final ConsultingService consultingService;
 
     /**
+     * PUBLIC
+     */
+    @GetMapping("/public/{id}")
+    @Operation(summary = "Get consulting detail by id. Public. Used in university page")
+    public ResponseEntity<ApiResponse<ConsultingDTO>> consultingDetail(@PathVariable("id") String consultingId) {
+        log.info("Get consulting detail by id api. Public");
+        return ResponseEntity.ok(consultingService.getConsultingDetail(consultingId));
+    }
+
+    /**
      * CONSULTING
      */
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
@@ -163,8 +173,8 @@ public class ConsultingController {
     @PostMapping("/top-consulting/filter")
     @Operation(summary = "Filter top consulting api", description = "for all")
     public ResponseEntity<PageImpl<ConsultingResponseDTO>> filterTopConsulting(@RequestBody ConsultingTopFilterDTO consultingFilterDTO,
-                                                                  @RequestParam(value = "page", defaultValue = "1") int page,
-                                                                  @RequestParam(value = "size", defaultValue = "30") int size) {
+                                                                               @RequestParam(value = "page", defaultValue = "1") int page,
+                                                                               @RequestParam(value = "size", defaultValue = "30") int size) {
         return ResponseEntity.ok(consultingService.filterForTopConsulting(consultingFilterDTO, page - 1, size));
     }
 }

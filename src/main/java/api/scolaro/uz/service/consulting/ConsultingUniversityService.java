@@ -4,7 +4,9 @@ import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.consulting.ConsultingUniversityDTO;
 import api.scolaro.uz.dto.consulting.CountryUniversityResponseDTO;
+import api.scolaro.uz.dto.university.UniversityResponseDTO;
 import api.scolaro.uz.entity.UniversityDegreeTypeEntity;
+import api.scolaro.uz.entity.UniversityEntity;
 import api.scolaro.uz.entity.consulting.ConsultingUniversityEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.UniversityDegreeType;
@@ -68,7 +70,6 @@ public class ConsultingUniversityService {
         List<ConsultingUniversityMapper> list = consultingUniversityRepository.getUniversityListWithConsulting(consultingId, appLanguage.name());
         return list.stream().map(this::toDTO).collect(Collectors.toList());
     }
-
 
     public CountryUniversityResponseDTO toDTO(ConsultingUniversityMapper mapper) {
         CountryUniversityResponseDTO dto = new CountryUniversityResponseDTO();

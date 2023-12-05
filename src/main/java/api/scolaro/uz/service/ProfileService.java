@@ -28,6 +28,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -217,7 +218,6 @@ public class ProfileService {
         return responseDTO;
     }
 
-
     public ApiResponse<Boolean> getProfileByNickName(AuthNickNameDTO dto) {
         Optional<ProfileEntity> optional = profileRepository.findByNickName(dto.getNickName());
         if (optional.isEmpty()) {
@@ -259,6 +259,4 @@ public class ProfileService {
             return new ItemNotFoundException(resourceMessageService.getMessage("profile.not-found"));
         });
     }
-
-
 }

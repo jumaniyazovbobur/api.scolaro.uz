@@ -28,4 +28,9 @@ public class UniversityEntity extends BaseIdentityEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_id", insertable = false, updatable = false)
     private AttachEntity photo;
+    @Column(name = "logo_id")
+    private String logoId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "logo_id", insertable = false, updatable = false)
+    private AttachEntity logo;
 }

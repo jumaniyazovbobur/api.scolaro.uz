@@ -7,17 +7,22 @@ import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.consulting.*;
 import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
+import api.scolaro.uz.dto.university.UniversityResponseDTO;
 import api.scolaro.uz.entity.ProfileEntity;
+import api.scolaro.uz.entity.UniversityEntity;
 import api.scolaro.uz.entity.consulting.ConsultingEntity;
+import api.scolaro.uz.entity.consulting.ConsultingUniversityEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.enums.sms.SmsType;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.consulting.ConsultingRepository;
 import api.scolaro.uz.repository.consulting.CustomConsultingRepository;
+import api.scolaro.uz.repository.university.UniversityRepository;
 import api.scolaro.uz.service.AttachService;
 import api.scolaro.uz.service.PersonRoleService;
 import api.scolaro.uz.service.ResourceMessageService;
+import api.scolaro.uz.service.UniversityService;
 import api.scolaro.uz.service.sms.SmsHistoryService;
 import api.scolaro.uz.util.JwtUtil;
 import api.scolaro.uz.util.MD5Util;
@@ -25,6 +30,8 @@ import api.scolaro.uz.util.PhoneUtil;
 import api.scolaro.uz.util.RandomUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -50,6 +57,8 @@ public class ConsultingService {
 
     private final SmsHistoryService smsService;
     private final ResourceMessageService resourceMessageService;
+    @Autowired
+    private UniversityService universityService;
 
     public ApiResponse<ConsultingResponseDTO> create(ConsultingCreateDTO dto) {
         if (dto.getPhone().startsWith("+")) {
@@ -216,19 +225,21 @@ public class ConsultingService {
         return ApiResponse.ok("Success");
     }
 
+    public ApiResponse<ConsultingDTO> getConsultingDetail(String consultingId) {
+        ConsultingEntity details = get(consultingId);
+        ConsultingDTO consultingDTO = new ConsultingDTO();
+        consultingDTO.setId(details.getId());
+        consultingDTO.setName(details.getName());
+        consultingDTO.setPhone(details.getPhone());
+        if (details.getPhotoId() != null) {
+            consultingDTO.setPhoto(attachService.getResponseAttach(details.getPhotoId()));
+        }
+        consultingDTO.setAddress(details.getAddress());
+        // get consulting university list
+        List<UniversityResponseDTO> oldList = universityService.getConsultingUniversityList(consultingId);
+        consultingDTO.setUniversityList(oldList);
 
-    private ConsultingResponseDTO toDTO(ConsultingEntity entity) {
-        ConsultingResponseDTO dto = new ConsultingResponseDTO();
-        dto.setId(entity.getId());
-        dto.setName(entity.getName());
-        dto.setOwnerName(entity.getOwnerName());
-        dto.setAddress(entity.getAddress());
-        dto.setPhone(entity.getPhone());
-        dto.setAbout(entity.getAbout());
-        dto.setOwnerSurName(entity.getOwnerSurname());
-        if (entity.getPhotoId() != null) dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
-        dto.setCreatedDate(entity.getCreatedDate());
-        return dto;
+        return new ApiResponse<>(200, false, consultingDTO);
     }
 
     public ApiResponse<ConsultingDTO> getCurrentConsultingDetail() {
@@ -281,12 +292,43 @@ public class ConsultingService {
     public ApiResponse<List<ConsultingResponseDTO>> getTopConsulting() {
         List<ConsultingEntity> list = consultingRepository.getTopConsulting();
         List<ConsultingResponseDTO> dtoList = list.stream().map(this::toDTO).toList();
-        return new ApiResponse<>(200,false,dtoList);
+        return new ApiResponse<>(200, false, dtoList);
     }
 
     public PageImpl<ConsultingResponseDTO> filterForTopConsulting(ConsultingTopFilterDTO dto, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         FilterResultDTO<ConsultingEntity> filterResultDTO = customRepository.filterPaginationForTopConsulting(dto, page, size);
         return new PageImpl<>(filterResultDTO.getContent().stream().map(this::toDTO).toList(), pageable, filterResultDTO.getTotalElement());
+    }
+
+    public List<ConsultingResponseDTO> getUniversityConsultingList(Long universityId) {
+        List<ConsultingEntity> universityList = consultingRepository.getUniversityConsultingList(universityId);
+        List<ConsultingResponseDTO> dtoList = universityList.stream().map(entity -> {
+            ConsultingResponseDTO dto = new ConsultingResponseDTO();
+            dto.setId(entity.getId());
+            dto.setName(entity.getName());
+            dto.setOwnerName(entity.getOwnerName());
+            dto.setAddress(entity.getAddress());
+            dto.setAbout(entity.getAbout());
+            dto.setOwnerSurName(entity.getOwnerSurname());
+            if (entity.getPhotoId() != null) dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
+            return dto;
+        }).toList();
+        return dtoList;
+    }
+
+
+    private ConsultingResponseDTO toDTO(ConsultingEntity entity) {
+        ConsultingResponseDTO dto = new ConsultingResponseDTO();
+        dto.setId(entity.getId());
+        dto.setName(entity.getName());
+        dto.setOwnerName(entity.getOwnerName());
+        dto.setAddress(entity.getAddress());
+        dto.setPhone(entity.getPhone());
+        dto.setAbout(entity.getAbout());
+        dto.setOwnerSurName(entity.getOwnerSurname());
+        if (entity.getPhotoId() != null) dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
+        dto.setCreatedDate(entity.getCreatedDate());
+        return dto;
     }
 }

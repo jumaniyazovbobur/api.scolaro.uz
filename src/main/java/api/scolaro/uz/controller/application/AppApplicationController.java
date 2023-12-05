@@ -43,36 +43,48 @@ public class AppApplicationController {
         return ResponseEntity.ok(appApplicationService.getApplicationListForStudent_web(page, size));
     }
 
-    @Operation(summary = "Filter Student AppApplicationConsulting list. Mobile", description = "Get Student ApplicationConsulting List for mobile. Mobile first page")
+    @Operation(summary = "Get application consulting list for student . Mobile", description = "Get Student ApplicationConsulting List for mobile. Mobile first page")
     @GetMapping("/mobile/student/consulting")
     @PreAuthorize("hasRole('ROLE_STUDENT')")
-    public ResponseEntity<?> studentApplicationConsultingList_mobile(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                                                                     @RequestParam(value = "size", defaultValue = "20") Integer size) {
+    public ResponseEntity<?> applicationConsultingListForStudent_mobile(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                                        @RequestParam(value = "size", defaultValue = "20") Integer size) {
         log.info("Filtered appApplicationList list for student page={},size={}", page, size);
-        return ResponseEntity.ok(appApplicationService.getStudentApplicationConsultingList(page, size));
+        return ResponseEntity.ok(appApplicationService.getApplicationConsultingListForStudent_mobile(page, size));
     }
 
-    @Operation(summary = "Filter Student AppApplicationUniversity list by consulting id. Mobile", description = "Get Student ApplicationUniversity List for mobile. Mobile second page")
+    @Operation(summary = "Get application university list by consulting id for student. Mobile", description = "")
     @GetMapping("/mobile/student/{consultingId}/university")
     @PreAuthorize("hasRole('ROLE_STUDENT')")
-    public ResponseEntity<?> studentApplicationUniversityListByConsultingId_mobile(@PathVariable("consultingId") String consultingId,
-                                                                                   @RequestParam(value = "page", defaultValue = "0") Integer page,
-                                                                                   @RequestParam(value = "size", defaultValue = "20") Integer size) {
-        log.info("Filtered appApplicationList list for student page={},size={}", page, size);
-        return ResponseEntity.ok(appApplicationService.getStudentApplicationUniversityListByConsultingId(consultingId, page, size));
+    public ResponseEntity<?> applicationUniversityListByConsultingIdForStudent_mobile(@PathVariable("consultingId") String consultingId,
+                                                                                      @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                                                      @RequestParam(value = "size", defaultValue = "20") Integer size) {
+        log.info("Get application university list by consulting id. Mobile page={},size={}", page, size);
+        return ResponseEntity.ok(appApplicationService.getApplicationUniversityListByConsultingIdForStudent_mobile(consultingId, page, size));
     }
 
     /**
      * CONSULTING
      */
-    @Operation(summary = "Filter AppApplication for Consulting. Web", description = "Method user for filtering AppApplication for Consulting")
+
+    @Operation(summary = "Filter AppApplicationList for Consulting. Web", description = "Method user for filtering AppApplication for Consulting")
     @PostMapping("/consulting/filter")
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     public ResponseEntity<?> filterForConsulting(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                                  @RequestParam(value = "size", defaultValue = "5") Integer size,
                                                  @RequestBody AppApplicationFilterConsultingDTO dto) {
-        log.info("Filtered appApplicationList for consulting page={},size={}", page, size);
-        return ResponseEntity.ok(appApplicationService.applicationFilterForConsulting(dto, page, size));
+        log.info("Filter AppApplicationList for Consulting. Web. page={},size={}", page, size);
+        return ResponseEntity.ok(appApplicationService.getApplicationListForConsulting_web(dto, page, size));
+    }
+
+    @Operation(summary = "Get Application student list by countryId for Consulting. Mobile", description = "")
+    @PostMapping("/mobile/consulting/university/{universityId}")
+    @PreAuthorize("hasRole('ROLE_CONSULTING')")
+    public ResponseEntity<?> applicationStudentListByUniversityIdForConsulting_mobile(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                                                      @RequestParam(value = "size", defaultValue = "5") Integer size,
+                                                                                      @PathVariable("universityId") Long universityId,
+                                                                                      @RequestBody AppApplicationFilterConsultingDTO dto) {
+        log.info("Get Application student list by countryId for consulting. Mobile. page={},size={}", page, size);
+        return ResponseEntity.ok(appApplicationService.getApplicationStudentListByUniversityIdForConsulting_mobile(universityId, dto, page, size));
     }
 
     @Operation(summary = "Change appApplication  status as consulting", description = "")

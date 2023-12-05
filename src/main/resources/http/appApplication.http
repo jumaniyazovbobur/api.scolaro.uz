@@ -1,48 +1,40 @@
+###------------------------------------------------- Student
+
 ### Create appApplication
 POST localhost:8081/api/v1/app-application
 Content-Type: application/json
 Authorization: Bearer {{studentToken}}
 
 {
-  "consultingId":"2c9c70818c1abd87018c1abf20590004",
+  "consultingId": "2c9c70818c1abd87018c1abf20590004",
   "universityId": 1
 }
 
-### Filter appApplication for admin
-POST localhost:8081/api/v1/app-application/adm/filter
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTgwNTgxNTcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTg2NjI5NTcsImlzcyI6IkphdmEgYmFja2VuZCJ9.fAVv-pU6VpSvvAWXXOkZg_rjcI0HrIog4VGXBitKQAcf2k7tNoSggb5MGcq8kk6T1Xcl4x09G0frLUA5NCXmlw
-
-{
-  "studentName" : "Maxmud"
-}
-
-
-### Filter appApplication for student
+### AppApplication list for Student. Web
 GET localhost:8081/api/v1/app-application/student
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDEzMzM5NTUsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTU0Njg2MzAwMjgiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNzAxOTM4NzU1LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.5HpSKB1XUuJvPivxy_Z1wMqmS6__cvnpeo2Eq_BzLNKMlJbAmOtEVawlhiGk0LKJkyev_3gjnyWvmRX0Fiy0CQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDE3MDU5MTAsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTU0Njg2MzAwMjgiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNzAyMzEwNzEwLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.5Ud7WilRDxCZ4IQSM3dtD4t53-8h7jNfj-DYQP8xTPhptgVRVljER701Dgya5l6yc9EKM24ttbxlU9cVqKSOQQ
 
 
-### Filter Student AppApplicationConsulting list. Mobile
+### Get application consulting list for student . Mobile
 GET localhost:8081/api/v1/app-application/mobile/student/consulting
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDEzMjY5OTUsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTU0Njg2MzAwMjgiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNzAxOTMxNzk1LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.wToy-Ps2-89rETT2LtmIGeerxtB5oUbzAXcAqKknx6HvobZQVsmUuHw4KIhHVJJpima-5WabW2fzGcOd5V5q5A
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDE2NzM0MjcsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTU0Njg2MzAwMjgiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNzAyMjc4MjI3LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.jae4JQJQrPa_25fB7WAaZ7IfPDaKgMAMAXyrdNeU754b29jP5bCc3IwlAaSSQeHis-XnBJgDB-onGBls6cT-9Q
+
 
 ### Filter Student AppApplicationUniversity list by consulting id. Mobile
 GET localhost:8081/api/v1/app-application/mobile/student/8080b7ef8ba46236018bae4b30940021/university
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDEzMjY5OTUsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTU0Njg2MzAwMjgiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNzAxOTMxNzk1LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.wToy-Ps2-89rETT2LtmIGeerxtB5oUbzAXcAqKknx6HvobZQVsmUuHw4KIhHVJJpima-5WabW2fzGcOd5V5q5A
 
-### Filter appApplication for consulting
+###------------------------------------------------- Consulting
+
+### Filter AppApplicationList for Consulting. Web
 POST localhost:8081/api/v1/app-application/consulting/filter
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDEzMzM0MjcsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTRiMzA5NDAwMjEiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNzAxOTM4MjI3LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.no3KHbcmm1cgUK0icrjAQUSnQj77ZBKMpXI2uDMBJUDalB7M98JuxoY6nwN8aQlnt9yML640uBGdfxAEUj9wbw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDE3MDU0MzEsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTRiMzA5NDAwMjEiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNzAyMzEwMjMxLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.CiT5OmjMVYLTomuXU3jTxXo_rur2s_ODxXVQPDH4iyMTdK1_nrHGvITeccI4tSt4YWGse4klKEuM_hD2iFdoYA
 
 {
-
+  "status": "STARTED",
+  "query": "Ali"
 }
-
-### Get AppAplication by id
-GET localhost:8081/api/v1/app-application/402880e88ba2ae64018ba2b330120000
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkyNTM4MzcsImlkIjoiNDAyODgwZTg4YmEyNmIxODAxOGJhMjZkYTI0NzAwMDIiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk5ODU4NjM3LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.ZpqpywVfdMXov5S17ZtxLfLWIyPAkVHp4xVhTjU7TuUtcZlB5DhH56yd1DYBJzO0wubahhQA6D7NcjPkg1VLHw
 
 
 ### Change appApplication status as consulting
@@ -51,10 +43,8 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkyNDk4MjEsImlkIjoiNDAyODgwZTg4YmEyNmIxODAxOGJhMjZkYTI0NzAwMDIiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk5ODU0NjIxLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.pdfylAqfKB9DYcDVUl1Bca2NCpQmDcxrCfsqhLw841PlxFAKiamMqfBYTAWdkmpw4qvbWXcVjSIEy1LYVX8a-w
 
 {
-  "status" : "STARTED"
+  "status": "STARTED"
 }
-
-
 
 ### Update applicaiont tariff
 POST localhost:8081/api/v1/app-application/consulting/402880e88ba2ae64018ba2b330120000/tariff
@@ -62,9 +52,8 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkyNDk4MjEsImlkIjoiNDAyO
 Content-Type: application/json
 
 {
-  "tariffId":"402880e88ba26b18018ba27083d00007"
+  "tariffId": "402880e88ba26b18018ba27083d00007"
 }
-
 
 ### Update applicaiont consultingStep
 POST localhost:8081/api/v1/app-application/consulting/402880e88ba2ae64018ba2b330120000/step
@@ -72,9 +61,35 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkyNDk4MjEsImlkIjoiNDAyODgwZTg4YmEyNmIxODAxOGJhMjZkYTI0NzAwMDIiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk5ODU0NjIxLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.pdfylAqfKB9DYcDVUl1Bca2NCpQmDcxrCfsqhLw841PlxFAKiamMqfBYTAWdkmpw4qvbWXcVjSIEy1LYVX8a-w
 
 {
-  "consultingStepId":"402880e88ba27c4c018ba27cddfc0000"
+  "consultingStepId": "402880e88ba27c4c018ba27cddfc0000"
 }
 
+### Get Application student list by countryId for Consulting. Mobile
+POST localhost:8081/api/v1/app-application/consulting/university/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDE2NzEzMzMsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTRiMzA5NDAwMjEiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNzAyMjc2MTMzLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.8zM11OYrKlFIEFQ_UJlzXU8VncOZPWTAndL-WsmkNYKEBNZJhYhMy5mKjRaG0fzSZUJGqG8S1UDOYD-T-q2iLw
+
+{
+}
+
+
+###------------------------------------------------- Genral
+### Get AppAplication by id
+GET localhost:8081/api/v1/app-application/8080b7ef8bae722c018bae85c0cf0002
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDE3MDYwODksImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTU0Njg2MzAwMjgiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNzAyMzEwODg5LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.AGHic3lm5BoQGtYR_9HYY1eE2CCgHeyHfqd6Og2XYyHGZClhVlt5NpGsOBxaf40Ej5Ky6pHiYbFfV58stCaXcQ
+
+
+
+
+###------------------------------------------------- ADMIN
+### Filter appApplication for admin
+POST localhost:8081/api/v1/app-application/adm/filter
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTgwNTgxNTcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTg2NjI5NTcsImlzcyI6IkphdmEgYmFja2VuZCJ9.fAVv-pU6VpSvvAWXXOkZg_rjcI0HrIog4VGXBitKQAcf2k7tNoSggb5MGcq8kk6T1Xcl4x09G0frLUA5NCXmlw
+
+{
+  "studentName": "Maxmud"
+}
 
 
 
