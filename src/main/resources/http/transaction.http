@@ -1,0 +1,4 @@
+### Create transaction for fill balance  250 000 = 25000000
+POST http://api.app.mazgi.uz/api/v1/transaction/student/fill-callback?amount=-1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDE3NzA0MzAsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTU0Njg2MzAwMjgiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNzAyMzc1MjMwLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.J7vJ-Z3DoAutcjeliJ8fmj-MQiM-3SIi9UMWp6UwJnqGhCKRffk6Kq3QkP8EgeNibEUKbkacSUrJVxj6iaCzfw

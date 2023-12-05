@@ -13,6 +13,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table
 @Getter
@@ -36,4 +38,6 @@ public class TransactionsEntity extends BaseEntity {
     private TransactionStatus status;  // to enum
 
     private String paymentType; // PAYME
+
+    private LocalDateTime performTime;
 }

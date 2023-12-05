@@ -18,7 +18,9 @@ import java.util.Map;
 @Setter
 @ToString
 public class PaymeCallbackParamsDTO {
-    private int amount;
+    private String id;
+    private Long time;
+    private Long amount;
     private Map<String, Object> account = new HashMap<>();
 
     @JsonAnySetter
