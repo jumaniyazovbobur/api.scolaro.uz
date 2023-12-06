@@ -14,7 +14,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
-@Table
+@Table(name = "transactions")
 @Getter
 @Setter
 @AllArgsConstructor
