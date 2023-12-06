@@ -25,8 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-import static api.scolaro.uz.enums.jsonrpc.PaymeResponseStatus.INVALID_AMOUNT;
-import static api.scolaro.uz.enums.jsonrpc.PaymeResponseStatus.INVALID_STATE;
+import static api.scolaro.uz.enums.jsonrpc.PaymeResponseStatus.*;
 
 /**
  * @author 'Mukhtarov Sarvarbek' on 04.12.2023
@@ -70,11 +69,22 @@ public class TransactionServiceImpl implements TransactionService {
         return true;
     }
 
-    private TransactionsEntity isExistTransaction(String transactionId, Map<String, Object> res) {
+    private TransactionsEntity isExistTransactionById(String transactionId, Map<String, Object> res) {
         Optional<TransactionsEntity> transactionOptional = transactionRepository.findById(transactionId);
 
         if (transactionOptional.isEmpty()) {
             // error param
+            log.warn("Transaction not found id = {}", transactionId);
+            PaymeResponseStatus invalidParams = PaymeResponseStatus.TRANSACTION_NOT_FOUND;
+            res.put("error", Map.of("code", invalidParams.getCode(), "message", "Transaction Not Found"));
+            return null;
+        }
+        return transactionOptional.get();
+    }
+
+    private TransactionsEntity isExistTransactionByPaymeId(String transactionId, Map<String, Object> res) {
+        Optional<TransactionsEntity> transactionOptional = transactionRepository.findTop1ByPaymeTransactionsId(transactionId);
+        if (transactionOptional.isEmpty()) {
             log.warn("Transaction not found id = {}", transactionId);
             PaymeResponseStatus invalidParams = PaymeResponseStatus.TRANSACTION_NOT_FOUND;
             res.put("error", Map.of("code", invalidParams.getCode(), "message", "Transaction Not Found"));
@@ -151,12 +161,11 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     /**
-     * @param paymeTransactionId Идентификатор транзакции Payme Business.
-     * @param res                response for payme
-     * @param entity             transactionEntity
+     * @param res    response for payme
+     * @param entity transactionEntity
      */
-    private void PerformTransaction(String paymeTransactionId, Map<String, Object> res, TransactionsEntity entity) {
-        log.info("PerformTransaction  transactionId={},paymeTransactionId={}", entity.getId(), paymeTransactionId);
+    private void PerformTransaction(Map<String, Object> res, TransactionsEntity entity) {
+        log.info("PerformTransaction  transactionId={},paymeTransactionId={}", entity.getId(), entity.getPaymeTransactionsId());
         Instant instant = entity.getPerformTime().atZone(ZoneId.systemDefault()).toInstant();
 
         if (!entity.getState().equals(TransactionState.STATE_IN_PROGRESS)) {
@@ -195,6 +204,50 @@ public class TransactionServiceImpl implements TransactionService {
         ));
     }
 
+    private void CancelTransaction(String reason, Map<String, Object> res, TransactionsEntity entity) {
+        log.info("CancelTransaction id = {}", entity.getId());
+
+        if (Objects.requireNonNull(entity.getState()) == TransactionState.STATE_DONE) {
+            String profileId = entity.getProfileId();
+            if (!profileService.checkBalance(profileId, entity.getAmount())) {
+                log.warn("Profile amount not enough profileId={},id={}", profileId, entity.getId());
+                res.put("error", Map.of(
+                        "code", COULD_NOT_CANCEL.getCode(),
+                        "message", "Not enough balance"
+                ));
+                return;
+            }
+            profileService.reduceFromBalance(profileId, entity.getAmount());
+            entity.setState(TransactionState.STATE_POST_CANCELED);
+        } else {
+            entity.setState(TransactionState.STATE_CANCELED);
+        }
+        entity.setStatus(TransactionStatus.CANCELED);
+
+        entity.setCancelTime(LocalDateTime.now());
+        entity.setReason(reason);
+        transactionRepository.save(entity);
+        res.put("result", Map.of(
+                "transaction", entity.getId(),
+                "cancel_time", entity.getCancelTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+                "state", entity.getState().getValue()
+        ));
+    }
+
+    private void CheckTransaction(Map<String, Object> res, TransactionsEntity entity) {
+        Long createdDateMilli = entity.getCreatedDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        Long performTimeMilli = entity.getPerformTime() == null ? 0L : entity.getPerformTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        Long cancelTimeMilli = entity.getCancelTime() == null ? 0L : entity.getCancelTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        res.put("result", Map.of(
+                "create_time", createdDateMilli,
+                "perform_time", performTimeMilli,
+                "cancel_time", cancelTimeMilli,
+                "transaction", entity.getId(),
+                "state", entity.getState().getValue(),
+                "reason", entity.getReason()
+        ));
+    }
+
     @Override
     public Map<String, Object> callBackPayme(PaymeCallBackRequestDTO body) {
         log.info("callBackPayme");
@@ -212,7 +265,7 @@ public class TransactionServiceImpl implements TransactionService {
 
                 String orderId = (String) body.getParams().getAccount().getOrDefault("order_id", "");
 
-                TransactionsEntity transaction = isExistTransaction(orderId, res);
+                TransactionsEntity transaction = isExistTransactionById(orderId, res);
 
                 if (transaction == null) return res;
 
@@ -223,20 +276,25 @@ public class TransactionServiceImpl implements TransactionService {
 
                 String orderId = (String) body.getParams().getAccount().getOrDefault("order_id", "");
 
-                TransactionsEntity transaction = isExistTransaction(orderId, res);
+                TransactionsEntity transaction = isExistTransactionById(orderId, res);
 
                 if (transaction == null) return res;
                 CreateTransaction(params.getTime(), orderId, params.getAmount(), params.getId(), res, transaction);
             }
             case "PerformTransaction" -> {
-                Optional<TransactionsEntity> transactionOptional = transactionRepository.findTop1ByPaymeTransactionsId(params.getId());
-                if (transactionOptional.isEmpty()) {
-                    log.warn("Transaction not found id = {}", params.getId());
-                    PaymeResponseStatus invalidParams = PaymeResponseStatus.TRANSACTION_NOT_FOUND;
-                    res.put("error", Map.of("code", invalidParams.getCode(), "message", "Transaction Not Found"));
-                    return res;
-                }
-                PerformTransaction(params.getId(), res, transactionOptional.get());
+                TransactionsEntity transaction = isExistTransactionByPaymeId(params.getId(), res);
+                if (transaction == null) return res;
+                PerformTransaction(res, transaction);
+            }
+            case "CancelTransaction" -> {
+                TransactionsEntity transaction = isExistTransactionByPaymeId(params.getId(), res);
+                if (transaction == null) return res;
+                CancelTransaction(params.getReason(), res, transaction);
+            }
+            case "CheckTransaction" -> {
+                TransactionsEntity transaction = isExistTransactionByPaymeId(params.getId(), res);
+                if (transaction == null) return res;
+                CheckTransaction(res, transaction);
             }
         }
 

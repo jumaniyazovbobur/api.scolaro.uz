@@ -12,6 +12,7 @@ public enum PaymeResponseStatus {
     INVALID_STATE("-31008"),
     INVALID_AMOUNT("-31001"),
     TRANSACTION_NOT_FOUND("-31003"),
+    COULD_NOT_CANCEL("-31007"),
     INVALID_PARAMS("-31050");
 
     private String code;

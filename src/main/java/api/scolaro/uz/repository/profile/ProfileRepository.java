@@ -97,4 +97,11 @@ public interface ProfileRepository extends JpaRepository<ProfileEntity, String> 
     @Transactional
     @Modifying
     void fillStudentBalance(String profileId, Long amount);
+    @Query("UPDATE ProfileEntity SET balance = balance - ?2 WHERE id = ?1")
+    @Transactional
+    @Modifying
+    void reduceStudentBalance(String profileId, Long amount);
+
+    @Query(value = "SELECT TRUE FROM profile WHERE id = ?1 AND balance => ?2 AND visible = TRUE LIMIT 1;",nativeQuery = true)
+    boolean existsByIdAndBalanceIsGreaterThan(String profileId, Long amount);
 }

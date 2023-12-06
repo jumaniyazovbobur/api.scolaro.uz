@@ -5,10 +5,7 @@ import api.scolaro.uz.enums.transaction.ProfileType;
 import api.scolaro.uz.enums.transaction.TransactionState;
 import api.scolaro.uz.enums.transaction.TransactionStatus;
 import api.scolaro.uz.enums.transaction.TransactionType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,6 +38,9 @@ public class TransactionsEntity extends BaseEntity {
     private String paymentType; // PAYME
 
     private LocalDateTime performTime;
+    private LocalDateTime cancelTime;
+    @Column(columnDefinition = "text")
+    private String reason;
 
     @Enumerated(EnumType.STRING)
     private TransactionState state; //

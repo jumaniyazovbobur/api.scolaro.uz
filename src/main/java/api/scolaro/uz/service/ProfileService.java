@@ -260,6 +260,14 @@ public class ProfileService {
     }
 
     public void fillStudentBalance(String profileId, Long amount) {
-        profileRepository.fillStudentBalance(profileId,amount);
+        profileRepository.fillStudentBalance(profileId, amount);
+    }
+
+    public boolean checkBalance(String profileId, Long amount) {
+        return profileRepository.existsByIdAndBalanceIsGreaterThan(profileId, amount);
+    }
+
+    public void reduceFromBalance(String profileId, Long amount) {
+        profileRepository.reduceStudentBalance(profileId, amount);
     }
 }
