@@ -11,6 +11,7 @@ import api.scolaro.uz.dto.university.UniversityResponseDTO;
 import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.entity.UniversityEntity;
 import api.scolaro.uz.entity.consulting.ConsultingEntity;
+import api.scolaro.uz.entity.consulting.ConsultingProfileEntity;
 import api.scolaro.uz.entity.consulting.ConsultingUniversityEntity;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
@@ -85,20 +86,24 @@ public class ConsultingService {
         String text = "Scolaro.uz platformasiga kirish uchun sizning parolingiz: \n" + smsPassword;
         smsService.sendMessage(dto.getPhone(), text, SmsType.CHANGE_PASSWORD, smsPassword);
 
-        ConsultingEntity entity = new ConsultingEntity();
-        entity.setName(dto.getName());
-        entity.setAddress(dto.getAddress());
+        ConsultingEntity consultingEntity = new ConsultingEntity();
+        consultingEntity.setName(dto.getName());
+        consultingEntity.setAddress(dto.getAddress());
+        consultingEntity.setPhotoId(dto.getPhotoId());
+        consultingEntity.setStatus(GeneralStatus.ACTIVE);
+
+        ConsultingProfileEntity consultingProfile = new ConsultingProfileEntity();
+
         entity.setPhone(dto.getPhone());
         entity.setPassword(MD5Util.getMd5(smsPassword));
         entity.setAbout(dto.getAbout());
         entity.setOwnerName(dto.getOwnerName());
         entity.setOwnerSurname(dto.getOwnerSurname());
-        entity.setPhotoId(dto.getPhotoId());
-        entity.setStatus(GeneralStatus.ACTIVE);
         entity.setFireBaseId(dto.getFireBaseId());
         // save
-        consultingRepository.save(entity);
+        consultingRepository.save(consultingEntity);
         personRoleService.create(entity.getId(), RoleEnum.ROLE_CONSULTING);
+        personRoleService.create(entity.getId(), RoleEnum.ROLE_CONSULTING_MANAGER);
         // response
         return ApiResponse.ok(toDTO(entity));
     }
