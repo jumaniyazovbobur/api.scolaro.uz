@@ -9,8 +9,9 @@ import lombok.Getter;
  */
 @Getter
 public enum PaymeResponseStatus {
-    CANCEL_TRANSACTION("-31008"),
+    INVALID_STATE("-31008"),
     INVALID_AMOUNT("-31001"),
+    TRANSACTION_NOT_FOUND("-31003"),
     INVALID_PARAMS("-31050");
 
     private String code;

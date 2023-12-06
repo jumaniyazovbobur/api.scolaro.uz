@@ -7,6 +7,7 @@ import api.scolaro.uz.dto.transaction.TransactionResponseDTO;
 import api.scolaro.uz.entity.transaction.TransactionsEntity;
 import api.scolaro.uz.enums.jsonrpc.PaymeResponseStatus;
 import api.scolaro.uz.enums.transaction.ProfileType;
+import api.scolaro.uz.enums.transaction.TransactionState;
 import api.scolaro.uz.enums.transaction.TransactionStatus;
 import api.scolaro.uz.enums.transaction.TransactionType;
 import api.scolaro.uz.repository.transaction.TransactionRepository;
@@ -24,6 +25,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+import static api.scolaro.uz.enums.jsonrpc.PaymeResponseStatus.INVALID_AMOUNT;
+import static api.scolaro.uz.enums.jsonrpc.PaymeResponseStatus.INVALID_STATE;
+
 /**
  * @author 'Mukhtarov Sarvarbek' on 04.12.2023
  * @project api.scolaro.uz
@@ -36,6 +40,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final ProfileService profileService;
+    private final Long time_expired = 43_200_000L;
 
     @Override
     public ApiResponse<TransactionResponseDTO> createTransactionForFillBalance(String currentUserId, Long amount) {
@@ -45,9 +50,70 @@ public class TransactionServiceImpl implements TransactionService {
         transactions.setAmount(amount);
         transactions.setStatus(TransactionStatus.CREATED);
         transactions.setProfileType(ProfileType.PROFILE);
+        transactions.setState(TransactionState.STATE_IN_PROGRESS);
         transactionRepository.save(transactions);
 
         return ApiResponse.ok(TransactionResponseDTO.toDTO(transactions));
+    }
+
+    private boolean isExpiredTime(Long createdTime, Map<String, Object> res, TransactionsEntity entity) {
+        if (System.currentTimeMillis() - createdTime > time_expired) {
+            log.warn("time expired id = {}", entity.getId());
+            entity.setState(TransactionState.STATE_CANCELED);
+            transactionRepository.save(entity);
+            res.put("error", Map.of(
+                    "code", INVALID_STATE.getCode(),
+                    "message", "Invalid state"
+            ));
+            return false;
+        }
+        return true;
+    }
+
+    private TransactionsEntity isExistTransaction(String transactionId, Map<String, Object> res) {
+        Optional<TransactionsEntity> transactionOptional = transactionRepository.findById(transactionId);
+
+        if (transactionOptional.isEmpty()) {
+            // error param
+            log.warn("Transaction not found id = {}", transactionId);
+            PaymeResponseStatus invalidParams = PaymeResponseStatus.TRANSACTION_NOT_FOUND;
+            res.put("error", Map.of("code", invalidParams.getCode(), "message", "Transaction Not Found"));
+            return null;
+        }
+        return transactionOptional.get();
+    }
+
+    private boolean isEmptyOrderInAccount(PaymeCallbackParamsDTO params, Map<String, Object> res) {
+        if (Optional.ofNullable(params).isEmpty()
+                || params.getAccount().getOrDefault("order_id", "").equals("")
+        ) {
+            log.warn("Invalid params body = {}", params);
+            PaymeResponseStatus invalidParams = PaymeResponseStatus.INVALID_PARAMS;
+            res.put("error", Map.of("code", invalidParams.getCode(), "message", "Order number not found!"));
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param res            response for payme
+     * @param amount         in tiyinax from payme
+     * @param amountMerchant in tiyinax from merchant
+     */
+    private void CheckPerformTransaction(Map<String, Object> res, Long amount, Long amountMerchant) {
+        log.info("CheckPerformTransaction amount={},amount merchant={}", amount, amountMerchant);
+        if (!Objects.equals(amountMerchant, amount)) {
+            log.warn("CheckPerformTransaction invalid amount");
+            res.put("error", Map.of(
+                    "code", INVALID_AMOUNT.getCode(),
+                    "message", "Invalid Amount"
+            ));
+            return;
+        }
+
+        res.put("result", Map.of(
+                "allow", true
+        ));
     }
 
     /**
@@ -61,76 +127,116 @@ public class TransactionServiceImpl implements TransactionService {
     private void CreateTransaction(Long time, String transactionId, Long amount, String paymeTransactionId, Map<String, Object> res, TransactionsEntity entity) {
         log.info("create transaction time={},transactionId={},amount={},paymeTransactionId={}", time, transactionId, amount, paymeTransactionId);
 
-        if (!Objects.equals(entity.getAmount(), amount)) {
-            // todo transactionStatus
-            log.warn("Invalid balance");
-            res.put("error", Map.of("code", PaymeResponseStatus.INVALID_AMOUNT.getCode(), "message", "Invalid balance"));
+        if (entity.getState().equals(TransactionState.STATE_IN_PROGRESS)) {
+            log.warn("CreateTransaction error invalid state merchantState={}", entity.getState());
+            res.put("error", Map.of(
+                    "code", INVALID_STATE.getCode(),
+                    "message", "Invalid state"
+            ));
             return;
         }
+        entity.setPaymeTransactionsId(paymeTransactionId);
+        transactionRepository.save(entity);
 
         Instant instant = entity.getCreatedDate().atZone(ZoneId.systemDefault()).toInstant();
+
+        // When subtracting the created time from the current time, an error will occur if the time_expired time is greater than the time_expired time
+        if (isExpiredTime(instant.toEpochMilli(), res, entity)) return;
 
         res.put("result", Map.of(
                 "transaction", transactionId,
                 "create_time", instant.toEpochMilli(),
-                "state", 1
+                "state", entity.getState().getValue()
         ));
     }
 
-    private void PerformTransaction(Long performTime, String transactionId, String paymeTransactionId, Map<String, Object> res, TransactionsEntity entity) {
-        log.info("PerformTransaction  performTime={},transactionId={},paymeTransactionId={}", performTime, transactionId, paymeTransactionId);
+    /**
+     * @param paymeTransactionId Идентификатор транзакции Payme Business.
+     * @param res                response for payme
+     * @param entity             transactionEntity
+     */
+    private void PerformTransaction(String paymeTransactionId, Map<String, Object> res, TransactionsEntity entity) {
+        log.info("PerformTransaction  transactionId={},paymeTransactionId={}", entity.getId(), paymeTransactionId);
+        Instant instant = entity.getPerformTime().atZone(ZoneId.systemDefault()).toInstant();
+
+        if (!entity.getState().equals(TransactionState.STATE_IN_PROGRESS)) {
+            if (entity.getState().equals(TransactionState.STATE_DONE)) {
+                res.put("result", Map.of(
+                        "transaction", entity.getId(),
+                        "perform_time", instant.toEpochMilli(),
+                        "state", entity.getState().getValue()
+                ));
+                return;
+            }
+            log.warn("PerformTransaction time expired ");
+            entity.setState(TransactionState.STATE_CANCELED);
+            transactionRepository.save(entity);
+            res.put("error", Map.of(
+                    "code", INVALID_STATE.getCode(),
+                    "message", "Invalid state"
+            ));
+            return;
+        }
+
+        // When subtracting the created time from the current time, an error will occur if the time_expired time is greater than the time_expired time
+        if (isExpiredTime(instant.toEpochMilli(), res, entity)) return;
 
         profileService.fillStudentBalance(entity.getProfileId(), entity.getAmount());
         entity.setStatus(TransactionStatus.SUCCESS);
         entity.setPerformTime(LocalDateTime.now());
+        entity.setState(TransactionState.STATE_DONE);
         transactionRepository.save(entity);
 
-        Instant instant = entity.getPerformTime().atZone(ZoneId.systemDefault()).toInstant();
 
         res.put("result", Map.of(
-                "transaction", transactionId,
+                "transaction", entity.getId(),
                 "perform_time", instant.toEpochMilli(),
-                "state", 2
+                "state", entity.getState().getValue()
         ));
     }
 
     @Override
     public Map<String, Object> callBackPayme(PaymeCallBackRequestDTO body) {
         log.info("callBackPayme");
-        PaymeCallbackParamsDTO params = body.getParams();
         Map<String, Object> res = new HashMap<>();
         res.put("id", body.getId());
         res.put("jsonrpc", body.getJsonrpc());
         res.put("method", body.getMethod());
 
-        if (Optional.ofNullable(params).isEmpty()
-                || body.getParams().getAccount().getOrDefault("order_id", "").equals("")
-        ) {
-            log.warn("Invalid params body = {}", body);
-            PaymeResponseStatus invalidParams = PaymeResponseStatus.INVALID_PARAMS;
-            res.put("error", Map.of("code", invalidParams.getCode(), "message", "Order number not found!"));
-            return res;
-        }
-
-        String orderId = (String) body.getParams().getAccount().getOrDefault("order_id", "");
-
-        Optional<TransactionsEntity> transactionOptional = transactionRepository.findById(orderId);
-
-        if (transactionOptional.isEmpty()
-                || !transactionOptional.get().getProfileType().equals(ProfileType.PROFILE)
-                || !Objects.equals(transactionOptional.get().getAmount(), body.getParams().getAmount())) {
-            // error param
-            log.warn("Transaction not found or ProfileType invalid body = {}", body);
-            PaymeResponseStatus invalidParams = PaymeResponseStatus.INVALID_AMOUNT;
-            res.put("error", Map.of("code", invalidParams.getCode(), "message", "Invalid balance"));
-            return res;
-        }
+        PaymeCallbackParamsDTO params = body.getParams();
 
         switch (body.getMethod()) {
-            case "CreateTransaction" ->
-                    CreateTransaction(params.getTime(), orderId, params.getAmount(), params.getId(), res, transactionOptional.get());
-            case "PerformTransaction" -> {
+            case "CheckPerformTransaction" -> {
 
+                if (isEmptyOrderInAccount(params, res)) return res;
+
+                String orderId = (String) body.getParams().getAccount().getOrDefault("order_id", "");
+
+                TransactionsEntity transaction = isExistTransaction(orderId, res);
+
+                if (transaction == null) return res;
+
+                CheckPerformTransaction(res, params.getAmount(), transaction.getAmount());
+            }
+            case "CreateTransaction" -> {
+                if (isEmptyOrderInAccount(params, res)) return res;
+
+                String orderId = (String) body.getParams().getAccount().getOrDefault("order_id", "");
+
+                TransactionsEntity transaction = isExistTransaction(orderId, res);
+
+                if (transaction == null) return res;
+                CreateTransaction(params.getTime(), orderId, params.getAmount(), params.getId(), res, transaction);
+            }
+            case "PerformTransaction" -> {
+                Optional<TransactionsEntity> transactionOptional = transactionRepository.findTop1ByPaymeTransactionsId(params.getId());
+                if (transactionOptional.isEmpty()) {
+                    log.warn("Transaction not found id = {}", params.getId());
+                    PaymeResponseStatus invalidParams = PaymeResponseStatus.TRANSACTION_NOT_FOUND;
+                    res.put("error", Map.of("code", invalidParams.getCode(), "message", "Transaction Not Found"));
+                    return res;
+                }
+                PerformTransaction(params.getId(), res, transactionOptional.get());
             }
         }
 

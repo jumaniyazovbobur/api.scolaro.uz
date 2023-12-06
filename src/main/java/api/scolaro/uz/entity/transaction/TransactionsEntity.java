@@ -2,6 +2,7 @@ package api.scolaro.uz.entity.transaction;
 
 import api.scolaro.uz.entity.BaseEntity;
 import api.scolaro.uz.enums.transaction.ProfileType;
+import api.scolaro.uz.enums.transaction.TransactionState;
 import api.scolaro.uz.enums.transaction.TransactionStatus;
 import api.scolaro.uz.enums.transaction.TransactionType;
 import jakarta.persistence.Entity;
@@ -40,4 +41,7 @@ public class TransactionsEntity extends BaseEntity {
     private String paymentType; // PAYME
 
     private LocalDateTime performTime;
+
+    @Enumerated(EnumType.STRING)
+    private TransactionState state; //
 }
