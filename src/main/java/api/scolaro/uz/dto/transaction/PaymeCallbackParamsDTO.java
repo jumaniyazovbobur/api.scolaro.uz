@@ -20,6 +20,8 @@ import java.util.Map;
 public class PaymeCallbackParamsDTO {
     private String id;
     private Long time;
+    private Long from;
+    private Long to;
     private Long amount;
     private String reason;
     private Map<String, Object> account = new HashMap<>();

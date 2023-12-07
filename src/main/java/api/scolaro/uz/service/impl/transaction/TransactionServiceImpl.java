@@ -3,6 +3,7 @@ package api.scolaro.uz.service.impl.transaction;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.transaction.PaymeCallBackRequestDTO;
 import api.scolaro.uz.dto.transaction.PaymeCallbackParamsDTO;
+import api.scolaro.uz.dto.transaction.TransactionResForPayme;
 import api.scolaro.uz.dto.transaction.TransactionResponseDTO;
 import api.scolaro.uz.entity.transaction.TransactionsEntity;
 import api.scolaro.uz.enums.jsonrpc.PaymeResponseStatus;
@@ -20,10 +21,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 import static api.scolaro.uz.enums.jsonrpc.PaymeResponseStatus.*;
 
@@ -50,23 +48,22 @@ public class TransactionServiceImpl implements TransactionService {
         transactions.setStatus(TransactionStatus.CREATED);
         transactions.setProfileType(ProfileType.PROFILE);
         transactions.setState(TransactionState.STATE_IN_PROGRESS);
+        transactions.setPaymentType("PAYME");
         transactionRepository.save(transactions);
 
         return ApiResponse.ok(TransactionResponseDTO.toDTO(transactions));
     }
 
     private boolean isExpiredTime(Long createdTime, Map<String, Object> res, TransactionsEntity entity) {
-        if (System.currentTimeMillis() - createdTime > time_expired) {
+        if (!(System.currentTimeMillis() - createdTime > time_expired)) {
             log.warn("time expired id = {}", entity.getId());
-            entity.setState(TransactionState.STATE_CANCELED);
-            transactionRepository.save(entity);
             res.put("error", Map.of(
                     "code", INVALID_STATE.getCode(),
                     "message", "Invalid state"
             ));
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     private TransactionsEntity isExistTransactionById(String transactionId, Map<String, Object> res) {
@@ -88,8 +85,7 @@ public class TransactionServiceImpl implements TransactionService {
         Optional<TransactionsEntity> transactionOptional = transactionRepository.findTop1ByPaymeTransactionsId(transactionId);
         if (transactionOptional.isEmpty()) {
             log.warn("Transaction not found id = {}", transactionId);
-            PaymeResponseStatus invalidParams = PaymeResponseStatus.TRANSACTION_NOT_FOUND;
-            res.put("error", Map.of("code", invalidParams.getCode(), "message", "Transaction Not Found"));
+            res.put("error", Map.of("code", PaymeResponseStatus.TRANSACTION_NOT_FOUND.getCode(), "message", "Transaction Not Found"));
             return null;
         }
         return transactionOptional.get();
@@ -326,8 +322,37 @@ public class TransactionServiceImpl implements TransactionService {
                 if (transaction == null) return res;
                 CheckTransaction(res, transaction);
             }
+            case "GetStatement" -> {
+                if (Optional.ofNullable(params.getTo()).isEmpty() || Optional.ofNullable(params.getFrom()).isEmpty()) {
+                    log.warn("CancelTransaction invalid params");
+                    res.put("error", Map.of(
+                            "code", NOT_ENOUGH_PRIVILEGES.getCode(),
+                            "message", "Invalid params"
+                    ));
+                    return res;
+                }
+
+                // Convert Unix timestamp to LocalDateTime
+                Instant from = Instant.ofEpochMilli(params.getFrom());
+                Instant to = Instant.ofEpochMilli(params.getTo());
+
+                List<TransactionResForPayme> listForResponse = transactionRepository
+                        .findAllByCreatedDateBetweenAndPaymentType(
+                                LocalDateTime.ofInstant(from, ZoneId.systemDefault()),
+                                LocalDateTime.ofInstant(to, ZoneId.systemDefault()),
+                                "PAYME"
+                        )
+                        .stream()
+                        .map(TransactionResForPayme::toDTO)
+                        .toList();
+
+                res.put("result", Map.of(
+                        "transactions", listForResponse
+                ));
+            }
             default -> res.put("error", Map.of(
-                    "code", "-"
+                    "code", "-32601",
+                    "message", "Method not found!"
             ));
         }
 
