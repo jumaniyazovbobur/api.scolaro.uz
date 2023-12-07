@@ -97,12 +97,19 @@ public class TransactionServiceImpl implements TransactionService {
 
     private boolean isEmptyOrderInAccount(PaymeCallbackParamsDTO params, Map<String, Object> res) {
         if (Optional.ofNullable(params).isEmpty()
-                || params.getAccount().getOrDefault("order_id", "").equals("")
         ) {
-            log.warn("Invalid params body = {}", params);
+            log.warn("Invalid params ");
             res.put("error", Map.of(
                     "code", PaymeResponseStatus.INVALID_PARAMS.getCode(),
                     "message", "Order number not found!"
+            ));
+            return true;
+        }
+        if (params.getAccount().getOrDefault("order_id", "").equals("")) {
+            log.warn("NOT_ENOUGH_PRIVILEGES body = {}", params);
+            res.put("error", Map.of(
+                    "code", NOT_ENOUGH_PRIVILEGES.getCode(),
+                    "message", "Invalid params"
             ));
             return true;
         }
