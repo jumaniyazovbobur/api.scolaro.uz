@@ -196,7 +196,12 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         // When subtracting the created time from the current time, an error will occur if the time_expired time is greater than the time_expired time
-        if (isExpiredTime(instant.toEpochMilli(), res, entity)) return;
+        if (isExpiredTime(instant.toEpochMilli(), res, entity)) {
+            entity.setState(TransactionState.STATE_CANCELED);
+            entity.setReason("4");
+            transactionRepository.save(entity);
+            return;
+        }
 
         profileService.fillStudentBalance(entity.getProfileId(), entity.getAmount());
         entity.setStatus(TransactionStatus.SUCCESS);
@@ -230,8 +235,8 @@ public class TransactionServiceImpl implements TransactionService {
         } else {
             entity.setState(TransactionState.STATE_CANCELED);
         }
-        entity.setStatus(TransactionStatus.CANCELED);
 
+        entity.setStatus(TransactionStatus.CANCELED);
         entity.setCancelTime(LocalDateTime.now());
         entity.setReason(reason);
         transactionRepository.save(entity);
@@ -288,27 +293,25 @@ public class TransactionServiceImpl implements TransactionService {
 
                 if (transaction == null) return res;
                 CreateTransaction(params.getTime(), orderId, params.getAmount(), params.getId(), res, transaction);
-            }
+            }       // done
             case "PerformTransaction" -> {
                 TransactionsEntity transaction = isExistTransactionByPaymeId(params.getId(), res);
                 if (transaction == null) return res;
                 PerformTransaction(res, transaction);
-            }
+            }      // done
             case "CancelTransaction" -> {
                 TransactionsEntity transaction = isExistTransactionByPaymeId(params.getId(), res);
                 if (transaction == null) return res;
                 CancelTransaction(params.getReason(), res, transaction);
-            }
+            }       // done
             case "CheckTransaction" -> {
                 TransactionsEntity transaction = isExistTransactionByPaymeId(params.getId(), res);
                 if (transaction == null) return res;
                 CheckTransaction(res, transaction);
             }
-            default -> {
-                res.put("error", Map.of(
-
-                ));
-            }
+            default -> res.put("error", Map.of(
+                    "code", "-"
+            ));
         }
 
         return res;
