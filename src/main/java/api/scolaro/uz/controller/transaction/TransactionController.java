@@ -40,9 +40,6 @@ public class TransactionController {
     @PostMapping("/student/payme-callback")
     public Map<String, Object> paymeCallback(@RequestBody PaymeCallBackRequestDTO body) {
         log.info("PaymeCallback body = {}", body);
-        Map<String, Object> res = transactionService.callBackPayme(body); // return as jsonrpc
-        String s = JsonRpcUtil.mapToJsonString(res);
-        System.out.println(s);
-        return res;
+        return transactionService.callBackPayme(body);
     }
 }

@@ -75,8 +75,10 @@ public class TransactionServiceImpl implements TransactionService {
         if (transactionOptional.isEmpty()) {
             // error param
             log.warn("Transaction not found id = {}", transactionId);
-            PaymeResponseStatus invalidParams = PaymeResponseStatus.TRANSACTION_NOT_FOUND;
-            res.put("error", Map.of("code", invalidParams.getCode(), "message", "Transaction Not Found"));
+            res.put("error", Map.of(
+                    "code", PaymeResponseStatus.TRANSACTION_NOT_FOUND.getCode(),
+                    "message", "Transaction Not Found"
+            ));
             return null;
         }
         return transactionOptional.get();
@@ -98,8 +100,10 @@ public class TransactionServiceImpl implements TransactionService {
                 || params.getAccount().getOrDefault("order_id", "").equals("")
         ) {
             log.warn("Invalid params body = {}", params);
-            PaymeResponseStatus invalidParams = PaymeResponseStatus.INVALID_PARAMS;
-            res.put("error", Map.of("code", invalidParams.getCode(), "message", "Order number not found!"));
+            res.put("error", Map.of(
+                    "code", PaymeResponseStatus.INVALID_PARAMS.getCode(),
+                    "message", "Order number not found!"
+            ));
             return true;
         }
         return false;
@@ -136,8 +140,9 @@ public class TransactionServiceImpl implements TransactionService {
      */
     private void CreateTransaction(Long time, String transactionId, Long amount, String paymeTransactionId, Map<String, Object> res, TransactionsEntity entity) {
         log.info("create transaction time={},transactionId={},amount={},paymeTransactionId={}", time, transactionId, amount, paymeTransactionId);
+        Instant instant = entity.getCreatedDate().atZone(ZoneId.systemDefault()).toInstant();
 
-        if (entity.getState().equals(TransactionState.STATE_IN_PROGRESS)) {
+        if (!entity.getState().equals(TransactionState.STATE_IN_PROGRESS)) {
             log.warn("CreateTransaction error invalid state merchantState={}", entity.getState());
             res.put("error", Map.of(
                     "code", INVALID_STATE.getCode(),
@@ -145,13 +150,16 @@ public class TransactionServiceImpl implements TransactionService {
             ));
             return;
         }
+        // When subtracting the created time from the current time, an error will occur if the time_expired time is greater than the time_expired time
+        if (isExpiredTime(instant.toEpochMilli(), res, entity)) {
+            entity.setState(TransactionState.STATE_CANCELED);
+            entity.setReason("4");
+            transactionRepository.save(entity);
+            return;
+        }
+
         entity.setPaymeTransactionsId(paymeTransactionId);
         transactionRepository.save(entity);
-
-        Instant instant = entity.getCreatedDate().atZone(ZoneId.systemDefault()).toInstant();
-
-        // When subtracting the created time from the current time, an error will occur if the time_expired time is greater than the time_expired time
-        if (isExpiredTime(instant.toEpochMilli(), res, entity)) return;
 
         res.put("result", Map.of(
                 "transaction", transactionId,
@@ -270,7 +278,7 @@ public class TransactionServiceImpl implements TransactionService {
                 if (transaction == null) return res;
 
                 CheckPerformTransaction(res, params.getAmount(), transaction.getAmount());
-            }
+            } // done
             case "CreateTransaction" -> {
                 if (isEmptyOrderInAccount(params, res)) return res;
 
@@ -295,6 +303,11 @@ public class TransactionServiceImpl implements TransactionService {
                 TransactionsEntity transaction = isExistTransactionByPaymeId(params.getId(), res);
                 if (transaction == null) return res;
                 CheckTransaction(res, transaction);
+            }
+            default -> {
+                res.put("error", Map.of(
+
+                ));
             }
         }
 
