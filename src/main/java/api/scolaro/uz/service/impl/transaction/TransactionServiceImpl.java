@@ -307,8 +307,18 @@ public class TransactionServiceImpl implements TransactionService {
                 PerformTransaction(res, transaction);
             }      // done
             case "CancelTransaction" -> {
+                if (Optional.ofNullable(params.getReason()).isEmpty()
+                        || Optional.ofNullable(params.getId()).isEmpty()) {
+                    log.warn("CancelTransaction invalid params");
+                    res.put("error", Map.of(
+                            "code", NOT_ENOUGH_PRIVILEGES.getCode(),
+                            "message", "Invalid params"
+                    ));
+                    return res;
+                }
                 TransactionsEntity transaction = isExistTransactionByPaymeId(params.getId(), res);
                 if (transaction == null) return res;
+
                 CancelTransaction(params.getReason(), res, transaction);
             }       // done
             case "CheckTransaction" -> {
