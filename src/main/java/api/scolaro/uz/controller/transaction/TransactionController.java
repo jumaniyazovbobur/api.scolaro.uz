@@ -4,6 +4,7 @@ import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.transaction.PaymeCallBackRequestDTO;
 import api.scolaro.uz.dto.transaction.TransactionResponseDTO;
+import api.scolaro.uz.dto.transaction.response.payme.PaymeResponseDTO;
 import api.scolaro.uz.service.transaction.TransactionService;
 import api.scolaro.uz.util.CheckAuthorizationUtil;
 import jakarta.validation.Valid;
@@ -30,6 +31,7 @@ public class TransactionController {
     private final TransactionService transactionService;
     @Value("${payme.auth.token}")
     private String paymeAuthToken;
+
     @PostMapping("/student/fill-callback")
     public ResponseEntity<ApiResponse<TransactionResponseDTO>> createTransactionForFillBalance(@RequestParam("amount")
                                                                                                @Valid
@@ -41,13 +43,21 @@ public class TransactionController {
     }
 
     @PostMapping("/student/payme-callback")
-    public Map<String, Object> paymeCallback(@RequestBody PaymeCallBackRequestDTO body,
-                                             @RequestHeader(value = "Authorization",required = false) String authorization) {
+    public ResponseEntity<PaymeResponseDTO> paymeCallback(@RequestBody PaymeCallBackRequestDTO body,
+                                                          @RequestHeader(value = "Authorization", required = false) String authorization) {
         log.info("PaymeCallback body = {}", body);
 
-        if (!CheckAuthorizationUtil.check(authorization,paymeAuthToken))
-            return CheckAuthorizationUtil.withoutAuthorizationHeader(body.getId(), body.getMethod(), body.getJsonrpc());
+        if (!CheckAuthorizationUtil.check(authorization, paymeAuthToken))
+            return ResponseEntity
+                    .ok(
+                            CheckAuthorizationUtil
+                                    .withoutAuthorizationHeader(
+                                            body.getId(),
+                                            body.getMethod(),
+                                            body.getJsonrpc()
+                                    )
+                    );
 
-        return transactionService.callBackPayme(body);
+        return ResponseEntity.ok(transactionService.callBackPayme(body));
     }
 }
