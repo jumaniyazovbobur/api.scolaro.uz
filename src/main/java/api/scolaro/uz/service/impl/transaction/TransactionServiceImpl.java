@@ -55,7 +55,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     private boolean isExpiredTime(Long createdTime, Map<String, Object> res, TransactionsEntity entity) {
-        if (!(System.currentTimeMillis() - createdTime > time_expired)) {
+        if (System.currentTimeMillis() - createdTime > time_expired) {
             log.warn("time expired id = {}", entity.getId());
             res.put("error", Map.of(
                     "code", INVALID_STATE.getCode(),
@@ -178,10 +178,11 @@ public class TransactionServiceImpl implements TransactionService {
      */
     private void PerformTransaction(Map<String, Object> res, TransactionsEntity entity) {
         log.info("PerformTransaction  transactionId={},paymeTransactionId={}", entity.getId(), entity.getPaymeTransactionsId());
-        Instant instant = entity.getPerformTime().atZone(ZoneId.systemDefault()).toInstant();
 
         if (!entity.getState().equals(TransactionState.STATE_IN_PROGRESS)) {
             if (entity.getState().equals(TransactionState.STATE_DONE)) {
+                Instant instant = entity.getPerformTime().atZone(ZoneId.systemDefault()).toInstant();
+
                 res.put("result", Map.of(
                         "transaction", entity.getId(),
                         "perform_time", instant.toEpochMilli(),
@@ -200,7 +201,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         // When subtracting the created time from the current time, an error will occur if the time_expired time is greater than the time_expired time
-        if (isExpiredTime(instant.toEpochMilli(), res, entity)) {
+        if (isExpiredTime(entity.getCreateTime(), res, entity)) {
             entity.setState(TransactionState.STATE_CANCELED);
             entity.setReason("4");
             transactionRepository.save(entity);
@@ -213,6 +214,7 @@ public class TransactionServiceImpl implements TransactionService {
         entity.setState(TransactionState.STATE_DONE);
         transactionRepository.save(entity);
 
+        Instant instant = entity.getPerformTime().atZone(ZoneId.systemDefault()).toInstant();
 
         res.put("result", Map.of(
                 "transaction", entity.getId(),
@@ -261,7 +263,7 @@ public class TransactionServiceImpl implements TransactionService {
                 "cancel_time", cancelTimeMilli,
                 "transaction", entity.getId(),
                 "state", entity.getState().getValue(),
-                "reason", entity.getReason()
+                "reason", entity.getReason() == null ? "" : entity.getReason()
         ));
     }
 

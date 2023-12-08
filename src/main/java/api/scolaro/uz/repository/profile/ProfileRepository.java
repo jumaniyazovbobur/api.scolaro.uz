@@ -102,6 +102,6 @@ public interface ProfileRepository extends JpaRepository<ProfileEntity, String> 
     @Modifying
     void reduceStudentBalance(String profileId, Long amount);
 
-    @Query(value = "SELECT TRUE FROM profile WHERE id = ?1 AND balance => ?2 AND visible = TRUE LIMIT 1;",nativeQuery = true)
+    @Query(value = "SELECT TRUE FROM profile WHERE id = ?1 AND balance >= ?2 AND visible = TRUE LIMIT 1;",nativeQuery = true)
     boolean existsByIdAndBalanceIsGreaterThan(String profileId, Long amount);
 }
