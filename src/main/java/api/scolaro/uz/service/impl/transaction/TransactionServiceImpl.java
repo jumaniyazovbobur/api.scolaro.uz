@@ -154,13 +154,14 @@ public class TransactionServiceImpl implements TransactionService {
             return;
         }
         // When subtracting the created time from the current time, an error will occur if the time_expired time is greater than the time_expired time
-        if (isExpiredTime(instant.toEpochMilli(), res, entity)) {
+        if (isExpiredTime(time, res, entity)) {
             entity.setState(TransactionState.STATE_CANCELED);
             entity.setReason("4");
             transactionRepository.save(entity);
             return;
         }
 
+        entity.setCreateTime(time);
         entity.setPaymeTransactionsId(paymeTransactionId);
         transactionRepository.save(entity);
 
@@ -332,14 +333,10 @@ public class TransactionServiceImpl implements TransactionService {
                     return res;
                 }
 
-                // Convert Unix timestamp to LocalDateTime
-                Instant from = Instant.ofEpochMilli(params.getFrom());
-                Instant to = Instant.ofEpochMilli(params.getTo());
-
                 List<TransactionResForPayme> listForResponse = transactionRepository
-                        .findAllByCreatedDateBetweenAndPaymentType(
-                                LocalDateTime.ofInstant(from, ZoneId.systemDefault()),
-                                LocalDateTime.ofInstant(to, ZoneId.systemDefault()),
+                        .findAllByCreateTimeBetweenAndPaymentType(
+                                params.getFrom(),
+                                params.getTo(),
                                 "PAYME"
                         )
                         .stream()

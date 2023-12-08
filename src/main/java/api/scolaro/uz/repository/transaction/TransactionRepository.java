@@ -16,4 +16,5 @@ public interface TransactionRepository extends JpaRepository<TransactionsEntity,
     Optional<TransactionsEntity> findTop1ByPaymeTransactionsId(String paymeTransactionsId);
 
     List<TransactionsEntity> findAllByCreatedDateBetweenAndPaymentType(LocalDateTime from, LocalDateTime to, String paymentType);
+    List<TransactionsEntity> findAllByCreateTimeBetweenAndPaymentType(Long createTime, Long createTime2, String paymentType);
 }

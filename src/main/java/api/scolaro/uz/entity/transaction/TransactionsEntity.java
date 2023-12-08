@@ -37,6 +37,7 @@ public class TransactionsEntity extends BaseEntity {
 
     private String paymentType; // PAYME
 
+    private Long createTime; // create time in the payme
     private LocalDateTime performTime;
     private LocalDateTime cancelTime;
     @Column(columnDefinition = "text")
