@@ -159,6 +159,17 @@ public class TransactionServiceImpl implements TransactionService {
         log.info("create transaction time={},transactionId={},amount={},paymeTransactionId={}", time, transactionId, amount, paymeTransactionId);
         Instant instant = entity.getCreatedDate().atZone(ZoneId.systemDefault()).toInstant();
 
+        if (!Objects.equals(amount, entity.getAmount())) {
+            log.warn("Invalid amount {}!={}", amount, entity.getAmount());
+            res.setError(
+                    new PaymeResponseErrorDTO(
+                            INVALID_AMOUNT.getCode(),
+                            "Invalid amount"
+                    )
+            );
+            return;
+        }
+
         if (!entity.getState().equals(TransactionState.STATE_IN_PROGRESS)) {
             log.warn("CreateTransaction error invalid state merchantState={}", entity.getState());
             res.setError(
