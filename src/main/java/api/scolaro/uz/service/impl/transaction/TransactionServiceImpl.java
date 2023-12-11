@@ -243,6 +243,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         profileService.fillStudentBalance(entity.getProfileId(), entity.getAmount());
+
         entity.setStatus(TransactionStatus.SUCCESS);
         entity.setPerformTime(LocalDateTime.now());
         entity.setState(TransactionState.STATE_DONE);

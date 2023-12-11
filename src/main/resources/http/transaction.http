@@ -2,3 +2,7 @@
 POST http://api.app.mazgi.uz/api/v1/transaction/student/fill-callback?amount=2500000
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDE5NTIyMzYsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTU0Njg2MzAwMjgiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNzAyNTU3MDM2LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.rCBbtgtm5YfIiKH0dZ_FfNLir-ISztSll8RFOe35BqvFu2Sn_6LwIbKEPOkZdg40214fc0BXsCfwL-c45loytA
+
+
+### TODO url example for making request payme from frontend
+### generate url for payme
