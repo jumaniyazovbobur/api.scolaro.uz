@@ -27,6 +27,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static api.scolaro.uz.enums.jsonrpc.PaymeResponseStatus.*;
+import static api.scolaro.uz.enums.transaction.TransactionState.STATE_CANCELED;
+import static api.scolaro.uz.enums.transaction.TransactionState.STATE_POST_CANCELED;
 
 /**
  * @author 'Mukhtarov Sarvarbek' on 04.12.2023
@@ -182,8 +184,8 @@ public class TransactionServiceImpl implements TransactionService {
         }
         // When subtracting the created time from the current time, an error will occur if the time_expired time is greater than the time_expired time
         if (isExpiredTime(time, res, entity)) {
-            entity.setState(TransactionState.STATE_CANCELED);
-            entity.setReason("4");
+            entity.setState(STATE_CANCELED);
+            entity.setReason(4);
             transactionRepository.save(entity);
             return;
         }
@@ -221,7 +223,7 @@ public class TransactionServiceImpl implements TransactionService {
                 return;
             }
             log.warn("PerformTransaction time expired ");
-            entity.setState(TransactionState.STATE_CANCELED);
+            entity.setState(STATE_CANCELED);
             transactionRepository.save(entity);
             res.setError(
                     new PaymeResponseErrorDTO(
@@ -234,8 +236,8 @@ public class TransactionServiceImpl implements TransactionService {
 
         // When subtracting the created time from the current time, an error will occur if the time_expired time is greater than the time_expired time
         if (isExpiredTime(entity.getCreateTime(), res, entity)) {
-            entity.setState(TransactionState.STATE_CANCELED);
-            entity.setReason("4");
+            entity.setState(STATE_CANCELED);
+            entity.setReason(4);
             transactionRepository.save(entity);
             return;
         }
@@ -257,7 +259,7 @@ public class TransactionServiceImpl implements TransactionService {
         );
     }
 
-    private void CancelTransaction(String reason, PaymeResponseDTO res, TransactionsEntity entity) {
+    private void CancelTransaction(Integer reason, PaymeResponseDTO res, TransactionsEntity entity) {
         log.info("CancelTransaction id = {}", entity.getId());
 
         if (Objects.requireNonNull(entity.getState()) == TransactionState.STATE_DONE) {
@@ -273,9 +275,18 @@ public class TransactionServiceImpl implements TransactionService {
                 return;
             }
             profileService.reduceFromBalance(profileId, entity.getAmount());
-            entity.setState(TransactionState.STATE_POST_CANCELED);
+            entity.setState(STATE_POST_CANCELED);
+        } else if (entity.getState().equals(STATE_POST_CANCELED) || entity.getState().equals(STATE_CANCELED)) {
+            res.setResult(
+                    new CancelTransactionResult(
+                            entity.getId(),
+                            entity.getCancelTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+                            entity.getState().getValue()
+                    )
+            );
+            return;
         } else {
-            entity.setState(TransactionState.STATE_CANCELED);
+            entity.setState(STATE_CANCELED);
         }
 
         entity.setStatus(TransactionStatus.CANCELED);

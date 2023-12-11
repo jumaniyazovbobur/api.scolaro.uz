@@ -17,10 +17,10 @@ public class CheckTransactionResult {
     private Long perform_time;
     private Long cancel_time;
     private int state;
-    private String reason;
+    private Integer reason;
 
     public CheckTransactionResult(Long create_time, Long perform_time, Long cancel_time, String id,
-                                  int state, String reason) {
+                                  int state, Integer reason) {
         this.create_time = create_time;
         this.transaction = id;
         this.cancel_time = cancel_time;

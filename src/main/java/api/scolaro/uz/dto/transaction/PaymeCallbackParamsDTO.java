@@ -23,7 +23,7 @@ public class PaymeCallbackParamsDTO {
     private Long from;
     private Long to;
     private Long amount;
-    private String reason;
+    private Integer reason;
     private Map<String, Object> account = new HashMap<>();
 
     @JsonAnySetter

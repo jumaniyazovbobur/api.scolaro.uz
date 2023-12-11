@@ -31,7 +31,7 @@ public class TransactionResForPayme {
     @JsonProperty("transaction")
     String id;
     int state;
-    String reason;
+    int reason;
 
     public static TransactionResForPayme toDTO(TransactionsEntity entity) {
         Long createdDateMilli = entity.getCreatedDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();

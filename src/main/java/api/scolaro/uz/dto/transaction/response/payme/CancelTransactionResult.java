@@ -14,7 +14,7 @@ import lombok.Setter;
 public class CancelTransactionResult {
     private String transaction;
     private Long cancel_time;
-    private int state;
+    private Integer state;
 
     public CancelTransactionResult(String id, long cancel_time, int state) {
         this.transaction = id;

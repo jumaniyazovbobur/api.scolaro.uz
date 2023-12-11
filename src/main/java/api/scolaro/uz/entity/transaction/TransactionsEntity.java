@@ -40,8 +40,8 @@ public class TransactionsEntity extends BaseEntity {
     private Long createTime; // create time in the payme
     private LocalDateTime performTime;
     private LocalDateTime cancelTime;
-    @Column(columnDefinition = "text")
-    private String reason;
+
+    private Integer reason;
 
     @Enumerated(EnumType.STRING)
     private TransactionState state; //
