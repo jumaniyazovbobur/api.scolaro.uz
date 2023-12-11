@@ -29,6 +29,7 @@ public class AppApplicationFilterMapperDTO {
     private UniversityResponseDTO university;
     private ProfileDTO student;
     private ApplicationStepLevelStatus applicationStepLevelStatus;
+    private String applicationStepLevelStatusName;
     private Long applicationNumber;
     private ConsultingStepLevelDTO consultingStepLevel;
     private AppApplicationLevelStatusDTO appApplicationLevelStatus;

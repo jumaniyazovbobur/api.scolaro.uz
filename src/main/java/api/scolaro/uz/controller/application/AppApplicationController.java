@@ -82,9 +82,10 @@ public class AppApplicationController {
     public ResponseEntity<?> applicationStudentListByUniversityIdForConsulting_mobile(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                                                                       @RequestParam(value = "size", defaultValue = "5") Integer size,
                                                                                       @PathVariable("universityId") Long universityId,
-                                                                                      @RequestBody AppApplicationFilterConsultingDTO dto) {
+                                                                                      @RequestBody AppApplicationFilterConsultingDTO dto,
+                                                                                      @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Get Application student list by countryId for consulting. Mobile. page={},size={}", page, size);
-        return ResponseEntity.ok(appApplicationService.getApplicationStudentListByUniversityIdForConsulting_mobile(universityId, dto, page, size));
+        return ResponseEntity.ok(appApplicationService.getApplicationStudentListByUniversityIdForConsulting_mobile(universityId, dto, page, size,language));
     }
 
     @Operation(summary = "Change appApplication  status as consulting", description = "")
