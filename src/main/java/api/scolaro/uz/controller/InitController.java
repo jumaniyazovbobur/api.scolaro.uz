@@ -76,7 +76,6 @@ public class InitController {
         //business favulties
         facultyList1.add("846e13da-a586-4521-804b-e5d2800b5896");
         facultyList1.add("2a0f19d7-bce5-4cfb-8c75-5012adefa8dd");
-        facultyList1.add("4e3f7d0c-de9d-4d34-9d64-8e0662e698a0");
         facultyList1.add("2542382b-deb0-4c3b-9506-4854d4fac916");
         facultyList1.add("bd776090-d7ee-46fb-8435-9e5d6eb673ba");
         facultyList1.add("0869bb07-2252-43f5-8041-51daff6bca41");
@@ -1351,7 +1350,6 @@ public class InitController {
         //business favulties
         facultyList17.add("846e13da-a586-4521-804b-e5d2800b5896");
         facultyList17.add("2a0f19d7-bce5-4cfb-8c75-5012adefa8dd");
-        facultyList17.add("4e3f7d0c-de9d-4d34-9d64-8e0662e698a0");
         facultyList17.add("2542382b-deb0-4c3b-9506-4854d4fac916");
         facultyList17.add("bd776090-d7ee-46fb-8435-9e5d6eb673ba");
         facultyList17.add("0869bb07-2252-43f5-8041-51daff6bca41");

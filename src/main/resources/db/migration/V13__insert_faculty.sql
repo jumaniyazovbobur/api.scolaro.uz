@@ -542,8 +542,8 @@ values
     ('2864353f-05e6-45c8-a795-95c28374bab2', 'Transportation', 'Transport', 'Транспорт','6293ed8b-7b4a-43a1-8cad-811edb2ec564',5, now(), true),
     ('59c38745-b5b6-4b3e-aa51-4635e2fb5a67', 'Transportation Design', 'Transport dizayni', 'Транспортный дизайн','2864353f-05e6-45c8-a795-95c28374bab2',1, now(), true),
     ('575a16ad-1794-4d60-9b8b-a81b962c70f1', 'Transportation Engineering', 'Transport muhandisligi', 'Транспортное машиностроение','2864353f-05e6-45c8-a795-95c28374bab2',2, now(), true),
-    ('3b88f23e-0138-4f04-9765-fee2228406bd', 'Transportation Management', 'Transport boshqaruvi', 'Управление транспортом','2864353f-05e6-45c8-a795-95c28374bab2',3, now(), true);
-
+    ('3b88f23e-0138-4f04-9765-fee2228406bd', 'Transportation Management', 'Transport boshqaruvi', 'Управление транспортом','2864353f-05e6-45c8-a795-95c28374bab2',3, now(), true)
+ON CONFLICT (id) DO NOTHING;
 
 
 

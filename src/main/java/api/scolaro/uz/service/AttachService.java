@@ -72,6 +72,7 @@ public class AttachService {
             entity.setSize(file.getSize());
             entity.setOrigenName(file.getOriginalFilename());
             entity.setExtension(extension);
+            entity.setVisible(true);
             attachRepository.save(entity);
 
             byte[] bytes = file.getBytes();

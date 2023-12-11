@@ -29,11 +29,10 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDEzMjY5OTUsImlkIjoiODA4M
 ### Filter AppApplicationList for Consulting. Web
 POST localhost:8081/api/v1/app-application/consulting/filter
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDE3MDU0MzEsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTRiMzA5NDAwMjEiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNzAyMzEwMjMxLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.CiT5OmjMVYLTomuXU3jTxXo_rur2s_ODxXVQPDH4iyMTdK1_nrHGvITeccI4tSt4YWGse4klKEuM_hD2iFdoYA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDIyOTI4NTIsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTRiMzA5NDAwMjEiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNzAyODk3NjUyLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.yk0xZCQGXzxABXkXxzXuh5DWvJXLdNiusKCcHMXtm7qgJO2-Ll_zL8Yn-p9ZyD08dwqCX8CyOTGQf-AX1GJHDQ
 
 {
-  "status": "STARTED",
-  "query": "Ali"
+
 }
 
 
