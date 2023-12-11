@@ -25,7 +25,7 @@ public class ConsultingEntity extends BaseEntity {
     private String phone;
     @Column(name = "password")
     private String password;
-    @Column(name = "address",columnDefinition = "TEXT")
+    @Column(name = "address", columnDefinition = "TEXT")
     private String address;
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -35,10 +35,13 @@ public class ConsultingEntity extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_id", insertable = false, updatable = false)
     private AttachEntity photo;
-    @Column(name = "about",columnDefinition = "TEXT")
+    @Column(name = "about", columnDefinition = "TEXT")
     private String about;
     @Column(name = "temp_phone")
     private String tempPhone;
     @Column(name = "temp_sms_code")
     private String smsCode;
+
+    @Column(name = "balance")
+    private Long balance;// tiyin 1sum = 100 tiyin
 }
