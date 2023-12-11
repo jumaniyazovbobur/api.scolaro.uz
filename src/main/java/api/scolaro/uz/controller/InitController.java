@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.LinkedList;
@@ -24,7 +25,11 @@ public class InitController {
     private UniversityService universityService;
 
     @GetMapping("/start")
-    public void initUniversity() {
+    public void initUniversity(@RequestParam(value = "key" , required = true) String key) {
+        if (!key.equals("!a3(sdgdamdq.ewr,!a")) {
+            return;
+        }
+
         List<UniversityDegreeType> degreeTypeList = new LinkedList<>();
         degreeTypeList.add(UniversityDegreeType.Bachelor);
         degreeTypeList.add(UniversityDegreeType.MasterDegree);
@@ -32,7 +37,7 @@ public class InitController {
 
 
         // 1. OXFORD
-      /*  UniversityCreateDTO university1 = new UniversityCreateDTO();
+        UniversityCreateDTO university1 = new UniversityCreateDTO();
         university1.setWebSite("www.ox.ac.uk");
         university1.setDescription("<p>The University of Oxford is the oldest university in the English-speaking world and the world&rsquo;s second oldest surviving university. While its exact founding date is unknown, there is evidence that teaching took place as far back as 1096.</p>\n" +
                 "<p>Located in and around Oxford&rsquo;s medieval city centre, the university comprises 44 colleges and halls, and over 100 libraries, making it the largest library system in the UK.</p>\n" +
@@ -114,10 +119,10 @@ public class InitController {
         facultyList1.add("7933edfc-92dd-49ae-8e23-163bf2707e3c");
         university1.setFacultyList(facultyList1);
 
-        universityService.create(university1);*/
+        universityService.create(university1);
 
         // 2. Harvard
-       /* UniversityCreateDTO university2 = new UniversityCreateDTO();
+        UniversityCreateDTO university2 = new UniversityCreateDTO();
         university2.setWebSite("www.harvard.edu");
         university2.setDescription("<p>Dating back to 1636, Harvard University is the oldest university in the US and is regarded as one of the most prestigious in the world.</p>\n" +
                 "<p>It was named after its first benefactor, John Harvard, who left his library and half his estate to the institution when he died in 1638.</p>\n" +
@@ -187,11 +192,11 @@ public class InitController {
         facultyList2.add("04a46a8d-cd88-486d-80cb-47393ef0f431");
 
         university2.setFacultyList(facultyList2);
-        universityService.create(university2);*/
+        universityService.create(university2);
 
         // 3. Cambridge
 
-        /*UniversityCreateDTO university3 = new UniversityCreateDTO();
+        UniversityCreateDTO university3 = new UniversityCreateDTO();
         university3.setName("University of Cambridge");
         university3.setWebSite("www.cam.ac.uk");
         university3.setDescription("<p>Founded in 1209, the University of Cambridge is a collegiate public research institution. Its 800-year history makes it the fourth-oldest surviving university in the world and the second-oldest university in the English-speaking world.</p>\n" +
@@ -281,10 +286,10 @@ public class InitController {
         facultyList3.add("977c2254-0d11-4c2f-81f2-620350181c11");
         facultyList3.add("b39c362f-c87d-49c6-a39b-1ae1a45030ef");
         university3.setFacultyList(facultyList3);
-        universityService.create(university3);*/
+        universityService.create(university3);
 
         // 4.Stanford
-       /* UniversityCreateDTO university4 = new UniversityCreateDTO();
+        UniversityCreateDTO university4 = new UniversityCreateDTO();
         university4.setName("Stanford University");
         university4.setWebSite("www.stanford.edu");
         university4.setDescription("<div id=\"rmjs-1\" aria-expanded=\"true\" data-readmore=\"\" data-js-read-more=\"height-650\">\n" +
@@ -377,11 +382,11 @@ public class InitController {
         facultyList4.add("fa41bbf7-05f5-45d2-894b-00b9b7f1eb8e");
         facultyList4.add("daa31b19-8078-4f25-bac1-e580c372d65d");
         university4.setFacultyList(facultyList4);
-        universityService.create(university4);*/
+        universityService.create(university4);
 
         //5. MIT
 
-        /*UniversityCreateDTO university5 = new UniversityCreateDTO();
+        UniversityCreateDTO university5 = new UniversityCreateDTO();
         university5.setName("Massachusetts Institute of Technology");
         university5.setWebSite("www.mit.edu");
         university5.setDescription("<div id=\"rmjs-1\" aria-expanded=\"true\" data-readmore=\"\" data-js-read-more=\"height-650\">\n" +
@@ -460,10 +465,10 @@ public class InitController {
         facultyList5.add("27d34c29-b132-451f-82ea-fdcc3dd83a2b");
         facultyList5.add("5c9e1167-a38b-4d72-967c-9b1d51c6879e");
         university5.setFacultyList(facultyList5);
-        universityService.create(university5);*/
+        universityService.create(university5);
 
         // 6. California Institute of technology
-       /* UniversityCreateDTO university6 = new UniversityCreateDTO();
+        UniversityCreateDTO university6 = new UniversityCreateDTO();
         university6.setName("California Institute of Technology");
         university6.setWebSite("www.caltech.edu");
         university6.setDescription("<div id=\"rmjs-1\" aria-expanded=\"true\" data-readmore=\"\" data-js-read-more=\"height-650\">\n" +
@@ -539,9 +544,9 @@ public class InitController {
         facultyList6.add("27d34c29-b132-451f-82ea-fdcc3dd83a2b");
         facultyList6.add("5c9e1167-a38b-4d72-967c-9b1d51c6879e");
         university6.setFacultyList(facultyList6);
-        universityService.create(university6);*/
+        universityService.create(university6);
         //7.  Princeton University
-       /* UniversityCreateDTO university7 = new UniversityCreateDTO();
+        UniversityCreateDTO university7 = new UniversityCreateDTO();
         university7.setName("Princeton University");
         university7.setWebSite("www.princeton.edu");
         university7.setDescription("<div id=\"rmjs-1\" aria-expanded=\"true\" data-readmore=\"\" data-js-read-more=\"height-650\">\n" +
@@ -628,10 +633,10 @@ public class InitController {
         facultyList7.add("fa41bbf7-05f5-45d2-894b-00b9b7f1eb8e");
         facultyList7.add("daa31b19-8078-4f25-bac1-e580c372d65d");
         university7.setFacultyList(facultyList7);
-        universityService.create(university7);*/
+        universityService.create(university7);
 
         //8.University of California, Berkeley
-        /*UniversityCreateDTO university8 = new UniversityCreateDTO();
+        UniversityCreateDTO university8 = new UniversityCreateDTO();
         university8.setName("University of California, Berkeley");
         university8.setWebSite("www.berkeley.edu");
         university8.setDescription("<div id=\"rmjs-1\" aria-expanded=\"true\" data-readmore=\"\" data-js-read-more=\"height-650\">\n" +
@@ -705,10 +710,10 @@ public class InitController {
         facultyList8.add("575a16ad-1794-4d60-9b8b-a81b962c70f1");
         facultyList8.add("3b88f23e-0138-4f04-9765-fee2228406bd");
         university8.setFacultyList(facultyList8);
-        universityService.create(university8);*/
+        universityService.create(university8);
 
         //9 . Yale university
-       /*
+
         UniversityCreateDTO university9 = new UniversityCreateDTO();
         university9.setName("Yale University");
         university9.setWebSite("www.yale.edu");
@@ -784,10 +789,10 @@ public class InitController {
 
         university9.setFacultyList(facultyList9);
         universityService.create(university9);
-*/
+
 
         // 10. Imperial College London
-       /* UniversityCreateDTO university10 = new UniversityCreateDTO();
+        UniversityCreateDTO university10 = new UniversityCreateDTO();
         university10.setName("Imperial College London");
         university10.setWebSite("www.imperial.ac.uk");
         university10.setDescription("<div id=\"rmjs-1\" aria-expanded=\"true\" data-readmore=\"\" data-js-read-more=\"height-650\">\n" +
@@ -847,10 +852,10 @@ public class InitController {
         facultyList10.add("a82df7f9-da8c-4a9e-8e2c-8ca56159557f");
 
         university10.setFacultyList(facultyList10);
-        universityService.create(university10);*/
+        universityService.create(university10);
 
         // 11. Columbia University
-        /*UniversityCreateDTO university11 = new UniversityCreateDTO();
+        UniversityCreateDTO university11 = new UniversityCreateDTO();
         university11.setName("Columbia University");
         university11.setWebSite("www.columbia.edu");
         university11.setDescription("<div id=\"rmjs-1\" aria-expanded=\"true\" data-readmore=\"\" data-js-read-more=\"height-650\">\n" +
@@ -927,11 +932,11 @@ public class InitController {
         facultyList11.add("7b3d2ad4-5361-462d-9da2-fab299c1e7bd");
         facultyList11.add("a73931e1-9732-47fd-ad69-a29fcfc43100");
         university11.setFacultyList(facultyList11);
-        universityService.create(university11);*/
+        universityService.create(university11);
 
 
         //12. The University of Chicago
-       /* UniversityCreateDTO university12 = new UniversityCreateDTO();
+        UniversityCreateDTO university12 = new UniversityCreateDTO();
         university12.setName("The University of Chicago");
         university12.setWebSite("www.uchicago.edu");
         university12.setDescription("<div id=\"rmjs-1\" aria-expanded=\"true\" data-readmore=\"\" data-js-read-more=\"height-650\">\n" +
@@ -1016,11 +1021,11 @@ public class InitController {
         facultyList12.add("9d868d71-4784-4668-947c-bccee9539b95");
         facultyList12.add("f830b1b0-d45f-44b4-849a-ea72c2b560fc");
         university12.setFacultyList(facultyList12);
-        universityService.create(university12);*/
+        universityService.create(university12);
 
 
         //13. The University of Chicago
-         /*      UniversityCreateDTO university13 = new UniversityCreateDTO();
+               UniversityCreateDTO university13 = new UniversityCreateDTO();
         university13.setName("Tsinghua University");
         university13.setWebSite("www.tsinghua.edu.cn/en/");
         university13.setDescription("<p>The campus of Tsinghua University is situated on the site of the former imperial gardens of the Qing Dynasty, and surrounded by a number of historical sites in northwest Beijing.</p>\n" +
@@ -1100,10 +1105,10 @@ public class InitController {
         facultyList13.add("daa31b19-8078-4f25-bac1-e580c372d65d");
         university13.setFacultyList(facultyList13);
         universityService.create(university13);
-*/
+
 
         // 14. Peking University
-       /* UniversityCreateDTO university14 = new UniversityCreateDTO();
+        UniversityCreateDTO university14 = new UniversityCreateDTO();
         university14.setName("Peking University");
         university14.setWebSite("english.pku.edu.cn");
         university14.setDescription("<p>Peking University is a member of the C9 League, analogous to the Ivy League in the United States, and often ranked among the top higher education institutions in China. Only those who score highest in nationwide examinations are admitted, with a total enrolment of about 35,000.</p>\n" +
@@ -1165,11 +1170,11 @@ public class InitController {
         facultyList14.add("463e52b3-1342-4c8f-8983-6724b08ee0ab");
         facultyList14.add("04a46a8d-cd88-486d-80cb-47393ef0f431");
         university14.setFacultyList(facultyList14);
-        universityService.create(university14);*/
+        universityService.create(university14);
 
 
         //15 University of Toronto
-      /*  UniversityCreateDTO university15 = new UniversityCreateDTO();
+        UniversityCreateDTO university15 = new UniversityCreateDTO();
         university15.setName("University of Toronto");
         university15.setWebSite("www.utm.utoronto.ca");
         university15.setDescription("<p>The University of Toronto (UofT) is among the world&rsquo;s most prestigious universities. Founded in 1827, it offers over 700 undergraduate degree and 200 postgraduate degree programmes to a cohort of almost 60,000 students.</p>\n" +
@@ -1229,11 +1234,11 @@ public class InitController {
         facultyList15.add("bedcd231-0561-41f9-802f-a0a6e1da8276");
         facultyList15.add("868072cb-ec2c-4ea6-a287-7c9cccfb0e4d");
         facultyList15.add("a82df7f9-da8c-4a9e-8e2c-8ca56159557f");
-*/
+
 
 
         //16 University of Singapore
-       /* UniversityCreateDTO university16 = new UniversityCreateDTO();
+        UniversityCreateDTO university16 = new UniversityCreateDTO();
         university16.setName("National University of Singapore");
         university16.setWebSite(" www.nus.edu.sg");
         university16.setDescription("<p>The National University of Singapore (NUS) is Singapore&rsquo;s flagship university, which offers a global approach to education, research and entrepreneurship, with a focus on Asian perspectives and expertise. We have 16 colleges, faculties and schools across three campuses in Singapore, with more than 40,000 students from 100 countries enriching our vibrant and diverse campus community. We have also established our NUS Overseas Colleges programme in more than 15 cities around the world.</p>\n" +
@@ -1296,11 +1301,11 @@ public class InitController {
         facultyList16.add("7b3d2ad4-5361-462d-9da2-fab299c1e7bd");
         facultyList16.add("a73931e1-9732-47fd-ad69-a29fcfc43100");
         university16.setFacultyList(facultyList16);
-        universityService.create(university16);*/
+        universityService.create(university16);
 
 
         //17. University of UCL(london)
-        /*UniversityCreateDTO university17 = new UniversityCreateDTO();
+        UniversityCreateDTO university17 = new UniversityCreateDTO();
         university17.setName("UCL (LONDON'S GLOBAL UNIVERSITY)");
         university17.setWebSite("www.ucl.ac.uk");
         university17.setDescription("<p>UCL was founded in 1826 to bring higher education to those who were typically excluded from it. In 1878, it became the first university in England to admit women on equal terms as men.</p>\n" +
@@ -1388,11 +1393,11 @@ public class InitController {
         facultyList17.add("caa5de66-07ff-404c-85ef-0162069aa4c8");
         facultyList17.add("7933edfc-92dd-49ae-8e23-163bf2707e3c");
         university17.setFacultyList(facultyList17);
-        universityService.create(university17);*/
+        universityService.create(university17);
 
 
         //18. Technical University of Munich
-        /*UniversityCreateDTO university18 = new UniversityCreateDTO();
+        UniversityCreateDTO university18 = new UniversityCreateDTO();
         university18.setName("Technical University of Munich");
         university18.setWebSite("www.tum.de");
         university18.setDescription("<p>Winged by its entrepreneurial spirit, and encouraged by its proven potential for progressive change, the Technical University of Munich (TUM) has become Germany&rsquo;s flagship university of technology, awarded the title &ldquo;University of Excellence&rdquo; three times in row since the birth of Germany&rsquo;s Excellence Initiative. &nbsp;</p>\n" +
@@ -1463,10 +1468,10 @@ public class InitController {
         facultyList18.add("5c9e1167-a38b-4d72-967c-9b1d51c6879e");
         university18.setFacultyList(facultyList18);
         universityService.create(university18);
-        */
+
 
         //19. University of Hong Kong
-        /*UniversityCreateDTO university19 = new UniversityCreateDTO();
+        UniversityCreateDTO university19 = new UniversityCreateDTO();
         university19.setName("University of Hong Kong");
         university19.setWebSite("www.hku.hk");
         university19.setDescription("<p>Founded in 1911, the University of Hong Kong is the oldest tertiary-education institution in Hong Kong and has a global reputation for excellence in teaching, research and innovation.</p>\n" +
@@ -1529,11 +1534,11 @@ public class InitController {
         facultyList19.add("b39c362f-c87d-49c6-a39b-1ae1a45030ef");
 
         university19.setFacultyList(facultyList19);
-        universityService.create(university19);*/
+        universityService.create(university19);
 
 
         //20. University of Melbourne
-       /* UniversityCreateDTO university20 = new UniversityCreateDTO();
+        UniversityCreateDTO university20 = new UniversityCreateDTO();
         university20.setName("University of Melbourne");
         university20.setWebSite("www.unimelb.edu.au");
         university20.setDescription("<p>The University of Melbourne is a public research university in Melbourne, Australia.</p>\n" +
@@ -1597,7 +1602,7 @@ public class InitController {
         facultyList20.add("29623dfa-5ec1-4357-8c5e-fb56f6b506be");
         facultyList20.add("7c7fb5f3-8a8c-4973-a927-c34862b94595");
         university20.setFacultyList(facultyList20);
-        universityService.create(university20);*/
+        universityService.create(university20);
     }
 
 
