@@ -11,6 +11,7 @@ import api.scolaro.uz.dto.consulting.ConsultingDTO;
 import api.scolaro.uz.dto.profile.ProfileDTO;
 import api.scolaro.uz.dto.university.UniversityResponseDTO;
 import api.scolaro.uz.entity.application.AppApplicationLevelStatusEntity;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.AppStatus;
 import api.scolaro.uz.enums.ApplicationStepLevelStatus;
 import api.scolaro.uz.mapper.AppApplicationFilterMapperDTO;
@@ -425,7 +426,7 @@ public class AppApplicationFilterRepository {
     }
 
 
-    public FilterResultDTO<AppApplicationFilterMapperDTO> getApplicationStudentListForConsulting_mobile(String consultingId, AppApplicationFilterConsultingDTO filter, Long universityId, int page, int size) {
+    public FilterResultDTO<AppApplicationFilterMapperDTO> getApplicationStudentListForConsulting_mobile(String consultingId, AppApplicationFilterConsultingDTO filter, Long universityId, int page, int size, AppLanguage language) {
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, Object> params = new HashMap<>();
         params.put("consultingId", consultingId);
@@ -478,6 +479,7 @@ public class AppApplicationFilterRepository {
 
             if (MapperUtil.getStringValue(object[2]) != null) {
                 dto.setApplicationStepLevelStatus(ApplicationStepLevelStatus.valueOf(MapperUtil.getStringValue(object[2])));
+                dto.setApplicationStepLevelStatusName(dto.getApplicationStepLevelStatus().getName(language));
             }
 
             ProfileDTO student = new ProfileDTO();

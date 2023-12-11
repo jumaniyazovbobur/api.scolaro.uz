@@ -2,6 +2,7 @@ package api.scolaro.uz.service;
 
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.KeyValueDTO;
 import api.scolaro.uz.dto.appApplication.AppApplicationLevelStatusCreateDTO;
 import api.scolaro.uz.dto.appApplication.AppApplicationLevelStatusDTO;
 import api.scolaro.uz.dto.appApplication.AppApplicationLevelStatusUpdateDTO;
@@ -9,6 +10,7 @@ import api.scolaro.uz.entity.FeedbackEntity;
 import api.scolaro.uz.entity.application.AppApplicationEntity;
 import api.scolaro.uz.entity.application.AppApplicationLevelStatusEntity;
 import api.scolaro.uz.entity.consulting.ConsultingStepLevelEntity;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.ApplicationStepLevelStatus;
 import api.scolaro.uz.enums.StepLevelStatus;
 import api.scolaro.uz.exp.ItemNotFoundException;
@@ -21,6 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -97,6 +101,14 @@ public class AppApplicationLevelStatusService {
         entity.setDescription(dto.getDescription());
         appApplicationLevelStatusRepository.save(entity);
         return ApiResponse.ok(toDTO(entity));
+    }
+
+    public ApiResponse<List<KeyValueDTO>> getLevelStatuEnumList(AppLanguage appLanguage) {
+        List<KeyValueDTO> dtoList = new LinkedList<>();
+        for (ApplicationStepLevelStatus status : ApplicationStepLevelStatus.values()) {
+            dtoList.add(new KeyValueDTO(status.name(), status.getName(appLanguage)));
+        }
+        return ApiResponse.ok(dtoList);
     }
 
     public AppApplicationLevelStatusDTO toDTO(AppApplicationLevelStatusEntity entity) {

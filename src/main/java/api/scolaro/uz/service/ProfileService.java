@@ -28,7 +28,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -258,5 +257,17 @@ public class ProfileService {
             log.warn("Profile not Found");
             return new ItemNotFoundException(resourceMessageService.getMessage("profile.not-found"));
         });
+    }
+
+    public void fillStudentBalance(String profileId, Long amount) {
+        profileRepository.fillStudentBalance(profileId, amount);
+    }
+
+    public boolean checkBalance(String profileId, Long amount) {
+        return profileRepository.existsByIdAndBalanceIsGreaterThan(profileId, amount);
+    }
+
+    public void reduceFromBalance(String profileId, Long amount) {
+        profileRepository.reduceStudentBalance(profileId, amount);
     }
 }

@@ -98,8 +98,8 @@ public class AppApplicationService {
     }
 
     // returns student list by university id for which application was created. It is for consulting. Used in consulting mobile.
-    public ApiResponse<Page<AppApplicationFilterMapperDTO>> getApplicationStudentListByUniversityIdForConsulting_mobile(Long universityId, AppApplicationFilterConsultingDTO filter, int page, int size) {
-        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getApplicationStudentListForConsulting_mobile(EntityDetails.getCurrentUserId(), filter, universityId, page, size);
+    public ApiResponse<Page<AppApplicationFilterMapperDTO>> getApplicationStudentListByUniversityIdForConsulting_mobile(Long universityId, AppApplicationFilterConsultingDTO filter, int page, int size, AppLanguage language) {
+        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getApplicationStudentListForConsulting_mobile(EntityDetails.getCurrentUserId(), filter, universityId, page, size, language);
         Page<AppApplicationFilterMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
         return ApiResponse.ok(pageObj);
     }

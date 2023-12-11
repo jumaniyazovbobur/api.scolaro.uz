@@ -27,4 +27,7 @@ public class ConsultingEntity extends BaseEntity {
     private AttachEntity photo;
     @Column(name = "about", columnDefinition = "TEXT")
     private String about;
+    @Column(name = "balance")
+    private Long balance;// tiyin 1sum = 100 tiyin
+
 }

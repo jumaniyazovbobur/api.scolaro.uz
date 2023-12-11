@@ -57,13 +57,13 @@ public class ConsultingStepService {
         return new ApiResponse<>(200, false, toDTO(entity));
     }
 
-    public ApiResponse<ConsultingStepDTO> update(String id, ConsultingStepUpdateDTO dto) {
+    public ApiResponse<ConsultingStepDTO> update(String id, ConsultingStepCreateDTO dto) {
         ConsultingStepEntity entity = get(id);
         if (!entity.getConsultingId().equals(EntityDetails.getCurrentUserId())) {
             log.warn("consultingStepEntity {} not belongs to consulting {} ", id, EntityDetails.getCurrentUserId());
             throw new AppBadRequestException("ConsultingStep not belongs to current consulting.");
         }
-        entity.setName(dto.getNameEn());
+        entity.setName(dto.getName());
         entity.setOrderNumber(dto.getOrderNumber());
         entity.setDescription(dto.getDescription());
         // update

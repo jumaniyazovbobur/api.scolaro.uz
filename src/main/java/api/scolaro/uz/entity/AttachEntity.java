@@ -30,4 +30,6 @@ public class AttachEntity {
     private Long size;
     @Column(name = "created_date")
     private LocalDateTime createdDate = LocalDateTime.now();
+    @Column(name = "visible")
+    private Boolean visible = true;
 }

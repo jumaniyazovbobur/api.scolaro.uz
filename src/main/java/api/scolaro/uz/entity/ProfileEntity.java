@@ -48,4 +48,6 @@ public class ProfileEntity extends BaseEntity {
     @Column(name = "gender")
     private GenderType genderType;
 
+    @Column(name = "balance")
+    private Long balance; // tiyin 1sum = 100 tiyin
 }

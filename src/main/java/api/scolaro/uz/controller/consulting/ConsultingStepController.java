@@ -53,7 +53,7 @@ public class ConsultingStepController {
     @PutMapping("/{id}")
     @Operation(summary = "UPDATE Consulting Step", description = "for owner")
     public ResponseEntity<ApiResponse<ConsultingStepDTO>> update(@PathVariable("id") String id,
-                                                                 @RequestBody @Valid ConsultingStepUpdateDTO dto) {
+                                                                 @RequestBody @Valid ConsultingStepCreateDTO dto) {
         log.info("Request for Consulting update {}", id);
         return ResponseEntity.ok(consultingStepService.update(id, dto));
     }

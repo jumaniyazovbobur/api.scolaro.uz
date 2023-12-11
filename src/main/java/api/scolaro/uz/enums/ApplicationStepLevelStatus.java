@@ -20,4 +20,18 @@ public enum ApplicationStepLevelStatus {
     private String nameUz;
     private String nameEn;
     private String nameRu;
+
+    public String getName(AppLanguage language) {
+        switch (language) {
+            case uz -> {
+                return nameUz;
+            }
+            case en -> {
+                return nameEn;
+            }
+            default -> {
+                return nameRu;
+            }
+        }
+    }
 }
