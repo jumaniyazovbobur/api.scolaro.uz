@@ -133,7 +133,7 @@ public class ConsultingController {
     @Operation(summary = "Update  consulting phone verification api", description = "for consulting")
     public ResponseEntity<ApiResponse<String>> updatePhoneVerification(@RequestBody SmsDTO dto) {
         log.info("Update phone verification {}", dto.getPhone());
-        return ResponseEntity.ok(consultingService.verification(dto));
+        return ResponseEntity.ok(consultingService.updatePhoneVerification(dto));
     }
 
 

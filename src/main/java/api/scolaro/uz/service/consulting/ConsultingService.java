@@ -17,8 +17,10 @@ import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.enums.sms.SmsType;
 import api.scolaro.uz.exp.ItemNotFoundException;
+import api.scolaro.uz.repository.ConsultingProfileRepository;
 import api.scolaro.uz.repository.consulting.ConsultingRepository;
 import api.scolaro.uz.repository.consulting.CustomConsultingRepository;
+import api.scolaro.uz.repository.profile.ProfileRepository;
 import api.scolaro.uz.repository.university.UniversityRepository;
 import api.scolaro.uz.service.AttachService;
 import api.scolaro.uz.service.PersonRoleService;
@@ -58,6 +60,8 @@ public class ConsultingService {
 
     private final SmsHistoryService smsService;
     private final ResourceMessageService resourceMessageService;
+    private final ProfileRepository profileRepository;
+    private final ConsultingProfileRepository consultingProfileRepository;
     @Autowired
     private UniversityService universityService;
 
@@ -91,19 +95,21 @@ public class ConsultingService {
         consultingEntity.setAddress(dto.getAddress());
         consultingEntity.setPhotoId(dto.getPhotoId());
         consultingEntity.setStatus(GeneralStatus.ACTIVE);
+        consultingEntity.setAbout(dto.getAbout());
+
+        consultingRepository.save(consultingEntity);// save
 
         ConsultingProfileEntity consultingProfile = new ConsultingProfileEntity();
+        consultingProfile.setName(dto.getOwnerName());
+        consultingProfile.setSurname(dto.getOwnerSurname());
+        consultingProfile.setPhone(dto.getPhone());
+        consultingProfile.setPassword(MD5Util.getMd5(smsPassword));
+        consultingProfile.setStatus(GeneralStatus.ACTIVE);
+        consultingProfile.setConsultingId(consultingEntity.getId());
+        consultingProfileRepository.save(consultingProfile); // save
 
-        entity.setPhone(dto.getPhone());
-        entity.setPassword(MD5Util.getMd5(smsPassword));
-        entity.setAbout(dto.getAbout());
-        entity.setOwnerName(dto.getOwnerName());
-        entity.setOwnerSurname(dto.getOwnerSurname());
-        entity.setFireBaseId(dto.getFireBaseId());
-        // save
-        consultingRepository.save(consultingEntity);
-        personRoleService.create(entity.getId(), RoleEnum.ROLE_CONSULTING);
-        personRoleService.create(entity.getId(), RoleEnum.ROLE_CONSULTING_MANAGER);
+        personRoleService.create(consultingEntity.getId(), RoleEnum.ROLE_CONSULTING);
+        personRoleService.create(consultingEntity.getId(), RoleEnum.ROLE_CONSULTING_MANAGER);
         // response
         return ApiResponse.ok(toDTO(entity));
     }
@@ -177,7 +183,7 @@ public class ConsultingService {
         return ApiResponse.ok("Tasdiqlash kodi yuborildi.");
     }
 
-    public ApiResponse<String> verification(SmsDTO dto) {
+    public ApiResponse<String> updatePhoneVerification(SmsDTO dto) {
         if (dto.getPhone().startsWith("+")) {
             dto.setPhone(dto.getPhone().substring(1));
         }

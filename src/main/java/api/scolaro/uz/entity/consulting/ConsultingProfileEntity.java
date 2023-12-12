@@ -3,10 +3,13 @@ package api.scolaro.uz.entity.consulting;
 import api.scolaro.uz.entity.AttachEntity;
 import api.scolaro.uz.entity.BaseEntity;
 import api.scolaro.uz.entity.place.CountryEntity;
-import api.scolaro.uz.enums.GenderType;
 import api.scolaro.uz.enums.GeneralStatus;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class ConsultingProfileEntity extends BaseEntity {
     @Column(name = "fire_base_id")
     private String fireBaseId;
@@ -36,6 +39,10 @@ public class ConsultingProfileEntity extends BaseEntity {
     @Column(name = "adress", columnDefinition = "text")
     private String address;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "consulting_id", insertable = false, updatable = false)
+    private ConsultingEntity consulting;
+    @Column(name = "consulting_id")
     private String consultingId;
 
 }
