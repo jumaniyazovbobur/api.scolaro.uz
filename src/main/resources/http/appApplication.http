@@ -35,7 +35,6 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDIyOTI4NTIsImlkIjoiODA4M
 
 }
 
-
 ### Change appApplication status as consulting
 PUT localhost:8081/api/v1/app-application/change-status/402880e88ba2ae64018ba2b330120000
 Content-Type: application/json
@@ -63,10 +62,10 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkyNDk4MjEsImlkIjoiNDAyO
   "consultingStepId": "402880e88ba27c4c018ba27cddfc0000"
 }
 
-### Get Application student list by countryId for Consulting. Mobile
-POST localhost:8081/api/v1/app-application/consulting/university/1
+### Get Application student list by universityId for Consulting. Mobile
+POST localhost:8081/api/v1/app-application/mobile/consulting/university/1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDE2NzEzMzMsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTRiMzA5NDAwMjEiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNzAyMjc2MTMzLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.8zM11OYrKlFIEFQ_UJlzXU8VncOZPWTAndL-WsmkNYKEBNZJhYhMy5mKjRaG0fzSZUJGqG8S1UDOYD-T-q2iLw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDIzNjQ4NTgsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTRiMzA5NDAwMjEiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNzAyOTY5NjU4LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.sTsegoBbpWSi5s0y0n9ji9v31w46fnxBy-iuB_l1TEmEnkOXjAHpA8FEre-E8gedxq1Sfhfi7y7_c7fc1q4bew
 
 {
 }

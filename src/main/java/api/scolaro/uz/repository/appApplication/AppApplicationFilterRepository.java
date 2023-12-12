@@ -440,7 +440,7 @@ public class AppApplicationFilterRepository {
         StringBuilder selectBuilder = new StringBuilder(
                 "SELECT aa.id as applicationId, " +
                         "(select order_number from consulting_step_level where id = aa.consulting_step_level_id) as stepLevelOrderNumber, " +
-                        "(select aals.application_step_level_status from app_application_level_status aals  where aals.id = aa.consulting_step_level_id) as stepLevelStatus, " +
+                        "(select aals.application_step_level_status from app_application_level_status aals  where aals.id = aa.consulting_step_level_status_id) as stepLevelStatus, " +
                         "p.id,p.name, p.surname, p.phone, p.photo_id " +
                         "from profile as p " +
                         "inner join app_application aa on p.id = aa.student_id " +

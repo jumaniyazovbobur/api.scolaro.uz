@@ -76,7 +76,7 @@ public class AppApplicationController {
         return ResponseEntity.ok(appApplicationService.getApplicationListForConsulting_web(dto, page, size));
     }
 
-    @Operation(summary = "Get Application student list by countryId for Consulting. Mobile", description = "")
+    @Operation(summary = "Get Application student list by universityId for Consulting. Mobile", description = "")
     @PostMapping("/mobile/consulting/university/{universityId}")
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     public ResponseEntity<?> applicationStudentListByUniversityIdForConsulting_mobile(@RequestParam(value = "page", defaultValue = "0") Integer page,
