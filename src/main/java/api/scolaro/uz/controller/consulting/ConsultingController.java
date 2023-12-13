@@ -103,13 +103,13 @@ public class ConsultingController {
     }
 
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+  /*  @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Deleted consulting api", description = "for admin")
     public ResponseEntity<ApiResponse<String>> deleted(@PathVariable("id") String id) {
         log.info("Deleted consulting {}", id);
         return ResponseEntity.ok(consultingService.deleted(id));
-    }
+    }*/
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")

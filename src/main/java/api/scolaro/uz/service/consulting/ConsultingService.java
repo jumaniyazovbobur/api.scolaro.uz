@@ -102,7 +102,7 @@ public class ConsultingService {
     }
 
     public ApiResponse<ConsultingResponseDTO> updateDetail(ConsultingUpdateDTO dto) {
-        ConsultingEntity entity = get(EntityDetails.getCurrentUserId());
+        ConsultingEntity entity = get(EntityDetails.getCurrentUserDetail().getProfileConsultingId());
         entity.setName(dto.getName());
         entity.setAddress(dto.getAddress());
         entity.setAbout(dto.getAbout());
@@ -139,12 +139,12 @@ public class ConsultingService {
         return new PageImpl<>(filterResultDTO.getContent().stream().map(this::toDTO).toList(), pageable, filterResultDTO.getTotalElement());
     }
 
-    public ApiResponse<String> deleted(String id) {
-        ConsultingEntity entity = get(id);
-        int result = consultingRepository.deleted(entity.getId(), EntityDetails.getCurrentUserId(), LocalDateTime.now());
-        if (result == 0) return ApiResponse.bad("Try again !");
-        return ApiResponse.ok("Success");
-    }
+//    public ApiResponse<String> deleted(String id) {
+//        ConsultingEntity entity = get(id);
+//        int result = consultingRepository.deleted(entity.getId(), EntityDetails.getCurrentUserId(), LocalDateTime.now());
+//        if (result == 0) return ApiResponse.bad("Try again !");
+//        return ApiResponse.ok("Success");
+//    }
 
     public ApiResponse<ConsultingDTO> getConsultingDetail(String consultingId) {
         ConsultingEntity details = get(consultingId);
@@ -165,7 +165,7 @@ public class ConsultingService {
 
     // TODO remove
     public ApiResponse<ConsultingDTO> getCurrentConsultingDetail() {
-        ConsultingEntity details = get(EntityDetails.getCurrentUserId());
+        ConsultingEntity details = get(EntityDetails.getCurrentUserDetail().getProfileConsultingId());
         ConsultingDTO currentConsulting = new ConsultingDTO();
         currentConsulting.setId(details.getId());
         currentConsulting.setName(details.getName());
