@@ -163,6 +163,7 @@ public class UniversityService {
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
+        dto.setLogo(attachService.getResponseAttach(entity.getLogoId()));
         return dto;
     }
 
