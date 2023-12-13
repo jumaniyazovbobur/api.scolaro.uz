@@ -45,8 +45,8 @@ public class AppApplicationLevelStatusController {
 
 
     @Operation(summary = "Get application level status list for dropdown", description = "Level status enum list")
-    @PostMapping("/anum/list")
-    public ResponseEntity<ApiResponse<List<KeyValueDTO>>> update(@RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
+    @PostMapping("/enum/list")
+    public ResponseEntity<ApiResponse<List<KeyValueDTO>>> listForDropDown(@RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Get application level status enum list");
         return ResponseEntity.ok(applicationLevelStatusService.getLevelStatuEnumList(language));
     }

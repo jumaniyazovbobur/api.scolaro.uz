@@ -20,6 +20,7 @@ TODO university flyway data.
 TODO ConsultingStep template
 TODO Grantlar.
 TODO faculty flyway data.
+TODO consulting Profile
 
 
 *ConsultingTariffEntity (

@@ -37,6 +37,21 @@ public class ConsultingController {
         return ResponseEntity.ok(consultingService.getConsultingDetail(consultingId));
     }
 
+    @GetMapping("/top-consulting")
+    @Operation(summary = "Get by id api", description = "for admin")
+    public ResponseEntity<ApiResponse<List<ConsultingResponseDTO>>> getTopConsulting() {
+        log.info("Get top consulting ");
+        return ResponseEntity.ok(consultingService.getTopConsulting());
+    }
+
+    @PostMapping("/top-consulting/filter")
+    @Operation(summary = "Filter top consulting api", description = "for all")
+    public ResponseEntity<PageImpl<ConsultingResponseDTO>> filterTopConsulting(@RequestBody ConsultingTopFilterDTO consultingFilterDTO,
+                                                                               @RequestParam(value = "page", defaultValue = "1") int page,
+                                                                               @RequestParam(value = "size", defaultValue = "30") int size) {
+        return ResponseEntity.ok(consultingService.filterForTopConsulting(consultingFilterDTO, page - 1, size));
+    }
+
     /**
      * CONSULTING
      */
@@ -60,7 +75,6 @@ public class ConsultingController {
     /**
      * FOR ADMIN
      */
-
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping({"/", ""})
     @Operation(summary = "Create consulting", description = "for admin")
@@ -97,13 +111,6 @@ public class ConsultingController {
         return ResponseEntity.ok(consultingService.deleted(id));
     }
 
-    @DeleteMapping("/delete-accTOount")
-    @Operation(summary = "Delete your consulting api", description = "for consulting")
-    public ResponseEntity<ApiResponse<?>> deletedOwn() {
-        log.info("Delete your consulting");
-        return ResponseEntity.ok(consultingService.deleteAccount());
-    }
-
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Update consulting detail as admin", description = "")
@@ -114,43 +121,6 @@ public class ConsultingController {
     }
 
 
-    /**
-     * FOR CONSULTING
-     */
-    @PreAuthorize("hasRole('ROLE_CONSULTING')")
-    @PutMapping("/update-phone")
-    @Operation(summary = "Update  consulting phone  api", description = "for consulting")
-    public ResponseEntity<ApiResponse<String>> updatePhone(@RequestParam("phone") String phone) {
-        log.info("Update phone {}", phone);
-        return ResponseEntity.ok(consultingService.updatePhone(phone));
-    }
-
-    /**
-     * FOR CONSULTING
-     */
-    @PreAuthorize("hasRole('ROLE_CONSULTING')")
-    @PutMapping("/phone-verification")
-    @Operation(summary = "Update  consulting phone verification api", description = "for consulting")
-    public ResponseEntity<ApiResponse<String>> updatePhoneVerification(@RequestBody SmsDTO dto) {
-        log.info("Update phone verification {}", dto.getPhone());
-        return ResponseEntity.ok(consultingService.verification(dto));
-    }
-
-
-    /**
-     * FOR CONSULTING
-     */
-    @PreAuthorize("hasRole('ROLE_CONSULTING')")
-    @PutMapping("/update-password")
-    @Operation(summary = "Update consulting password api", description = "for consulting")
-    public ResponseEntity<ApiResponse<String>> updatePassword(@Valid @RequestBody UpdatePasswordDTO dto) {
-        log.info("Update password");
-        return ResponseEntity.ok(consultingService.updatePassword(dto));
-    }
-
-    /**
-     * FOR ADMIN
-     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/change-status/{id}")
     @Operation(summary = "Change consulting status api", description = "for admin")
@@ -160,21 +130,5 @@ public class ConsultingController {
         return ResponseEntity.ok(consultingService.changeStatus(id, status));
     }
 
-    /**
-     * FOR ALL
-     */
-    @GetMapping("/top-consulting")
-    @Operation(summary = "Get by id api", description = "for admin")
-    public ResponseEntity<ApiResponse<List<ConsultingResponseDTO>>> getTopConsulting() {
-        log.info("Get top consulting ");
-        return ResponseEntity.ok(consultingService.getTopConsulting());
-    }
 
-    @PostMapping("/top-consulting/filter")
-    @Operation(summary = "Filter top consulting api", description = "for all")
-    public ResponseEntity<PageImpl<ConsultingResponseDTO>> filterTopConsulting(@RequestBody ConsultingTopFilterDTO consultingFilterDTO,
-                                                                               @RequestParam(value = "page", defaultValue = "1") int page,
-                                                                               @RequestParam(value = "size", defaultValue = "30") int size) {
-        return ResponseEntity.ok(consultingService.filterForTopConsulting(consultingFilterDTO, page - 1, size));
-    }
 }

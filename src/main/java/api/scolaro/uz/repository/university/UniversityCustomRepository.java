@@ -62,19 +62,27 @@ public class UniversityCustomRepository {
      * Consulting
      */
     // get application university list for consulting.
-    public FilterResultDTO<UniversityResponseDTO> getApplicationUniversityListForConsulting_mobile(String consultingId, int page, int size) {
+    public FilterResultDTO<UniversityResponseDTO> getApplicationUniversityListForConsulting_mobile(String consultingId, String consultingProfileId, int page, int size) {
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, Object> params = new HashMap<>();
 
         params.put("consultingId", consultingId);
-
-        StringBuilder selectBuilder = new StringBuilder("select u.id,u.name,u.logo_id, " +
-                "       (select count(*) from app_application where consulting_id =:consultingId and university_id = u.id and visible = true) as studentCount " +
-                "from university as u " +
-                "where u.id in (select university_id from app_application where consulting_id =:consultingId " +
-                "               and visible = true group by university_id)");
+        StringBuilder selectBuilder;
+        if (consultingProfileId != null) {
+            selectBuilder = new StringBuilder("select u.id,u.name,u.logo_id, " +
+                    "       (select count(*) from app_application where consulting_id =:consultingId and university_id = u.id and consulting_profile_id =:consultingProfileId and  visible = true) as studentCount " +
+                    "from university as u " +
+                    "where u.id in (select university_id from app_application where consulting_id =:consultingId " +
+                    "               and consulting_profile_id =:consultingProfileId and visible = true group by university_id)");
+            params.put("consultingProfileId", consultingProfileId);
+        } else {
+            selectBuilder = new StringBuilder("select u.id,u.name,u.logo_id, " +
+                    "       (select count(*) from app_application where consulting_id =:consultingId and university_id = u.id and visible = true) as studentCount " +
+                    "from university as u " +
+                    "where u.id in (select university_id from app_application where consulting_id =:consultingId " +
+                    "               and visible = true group by university_id)");
+        }
         selectBuilder.append(stringBuilder);
-
 
         StringBuilder countBuilder = new StringBuilder("select count(*)" +
                 "from (select university_id from app_application where consulting_id =:consultingId " +

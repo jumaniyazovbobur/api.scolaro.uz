@@ -31,6 +31,12 @@ public class EntityDetails {
         return roleList.stream().anyMatch(role -> role.equals(requiredRole.name()));
     }
 
+    public static Boolean hasRoleCurrentUser(RoleEnum requiredRole) {
+        CustomUserDetails details = getCurrentUserDetail();
+        return details.getRoleList().stream().anyMatch(simpleGrantedAuthority -> simpleGrantedAuthority.getAuthority().equals(requiredRole.name()));
+
+    }
+
     public static List<String> getCurrentProfileRoleList() {
         CustomUserDetails details = getCurrentUserDetail();
         assert details != null;

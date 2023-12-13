@@ -36,7 +36,7 @@ public class ConsultingTariffService {
         entity.setDescriptionRu(dto.getDescriptionRu());
         entity.setDescriptionEn(dto.getDescriptionEn());
         entity.setPrice(dto.getPrice());
-        entity.setConsultingId(EntityDetails.getCurrentUserId());
+        entity.setConsultingId(EntityDetails.getCurrentUserDetail().getProfileConsultingId());
         entity.setTariffType(ConsultingTariffType.CONSULTING);
         entity.setStatus(dto.getStatus());
         entity.setOrderNumber(dto.getOrderNumber());
@@ -81,7 +81,7 @@ public class ConsultingTariffService {
 
     public ApiResponse<String> update(ConsultingTariffUpdateDTO dto, String id) {
         ConsultingTariffEntity entity = get(id);
-        if (entity.getConsultingId() == null || !entity.getConsultingId().equals(EntityDetails.getCurrentUserId())) {
+        if (entity.getConsultingId() == null || !entity.getConsultingId().equals(EntityDetails.getCurrentUserDetail().getProfileConsultingId())) {
             log.warn("Author is not incorrect or not found {}", entity.getConsultingId());
             throw new ItemNotFoundException("Author is not incorrect or not found");
         }
@@ -100,11 +100,12 @@ public class ConsultingTariffService {
 
     public ApiResponse<String> delete(String id) {
         ConsultingTariffEntity entity = get(id);
-        if (entity.getConsultingId() == null || !entity.getConsultingId().equals(EntityDetails.getCurrentUserId())) {
+        String consultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
+        if (entity.getConsultingId() == null || !entity.getConsultingId().equals(consultingId)) {
             log.warn("Author is not incorrect or not found {}", entity.getConsultingId());
             throw new ItemNotFoundException("Author is not incorrect or not found");
         }
-        int result = consultingTariffRepository.updateVisibleIsFalse(id, LocalDateTime.now(), EntityDetails.getCurrentUserId());
+        int result = consultingTariffRepository.updateVisibleIsFalse(id, LocalDateTime.now(), consultingId);
         if (result == 1) {
             return new ApiResponse<>(resourceMessageService.getMessage("success.delete"), 200, false);
         }
@@ -165,7 +166,7 @@ public class ConsultingTariffService {
         copyTariff.setDescriptionRu(entity.getDescriptionRu());
         copyTariff.setName(entity.getName());
         copyTariff.setPrice(entity.getPrice());
-        copyTariff.setConsultingId(EntityDetails.getCurrentUserId());
+        copyTariff.setConsultingId(EntityDetails.getCurrentUserDetail().getProfileConsultingId());
         copyTariff.setStatus(GeneralStatus.ACTIVE);
         copyTariff.setTariffType(ConsultingTariffType.CONSULTING);
         copyTariff.setOrderNumber(1);

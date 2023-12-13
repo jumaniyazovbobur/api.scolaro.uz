@@ -29,7 +29,7 @@ public class ConsultingUniversityService {
     private ResourceMessageService resourceMessageService;
 
     public ApiResponse<?> merger(List<ConsultingUniversityDTO> newList) {
-        String consultingId = EntityDetails.getCurrentUserId();
+        String consultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
         List<ConsultingUniversityEntity> oldList = consultingUniversityRepository.getConsultingUniversityList(consultingId);
         if (newList != null) {
             newList.forEach(newItem -> {
