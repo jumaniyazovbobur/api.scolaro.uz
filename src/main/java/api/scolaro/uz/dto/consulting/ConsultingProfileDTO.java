@@ -1,24 +1,19 @@
 package api.scolaro.uz.dto.consulting;
 
-
 import api.scolaro.uz.dto.attach.AttachDTO;
-import api.scolaro.uz.dto.university.UniversityResponseDTO;
-import api.scolaro.uz.enums.RoleEnum;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
-
+import java.time.LocalDateTime;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ConsultingDTO {
+public class ConsultingProfileDTO {
     private String id;
     private String name;
-    private String address;
-    private String about;
+    private String surname;
+    private String phone;
     private AttachDTO photo;
-    private List<UniversityResponseDTO> universityList;
+    private LocalDateTime createdDate;
 }

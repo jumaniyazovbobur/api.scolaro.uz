@@ -335,7 +335,8 @@ public class AppApplicationFilterRepository {
     /*
      * CONSULTING
      */
-    public FilterResultDTO<AppApplicationFilterMapperDTO> getApplicationListForConsulting_web(String consultingId, AppApplicationFilterConsultingDTO filter, int page, int size) {
+    public FilterResultDTO<AppApplicationFilterMapperDTO> getApplicationListForConsulting_web(String consultingId, String consultingProfileId,
+                                                                                              AppApplicationFilterConsultingDTO filter, int page, int size) {
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, Object> params = new HashMap<>();
 
@@ -348,8 +349,12 @@ public class AppApplicationFilterRepository {
             stringBuilder.append(" and a.status =:status ");
             params.put("status", filter.getStatus().name());
         }
-
         params.put("consultingId", consultingId);
+
+        if (consultingProfileId != null) {
+            stringBuilder.append(" and a.consulting_profile_id =:consultingProfileId ");
+            params.put("consultingProfileId", consultingProfileId);
+        }
 
         StringBuilder selectBuilder = new StringBuilder("select a.id as appId, " +
                 "       a.created_date  as appCreatedDate, " +
@@ -426,7 +431,7 @@ public class AppApplicationFilterRepository {
     }
 
 
-    public FilterResultDTO<AppApplicationFilterMapperDTO> getApplicationStudentListForConsulting_mobile(String consultingId, AppApplicationFilterConsultingDTO filter, Long universityId, int page, int size, AppLanguage language) {
+    public FilterResultDTO<AppApplicationFilterMapperDTO> getApplicationStudentListForConsulting_mobile(String consultingId, String consultingProfileId, AppApplicationFilterConsultingDTO filter, Long universityId, int page, int size, AppLanguage language) {
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, Object> params = new HashMap<>();
         params.put("consultingId", consultingId);
@@ -435,6 +440,11 @@ public class AppApplicationFilterRepository {
         if (filter.getQuery() != null) {
             stringBuilder.append(" and (lower(p.name) like :searchQuery or lower(p.surname) like :searchQuery) ");
             params.put("searchQuery", "%" + filter.getQuery().toLowerCase() + "%");
+        }
+
+        if (consultingProfileId != null) {
+            stringBuilder.append(" and aa.consulting_profile_id =:consultingProfileId ");
+            params.put("consultingProfileId", consultingProfileId);
         }
 
         StringBuilder selectBuilder = new StringBuilder(

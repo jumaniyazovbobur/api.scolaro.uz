@@ -1,0 +1,1 @@
+alter table person_role drop constraint if exists person_role_role_check;

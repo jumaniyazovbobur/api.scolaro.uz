@@ -2,7 +2,9 @@ package api.scolaro.uz.config.details;
 
 import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.entity.ProfileEntity;
+import api.scolaro.uz.entity.consulting.ConsultingProfileEntity;
 import api.scolaro.uz.enums.RoleEnum;
+import api.scolaro.uz.repository.consulting.ConsultingProfileRepository;
 import api.scolaro.uz.repository.profile.PersonRoleRepository;
 
 import api.scolaro.uz.repository.consulting.ConsultingRepository;
@@ -23,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private ProfileRepository profileRepository;
     @Autowired
-    private ConsultingRepository consultingRepository;
+    private ConsultingProfileRepository consultingProfileRepository;
     @Autowired
     private PersonRoleRepository personRoleRepository;
 
@@ -45,12 +47,12 @@ public class CustomUserDetailsService implements UserDetailsService {
      * Consulting
      */
     public UserDetails loadConsultingByPhone(String phone) throws UsernameNotFoundException {
-        Optional<ConsultingEntity> consultingOptional = consultingRepository.findByPhoneAndVisibleIsTrue(phone);
+        Optional<ConsultingProfileEntity> consultingOptional = consultingProfileRepository.findByPhoneAndVisibleIsTrue(phone);
         if (consultingOptional.isEmpty()) {
             throw new UsernameNotFoundException("Username not found");
         }
-        ConsultingEntity consultingEntity = consultingOptional.get();
-        List<RoleEnum> roleList = personRoleRepository.findPersonRoleEnumList(consultingEntity.getId());
-        return new CustomUserDetails(consultingEntity, roleList);
+        ConsultingProfileEntity consultingProfileEntity = consultingOptional.get();
+        List<RoleEnum> roleList = personRoleRepository.findPersonRoleEnumList(consultingProfileEntity.getId());
+        return new CustomUserDetails(consultingProfileEntity, roleList);
     }
 }

@@ -3,10 +3,7 @@ package api.scolaro.uz.entity.application;
 import api.scolaro.uz.entity.BaseEntity;
 import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.entity.UniversityEntity;
-import api.scolaro.uz.entity.consulting.ConsultingEntity;
-import api.scolaro.uz.entity.consulting.ConsultingStepEntity;
-import api.scolaro.uz.entity.consulting.ConsultingStepLevelEntity;
-import api.scolaro.uz.entity.consulting.ConsultingTariffEntity;
+import api.scolaro.uz.entity.consulting.*;
 import api.scolaro.uz.enums.AppStatus;
 import api.scolaro.uz.enums.ApplicationStepLevelStatus;
 import jakarta.persistence.*;
@@ -33,6 +30,12 @@ public class AppApplicationEntity extends BaseEntity {
     private ConsultingEntity consulting;
     @Column(name = "consulting_id")
     private String consultingId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "consulting_profile_id", insertable = false, updatable = false)
+    private ConsultingProfileEntity consultingProfile;
+    @Column(name = "consulting_profile_id")
+    private String consultingProfileId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "university_id", insertable = false, updatable = false)

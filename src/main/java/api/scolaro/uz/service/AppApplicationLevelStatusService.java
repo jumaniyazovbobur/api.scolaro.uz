@@ -44,7 +44,7 @@ public class AppApplicationLevelStatusService {
             return ApiResponse.bad("Tugatilgan bosqichni o'zgartirib bo'lmaydi.");
         }
 
-        String currentConsultingId = EntityDetails.getCurrentUserId();
+        String currentConsultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
         // check if application belongs to current consulting.
         AppApplicationEntity appApplication = appApplicationService.get(dto.getAppApplicationId());
         if (!appApplication.getConsultingId().equals(currentConsultingId)) { //

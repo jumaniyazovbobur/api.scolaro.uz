@@ -13,10 +13,7 @@ import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.mapper.AppApplicationFilterMapperDTO;
 import api.scolaro.uz.repository.appApplication.AppApplicationFilterRepository;
 import api.scolaro.uz.repository.appApplication.AppApplicationRepository;
-import api.scolaro.uz.service.consulting.ConsultingService;
-import api.scolaro.uz.service.consulting.ConsultingStepLevelService;
-import api.scolaro.uz.service.consulting.ConsultingStepService;
-import api.scolaro.uz.service.consulting.ConsultingTariffService;
+import api.scolaro.uz.service.consulting.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -29,7 +26,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static api.scolaro.uz.config.details.EntityDetails.getCurrentUserDetail;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +41,7 @@ public class AppApplicationService {
     private final ResourceMessageService resourceMessageService;
     private final ConsultingStepService consultingStepService;
     private final ConsultingTariffService consultingTariffService;
+    private final ConsultingProfileService consultingProfileService;
 
     public ApiResponse<AppApplicationResponseDTO> create(AppApplicationRequestDTO dto) {
         ConsultingEntity consulting = consultingService.get(dto.getConsultingId());
@@ -92,14 +89,25 @@ public class AppApplicationService {
      * Consulting
      */
     public ApiResponse<Page<AppApplicationFilterMapperDTO>> getApplicationListForConsulting_web(AppApplicationFilterConsultingDTO dto, int page, int size) { // web
-        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getApplicationListForConsulting_web(EntityDetails.getCurrentUserId(), dto, page, size);
+        String consultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
+        String filterByConsultingProfileId = null;
+        if (!EntityDetails.hasRoleCurrentUser(RoleEnum.ROLE_CONSULTING_MANAGER)) {
+            filterByConsultingProfileId = EntityDetails.getCurrentUserId();
+        }
+
+        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getApplicationListForConsulting_web(consultingId, filterByConsultingProfileId, dto, page, size);
         Page<AppApplicationFilterMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
         return ApiResponse.ok(pageObj);
     }
 
     // returns student list by university id for which application was created. It is for consulting. Used in consulting mobile.
     public ApiResponse<Page<AppApplicationFilterMapperDTO>> getApplicationStudentListByUniversityIdForConsulting_mobile(Long universityId, AppApplicationFilterConsultingDTO filter, int page, int size, AppLanguage language) {
-        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getApplicationStudentListForConsulting_mobile(EntityDetails.getCurrentUserId(), filter, universityId, page, size, language);
+        String consultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
+        String filterByConsultingProfileId = null;
+        if (!EntityDetails.hasRoleCurrentUser(RoleEnum.ROLE_CONSULTING_MANAGER)) {
+            filterByConsultingProfileId = EntityDetails.getCurrentUserId();
+        }
+        FilterResultDTO<AppApplicationFilterMapperDTO> filterResult = appApplicationFilterRepository.getApplicationStudentListForConsulting_mobile(consultingId, filterByConsultingProfileId, filter, universityId, page, size, language);
         Page<AppApplicationFilterMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
         return ApiResponse.ok(pageObj);
     }
@@ -112,18 +120,18 @@ public class AppApplicationService {
         }
 
         AppApplicationEntity entity = optional.get();
-        String currentId = EntityDetails.getCurrentUserId();
+        String consultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
 
-        List<String> roleList = Objects.requireNonNull(getCurrentUserDetail())
+        List<String> roleList = Objects.requireNonNull(EntityDetails.getCurrentUserDetail())
                 .getRoleList()
                 .stream()
                 .map(SimpleGrantedAuthority::getAuthority)
                 .toList();
-        if (EntityDetails.hasRole(RoleEnum.ROLE_STUDENT, roleList) && !currentId.equals(entity.getStudentId())) {
-            log.info("Profile do not have access to this application {} profileId {}", id, currentId);
+        if (EntityDetails.hasRole(RoleEnum.ROLE_STUDENT, roleList) && !consultingId.equals(entity.getStudentId())) {
+            log.info("Profile do not have access to this application {} profileId {}", id, consultingId);
             return ApiResponse.forbidden("Your access denied for this Application!");
-        } else if (EntityDetails.hasRole(RoleEnum.ROLE_CONSULTING, roleList) && !currentId.equals(entity.getConsultingId())) {
-            log.info("Consulting do not have access to this application {} consulting {}", id, currentId);
+        } else if (EntityDetails.hasRole(RoleEnum.ROLE_CONSULTING, roleList) && !consultingId.equals(entity.getConsultingId())) {
+            log.info("Consulting do not have access to this application {} consulting {}", id, consultingId);
             return ApiResponse.forbidden("Your access denied for this Application!");
         }
 
@@ -151,9 +159,9 @@ public class AppApplicationService {
         }
 
         AppApplicationEntity entity = optional.get();
-        String currentId = EntityDetails.getCurrentUserId();
-        if (!currentId.equals(entity.getConsultingId())) {
-            log.info("Consulting {}  do not have access to application {}", currentId, id);
+        String consultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
+        if (!consultingId.equals(entity.getConsultingId())) {
+            log.info("Consulting {}  do not have access to application {}", consultingId, id);
             return ApiResponse.forbidden("Your access denied for this Application!");
         }
         if (entity.getStatus().equals(AppStatus.TRAIL)) {// TRAIL -> STARTED or CANCELED
@@ -209,6 +217,11 @@ public class AppApplicationService {
 
     public ApiResponse<?> updateTariffId(AppApplicationTariffIdUpdateDTO dto, String applicationId) {
         AppApplicationEntity entity = get(applicationId);
+        String consultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
+        if (!consultingId.equals(entity.getConsultingId())) {
+            log.info("Consulting {}  do not have access to application {}", consultingId, applicationId);
+            return ApiResponse.forbidden("Your access denied for this Application!");
+        }
         int num = appApplicationRepository.updateTariffId(applicationId, dto.getTariffId());
         if (num > 0) {
             return new ApiResponse<>(200, false, resourceMessageService.getMessage("success.update"));
@@ -218,6 +231,11 @@ public class AppApplicationService {
 
     public ApiResponse<String> updateStep(AppApplicationStepDTO dto, String applicationId) {
         AppApplicationEntity appApplication = get(applicationId);
+        String consultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
+        if (!consultingId.equals(appApplication.getConsultingId())) {
+            log.info("Consulting {}  do not have access to application {}", consultingId, applicationId);
+            return ApiResponse.forbidden("Your access denied for this Application!");
+        }
         // copy and save step and stepLevels
         ConsultingStepEntity applicationStep = consultingStepService.copyStepAndStepLevels(dto.getConsultingStepId(), StepType.APPLICATION);
         //update

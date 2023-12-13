@@ -8,6 +8,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity
+@Table(name = "consulting_profile")
 @Getter
 @Setter
 public class ConsultingProfileEntity extends BaseEntity {
