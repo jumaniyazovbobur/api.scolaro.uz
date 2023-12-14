@@ -4,10 +4,7 @@ import api.scolaro.uz.enums.DegreeType;
 import api.scolaro.uz.enums.UniversityDegreeType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class ScholarShipRequestDTO {
     @NotBlank(message = "Name required")
