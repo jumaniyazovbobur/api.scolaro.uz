@@ -9,12 +9,15 @@ import api.scolaro.uz.dto.auth.AuthRequestDTO;
 
 import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.entity.ProfileEntity;
+import api.scolaro.uz.entity.consulting.ConsultingProfileEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.exp.ItemNotFoundException;
+import api.scolaro.uz.repository.consulting.ConsultingProfileRepository;
 import api.scolaro.uz.repository.consulting.ConsultingRepository;
 import api.scolaro.uz.repository.profile.ProfileRepository;
+import api.scolaro.uz.service.consulting.ConsultingProfileService;
 import api.scolaro.uz.service.place.CountryService;
 import api.scolaro.uz.service.sms.SmsHistoryService;
 import api.scolaro.uz.util.JwtUtil;
@@ -22,6 +25,7 @@ import api.scolaro.uz.util.MD5Util;
 import api.scolaro.uz.util.PhoneUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -37,9 +41,12 @@ public class AuthService {
     private final ResourceMessageService resourceMessageService;
     private final SmsHistoryService smsHistoryService;
     private final PasswordEncoder passwordEncoder;
-    private final ConsultingRepository consultingRepository;
     private final AttachService attachService;
     private final CountryService countryService;
+    @Autowired
+    private ConsultingProfileService consultingProfileService;
+    @Autowired
+    private ConsultingProfileRepository consultingProfileRepository;
 
     public ApiResponse<String> registration(AuthRequestDTO dto) {
         boolean validate = PhoneUtil.validatePhone(dto.getPhoneNumber());
@@ -163,7 +170,10 @@ public class AuthService {
         return dto;
     }
 
-    private AuthResponseDTO getClientAuthorizationResponse(ConsultingEntity entity) {
+    /**
+     * Consulting Profile
+     */
+    private AuthResponseDTO getClientAuthorizationResponse(ConsultingProfileEntity entity) {
         AuthResponseDTO dto = new AuthResponseDTO();
         dto.setName(entity.getName());
         dto.setAttachDTO(attachService.getResponseAttach(entity.getPhotoId()));
@@ -180,13 +190,13 @@ public class AuthService {
             return new ApiResponse<>(resourceMessageService.getMessage("phone.validation.not-valid"), 400, true);
         }
 
-        Optional<ConsultingEntity> optional = consultingRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
+        Optional<ConsultingProfileEntity> optional = consultingProfileRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
         if (optional.isEmpty()) {
             log.warn("Consulting not found! phone = {}", dto.getPhone());
             return new ApiResponse<>(resourceMessageService.getMessage("consulting.not.found"), 400, true);
         }
 
-        ConsultingEntity entity = optional.get();
+        ConsultingProfileEntity entity = optional.get();
 
         if (!entity.getStatus().equals(GeneralStatus.ACTIVE)) {
             log.warn("Consulting Status Blocked! Phone = {}", dto.getPhone());
@@ -270,12 +280,12 @@ public class AuthService {
             log.info("Phone not valid! phone={}", dto.getPhone());
             return new ApiResponse<>(resourceMessageService.getMessage("phone.validation.not-valid"), 400, true);
         }
-        Optional<ConsultingEntity> optional = consultingRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
+        Optional<ConsultingProfileEntity> optional = consultingProfileRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
         if (optional.isEmpty()) {
             log.info("Consulting not found! phone = {}", dto.getPhone());
             return new ApiResponse<>(resourceMessageService.getMessage("consulting.not.found"), 400, true);
         }
-        ConsultingEntity profile = optional.get();
+        ConsultingProfileEntity profile = optional.get();
         if (!profile.getStatus().equals(GeneralStatus.ACTIVE)) {
             log.info("Consulting Status Blocked! Phone = {}", dto.getPhone());
             return new ApiResponse<>(resourceMessageService.getMessage("consulting.status.blocked"), 400, true);
@@ -292,12 +302,12 @@ public class AuthService {
             log.info("Phone not valid! phone={}", dto.getPhone());
             return new ApiResponse<>(resourceMessageService.getMessage("phone.validation.not-valid"), 400, true);
         }
-        Optional<ConsultingEntity> optional = consultingRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
+        Optional<ConsultingProfileEntity> optional = consultingProfileRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
         if (optional.isEmpty()) {
             log.info("Consulting not found! phone = {}", dto.getPhone());
             return new ApiResponse<>(resourceMessageService.getMessage("consulting.not.found"), 400, true);
         }
-        ConsultingEntity profile = optional.get();
+        ConsultingProfileEntity profile = optional.get();
         if (!profile.getStatus().equals(GeneralStatus.ACTIVE)) {
             log.info("Consulting Status Blocked! Phone = {}", dto.getPhone());
             return new ApiResponse<>(resourceMessageService.getMessage("consulting.status.blocked"), 400, true);
@@ -312,7 +322,7 @@ public class AuthService {
             return new ApiResponse<>(resourceMessageService.getMessage("password.not.matched"), 400, true);
         }
 
-        consultingRepository.updatePassword(profile.getId(), MD5Util.getMd5(dto.getNewPassword()));
+        consultingProfileRepository.updatePassword(profile.getId(), MD5Util.getMd5(dto.getNewPassword()));
         return new ApiResponse<>(200, false, getClientAuthorizationResponse(profile));
     }
 

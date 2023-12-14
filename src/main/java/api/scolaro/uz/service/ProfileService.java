@@ -28,7 +28,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -51,7 +50,6 @@ public class ProfileService {
 
     public ApiResponse<String> update(ProfileUpdateDTO dto, String id) {
         ProfileEntity entity = get(id);
-
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
         if (dto.getCountryId() != null) {
@@ -104,7 +102,6 @@ public class ProfileService {
         return ApiResponse.ok("Success");
     }
 
-
     public ApiResponse<?> deleteAccount() {
         ProfileEntity entity = get(EntityDetails.getCurrentUserId());
         int result = profileRepository.deleteAccount(entity.getId(), EntityDetails.getCurrentUserId(), LocalDateTime.now());
@@ -115,18 +112,17 @@ public class ProfileService {
         return new ApiResponse<>(200, false, resourceMessageService.getMessage("fail.delete"));
     }
 
-
     public ApiResponse<?> updatePassword(UpdatePasswordDTO dto) {
-        ProfileDTO currentProfile = getCurrentProfileDetail();
+        ProfileEntity details = get(EntityDetails.getCurrentUserId());
         if (!dto.getNewPassword().equals(dto.getConfirmPassword())) {
             log.info("Confirmed password is incorrect !");
             return ApiResponse.bad("Confirmed password is incorrect !");
         }
-        if (!currentProfile.getPassword().equals(MD5Util.getMd5(dto.getOldPassword()))) {
+        if (!details.getPassword().equals(MD5Util.getMd5(dto.getOldPassword()))) {
             log.info("Old password error !");
             return ApiResponse.bad("Old password error !");
         }
-        int result = profileRepository.updatePassword(currentProfile.getId(), MD5Util.getMd5(dto.getNewPassword()));
+        int result = profileRepository.updatePassword(details.getId(), MD5Util.getMd5(dto.getNewPassword()));
         if (result == 0) return ApiResponse.bad("Try again !");
         return ApiResponse.ok();
     }
@@ -153,7 +149,7 @@ public class ProfileService {
         }
         // random sms code
         String smsCode = RandomUtil.getRandomSmsCode();
-        profileRepository.changeNewPhone(getCurrentProfileDetail().getId(), newPhone, smsCode);
+        profileRepository.changeNewPhone(EntityDetails.getCurrentUserId(), newPhone, smsCode);
         // send new phone sms code
         String text = "Scolaro.uz tasdiqlash kodi: \n" + smsCode;
         smsService.sendMessage(newPhone, text, SmsType.CHANGE_PHONE, smsCode);
@@ -180,7 +176,7 @@ public class ProfileService {
             log.info(smsResponse.getMessage());
             return smsResponse;
         }
-        ProfileEntity currentUser = get(getCurrentProfileDetail().getId());
+        ProfileEntity currentUser = get(EntityDetails.getCurrentUserId());
         if (!currentUser.getTempPhone().equals(dto.getPhone())) {
             log.info("Phone not valid");
             return ApiResponse.bad("Phone not valid");
@@ -195,17 +191,6 @@ public class ProfileService {
         String jwt = JwtUtil.encode(currentUser.getId(), currentUser.getPhone(), personRoleService.getProfileRoleList(currentUser.getId()));
         return ApiResponse.ok(jwt);
 
-    }
-
-    private ProfileDTO getCurrentProfileDetail() {
-        ProfileEntity details = get(EntityDetails.getCurrentUserId());
-        ProfileDTO currentProfile = new ProfileDTO();
-        currentProfile.setId(details.getId());
-        currentProfile.setName(details.getName());
-        currentProfile.setSurname(details.getSurname());
-        currentProfile.setPhone(details.getPhone());
-        currentProfile.setPassword(details.getPassword());
-        return currentProfile;
     }
 
     public ProfileResponseDTO getProfileInfo(String id) {
@@ -243,20 +228,27 @@ public class ProfileService {
         responseDTO.setId(entity.getId());
         responseDTO.setName(entity.getName());
         responseDTO.setSurname(entity.getSurname());
+        responseDTO.setPhone(entity.getPhone());
         responseDTO.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
         return responseDTO;
     }
 
     public ProfileEntity get(String id) {
-       /* Optional<ProfileEntity> optional = profileRepository.findByIdAndVisibleTrue(id);
-        if (optional.isEmpty()) {
-            log.info(" {} user not found", id);
-            throw new ItemNotFoundException("Profile not found");
-        }
-        return optional.get();*/
         return profileRepository.findByIdAndVisibleTrue(id).orElseThrow(() -> {
             log.warn("Profile not Found");
             return new ItemNotFoundException(resourceMessageService.getMessage("profile.not-found"));
         });
+    }
+
+    public void fillStudentBalance(String profileId, Long amount) {
+        profileRepository.fillStudentBalance(profileId, amount);
+    }
+
+    public boolean checkBalance(String profileId, Long amount) {
+        return profileRepository.existsByIdAndBalanceIsGreaterThan(profileId, amount);
+    }
+
+    public void reduceFromBalance(String profileId, Long amount) {
+        profileRepository.reduceStudentBalance(profileId, amount);
     }
 }

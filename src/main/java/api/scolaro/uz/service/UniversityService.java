@@ -6,6 +6,7 @@ import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.university.*;
 import api.scolaro.uz.entity.UniversityEntity;
 import api.scolaro.uz.enums.AppLanguage;
+import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.mapper.AppApplicationFilterMapperDTO;
 import api.scolaro.uz.repository.appApplication.AppApplicationFilterRepository;
@@ -162,6 +163,7 @@ public class UniversityService {
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
+        dto.setLogo(attachService.getResponseAttach(entity.getLogoId()));
         return dto;
     }
 
@@ -186,8 +188,12 @@ public class UniversityService {
 
     // get university list for consulting. Consulting mobile first page
     public ApiResponse<Page<UniversityResponseDTO>> getApplicationUniversityListForConsulting_mobile(int page, int size) {
-        String consultingId = EntityDetails.getCurrentUserId();
-        FilterResultDTO<UniversityResponseDTO> filterResult = customRepository.getApplicationUniversityListForConsulting_mobile(consultingId, page, size);
+        String consultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
+        String filterByConsultingProfileId = null;
+        if (!EntityDetails.hasRoleCurrentUser(RoleEnum.ROLE_CONSULTING_MANAGER)) {
+            filterByConsultingProfileId = EntityDetails.getCurrentUserId();
+        }
+        FilterResultDTO<UniversityResponseDTO> filterResult = customRepository.getApplicationUniversityListForConsulting_mobile(consultingId, filterByConsultingProfileId, page, size);
         Page<UniversityResponseDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
         return ApiResponse.ok(pageObj);
     }

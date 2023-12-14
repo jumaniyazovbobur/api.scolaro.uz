@@ -41,7 +41,7 @@ public class SimpleMessageFilterRepository {
                 "s.message_type as sMessageType " +
                 "from simple_message as s " +
                 "left join attach as a on s.attach_id=a.id " +
-                "where visible =true ");
+                "where s.visible =true ");
         selectBuilder.append(stringBuilder).append(" order by s.created_date desc ");
 
         StringBuilder countBuilder = new StringBuilder("select count(*) " +

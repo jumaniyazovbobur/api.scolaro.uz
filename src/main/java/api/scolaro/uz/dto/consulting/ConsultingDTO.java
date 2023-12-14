@@ -17,11 +17,8 @@ import java.util.List;
 public class ConsultingDTO {
     private String id;
     private String name;
-    private String phone;
-    private String password;
     private String address;
     private String about;
     private AttachDTO photo;
-    private List<RoleEnum> roleList;
-   private List<UniversityResponseDTO> universityList;
+    private List<UniversityResponseDTO> universityList;
 }

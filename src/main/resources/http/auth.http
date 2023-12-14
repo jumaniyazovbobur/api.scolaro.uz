@@ -72,7 +72,7 @@ Content-Type: application/json
 
 
 ################################################ Consulting
-### Consulting login
+### Consulting login 1
 POST http://localhost:8081/api/v1/auth/consulting/login
 Content-Type: application/json
 
@@ -81,6 +81,15 @@ Content-Type: application/json
   "password": "3w3csl"
 }
 
+
+### Consulting login 2
+POST http://localhost:8081/api/v1/auth/consulting/login
+Content-Type: application/json
+
+{
+  "phone": "998997795710",
+  "password": "3w3csl"
+}
 
 ### Consulting login PROD
 POST http://api.app.mazgi.uz/api/v1/auth/consulting/login

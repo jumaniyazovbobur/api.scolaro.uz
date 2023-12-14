@@ -37,18 +37,19 @@ public class ConsultingStepService {
         stepEntity.setStepType(StepType.CONSULTING);
         stepEntity.setDescription(dto.getDescription());
         stepEntity.setOrderNumber(dto.getOrderNumber());
-        stepEntity.setConsultingId(EntityDetails.getCurrentUserId()); // set consultingId
+        stepEntity.setConsultingId(EntityDetails.getCurrentUserDetail().getProfileConsultingId()); // set consultingId
         consultingStepRepository.save(stepEntity);
         return new ApiResponse<>(200, false, resourceMessageService.getMessage("success.insert"));
     }
 
     public ApiResponse<Boolean> delete(String id) {
         ConsultingStepEntity entity = get(id);
-        if (!entity.getConsultingId().equals(EntityDetails.getCurrentUserId())) {
+        String consultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
+        if (!entity.getConsultingId().equals(consultingId)) {
             log.warn("Consulting author is not incorrect or not found {}", entity.getConsultingId());
             throw new ItemNotFoundException("Consulting author is not incorrect or not found");
         }
-        int i = consultingStepRepository.deleted(id, EntityDetails.getCurrentUserId(), LocalDateTime.now());
+        int i = consultingStepRepository.deleted(id, consultingId, LocalDateTime.now());
         return new ApiResponse<>(200, false, i > 0);
     }
 
@@ -59,8 +60,9 @@ public class ConsultingStepService {
 
     public ApiResponse<ConsultingStepDTO> update(String id, ConsultingStepCreateDTO dto) {
         ConsultingStepEntity entity = get(id);
-        if (!entity.getConsultingId().equals(EntityDetails.getCurrentUserId())) {
-            log.warn("consultingStepEntity {} not belongs to consulting {} ", id, EntityDetails.getCurrentUserId());
+        String consultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
+        if (!entity.getConsultingId().equals(consultingId)) {
+            log.warn("consultingStepEntity {} not belongs to consulting {} ", id, consultingId);
             throw new AppBadRequestException("ConsultingStep not belongs to current consulting.");
         }
         entity.setName(dto.getName());
@@ -80,7 +82,8 @@ public class ConsultingStepService {
     }
 
     public ApiResponse<List<ConsultingStepDTO>> getConsultingStepListByRequestedConsulting() {
-        List<ConsultingStepEntity> entityList = consultingStepRepository.getAllByConsultingId(EntityDetails.getCurrentUserId());
+        String consultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
+        List<ConsultingStepEntity> entityList = consultingStepRepository.getAllByConsultingId(consultingId);
         List<ConsultingStepDTO> dtoList = new LinkedList<>();
         entityList.forEach(consultingStepEntity -> dtoList.add(toDTO(consultingStepEntity)));
         return new ApiResponse<>(200, false, dtoList);
@@ -142,7 +145,6 @@ public class ConsultingStepService {
         applicationStep.setStepType(stepType);
         applicationStep.setOrderNumber(1);
         applicationStep.setDescription(stepEntity.getDescription());
-        applicationStep.setConsultingId(EntityDetails.getCurrentUserId());
         applicationStep.setConsultingId(consultingId);
         // save
         consultingStepRepository.save(applicationStep);
@@ -150,7 +152,7 @@ public class ConsultingStepService {
     }
 
     public ConsultingStepEntity copyStepAndStepLevels(String fromStepId, StepType stepType) {
-        String consultingId = EntityDetails.getCurrentUserId();
+        String consultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
         ConsultingStepEntity consultingStepEntity = copyStep(fromStepId, consultingId, stepType);
         // copy and save consultingStepLevel
         consultingStepLevelService.copyStepLevels(fromStepId, consultingStepEntity.getId(), consultingId);

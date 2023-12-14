@@ -1,16 +1,16 @@
 ### Create consulting
 POST http://localhost:8081/api/v1/consulting/
-Authorization: Bearer {{token}}
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDI0NDkzMDYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDMwNTQxMDYsImlzcyI6IkphdmEgYmFja2VuZCJ9.g23NWDb_sY5Z6ucGmj0lxx4nURrpr257lbkU1DNM3HEyo84ORBIIvFeht5lo7PlHHaYjp6-cfOHT-vEDVM_dow
 Content-Type: application/json
 
 {
-  "name": "Asia consult",
-  "phone": "998997795714",
+  "name": "Par consult",
+  "phone": "998997795710",
   "address": "Toshkent shahri",
   "ownerName": "Maxmud",
   "ownerSurname": "Maxmudov",
   "about": "Biz vawe kuchaygan consaltingmiz",
-  "photoId": "2c9c70818c1abd87018c1abedf9e0002"
+  "photoId": "8080b7ef8ba46236018ba4703e860000"
 }
 
 ### Create consulting for PRODUCT
