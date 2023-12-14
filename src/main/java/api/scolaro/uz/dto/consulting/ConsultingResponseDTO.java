@@ -13,9 +13,6 @@ public class ConsultingResponseDTO {
 
     private String id;
     private String name;
-    //    private String ownerName;
-//    private String ownerSurName;
-//    private String phone;
     private String address;
     private String about;
     private AttachDTO photo;

@@ -133,6 +133,11 @@ public class ConsultingService {
         return ApiResponse.ok(toDTO(entity));
     }
 
+    public ConsultingResponseDTO getById(String id) {
+        ConsultingEntity entity = get(id);
+        return toDTO(entity);
+    }
+
     public PageImpl<ConsultingResponseDTO> filter(ConsultingFilterDTO dto, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         FilterResultDTO<ConsultingEntity> filterResultDTO = customRepository.filterPagination(dto, page, size);

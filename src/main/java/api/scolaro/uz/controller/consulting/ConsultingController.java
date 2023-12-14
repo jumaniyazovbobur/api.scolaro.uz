@@ -63,14 +63,13 @@ public class ConsultingController {
         return ResponseEntity.ok(consultingService.updateDetail(dto));
     }
 
-    @PreAuthorize("hasRole('ROLE_CONSULTING')")
+   /* @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @GetMapping("/current")
     @Operation(summary = "Get current consulting by id api", description = "for consulting")
     public ResponseEntity<ApiResponse<ConsultingDTO>> current() {
         log.info("Get consulting ");
         return ResponseEntity.ok(consultingService.getCurrentConsultingDetail());
-
-    }
+    }*/
 
     /**
      * FOR ADMIN

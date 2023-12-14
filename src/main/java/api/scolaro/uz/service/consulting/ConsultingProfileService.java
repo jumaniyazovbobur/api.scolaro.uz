@@ -35,6 +35,8 @@ public class ConsultingProfileService {
     private PersonRoleService personRoleService;
     @Autowired
     private AttachService attachService;
+    @Autowired
+    private ConsultingService consultingService;
 
 
     public ApiResponse<String> updatePassword(UpdatePasswordDTO dto) {
@@ -111,19 +113,22 @@ public class ConsultingProfileService {
     }
 
     public ApiResponse<ConsultingProfileDTO> getConsultingProfileDetail(String id) {
-        ConsultingProfileEntity entity = get(id);
+        ConsultingProfileEntity entity = get(EntityDetails.getCurrentUserId());
+
         ConsultingProfileDTO responseDTO = new ConsultingProfileDTO();
         responseDTO.setId(entity.getId());
         responseDTO.setName(entity.getName());
         responseDTO.setSurname(entity.getSurname());
         responseDTO.setPhone(entity.getPhone());
+        responseDTO.setRoleList(personRoleService.getProfileRoleList(entity.getId()));
         if (entity.getPhotoId() != null) responseDTO.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
+        responseDTO.setConsulting(consultingService.getById(entity.getConsultingId()));
         return ApiResponse.ok(responseDTO);
     }
 
-    public ConsultingProfileEntity getConsultingManagerByConsultingId(String consultingId){
-       Optional<ConsultingProfileEntity> optional =  consultingProfileRepository.findConsultingManagerByConsultingId(consultingId);
-       return optional.orElseGet(null);
+    public ConsultingProfileEntity getConsultingManagerByConsultingId(String consultingId) {
+        Optional<ConsultingProfileEntity> optional = consultingProfileRepository.findConsultingManagerByConsultingId(consultingId);
+        return optional.orElseGet(null);
     }
 
     public ConsultingProfileEntity get(String id) {

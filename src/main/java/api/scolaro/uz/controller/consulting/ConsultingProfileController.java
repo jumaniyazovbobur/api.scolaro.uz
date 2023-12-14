@@ -9,6 +9,7 @@ import api.scolaro.uz.service.consulting.ConsultingProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class ConsultingProfileController {
     }
 
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
-    @PutMapping("/current")
+    @GetMapping("/current")
     @Operation(summary = "Get current consulting detail", description = "for consulting")
     public ResponseEntity<ApiResponse<ConsultingProfileDTO>> currentConsultingProfile() {
         log.info("Get current consulting profile detail");
