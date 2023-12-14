@@ -1,10 +1,10 @@
 ### Create
-GET http://localhost:8081/init/data/start?key=!a3(sdgdamdq.ewr,!a
+GET http://localhost:8081/init/data/start?key=!a3(s
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDI0NjkyMTEsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDMwNzQwMTEsImlzcyI6IkphdmEgYmFja2VuZCJ9.TqnzNU4G_Cmdc9qzDpMt2K5KbzCjAYPKeS8hfOW0i9V0GXmbicRiVzYS0jf2Rhe3Mt-mxUAOfKMGk0qOIonc5A
 
 
 ### Create grant
-GET http://localhost:8081/init/data/start-grant?key=!a3(sdgdamdq.ewr,!a
+GET http://localhost:8081/init/data/start-grant?key=!a3(sd
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDI0NjkyMTEsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDMwNzQwMTEsImlzcyI6IkphdmEgYmFja2VuZCJ9.TqnzNU4G_Cmdc9qzDpMt2K5KbzCjAYPKeS8hfOW0i9V0GXmbicRiVzYS0jf2Rhe3Mt-mxUAOfKMGk0qOIonc5A

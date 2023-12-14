@@ -1861,7 +1861,7 @@ public class InitController {
         dto4.setPrice(30000);
         dto4.setStartDate(LocalDate.parse("2023-12-01"));
         dto4.setExpiredDate(LocalDate.parse("2024-02-15"));
-        dto4.setUniversityId(13L);
+        dto4.setUniversityId(20L);
         List<UniversityDegreeType> degreeTypeList4 = new LinkedList<>();
         degreeTypeList4.add(UniversityDegreeType.MasterDegree);
         degreeTypeList4.add(UniversityDegreeType.Doctorate);
