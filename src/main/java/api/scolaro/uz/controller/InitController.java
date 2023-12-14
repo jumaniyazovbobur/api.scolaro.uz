@@ -1,8 +1,10 @@
 package api.scolaro.uz.controller;
 
+import api.scolaro.uz.dto.scholarShip.ScholarShipRequestDTO;
 import api.scolaro.uz.dto.university.UniversityCreateDTO;
 import api.scolaro.uz.enums.UniversityDegreeType;
 import api.scolaro.uz.service.UniversityService;
+import api.scolaro.uz.service.scholarShip.ScholarShipService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,8 +27,11 @@ public class InitController {
     @Autowired
     private UniversityService universityService;
 
+    @Autowired
+    private ScholarShipService scholarShipService;
+
     @GetMapping("/start")
-    public void initUniversity(@RequestParam(value = "key" , required = true) String key) {
+    public void initUniversity(@RequestParam(value = "key", required = true) String key) {
         if (!key.equals("!a3(sdgdamdq.ewr,!a")) {
             return;
         }
@@ -1024,7 +1030,7 @@ public class InitController {
 
 
         //13. The University of Chicago
-               UniversityCreateDTO university13 = new UniversityCreateDTO();
+        UniversityCreateDTO university13 = new UniversityCreateDTO();
         university13.setName("Tsinghua University");
         university13.setWebSite("www.tsinghua.edu.cn/en/");
         university13.setDescription("<p>The campus of Tsinghua University is situated on the site of the former imperial gardens of the Qing Dynasty, and surrounded by a number of historical sites in northwest Beijing.</p>\n" +
@@ -1233,7 +1239,6 @@ public class InitController {
         facultyList15.add("bedcd231-0561-41f9-802f-a0a6e1da8276");
         facultyList15.add("868072cb-ec2c-4ea6-a287-7c9cccfb0e4d");
         facultyList15.add("a82df7f9-da8c-4a9e-8e2c-8ca56159557f");
-
 
 
         //16 University of Singapore
@@ -1601,6 +1606,540 @@ public class InitController {
         facultyList20.add("7c7fb5f3-8a8c-4973-a927-c34862b94595");
         university20.setFacultyList(facultyList20);
         universityService.create(university20);
+    }
+
+    @GetMapping("/start-grant")
+    public void initGrant(@RequestParam(value = "key", required = true) String key) {
+        if (!key.equals("!a3(sdgdamdq.ewr,!a")) {
+            return;
+        }
+        //1-grant
+        ScholarShipRequestDTO dto1 = new ScholarShipRequestDTO();
+        dto1.setName("Weidenfeld-Hoffmann Scholarships and Leadership Programme: Oksfor universitetida o'qish uchun to'liq grant.");
+        dto1.setDescription("<p>Buyuk Britaniyada joylashgan dunyoning eng nufuzli universitetlaridan biri &ndash; Oksford universiteti 2024-yildan boshlab magistraturada o&rsquo;qishni xohlovchilardan&nbsp;<a href=\"http://www.graduate.ox.ac.uk/weidenfeld\">Weidenfeld-Hoffmann Scholarships and Leadership Programme</a>&nbsp;grant dasturi uchun arizalar qabul qilmoqda. Dastur maqsadi &ndash; Oksford universitetida toʻliq grant asosida oʻqish imkoniyatini taqdim etish orqali rivojlanayotgan davlatlardan boʻlgan boʻlgʻusi yetakchilarning shakllanishida hissa qoʻshishdir.</p>\n" +
+                "<p>Ushbu grant Oksford universitetidagi&nbsp;<em><strong>41 ta</strong>&nbsp;</em>magistrlik dasturlari uchun taqdim etiladi.</p>\n" +
+                "<p><strong>Maʼlumot uchun:</strong>&nbsp;Oksford universiteti dunyoning eng nufuzli universitetlaridan biridir. Jumladan, 2023-yil 4-sentabr holatiga koʻra, mazkur universitet dunyoning eng kuchli oliygohlari roʻyxatida&nbsp;<strong>1-oʻrinni</strong>&nbsp;egallab&nbsp;<a href=\"https://www.timeshighereducation.com/world-university-rankings/university-oxford\" target=\"_blank\" rel=\"noopener\">turibdi</a>&nbsp;(THE reytinggi boʻyicha).</p>\n" +
+                "<div>\n" +
+                "<h4>Grant kimlar uchun?</h4>\n" +
+                "<p>Magistraturada o'qishni xohlovchilar uchun.&nbsp;</p>\n" +
+                "<h4>Grantning manfaatli jihatlari:</h4>\n" +
+                "<p>Ushbu grantni qo&rsquo;lga kiritganlar quyidagi iqtisodiy imtiyozlar bilan ta&rsquo;minlanadi:</p>\n" +
+                "<ul>\n" +
+                "<li>Kontrakt puli to&rsquo;liq to&rsquo;lab beriladi.</li>\n" +
+                "<li>Yiliga kamida&nbsp;<strong><em>18 622</em></strong>&nbsp;funt sterling miqdoridagi stipendiya bilan ta&rsquo;minlanadi.</li>\n" +
+                "</ul>\n" +
+                "<p>Yuqoridagi imtiyozlar butun kurs davomida amal qiladi.</p>\n" +
+                "<h4>Talablar:</h4>\n" +
+                "<p>Nomzod quyidagi talablarga mos bo&rsquo;lishi lozim:</p>\n" +
+                "<ul>\n" +
+                "<li>Nomzod ushbu grantga hujjat topshirishi mumkin bo&rsquo;lgan davlatlardan birining rezidenti bo&rsquo;lishi kerak (bu davlatlar orasida O&rsquo;zbekiston, Turkmaniston, Tojikiston, Qozog&rsquo;iston, Afgʻoniston va Qirg&rsquo;iziston ham bor).</li>\n" +
+                "<li>Nomzod Oksford universitetidagi&nbsp;<a href=\"https://www.ox.ac.uk/admissions/graduate/fees-and-funding/fees-funding-and-scholarship-search/weidenfeld-hoffmann-scholarships-and-leadership-programme\" target=\"_blank\" rel=\"noopener\">tegishli magistrlik dasturlariga</a>&nbsp;endi hujat topshirayotgan bo&rsquo;lishi kerak. Oksford universitetining magistratura bosqichida o&rsquo;qiyotganlar ushbu grantga hujjat topshira olmaydi.</li>\n" +
+                "<li>Nomzod o&rsquo;qishni bitirgach o&rsquo;z vataniga qaytishni rejalashtirayotgan bo&rsquo;lishi kerak.</li>\n" +
+                "<li>Nomzod Oksfordda tanlagan yo&rsquo;nalishi va kelajakdagi maqsadlari, karyerasi o&rsquo;rtasidagi bog&rsquo;lanishni ko&rsquo;rsatib bera olishi kerak. Bunda nomzod o&rsquo;z jamiyatini rivojlantirishga qanday hissa qo&rsquo;sha olishi mumkinligini mahalliy yoki xalqaro darajada ifodalab berishi kerak bo&rsquo;ladi.</li>\n" +
+                "<li>Oldingi yillarga o&rsquo;qishga qabul qilingan va o&rsquo;qishning boshlanishini 2024-2025 oʻquv yiliga ko&rsquo;chirgan nomzodlar ushbu grantga hujjat topshira olmaydi.</li>\n" +
+                "<li>Nozmod o&rsquo;zi tanlagan magistrlik sohasining talablariga javob berishi kerak.</li>\n" +
+                "<li>Nomzod ingliz tilini yaxshi bilishi kerak. Ba&rsquo;zi yo&rsquo;nalishlarda<strong><em>&nbsp;IELTS 7</em></strong>, ba&rsquo;zilari esa<em><strong>&nbsp;IELTS 7.5</strong></em>&nbsp;talab etiladi.</li>\n" +
+                "<li>Nomzod belgilangan 41 ta kusrdan biriga hujjat topshirishi va qabul qilinishi kerak. Ushbu kurslar roʻyxatini&nbsp;<a href=\"https://www.ox.ac.uk/admissions/graduate/fees-and-funding/fees-funding-and-scholarship-search/weidenfeld-hoffmann-scholarships-and-leadership-programme\" target=\"_blank\" rel=\"noopener\"><strong>BU YERDAN</strong></a>&nbsp;topasiz (&ldquo;Elegibility&rdquo; rukni, &ldquo;Eligible courses&rdquo; boʻlimi).</li>\n" +
+                "</ul>\n" +
+                "<h4>Dasturga qabul jarayoni:</h4>\n" +
+                "<p>Universitetning magisrtlik dasturlariga hujjat topshirish dasturga qarab farq qiladi, lekin barchasi&nbsp;<em><strong>2023-yilning dekabr yoki yanvar oyida</strong>&nbsp;</em>tugaydi (aksariyati uchun ariza topshirishning oxirgi muddati&nbsp;<strong><em>2024-yil 5-yanvar</em></strong>). Shu sababli, muhlatlar bilan kerakli magistrlik dasturini tanlash orqali to&rsquo;liq tanishish zarur. Shuningdek, nomzodlarga imkon qadar ertaroq hujjat topshirish tavsiya etiladi.</p>\n" +
+                "<p>Ariza topshirilgandan keyin qisqa roʻyxatga kiritilganlar 2024-yilning aprel oyida boʻlib oʻtadigan&nbsp;<em><strong>onlayn suhbatga</strong></em>&nbsp;taklif qilinadi.</p>\n" +
+                "<p>Yakuniy natijalar 2024-yil may oyi oxirlarida eʼlon qilinadi (faqat grantni qoʻlga kiritganlarga xabar qilinadi).</p>\n" +
+                "<p><strong>MUHIM:</strong> Grant yuzasidan savollaringiz boʻlsa,&nbsp;<a href=\"mailto:info@whtrust.org\" target=\"_blank\" rel=\"noopener\">info@whtrust.org</a>&nbsp;elektron pochta manziliga murojaat qilishingiz mumkin.</p>\n" +
+                "</div>");
+        dto1.setPrice(23000);
+        dto1.setExpiredDate(LocalDate.parse("2024-01-05"));
+        dto1.setStartDate(LocalDate.parse("2023-12-01"));
+        dto1.setUniversityId(15L);
+        List<UniversityDegreeType> degreeTypeList = new LinkedList<>();
+        degreeTypeList.add(UniversityDegreeType.MasterDegree);
+        dto1.setDegreeTypeList(degreeTypeList);
+        dto1.setPhotoId("a2863bb9-75a8-4bbd-bd00-a21791da9c41");
+        scholarShipService.create(dto1);
+
+        // 2-grant
+        ScholarShipRequestDTO dto2 = new ScholarShipRequestDTO();
+
+        dto2.setName("University of Manchester: Magistratura uchun toʻliq grant!");
+        dto2.setDescription("<p>Angliyaning Manchester shahrida joylashgan&nbsp;<a href=\"http://www.manchester.ac.uk/\" target=\"_blank\" rel=\"noopener\"><strong>The University of Manchester</strong></a>&nbsp;har yili&nbsp;<strong><em>Alliance MBS Masters Scholarships for UK/EU/International students</em></strong>&nbsp;grantini taklif etadi. Grant universitetda oʻqitiladigan buxgalteriya va moliya hamda biznes va boshqaruv sohalari boʻyicha magistratura bosqichiga oʻqishga kirgan talabalar uchun moʻljallangan. Grant&nbsp;<strong><em>bir yilga</em>&nbsp;</strong>beriladi. Grant talabaning moliyaviy ahvonini emas, uning akademik yutuqlari va a&rsquo;lo baholarini inobatga oladi.</p>\n" +
+                "<p>Stipendiya quyidagi magistratura kurslari talabalariga ajratiladi:</p>\n" +
+                "<ul>\n" +
+                "<li>MSc Accounting</li>\n" +
+                "<li>MSc Accounting and Finance</li>\n" +
+                "<li>MSc Business Analysis and Strategic Management</li>\n" +
+                "<li>MSc Business Analytics: Operational Research and Risk Analysis</li>\n" +
+                "<li>MSc&nbsp;Business Psychology</li>\n" +
+                "<li>MSc Finance</li>\n" +
+                "<li>MSc Human Resource Management and Industrial Relations</li>\n" +
+                "<li>MSc International Human Resource Management and Comparative Industrial Relations</li>\n" +
+                "<li>MSc Innovation Management and Entrepreneurship</li>\n" +
+                "<li>MSc International Business and Management</li>\n" +
+                "<li>MSc Management</li>\n" +
+                "<li>MSc Marketing</li>\n" +
+                "<li>MSc Operations, Project and Supply Chain Management</li>\n" +
+                "<li>MSc Organisational&nbsp;Psychology</li>\n" +
+                "<li>MSc Quantitative Finance</li>\n" +
+                "</ul>\n" +
+                "<p>Yuqoridagi magistratura kurslarida oʻqish 1 yillik, agar sirtqi taʼlim orqali oʻqisa, magistratura kursi 2 yil davom etadi.</p>\n" +
+                "<p><strong>Maʼlumot uchun:</strong>&nbsp;Manchester universiteti dunyoning eng nufuzli oliygohlaridan biridir. Jumladan, 2023-yil iyul oyi holatiga koʻra, ushbu universitet dunyodagi eng kuchli oliygohlar roʻyxatida&nbsp;<em><strong>32-oʻrinni</strong></em>&nbsp;egallab&nbsp;<a href=\"https://www.topuniversities.com/universities/university-manchester\" target=\"_blank\" rel=\"noopener\">turibdi</a>&nbsp;(QS reytingi boʻyicha).</p>\n" +
+                "<div>\n" +
+                "<h4>Grant kimlar uchun?</h4>\n" +
+                "<p>Magistraturada oʻqishni xohlovchilar uchun</p>\n" +
+                "<h4>Batafsil ma'lumot uchun link</h4>\n" +
+                "<div>&nbsp;&nbsp;<a href=\"https://www.manchester.ac.uk/study/masters/fees-and-funding/masters-student-funding/database/display/?id=00000289&amp;offset=0&amp;sort=name&amp;sortdir=ascending&amp;subjectArea=Any&amp;nationality=Uzbekistan&amp;submit=Search\" target=\"_blank\" rel=\"noopener\">Rasmiy havola</a></div>\n" +
+                "<h4>Grantning manfaatli jihatlari:</h4>\n" +
+                "<p>Grant yutib olgan nomzodlarga&nbsp;<strong><em>1 yillik</em></strong>&nbsp;kontrakt pulini&nbsp;<strong><em>toʻliq&nbsp;</em></strong>qoplab beriladi. Dastur grant yutib olgan nomzodning boshqa xarajatlarini qoplamaydi.</p>\n" +
+                "<h4>Talablar:</h4>\n" +
+                "<p>Nomzod quyidagi talablarga mos boʻlishi kerak:</p>\n" +
+                "<ul>\n" +
+                "<li>Barcha davlatlardan nomzodlar ariza bera oladi.</li>\n" +
+                "<li>Nomzod yuqorida keltirilgan magistrlik kurslaridan biriga ariza topshirishi va qabul qilinishi kerak.</li>\n" +
+                "<li>Nomzodning koʻrsatkichlari imkon qadar aʼlo boʻlishi kerak. Britaniya tizimida 1 va 2:1 daraja egalari hamda boshqa tizimlarda shu darajaga teng koʻrsatkichga ega nomzodlar mazkur grantga ariza bera oladi. Bu 100 ballik tizimda oʻrtacha oʻzlashtirish koʻrsatkichi (GPA) kamida 70 ball boʻlish kerak degani.</li>\n" +
+                "<li>Nomzod ingliz tilini yaxshi bilish kerak. Tilni qay darajada bilish zarurligi nomzod qaysi kursga hujjat topshirishiga qarab farq qiladi. Odatda IELTS kamida 7.0 boʻlishi talab qilinadi (kurslarga qarab biroz farq qilishi mumkin). Batafsil maʻlumotni sizni qiziqtirgan kurs sahifasidan olishingiz mumkin.</li>\n" +
+                "<li>Bu grantni uzluksiz taʼlim (full-time) shaklida oʻqish uchun ham, sirtqi taʼlim (part-time) shaklida oʻqish uchun ham qoʻlga kiritish mumkin.</li>\n" +
+                "</ul>\n" +
+                "<h4>Dasturga qabul jarayoni:</h4>\n" +
+                "<p>Ushbu grantga alohida ariza topshirilmaydi. Yuqorida keltirilgan magistrlik dasturlaridan biriga ariza toshirgan nomzodlarning barchasi ushbu grantga talabgor sifatida koʻrib chiqiladi.</p>\n" +
+                "<p>Magistrlik kurslariga ariza topshirishning oxirgi sanasi aniq belgilab&nbsp;<a href=\"https://www.manchester.ac.uk/study/masters/admissions/how-to-apply/closing-dates/\" target=\"_blank\" rel=\"noopener\">qoʻyilmagan</a>. Biroq nomzodlarga qabul ochilganidan keyin imkon qadar ertaroq ariza topshirish tavsiya etiladi. 2024-yilning kuzgi semestriga qabul 2024-yil mart-aprel oylarida ochiladi.</p>\n" +
+                "<p>Magistrlik dasturiga ariza topshirish quyidagicha amalga oshiriladi:</p>\n" +
+                "<ul>\n" +
+                "<li>Avvalo&nbsp;<a href=\"https://www.manchester.ac.uk/study/masters/courses/list/\" target=\"_blank\" rel=\"noopener\"><em><strong>shu yerdan</strong></em></a>&nbsp;kerakli kursni tanlang.</li>\n" +
+                "<li><strong><em>Overview</em></strong>&nbsp;boʻlimida kurs haqida maʼlumot berilgan. Toʻliq oʻqib chiqing.</li>\n" +
+                "<li><strong><em>Entry requirements</em></strong>&nbsp;boʻlimini tanlang. U yerda oʻqishga kirish talablari koʻrsatilgan.</li>\n" +
+                "<li><strong><em>Application and selection</em></strong>&nbsp;boʻlimida qanday qilib ariza topshirish haqida maʼlumot berilgan.</li>\n" +
+                "<li>Boʻlimda&nbsp;<strong><em>Apply online</em></strong>&nbsp;yozuvini tanlang.</li>\n" +
+                "<li>Ariza toʻldiring.</li>\n" +
+                "<li>Talablar boʻyicha soʻralgan hujjatlarni ilova qilib, joʻnating.</li>\n" +
+                "<li>Qoʻshimcha hujjatlar roʻyxatini sahifa oxirida berilgan manzili yoki telefon raqamiga bogʻlanib aniqlang (zarur boʻlganda).</li>\n" +
+                "<li>Universitet talab qiladigan malaka talablarini boshqa davlatlar talablari bilan mosligini aniqlash uchun<a href=\"https://www.alliancembs.manchester.ac.uk/study/masters/masters-entry-requirements/international-entry-requirements/\" target=\"_blank\" rel=\"noopener\">&nbsp;roʻyxat</a>&nbsp;bergan. Ammo roʻyxatda Oʻzbekiston koʻrsatilmagan. Shuning uchun hujjatlarning tarkibi, ekvivalentini&nbsp;<a href=\"https://www.alliancembs.manchester.ac.uk/study/masters/enquiry/\" target=\"_blank\" rel=\"noopener\"><strong><em>murojaat shakli&nbsp;</em></strong></a>orqali soʻrab tekshirib olishngiz mumkin.</li>\n" +
+                "</ul>\n" +
+                "<p><strong>Kerakli hujjatlar tarkibi:</strong></p>\n" +
+                "<ul>\n" +
+                "<li>Bakalavr diplomi va diplom ilovasi nusxasi.</li>\n" +
+                "<li><a href=\"https://www.mbs.ac.uk/study/masters/masters-entry-requirements/\" target=\"_blank\" rel=\"noopener\"><strong><em>Ingliz tili</em></strong></a>&nbsp;testi (IELTS 7.0 yoki roʻyxatda berilgan ekvivalent) sertifikati.</li>\n" +
+                "<li>Boshqa sertifikatlar. Masalan, GRE/GMAT/ACT/GCSE kabilar soʻralishi mumkin. Qoʻshimcha hujjatlarni tanlagan kursingiz sahifasidan aniqlang.</li>\n" +
+                "<li>Pasport nusxasi.</li>\n" +
+                "<li>Moliyaviy ahvolingiz haqida maʼlumotnoma soʻralishi mumkin.</li>\n" +
+                "<li>Viza haqida maʼlumot talab qilinishi mumkin.</li>\n" +
+                "</ul>\n" +
+                "<p>Qaysi kursga hujjat topshirayotganligingizga qarab boshqa hujjatlar ham soʻraladi. Shuning uchun oʻzingiz tanlagan kurs maʻlumotlarini puxta oʻrganib chiqing.</p>\n" +
+                "<p>Nomzodlar grantga aʼlo baholari, ish tajribasi (agar ishlagan boʻlsa), ijtimoiy faolligi, intiluvchanligi asosida saralanadilar.</p>\n" +
+                "<p><strong>MUHIM:</strong>&nbsp;Ariza topshirishga kirishishdan oldin grant haqidagi&nbsp;<a href=\"https://www.manchester.ac.uk/study/masters/fees-and-funding/masters-student-funding/database/display/?id=00000289&amp;offset=0&amp;sort=name&amp;sortdir=ascending&amp;subjectArea=Any&amp;nationality=Uzbekistan&amp;submit=Search\" target=\"_blank\" rel=\"noopener\"><em><strong>rasmiy eʼlon</strong></em></a>&nbsp;bilan batafsil tanishib chiqing.</p>\n" +
+                "<p><strong>Maʻlumot uchun:</strong></p>\n" +
+                "<p>Masters Admissions Office</p>\n" +
+                "<p><strong>Telefon:</strong>&nbsp;+44 (0) 161 306 1339</p>\n" +
+                "<p><strong>Elektron pochta:&nbsp;</strong><a href=\"mailto:pg.ambs@manchester.ac.uk\" target=\"_blank\" rel=\"noopener\">pg.ambs@manchester.ac.uk</a></p>\n" +
+                "</div>");
+
+        dto2.setPrice(50000);
+        dto2.setStartDate(LocalDate.parse("2023-12-01"));
+        dto2.setExpiredDate(LocalDate.parse("2024-06-01"));
+        dto2.setUniversityId(10L);
+        List<UniversityDegreeType> degreeTypeList2 = new LinkedList<>();
+        degreeTypeList2.add(UniversityDegreeType.MasterDegree);
+        dto2.setDegreeTypeList(degreeTypeList2);
+        dto2.setPhotoId("3e5c09da-d5f7-4442-b77a-a9142ef417c3");
+        scholarShipService.create(dto2);
+
+        //3-grant
+        ScholarShipRequestDTO dto3 = new ScholarShipRequestDTO();
+        dto3.setName("Stenford universitetining bakalavriat talabalariga moliyaviy yordam dasturi: kontrak puli qoplanadi, bepul turar joy va oziq-ovqat ta'minlanadi!");
+        dto3.setDescription("<p>Stenford universiteti har yili bakalavriatga taxminan&nbsp;<strong><em>1700 nafar</em>&nbsp;</strong>talabani qabul qiladi. Qabul qilingan&nbsp;<strong><em>talabalarning barchasi,&nbsp;</em></strong>agar arizada moliyaviy yordam kerak deb koʻrsatgan boʻlsa, moliyaviy ehtiyoj (Financial need) yuzasidan baholanadi hamda talabalarning moliyaviy holatiga qarab toʻliq yoki qisman moliyaviy yordam mablagʻi ajratiladi. Bu mablagʻ talabalarga begʻaraz yordam shaklida taqdim etiladi va uni keyinchalik qaytarish talab etilmaydi.</p>\n" +
+                "<p><strong>Maʼlumot uchun:</strong>&nbsp;Stenford universiteti duyoning eng nufuzli universitetlaridan biridir. Jumladan, 2023-yil avgust oyi holatiga koʻra, Stenfor universiteti dunyodagi eng kuchli oliygohlar roʻyxatida&nbsp;<strong><em>3-oʻrinni</em>&nbsp;</strong>egallab&nbsp;<a href=\"https://www.timeshighereducation.com/world-university-rankings/stanford-university\" target=\"_blank\" rel=\"noopener\">turibdi</a>&nbsp;(THE reytinggi boʻyicha).</p>\n" +
+                "<div>\n" +
+                "<h4>Grant kimlar uchun?</h4>\n" +
+                "<p>Bakalavriatda oʻqishni xohlovchilar uchun</p>\n" +
+                "<h4>Batafsil ma'lumot uchun link</h4>\n" +
+                "<div>&nbsp;&nbsp;<a href=\"https://admission.stanford.edu/afford/\" target=\"_blank\" rel=\"noopener\">Rasmiy havola</a></div>\n" +
+                "<h4>Grantning manfaatli jihatlari:</h4>\n" +
+                "<p>Moliyaviy yordam shakllari quyidagicha:</p>\n" +
+                "<ul>\n" +
+                "<li>Qabul qilingan talaba oilasining oilaviy daromadi&nbsp;<strong><em>150 ming AQSH dollaridan</em></strong>&nbsp;kam boʻlsa, odatda talaba kontrakt summasini toʻlashdan toʻliq ozod qilinadi.</li>\n" +
+                "<li>Qabul qilingan talaba oilasining oilaviy daromadi&nbsp;<strong><em>100 ming AQSH dollaridan</em></strong>&nbsp;kam boʻlsa, odatda talaba kontrakt summasini toʻlashdan toʻliq ozod qilinadi, bepul turar joy va oziq-ovqat bilan taʼminlanadi.</li>\n" +
+                "</ul>\n" +
+                "<p>Ushbu moliyaviy yordam dasturi arizada moliyaviy yordam kerak deb koʻrsatgan va oʻqishga qabul qilingan har bir talaba uchun amal qiladi.&nbsp;Arizada moliyaviy yordam soʻramagan talabalar oʻqish tugagunicha bunday yordamni soʻrab murojaat qila olmaydi.</p>\n" +
+                "<h4>Talablar:</h4>\n" +
+                "<p>Nomzodlar quyidagi talablarga mos boʻlishi kerak:</p>\n" +
+                "<ul>\n" +
+                "<li>Universitetga istalgan davlat fuqarolari topshira oladi.</li>\n" +
+                "<li>Nomzodlar oʻrta taʼlim (maktab, litsey yoki kollej) diplomiga ega boʻlishi yoki oʻqish boshlanguniga qadar diplomni qoʻlga kiritishi kerak.</li>\n" +
+                "<li>2024-yil kuzidan oʻqishni boshlash uchun ariza to&ldquo;shiruvchi nomzodlardan SAT yoki ACT sertifikatini taqdim etish talab etilmaydi. Lekin bunday sertifikatga ega boʻlish va uni to&ldquo;shirish qabul jarayonida ijobiy jihatdan hisobga olinadi.</li>\n" +
+                "<li>Nomzod ingliz tilini yetarli darajada bilishi lozim. IELTS yoki TOEFL kabi sertifikatlarni topshirish majburiy emas, lekin boʻlsa, topshirgan maʼqul.</li>\n" +
+                "</ul>\n" +
+                "<p>Xalqaro talabalarga qoʻyilgan talablar bilan umumiy ravishda<a href=\"https://admission.stanford.edu/apply/international/index.html\" target=\"_blank\" rel=\"noopener\"><strong>&nbsp;BU YERDA</strong></a>&nbsp;tanishib chiqishingiz mumkin.</p>\n" +
+                "<h4>Dasturga qabul jarayoni:</h4>\n" +
+                "<p>Arizalar&nbsp;<em><strong>har yili&nbsp; 1-noyabrgacha</strong></em>&nbsp;(Erta qabul)<em><strong>&nbsp;yoki 5-yanvargacha</strong></em>&nbsp;(Odatiy qabul) qabul qilinadi. Biroq sanʼatga oid yoʻnalishlarga topshirayotganlarning porfolio yoki portfolio uchun materaillarni topshirish sanalari biroz ertaroq. Hujjat topshirish sanalari bilan&nbsp;<a href=\"https://admission.stanford.edu/apply/first-year/index.html\" target=\"_blank\" rel=\"noopener\"><strong>BU YERDA</strong></a>&nbsp;batafsil tanishing.</p>\n" +
+                "<p>2024-2025-oʻquv yilidan boshlanadigan oʻqish uchun arizalar&nbsp;<strong>2023-yil 1-noyabr va 2024-yil 5-yanvargacha</strong>&nbsp;qabul qilinadi.</p>\n" +
+                "<p>Nomzodlar quyidagilarni taqdim etishi / topshirishi lozim:</p>\n" +
+                "<ul>\n" +
+                "<li><a href=\"http://www.commonapp.org/\" target=\"_blank\" rel=\"noopener\">Common Application</a>&nbsp; ariza shakli.</li>\n" +
+                "<li>90 dollar miqdorida ariza toʻlovi yoki bu toʻlovni&nbsp;<a href=\"https://admission.stanford.edu/apply/first-year/fee.html\" target=\"_blank\" rel=\"noopener\">bekor qilish soʻrovi.</a></li>\n" +
+                "<li>ACT yoki SAT natijalarini topshirish majburiy emas, lekin bor boʻlsa va topshirilsa, qabul jarayonida ijobiy jihatdan taʼsir qilishi mumkin. Bu hujjatlar uchun aniq ball belgilab qoʻyilmagan. Batafsil maʼlumotni&nbsp;<a href=\"https://admission.stanford.edu/apply/first-year/testing.html\" target=\"_blank\" rel=\"noopener\"><strong>bu yerdan</strong>&nbsp;</a>topasiz.</li>\n" +
+                "<li>Maktabdan hisobot va direktor yoki direktor oʻrinbosaridan tavsiyanoma. Bularning qanday topshirilishi haqida&nbsp;<a href=\"https://admission.stanford.edu/apply/freshman/forms.html\" target=\"_blank\" rel=\"noopener\"><strong>BU YERDA</strong>&nbsp;</a>tanishing (School Report and Counselor Recommendation).</li>\n" +
+                "<li>Oʻtilgan fanlardan olingan baholar.</li>\n" +
+                "<li>2 ta oʻqituvchidan tavsiyanoma.</li>\n" +
+                "<li>Birinchi yarim yillik hisoboti (15-fevralgacha topshirilishi kerak). Bu hujjat oʻquv muassasasidagi maslahatchi tomonidan tayyorlanadi va topshiriladi. Unda oʻquvning oxirgi kurs / sinfning birinchi yarim yillikdagi oʻzlashtirish darajasi aks etadi. Oʻzbekistonda maslahatchi lavozimi yoʻqligi sababli bu hujjatni direktor yoki direktor oʻrinbosari yoki biror mas&rsquo;ul o&rsquo;qituvchi topshirsa boʻladi.</li>\n" +
+                "<li>Ariza topshirihda isholar yozish va bir qancha savollarga javob berish soʻraladi. Insholar va savollar haqida&nbsp;<a href=\"https://admission.stanford.edu/apply/freshman/apply.html\" target=\"_blank\" rel=\"noopener\"><strong>bu yerda</strong></a>&nbsp;batafsil tanishing.</li>\n" +
+                "</ul>\n" +
+                "<p>Shuningdek, sanʼatga oid yoʻnalishga ariza topshirgan talabalar&nbsp;<a href=\"https://admission.stanford.edu/apply/freshman/arts.html\" target=\"_blank\" rel=\"noopener\"><strong>Sanʼat portfoliosini</strong></a>&nbsp;ham taqdim etishi mumkin, lekin bu majburiy hujjat hisoblanmayi (topshirish tavsiya etiladi).</p>\n" +
+                "<p>Kerakli hujjatlar roʻyxati haqida batafsil maʼlumotni&nbsp;<a href=\"https://admission.stanford.edu/apply/freshman/index.html\" target=\"_blank\" rel=\"noopener\"><strong>BU YERDAN</strong></a>&nbsp;topasiz.</p>\n" +
+                "<p><strong>MUHIM:</strong>&nbsp;Ariza topshrishga kirishishdan oldin xalqaro talabalarning qabul haqidagi&nbsp;<a href=\"https://admission.stanford.edu/apply/international/index.html\" target=\"_blank\" rel=\"noopener\"><strong>sahifani</strong></a>&nbsp;batafsil oʻqib chiqing.</p>\n" +
+                "</div>\n" +
+                "<div>&nbsp;</div>");
+        dto3.setPrice(20000);
+        dto3.setStartDate(LocalDate.parse("2023-12-01"));
+        dto3.setExpiredDate(LocalDate.parse("2024-02-01"));
+        dto3.setUniversityId(14L);
+        List<UniversityDegreeType> degreeTypeList3 = new LinkedList<>();
+        degreeTypeList3.add(UniversityDegreeType.Bachelor);
+        dto3.setDegreeTypeList(degreeTypeList3);
+        dto3.setPhotoId("5d8c640c-9240-408b-88c0-63f5a6dc62c9");
+        scholarShipService.create(dto3);
+
+        //4-grant
+        ScholarShipRequestDTO dto4 = new ScholarShipRequestDTO();
+        dto4.setName("USTC Fellowship: Xitoyda magistratura va doktorantura uchun toʻliq grant, oylik stipendiya va turar joy uchun mablag'");
+        dto4.setDescription("<p>Xitoyda joylashgan Xitoy fan va texnologiya universitetining xalqaro kolleji magistratura va doktorantura bosqichida oʻqishni xohlaydigan xorijlik nomzodlarga&nbsp;<em><strong>USTC Fellowship</strong></em>&nbsp;grantini taklif etadi. Bu grant ushbu oliygohda mavjud barcha magistratura va doktorantura bosqichi dasturlari uchun taqdim etiladi.</p>\n" +
+                "<p>Nomzodlar&nbsp;<em><strong>xitoy yoki ingliz tilida</strong>&nbsp;</em>oʻqitiladigan magistrtatura/doktorantura dasturlariga ariza topshirishlari mumkin. Grantlar 2023-yil kuzgi smemestrdan boshlab oʻqish uchun taqdim etiladi.</p>\n" +
+                "<p>Oliygohda mavjud magistratura va doktorantura dasturlari roʻyxatini&nbsp;<a href=\"https://ic.ustc.edu.cn/en/v7info.php?Nav_x=10\" target=\"_blank\" rel=\"noopener\"><strong>BU YERDAN</strong></a>&nbsp;topishingiz mumkin.</p>\n" +
+                "<p><strong>Maʼlumot uchun:</strong>&nbsp;Xitoy fan va texnologiya universiteti dunyoning eng nufuzli oliygohlaridan biridir. Jumladan, 2023-yil noyabr oyi holatiga koʻra, ushbu universitet dunyodagi eng kuchli oliygohlar roʻyxatida&nbsp;<strong>137-oʻrinni</strong>&nbsp;egallab&nbsp;<a href=\"https://www.topuniversities.com/universities/university-science-technology-china\" target=\"_blank\" rel=\"noopener\">turibdi</a>&nbsp;(QS reytingi).</p>\n" +
+                "<div>\n" +
+                "<h4>Grant kimlar uchun?</h4>\n" +
+                "<p>Magistratura yoki PhD bosqichida oʻqishni xohlovchilar uchun</p>\n" +
+                "<h4>Batafsil ma'lumot uchun link</h4>\n" +
+                "<div>&nbsp;&nbsp;<a href=\"https://ic.ustc.edu.cn/en/v7info.php?Nav_x=16\" target=\"_blank\" rel=\"noopener\">Rasmiy havola</a></div>\n" +
+                "<div>\n" +
+                "<p><a href=\"https://ic.ustc.edu.cn/en/v7info.php?Nav_x=16\" target=\"_blank\" rel=\"noopener\"><strong><em>Magistratura uchun</em></strong></a></p>\n" +
+                "<p><strong>1. Level A (A daraja).</strong>&nbsp;Bu grant darajasini qoʻlga kiritganlar quyidagi imtiyozlarga ega boʻladi:</p>\n" +
+                "<ul>\n" +
+                "<li>Kontrakt pulidan toʻliq ozod qilinadi.</li>\n" +
+                "<li>3000 RMB (taxminan 420 AQSH dollari) oylik stipendiya beriladi.</li>\n" +
+                "<li>Talaba kompleks tibbiy sugʻurta bilan taʼminlanadi.</li>\n" +
+                "<li>Turar joy uchun mablagʻ ajratiladi.</li>\n" +
+                "</ul>\n" +
+                "<p><strong>2. B Level (B daraja).</strong>&nbsp;Bu grant darajasini qoʻlga kiritganlar quyidagi imtiyozlarga ega boʻladi:</p>\n" +
+                "<ul>\n" +
+                "<li>Kontrakt pulidan toʻliq ozod qilinadi.</li>\n" +
+                "<li>Dars mashgʻulotlari yoki tadqiqot jarayonida assistentlik qilish uchun ish haqi olish mumkin boʻladi.</li>\n" +
+                "</ul>\n" +
+                "<p><a href=\"https://ic.ustc.edu.cn/en/v7info.php?Nav_x=15\" target=\"_blank\" rel=\"noopener\"><em><strong>Doktorantura uchun</strong></em></a></p>\n" +
+                "<p><strong>1. Level A (A daraja).</strong>&nbsp;Bu grant darajasini qoʻlga kiritganlar quyidagi imtiyozlarga ega boʻladi:</p>\n" +
+                "<ul>\n" +
+                "<li>Kontrakt pulidan toʻliq ozod qilinadi.</li>\n" +
+                "<li>7000 RMB (taxminan 978 AQSH dollari) oylik stipendiya beriladi.</li>\n" +
+                "<li>Talaba kompleks tibbiy sugʻurta bilan taʼminlanadi.</li>\n" +
+                "</ul>\n" +
+                "<p><strong>2. Level B (B daraja).</strong>&nbsp;Bu grant darajasini qoʻlga kiritganlar quyidagi imtiyozlarga ega boʻladi:</p>\n" +
+                "<ul>\n" +
+                "<li>Kontrakt pulidan toʻliq ozod qilinadi.</li>\n" +
+                "<li>3500 RMB (taxminan 490 AQSH dollari) oylik stipendiya beriladi.</li>\n" +
+                "<li>Talaba kompleks tibbiy sugʻurta bilan taʼminlanadi.</li>\n" +
+                "<li>Turar joy uchun mablagʻ ajratiladi.</li>\n" +
+                "</ul>\n" +
+                "<p><strong>3. C Level (C daraja).</strong>&nbsp;Bu grant darajasini qoʻlga kiritganlar quyidagi imtiyozlarga ega boʻladi:</p>\n" +
+                "<ul>\n" +
+                "<li>Kontrakt pulidan toʻliq ozod qilinadi.</li>\n" +
+                "<li>Dars mashgʻulotlari yoki tadqiqot jarayonida assistentlik qilish uchun ish haqi olish mumkin boʻladi.</li>\n" +
+                "</ul>\n" +
+                "<h4>Talablar:</h4>\n" +
+                "<p>Nomzodlarga qoʻyilgan talablar quyidagicha:</p>\n" +
+                "<ul>\n" +
+                "<li>Jismoniy va ruhiy salomat boʻlgan, yaroqli pasportga ega xorijlik nomzodlar ariza topshira oladi.</li>\n" +
+                "<li>Nomzod kerakli ilmiy daraja (diplom)ga ega boʻlishi kerak: magistratura uchun bakalavrlik, doktorantura uchun magistrlik diplomi. Hozirda oxirgi bosqichda oʻqiyotgan talabalar ham ariza topshirishi mumkin, bunda nomzod 2024-yil iyulgacha oʻqishni bitirishi va kerakli diplomni olishi haqida maʼlumotnoma topshirishi kerak (bu maʼlumotnoma universitet tomonidan beriladi).</li>\n" +
+                "<li>Yosh chegarasi:<br>&ndash; Magistraturaga nomzodlar 2024-yil 1-sentabr holatiga koʻra, 35 yoshdan kichik boʻlish kerak.<br>&ndash; Doktoranturaga nomzodlar Level A granti uchun 2024-yil 1-sentabr holatiga koʻra, 35 yoshdan kichik; Level B va C granti uchun 2024-yil 1-sentabr holatiga koʻra, 40 yoshdan kichik boʻlishi kerak.</li>\n" +
+                "<li>Til talabi:<br>&ndash; Ingliz tilida oʻqitiladigan dasturlarga ariza topshirmoqchi boʻlganlar ingliz tili darajasini isbotlovchi sertifikat (IELTS, TOEFL yoki boshqa) taqdim etishi kerak. Til sertifikatiga mininal ball talabi aniq koʻrsatilmagan, lekin kamida IELTS 6.0 yoki shunga teng boshqa til sertifikati taqdim etish tavsiya etiladi (tahririyat tavsiyasi).<br>&ndash; Xitoy tilida oʻqitiladigan dasturlarga topshiruvchi nomzodlar kamida HSK 4 sertifikatiga ega boʻlishi kerak. Yuqori maktab yoki universitetda xitoy tilida oʻqiganlar yoki ona tilisi xitoy tili boʻlganlar HSK sertifikatini topshirishdan ozod qilish haqida ariza berishi mumkin.</li>\n" +
+                "<li>Nomzod xalqaro talabalar uchun belgilangan qabul talablariga javob berishi kerak.</li>\n" +
+                "<li>Grantni qoʻlga kiritgan nomzodlar grant davri mobaynida boshqa grant olishi mumkin emas.</li>\n" +
+                "</ul>\n" +
+                "<h4>Dasturga qabul jarayoni:</h4>\n" +
+                "<p>Arizalar&nbsp;<em><strong>2024-yil 15-fevralgacha</strong></em>&nbsp;qabul qilinadi. Shu muddatgacha nomzod oliygohdagi magistratura/doktorantura dasturiga va grantga ariza hada hujjatlarni toʻliq topshirishi kerak. Nomzodlar grant darajalarining (Level A, B, C) bittasiga yoki barchasiga ariza topshirishi mumkin. Lekin nomzod faqat bitta darajadagi grant (eng mosi) bilan taqdirlanishi mumkin.</p>\n" +
+                "<p>Ariza topshirish uchun dastlab<a href=\"http://isa.ustc.edu.cn/xs/login_scho.asp?degree=1&amp;scholarship=0\" target=\"_blank\" rel=\"noopener\"><em><strong>&nbsp;onlayn ariza tizimida</strong>&nbsp;</em></a>hisob (akkaunt) yaratish lozim.</p>\n" +
+                "<p>Shundan soʻng onlayn arizada soʻralgan maʼlumotlar kiritiladi va kerakli hujjatlar yuklanadi.</p>\n" +
+                "</div>\n" +
+                "</div>");
+
+        dto4.setPrice(30000);
+        dto4.setStartDate(LocalDate.parse("2023-12-01"));
+        dto4.setExpiredDate(LocalDate.parse("2024-02-15"));
+        dto4.setUniversityId(13L);
+        List<UniversityDegreeType> degreeTypeList4 = new LinkedList<>();
+        degreeTypeList4.add(UniversityDegreeType.MasterDegree);
+        degreeTypeList4.add(UniversityDegreeType.Doctorate);
+        dto4.setDegreeTypeList(degreeTypeList4);
+        dto4.setPhotoId("72e3c5e5-ec1e-43a9-8ecc-d18df3ac6698");
+        scholarShipService.create(dto4);
+
+        //5-grant
+       ScholarShipRequestDTO dto5 = new ScholarShipRequestDTO();
+        dto5.setName("Woods Hole Oceanographic Institution (WHIO)");
+        dto5.setDescription("<p>Woods Hole Oceanographic Institution (WHIO) 1930-yilda AQSh&rsquo;ning Massachusets shtatida tashkil qilingan muassasa bo&rsquo;lib, asosan okeanografika va tabiiy fanlar kabi o&rsquo;quv dasturlarini o&rsquo;z ichiga qamrab oladi. Bu muassasa<em><strong>&nbsp;bakalavriat talabalari</strong></em>&nbsp;uchun stipendiyali yozgi tadqiqot dasturini taklif qiladi.</p>\n" +
+                "<p>Bu dastur davomidagi turli seminarlar va mashgʻulotlar okeanografik tadqiqotlarning koʻplab sohalari bilan tanishish imkonini beradi. Ishtirokchilar biriktirilgan xodimlar bilan birga muayyan tadqiqot loyihasini amalga oshiradi. Shuningdek, yozgi maʼruzalar, fan etikasi boʻyicha seminarda qatnashish talab etiladi. Bundan tashqari, tadqiqot natijalari haqida yozma hisobot topshirish ham soʻraladi. Dastur&nbsp;<em><strong>10-12 hafta</strong></em>&nbsp;davom etadi.</p>\n" +
+                "<p>Dasturga har yili&nbsp;<em><strong>25-30 nafar t</strong></em>alaba qabul qilinadi.</p>\n" +
+                "<p><em><strong>Tabiiy fanlar yoki muhandislik sohalarida,</strong>&nbsp;</em>jumladan, biologiya, kimyo, muhandislik, geologiya, geofizika, matematika, meteorologiya, fizika, okeanografiya va dengiz siyosati hamda shunga oʻxshash sohalarida tahsil olayotgan talabalar ushbu dasturga ariza topshirishi mumkin.</p>\n" +
+                "<p><strong>Loyiha tanlash.</strong>&nbsp;Stipendiyalar ilmiy yoki katta texnik xodimlarning rahbarligi ostida mustaqil tadqiqot loyihasini amalga oshirish uchun beriladi. Ushbu loyihalar odatda maslahatchi tomonidan taklif qilinadi va talaba va maslahatchi tomonidan birgalikda kelishib olinadi. Maslahatchilar talabaga bir yozgi ishda mazmunli natijalar berishi mumkin boʻlgan tadqiqot loyihasini tanlash va davom ettirishda yordam beradi. Ishtirokchilar 200 dan ortiq amaliy tadqiqotchi olimlar va muhandislar hamda yirik okeanografiya instituti ob&rsquo;ektlaridan foydalanish imkoniyatiga ega bo&rsquo;lgan tadqiqot loyihasini tanlash va davom ettirish uchun ajoyib imkoniyatga ega.</p>\n" +
+                "<p><strong>Tanishing:</strong></p>\n" +
+                "<ul>\n" +
+                "<li><a href=\"https://www.whoi.edu/what-we-do/educate/undergraduate-programs/summer-student-fellowship/ssf-academics/ssf-projects/\" target=\"_blank\" rel=\"noopener\">Oʻtgan yilgi loyihalar bilan tanishish uchun havola</a></li>\n" +
+                "<li>2024-yil uchun ehtimoliy loyihalar tez orada&nbsp;<a href=\"https://www.whoi.edu/what-we-do/educate/undergraduate-programs/summer-student-fellowship/ssf-program-overview/\" target=\"_blank\" rel=\"noopener\"><strong>BU YERDA</strong>&nbsp;</a>eʼlon qilinadi.</li>\n" +
+                "</ul>\n" +
+                "<p>Nomzodlarni WHOI assistentlari, dotsenti yoki katta olimi bilan bog&rsquo;lanib, ulardan maslahat olishlari tavsiya qilinadi (bu majburiy emas).</p>\n" +
+                "<p><strong>Nomzodlar quyidagi yoʻnalishlarga ariza topshirishlari mumkin:</strong></p>\n" +
+                "<ul>\n" +
+                "<li><a href=\"https://www.whoi.edu/what-we-do/understand/departments-centers-labs/aope/\">Applied Ocean Physics &amp; Engineering</a></li>\n" +
+                "<li><a href=\"https://www.whoi.edu/what-we-do/understand/departments-centers-labs/bio/\">Biology</a></li>\n" +
+                "<li><a href=\"https://www.whoi.edu/what-we-do/understand/departments-centers-labs/gg/\">Geology &amp; Geophysics</a></li>\n" +
+                "<li><a href=\"https://www.whoi.edu/what-we-do/understand/departments-centers-labs/mcg/\">Marine Chemistry &amp; Geochemistry</a></li>\n" +
+                "<li><a href=\"https://www.whoi.edu/what-we-do/understand/departments-centers-labs/mpc/\">Marine Policy Center</a></li>\n" +
+                "<li><a href=\"https://www.whoi.edu/what-we-do/understand/departments-centers-labs/po/\">Physical Oceanography</a></li>\n" +
+                "<li><a href=\"http://woodshole.er.usgs.gov/research.html\">USGS</a></li>\n" +
+                "</ul>");
+
+        dto5.setPrice(10000);
+        dto5.setStartDate(LocalDate.parse("2023-12-01"));
+        dto5.setExpiredDate(LocalDate.parse("2024-06-15"));
+        dto5.setUniversityId(12L);
+        List<UniversityDegreeType> degreeTypeList5 = new LinkedList<>();
+        degreeTypeList5.add(UniversityDegreeType.Bachelor);
+        dto5.setDegreeTypeList(degreeTypeList5);
+        dto5.setPhotoId("47d394cc-2c6c-45cc-a36e-577aad5d89f1");
+        scholarShipService.create(dto5);
+
+
+        //6-grant
+        ScholarShipRequestDTO dto6 = new ScholarShipRequestDTO();
+        dto6.setName("Oʻqish bepul universitetlar – Deep Springs kolleji (AQSH)");
+        dto6.setDescription("<ul>\n" +
+                "<li>\n" +
+                "<p>AQSHning Kaliforniya shtatida joylashgan&nbsp;<a href=\"https://www.deepsprings.edu/\" target=\"_blank\" rel=\"noopener noreferrer\">Deep Springs kolleji</a>&nbsp;1917-yilda tashkil topgan boʻlib, AQSHdagi eng kichik oliy taʼlim muassasasi hisoblanadi. Ushbu kollej har yili oʻrtacha&nbsp;<em><strong>14 nafar talabani</strong></em>&nbsp;oʻqishga qabul qiladi.</p>\n" +
+                "<p>Oliygohga qabul qilinganlarning barchasi avtomatik ravishda<em><strong>&nbsp;50 ming AQSH dollaridan koʻproq</strong></em>&nbsp;boʻlgan moddiy yordam bilan taʼminlanadi va bu mablagʻ&nbsp;<strong><em>taʼlim haqi, turar joy va oziq-ovqat xarajatlarini toʻliq qoplash</em>&nbsp;</strong>uchun&nbsp;<a href=\"https://www.deepsprings.edu/frequently-asked-questions/\" target=\"_blank\" rel=\"noopener\">yetarli.</a></p>\n" +
+                "<p>Biroq qabul qilinganlardan oʻz kitoblari, tibbiy sugʻurta, safar xarajatlari va shu kabi boshqa xarajatlarning taʼminoti uchun maʼlum summada&nbsp;<strong>depozit</strong>&nbsp;qoʻyish talab etiladi. Agar talaba iqtisodiy jihatdan depozitni qoʻyishga qodir boʻlmasa,&nbsp;<strong>depozit summasi ham universitet tomonidan qoplanishi mumkin.</strong></p>\n" +
+                "<p>Ushbu oliygohga&nbsp;<em><strong>faqatgina bakalavr bosqichida</strong></em>&nbsp;oʻqishni xohlovchilar topshirishi mumkin, magistratura bosqichi mavjud emas.</p>\n" +
+                "<p>Bu oliygohda oʻqish majburiy boʻlgan 3 ta kurs mavjud boʻlib, ular quyidagilar:</p>\n" +
+                "<ul>\n" +
+                "<li>Yozgi seminar</li>\n" +
+                "<li>Yozish kursi</li>\n" +
+                "<li>Omma oldida nutq soʻzlash</li>\n" +
+                "</ul>\n" +
+                "<p>Ushbu majburiy kurslar haqida batafsil&nbsp;<a href=\"https://www.deepsprings.edu/academics/#curriculum-structure\" target=\"_blank\" rel=\"noopener\"><strong>BU YERDA</strong></a>&nbsp;tanishing.</p>\n" +
+                "<p>Oʻqish davomida boshqa qanday kurslarni oʻqishni talabaning oʻzi tanlaydi. Kollejda oʻqish uchun ixtiyoriy tanlash mumkin boʻlgan gumanitar fanlar, ijtimoiy fanlar va tabiiy fanlar boʻyicha kurslar taklif etiladi.</p>\n" +
+                "<p><strong>Asosiy talablar quyidagilardan iborat:</strong><br>&ndash; Nomzod ingliz tilini bilish darajasini isbotlovchi sertifikatga ega boʻlishi lozim (kamida&nbsp;<strong>IELTS 6.0 ball</strong>&nbsp;yoki shunga teng boshqa xalqaro til&nbsp;<a href=\"https://www.deepsprings.edu/frequently-asked-questions/\" target=\"_blank\" rel=\"noopener\">sertifikati</a>).<br>&ndash; Nomzod ushbu oliygohga qabul qilinishi uchun avval&nbsp;<strong>bakalavriatni bitirmagan</strong>&nbsp;boʻlishi lozim. Bakalavriat bosqichida oʻqiyotganlar (hali bitirmaganlar) ham hujjat topshira oladi. Biroq ular qabul qilinsa, 1-kursdan oʻqishni boshlashadi.<br>&ndash; Nomzod ariza topshirish muhlati tugaguncha<strong>&nbsp;23 yoshdan katta boʻlmasligi</strong>&nbsp;kerak.<br>&ndash; Istalgan davlat fuqarolari hujjat topshirishi mumkin. Shuningdek, hujjat topshirishda millat, jins, ijtimoiy kelib chiqishga oid cheklovlar ham mavjud emas.</p>\n" +
+                "<p>Talablar haqida batafsil&nbsp;<a href=\"https://www.deepsprings.edu/apply-information/\" target=\"_blank\" rel=\"noopener noreferrer\"><strong>SHU YERDA</strong></a>&nbsp;tanishing.</p>\n" +
+                "<p>Hujjatlarni qabul qilish odatda har yili oktabr oyida boshlanib, noyabr oyining birinchi 10 kunligida yakunlanadi. Hujjatlar onlayn tarzda topshiriladi.</p>\n" +
+                "<p>Hujjat topshirish<strong>&nbsp;2 bosqichda</strong>&nbsp;amalga&nbsp;<a href=\"https://www.deepsprings.edu/admissions/\" target=\"_blank\" rel=\"noopener noreferrer\">oshiriladi.</a>&nbsp;<strong>1-bosqichda</strong>&nbsp;nomzodlardan bir nechta insho yozib topshirish soʻraladi. 2-bosqichga oʻtganlardan esa yana bir insho, tavsiyanomalar, baholarni topshirish soʻraladi. Shuningdek,&nbsp;<strong>2-bosqichga</strong>&nbsp;oʻtganlar Deep Springs kollejiga tashrif buyurishi, talabalar bilan biroz muddat ishlashi va darslarda qatnashib koʻrishi kerak. Yakunda ulardan intervyu olinadi va shu&nbsp;<strong>intervyudan muvaffaqiyatli</strong>&nbsp;oʻtganlar kollejga qabul qilinadi.</p>\n" +
+                "</li>\n" +
+                "</ul>");
+        dto6.setPrice(50000);
+        dto6.setStartDate(LocalDate.parse("2023-12-01"));
+        dto6.setExpiredDate(LocalDate.parse("2024-03-15"));
+        dto6.setUniversityId(11L);
+        List<UniversityDegreeType> degreeTypeList6 = new LinkedList<>();
+        degreeTypeList6.add(UniversityDegreeType.Bachelor);
+        dto6.setDegreeTypeList(degreeTypeList6);
+        dto6.setPhotoId("017d2b23-e6b9-4925-a72e-d4788de2206b");
+        scholarShipService.create(dto6);
+
+        //7-grant
+        ScholarShipRequestDTO dto7 = new ScholarShipRequestDTO();
+        dto7.setName("Germaniya: Magistraturada o’qish uchun to’liq grant va 750 yevro oylik stipendiya!");
+        dto7.setDescription("<ul>\n" +
+                "<li>\n" +
+                "<p>Deutsche Welle &ndash; Germaniyaning xalqaro axborot agentligi &lsquo;International Media Studies&rdquo; yo&rsquo;nalishi bo&rsquo;yicha xalqaro grant e&rsquo;lon qildi. Ushbu dastur maqsadi &ndash; jurnalistlik faoyliyati va xalqaro axborot almahinuvi sohaidagi iqtidorli yoshlarni qo&rsquo;llab quvvatlash.</p>\n" +
+                "<p><strong>O&rsquo;qish sohasi:</strong>&nbsp;Nomzodlarga faqat &ldquo;International Media Studies&rdquo; yo&rsquo;nalishi bo&rsquo;yicha grant taqdim etiladi. Bunda jurnalitlik faoliyatiga, ommaviy axborot vositalari, media menejmentiga qiziquvchilar hujjat topshirishi mumkin.</p>\n" +
+                "<p><strong>Qabul qilinishi mo&rsquo;ljallangan talabalar soni:</strong>&nbsp;Har yili ushbu grantga 10ta talaba qabul qilinadi.</p>\n" +
+                "<div>\n" +
+                "<h4>Grant kimlar uchun?</h4>\n" +
+                "<p>Magistrlik bosqichida o&rsquo;qishni xohlovchilar uchun</p>\n" +
+                "<h4>Batafsil ma'lumot uchun link</h4>\n" +
+                "<div><a href=\"https://diasgateway2.h-brs.de/d3/dwf.asp?FID=0x9B876A3A801CED459EFBF719CDC7669E&amp;DWLink=1\" target=\"_blank\" rel=\"noopener\">Ariza topshirish</a>&nbsp;&nbsp;&nbsp;<a href=\"https://www.daad.or.ke/en/university-ads/master-s-program-international-media-studies-apply-now/\" target=\"_blank\" rel=\"noopener\">Rasmiy havola</a></div>\n" +
+                "<h4>Grantning manfaatli jihatlari:</h4>\n" +
+                "<p>Grantni qo&rsquo;lga kiritgan nomzod quyidagi iqtisodiy imkoniyatlar bilan ta&rsquo;minlanadi:</p>\n" +
+                "<p>&ndash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Germaniyaga aviachiptalar xarajati qoplanadi;</p>\n" +
+                "<p>&ndash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kontrakt puli qoplab beriladi;</p>\n" +
+                "<p>&ndash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oyiga 750 yevro stipendiya bilan ta&rsquo;minlanadi.</p>\n" +
+                "<p>Agarda siz to&rsquo;liq grant uchun belgilangan shartlarga mos kelmasangiz qisman qoplanadigan grantga topshirishingiz mumkin. Bunda faqat sizning kontrakt pulingiz (6000 yevro) qoplab beriladi. Oylik stipendiya va aviabilet mavjud emas.</p>\n" +
+                "<h4>Talablar:</h4>\n" +
+                "<p>&ndash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nomzod bakalavrlik diplomiga ega bo&rsquo;lishi lozim;</p>\n" +
+                "<p>&ndash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To&rsquo;liq grant uchun nomzod 2 yillik, qisman qoplanadigan grant uchun 1 yillik mediaga aloqador tajribaga ega bo&rsquo;lishi kerak;</p>\n" +
+                "<p>&ndash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ingliz tilini bilish darajasini belgilovchi hujjatga ega bo&rsquo;lishi kerak (TOEFL IBT: score of 83 or higher, IELTS: score of 6.5 or higher, BULATS: score of 70 or higher, APIEL at least Level 3);</p>\n" +
+                "<p>&ndash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nemis tilini ham bilishi va bu tilni bilish darajasini isbotlovchi hujjatga ega bo&rsquo;lishi kerak (TestDaF at least level TDN 3 in all four parts of the examination, Goethe Zertifikat at least level B2 or DSH at least level 1). Darslar ingliz va nemis tilida bo&rsquo;ladi.</p>\n" +
+                "<h4>Dasturga qabul jarayoni:</h4>\n" +
+                "<p>Ariza va boshqa hujjatlar onlayn tarzda topshiriladi.</p>\n" +
+                "<p><strong>Topshiriladigan hujjatlar ro&rsquo;yxati:</strong>&nbsp;Quyidagi hujjatlar onlayn tarzda to&rsquo;ldiriladigan arizaga ilova qilinishi lozim:</p>\n" +
+                "<p>&ndash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Motivatsiya xati (imzolangan va sanasi qo&rsquo;yilgan holda).</p>\n" +
+                "<p>&ndash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CV (imzolangan va sanasi qo&rsquo;yilgan holda).</p>\n" +
+                "<p>&ndash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bakalavrlik diploma va uning ilovasi.</p>\n" +
+                "<p>&ndash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To&rsquo;liq grant uchun 2 yillik, qisman grant uchun 1 yillik ish tajribasini ibotlovchi hujjat (bu tajriba bakalavrlik bosqichi tugatgan to&rsquo;plangan bo&rsquo;lishi kerak).</p>\n" +
+                "<p>&ndash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ingliz tilini bilish darajasini belgilovchi hujjat (TOEFL IBT: score of 83 or higher, IELTS: score of 6.5 or higher, BULATS: score of 70 or higher, APIEL at least Level 3).</p>\n" +
+                "<p>&ndash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nemis tilini bilish darajasini isbotlovchi hujjatga ega bo&rsquo;lishi kerak (TestDaF at least level TDN 3 in all four parts of the examination, Goethe Zertifikat at least level B2 or DSH at least level 1).</p>\n" +
+                "<p>&ndash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pastport nuxasi.</p>\n" +
+                "<h4>Grant e'lon qilgan tashkilot:</h4>\n" +
+                "Deutsche Welle</div>\n" +
+                "</li>\n" +
+                "</ul>");
+        dto7.setPrice(9000);
+        dto7.setStartDate(LocalDate.parse("2023-12-01"));
+        dto7.setExpiredDate(LocalDate.parse("2024-05-01"));
+        dto7.setUniversityId(10L);
+        List<UniversityDegreeType> degreeTypeList7 = new LinkedList<>();
+        degreeTypeList7.add(UniversityDegreeType.Bachelor);
+        degreeTypeList7.add(UniversityDegreeType.MasterDegree);
+        dto7.setDegreeTypeList(degreeTypeList7);
+        dto7.setPhotoId("da510cb9-698e-4ea8-810c-557cfebcad16");
+        scholarShipService.create(dto7);
+
+
+        //8-grant
+        ScholarShipRequestDTO dto8 = new ScholarShipRequestDTO();
+        dto8.setName("Gates Cambridge Scholarships: Britaniyada bakalavriatdan keyingi bosqichlarda oʻqish uchun toʻliq grant va yillik stipendiya!");
+        dto8.setDescription("<ul>\n" +
+                "<li>\n" +
+                "<p><a href=\"http://www.gatescambridge.org/\" target=\"_blank\" rel=\"noopener\"><em>Gates Cambridge Scholarships</em></a>&nbsp;dasturi milliarder Bill Geyts va uning sobiq rafiqasi Melinda Geyts tomonidan tashkil etilgan boʻlib, butun dunyo mamlakatlarida boʻlgan, Britaniydagi&nbsp;<a href=\"https://www.cam.ac.uk/\" target=\"_blank\" rel=\"noopener\"><em>Kembrij universitetining</em></a>&nbsp;bakalavriatdan keyingi bosqichlarida tahsil olish va tadqiqot olib borishni xohlovchi nomzodlarga toʻliq grantlarni taqdim etadi.</p>\n" +
+                "<p>Mazkur dastur har yili<strong><em>&nbsp;80 nafar&nbsp;</em></strong>nomzodga (25 nafar AQSH, 55 nafari dunyoning Britaniya va AQSHdan boshqa davlatlari fuqarolariga) grant taqdim etadi.</p>\n" +
+                "<p>Grantlar<a href=\"https://www.cam.ac.uk/\" target=\"_blank\" rel=\"noopener\"><em>&nbsp;Kembrij universiteti</em>&nbsp;</a>taklif etadigan istalgan yoʻnalish boʻyicha&nbsp;<strong><em>PhD</em></strong>&nbsp;(doktorantura),&nbsp;<em><strong>MLitt</strong></em>&nbsp;(magistratura) yoki&nbsp;<em><strong>bir yil davom etadigan aspirantura</strong>&nbsp;</em>kurslariga oʻqishga qabul qilinganlar uchun taqdim etiladi. Bu yilgi qabul&nbsp;<strong><em>2024-yildan</em></strong>&nbsp;boshlanadigan oʻqish uchun boʻladi.</p>\n" +
+                "<p><strong>Maʼlumot uchun:</strong>&nbsp;Kembrij universiteti dunyoning eng nufuzli oliygohlaridan biridir. Jumladan, ushbu universitet 2023-yil avgust oyi holatiga koʻra, dunyodagi eng yaxshi universitetlar roʻyxatida&nbsp;<strong><em>2-oʻrinni</em>&nbsp;</strong>egallab&nbsp;<a href=\"https://www.topuniversities.com/universities/university-cambridge/more\" target=\"_blank\" rel=\"noopener\">turibdi</a>&nbsp;(QS reytinggi boʻyicha).</p>\n" +
+                "<div>\n" +
+                "<h4>Grant kimlar uchun?</h4>\n" +
+                "<p>Bakalavriatdan keyingi bosqichlarda oʻqishni xohlovchilar uchun</p>\n" +
+                "<h4>Batafsil ma'lumot uchun link</h4>\n" +
+                "<div>&nbsp;&nbsp;<a href=\"http://www.gatescambridge.org/\" target=\"_blank\" rel=\"noopener\">Rasmiy havola</a></div>\n" +
+                "<h4>Grantning manfaatli jihatlari:</h4>\n" +
+                "<p>Mazkur grantni qoʻlga kiritganlar quyidagi imkoniyatlar bilan&nbsp;<a href=\"https://www.gatescambridge.org/programme/the-scholarship/\" target=\"_blank\" rel=\"noopener\">taʼminlanadi:</a></p>\n" +
+                "<ul>\n" +
+                "<li>Kembrij universitetida oʻqish puli (tuition fee) toʻliq qoplanadi.</li>\n" +
+                "<li>Yashash xarajatlari uchun yillik stipendiya bilan taʼminlanadi. 2023-2024-oʻquv yili uchun bu stipendiya miqdori 12 oy uchun 20 000 funt-sterling etib belgilangan. 2024-2025-oʻquv yilda bu miqdor bir oz oʻzarishi mumkin.</li>\n" +
+                "<li>Dastur boshlanishi va tugashida ekonom-klass aviachipta olib beriladi (faqat nomzodning oʻziga, oila aʼzolari boʻlsa, ularga olib berilmaydi).</li>\n" +
+                "<li>Kiruvchi viza xarajatlari va immigratsion tibbiy yigʻim toʻlovi qoplab beriladi.</li>\n" +
+                "</ul>\n" +
+                "<p>Shuningdek, dastur gʻoliblarga quyidagi turdagi imtiyozlarni berish masalasini ham koʻrib chiqadi:</p>\n" +
+                "<ul>\n" +
+                "<li>Oʻqish davomiyligi va qatnashiladigan seminar hamda konferensiyalarga qarab, 500-2000 funt-sterling miqdoridagi mablagʻ.</li>\n" +
+                "<li>Oila aʼzolari uchun yordam puli &ndash;&nbsp; bir nafar farzand uchun yiliga 11 604 funt-sterling, 2 nafar yoki undan kop farzand uchun yiliga 16 548 funt-sterlingacha yordam puli (2023-2024-oʻquv yili kursi boʻyicha). Turmush oʻrtoq uchun mablagʻ ajratilmaydi.</li>\n" +
+                "<li>Onalik/otalik uchun mablagʻ &ndash; agar onalik yoki otalik qilish uchun zarur boʻlsa, oʻqishingizni 6 oygacha toʻxtatib turish va shu toʻxtatilgan davr ichida stipendiya olishda davom etish uchun ariza berish mumkin.</li>\n" +
+                "<li>Kutilmagan qiyinchiliklar tugʻilganda qiyinchiliklar yuzasidan moliyaviy yordam uchun ariza topshirish ham mumkin.</li>\n" +
+                "</ul>\n" +
+                "<h4>Talablar:</h4>\n" +
+                "<p>Bu grantga ariza bera olishi uchun nomzodlar quyidagi<a href=\"https://www.gatescambridge.org/apply/eligibility/\" target=\"_blank\" rel=\"noopener\">&nbsp;talablarga</a>&nbsp;mos boʻlishi kerak:</p>\n" +
+                "<ul>\n" +
+                "<li>Birlashgan Qirollikdan (UK) boshqa barcha davlat fuqarolari bu grantga topshira oladi.</li>\n" +
+                "<li>Nomzod Kembrij universitetidagi quyidagi kurslardan biriga ariza topshirishi kerak:<br>&ndash; PhD (full-time yoki part time).<br>&ndash; MLitt magistratura kurslari (full-time).<br>&ndash; 1 yillik aspirantura.magistratura kurslari (bunda ayrim istisnolar bor, keyingi talabga qarang).</li>\n" +
+                "<li>Kembrij universiteti taklif etadigan quyidagi darajalarga (kurslarga) ariza topshirayotganlar uchun grantga hujjat&nbsp;<strong>topshira olmaydi:<br></strong>&ndash; Bakalavriat darajasi;<br>&ndash; Business Doctorate (BusD) darajasi;<br>&ndash; Master of Business (MBA) darajasi;<br>&ndash; Master of Finance (MFin) darajasi;<br>&ndash; MASt kurslari;<br>&ndash; PGCE darajasi;<br>&ndash; MBBChir Clinical Studies darajasi;<br>&ndash; MD Doctor of Medicine darajasi (6 yil, sirtqi taʼliim);<br>&ndash; Graduate Course in Medicine (A101) darajasi;<br>&ndash; Sirtqi taʼlim (part-tima) kurslar (PhD kurslari bundan mustasno);<br>&ndash; Daraja bermaydigan kurslar.</li>\n" +
+                "</ul>\n" +
+                "<p>Ushbu grant uchun nomzodlarni saralab olish mezonlari bilan&nbsp;<a href=\"https://www.gatescambridge.org/apply/criteria/\" target=\"_blank\" rel=\"noopener\"><strong>BU YERDA</strong></a>&nbsp;tanishishingiz mumkin.</p>\n" +
+                "<p>Shuningdek, Kembrij universitetining ham oʻz qabul talablari mavjud va bu talablar tanlangan bosqich hamda yoʻnalishga qarab farq qilishi mumkin. Nomzod oʻzi tanlagan bosqich va yoʻnalishning qabul talablariga ham mos boʻlishi lozim.</p>\n" +
+                "</div>\n" +
+                "</li>\n" +
+                "</ul>");
+        dto8.setPrice(30000);
+        dto8.setStartDate(LocalDate.parse("2023-12-01"));
+        dto8.setExpiredDate(LocalDate.parse("2024-06-01"));
+        dto8.setUniversityId(9L);
+        List<UniversityDegreeType> degreeTypeList8 = new LinkedList<>();
+        degreeTypeList8.add(UniversityDegreeType.Doctorate);
+        degreeTypeList8.add(UniversityDegreeType.MasterDegree);
+        dto8.setDegreeTypeList(degreeTypeList8);
+        dto8.setPhotoId("2380e8fd-2a07-439a-a048-ac7d2104c542");
+        scholarShipService.create(dto8);
+
+        //9-grant
+        //9-grant
+        ScholarShipRequestDTO dto9   = new ScholarShipRequestDTO();
+        dto9.setName("Leiden University Excellence Scholarship: Gollandiyada magistraturani oʻqish uchun qisman grantlar");
+        dto9.setDescription("<ul>\n" +
+                "<li>\n" +
+                "<p>Niderlandiyada joshlashgan&nbsp;<a href=\"https://www.universiteitleiden.nl/en\" target=\"_blank\" rel=\"noopener\">Leiden University&nbsp;</a>2024-yil 1-sentabrdan boshlanadigan magistratura kurslari uchun ajratilgan&nbsp;<strong><em>Leiden University Excellence Scholarship (LExS)</em></strong>&nbsp;grantiga nomzodlardan arizalar qabul qilmoqda. Grantlar Yevropa Ittifoqi yoki Yevropa erkin iqtisodiy zonasiga kirmaydigan davlatlardan boʻlgan nomzodlarga taqdim etiladi.</p>\n" +
+                "<p>Bu grant universitetdagi deyarli barcha&nbsp;<a href=\"https://www.universiteitleiden.nl/en/education/study-programmes?type=master\" target=\"_blank\" rel=\"noopener\">magistrlik dasturlari</a>&nbsp;uchun taqdim etiladi. Faqat quyidagi dasuralar uchun ushbu grant&nbsp;<strong>ajratilmaydi:</strong></p>\n" +
+                "<ul>\n" +
+                "<li>Non-advanced LLM dasturi;</li>\n" +
+                "<li>Quyidagi fakultetlarga qarashli magistrlik dasturlari uchun: the Faculty of Humanities, the Faculty of Sciences va Leiden Law School. Mavjud barcha fakultetlar bilan&nbsp;<a href=\"https://www.universiteitleiden.nl/en/about-us/management-and-organisation/faculties\" target=\"_blank\" rel=\"noopener\"><strong>BU YERDA</strong></a>&nbsp;tanishing.</li>\n" +
+                "</ul>\n" +
+                "<p>Leiden Universitetidagi barcha magistratura kurslari haqida batafsil ma&rsquo;lumot&nbsp;<strong><em><a href=\"https://www.universiteitleiden.nl/en/education/study-programmes?pageNumber=1&amp;type=master\" target=\"_blank\" rel=\"noopener\">shu yerda</a></em></strong><strong>.</strong></p>\n" +
+                "<p><strong>Maʼlumot uchun:</strong>&nbsp;Leiden universiteti dunyoning eng nufuzli oliygohlaridan biridir. 2023-yil mart oyi holatiga koʻra, mazkur universitet dunyodagi eng kuchli oliygohlar roʻyxatida&nbsp;<strong>77-oʻrinni</strong>&nbsp;egallab&nbsp;<a href=\"https://www.timeshighereducation.com/world-university-rankings/leiden-university\" target=\"_blank\" rel=\"noopener\">turibdi</a>&nbsp;(THE reytinggi boʻyicha).</p>\n" +
+                "<div>\n" +
+                "<h4>Grant kimlar uchun?</h4>\n" +
+                "<p>Magistratura bosqichida oʻqishni xohlovchilar uchun</p>\n" +
+                "<h4>Batafsil ma'lumot uchun link</h4>\n" +
+                "<div>&nbsp;&nbsp;<a href=\"https://www.universiteitleiden.nl/en/scholarships/sea/leiden-university-excellence-scholarship-lexs\" target=\"_blank\" rel=\"noopener\">Rasmiy havola</a></div>\n" +
+                "<h4>Grantning manfaatli jihatlari:</h4>\n" +
+                "<p>LExS grantini yutgan talabaga uning oʻqishi tugagunga qadar kontrakt summasidan quyidagicha chegirma qilinishi mumkin:</p>\n" +
+                "<ol>\n" +
+                "<li>Kontrakt summasidan 10 000 yevro chegirma.</li>\n" +
+                "<li>Kontrakt summasidan 15 000 yevro chegirma.</li>\n" +
+                "<li>Kontrakt summasidan<a href=\"https://www.universiteitleiden.nl/en/education/admission-and-application/masters/tuition-fee\" target=\"_blank\" rel=\"noopener\">&nbsp;statut kontrak summasi</a>&nbsp;miqdori chegirma qilinadi. Statut kontrakt &ndash; bu Yevropa Ittifoqi yoki Yevropa erkin iqtisodiy zonasiga kiradigan davlatlar fuqarolari toʻlaydigan kontrakt summasi boʻlib, 2023-yil mart oyi holatiga koʻra, uning miqdori yiliga 2314 yevroni tashkil qiladi.</li>\n" +
+                "</ol>\n" +
+                "<p>Leiden Universiteti kontraktlar summalari bilan batafsil tanishish&nbsp;<strong><em><a href=\"https://www.universiteitleiden.nl/en/education/admission-and-application/masters/tuition-fee#institutional-tuition-fee-for-students-who-are-not-nationals-of-an-eea-country-suriname-or-switzerland\" target=\"_blank\" rel=\"noopener\">bu yerga</a></em></strong>&nbsp;kiring.</p>\n" +
+                "<h4>Talablar:</h4>\n" +
+                "<p>Nomzod quyidagi talablarga mos boʻlishi kerak:</p>\n" +
+                "<ul>\n" +
+                "<li>Nomzod Yevropa Ittifoqi yoki Yevropa erkin iqtisodiy zonasiga kirmaydigan davlatlardan birining fuqarosi boʻlishi kerak.</li>\n" +
+                "<li>Nomzodning bakalavriatda oʻqigan sohasi oʻzi topshirayotgan magistrlik sohasiga aloqador boʻlishi kerak.</li>\n" +
+                "<li>Grant aʼlochi nomzodlarga taqdim qilinadi.</li>\n" +
+                "<li>Nomzod Leiden Universiteti magistratura kurslarida ilgari oʻqimagan boʻlishi kerak.</li>\n" +
+                "<li>Nomzod Leiden Universitetidan toʻliq yoki qisman, shuningdek, boshqa manbalardan boshqa toʻliq grant olmayotgan boʻlishi kerak.</li>\n" +
+                "<li>Nomzod Leiden universitetidagi tegishli&nbsp;<a href=\"https://www.universiteitleiden.nl/en/education/study-programmes?type=master\" target=\"_blank\" rel=\"noopener\">magistrlik kurslaridan</a>&nbsp;biriga qabul qilinishi kerak.</li>\n" +
+                "<li>Nomzod tanlagan magistrlik dasturidagi til talablariga mos boʻlishi kerak. Talab yoʻnalishlarga qarab farq qiladi (IELTS 6.5 balldan IELTS 7.5 ballgacha talab etilishi mumkin).</li>\n" +
+                "</ul>\n" +
+                "<p>Magistrlik kurslariga qoʻyilgan talablari bilan&nbsp;<a href=\"https://www.universiteitleiden.nl/en/education/study-programmes?type=master\" target=\"_blank\" rel=\"noopener\"><strong>BU YERDA</strong></a>&nbsp;kerakli kursni tanlash orqali tanishib chiqishingiz mumkin.</p>\n" +
+                "</div>\n" +
+                "</li>\n" +
+                "</ul>");
+        dto9.setPrice(15000);
+        dto9.setStartDate(LocalDate.parse("2023-12-01"));
+        dto9.setExpiredDate(LocalDate.parse("2024-02-01"));
+        dto9.setUniversityId(8L);
+        List<UniversityDegreeType> degreeTypeList9 = new LinkedList<>();
+        degreeTypeList9.add(UniversityDegreeType.Doctorate);
+        degreeTypeList9.add(UniversityDegreeType.MasterDegree);
+        dto9.setDegreeTypeList(degreeTypeList9);
+        dto9.setPhotoId("11a54f01-a917-4594-98d6-7aee903871b3");
+        scholarShipService.create(dto9);
+
+        //10-grant
+        ScholarShipRequestDTO dto10 = new ScholarShipRequestDTO();
+        dto10.setName("Yevropada iqtisod bo’yicha Erasmus Mundus EGEI magistratura kursi: bepul o’qish va 1000 yevro oylik stipendiya!");
+        dto10.setDescription("<ul>\n" +
+                "<li>\n" +
+                "<p>Bitta magistratura kursi davomida Yevropaning bir nechta davlatlari va universitetlarida o&rsquo;qish imkonini beruvchi Erasmus Mundus qo&rsquo;shma magistratura dasturlaridan biri &ndash;&nbsp;<strong><em>Erasmus Mundus Joint Master in Economics of Globalisation and European Integration</em></strong>&nbsp;<strong><em>(EGEI)</em></strong>&nbsp;dasturiga va shu dastur talabalari uchun ajratilgan to&rsquo;liq grantga arizalar qabul qilinmoqda. Ushbu magistratura dasturi iqtisod yo&rsquo;nalishiga ixtisoslashgan va 2 yil (4 semestr) davomida ingliz tilida o&rsquo;qitiladi. Dastur Yevropadagi 8 universitetining o&rsquo;zaro hamkorligida tashkil qilingan bo&rsquo;lib, talabalarga shu universitetlarning malakali o&rsquo;qituvchilari hamda boshqa oliy ta&rsquo;lim muassasalardan tashrif buyurgan mutaxassislar dars beradi. 4 semestr o&rsquo;qish davomida talabalar Yevropadagi 3 xil davlatda joylashgan 3 ta universitetda o&rsquo;qiydi. Talabaning xohishiga ko&rsquo;ra, ko&rsquo;proq universitetlarda o&rsquo;qish ham mumkin. Dasturda quyidagi universitetlar qatnashadi:</p>\n" +
+                "<ul>\n" +
+                "<li><em>Xiamen University &ndash; Xitoy</em></li>\n" +
+                "<li><em>University of Bari &ndash; Italiya</em></li>\n" +
+                "<li><em>Ghent University &ndash; Belgiya</em></li>\n" +
+                "<li><em>Centre for European Policy Studies (CEPS) &ndash; Belgiya</em></li>\n" +
+                "<li><em>University of Bari Aldo Moro &ndash; Italiya</em></li>\n" +
+                "<li><em>University of Cantabria &ndash; Ispaniya</em></li>\n" +
+                "<li><em>Tartu University &ndash; Estoniya</em></li>\n" +
+                "<li><em>Universidad Tecnica Federico Santa Maria &ndash; Chili</em></li>\n" +
+                "</ul>\n" +
+                "<p>Magistrlik dasturining tuzilishi, qaysi semestrni qaysi davlatda oʻqish mumkinligi va fanlar ro&rsquo;yxati bilan&nbsp;<strong><em><a href=\"https://www.master-egei.eu/programme-and-mobility/\" target=\"_blank\" rel=\"noopener\">bu yerda</a></em></strong>&nbsp;tanishing.</p>\n" +
+                "<p>Oʻqish 2023-yil sentabr oyi oʻrtalarida boshlanadi.</p>\n" +
+                "<div>\n" +
+                "<h4>Grant kimlar uchun?</h4>\n" +
+                "<p>Magistratura kursida o&rsquo;qishni xohlovchilar uchun</p>\n" +
+                "<h4>Batafsil ma'lumot uchun link</h4>\n" +
+                "<div>&nbsp;&nbsp;<a href=\"https://www.master-egei.eu/how-to-apply/\" target=\"_blank\" rel=\"noopener\">Rasmiy havola</a></div>\n" +
+                "<h4>Grantning manfaatli jihatlari:</h4>\n" +
+                "<p>Grantni qoʻlga kiritgan oʻzbekistonlik talabalar quyidagi iqtisodiy imtiyozlarga ega&nbsp;<a href=\"https://www.master-egei.eu/scholarships/\" target=\"_blank\" rel=\"noopener\">boʻladi:</a></p>\n" +
+                "<ol>\n" +
+                "<li>Kontrakt to&rsquo;lovi va o&rsquo;qish bilan bogʻliq bosha to&rsquo;lovlar toʻliq qoplab beriladi.</li>\n" +
+                "<li>Talabaga har oy 1000 yevro stipendiya beriladi.</li>\n" +
+                "<li>Safar xarajatlari uchun yiliga 3000 yevro mablagʻ beriladi.</li>\n" +
+                "<li>Oʻqish boshida joylashib olish uchun 1000 yevro mablagʻ beriladi.</li>\n" +
+                "</ol>\n" +
+                "<p>Dasturda kontrakt asosida ham o&rsquo;qishni ham tanlashingiz mumkin. Kontrakt miqdori yiliga 8000 yevroni tashkil qiladi, o&rsquo;qish 2 yil bo&rsquo;ladi.</p>\n" +
+                "</div>\n" +
+                "</li>\n" +
+                "</ul>");
+        dto10.setPrice(8000);
+        dto10.setStartDate(LocalDate.parse("2023-12-01"));
+        dto10.setExpiredDate(LocalDate.parse("2024-07-01"));
+        dto10.setUniversityId(7L);
+        List<UniversityDegreeType> degreeTypeList10 = new LinkedList<>();
+        degreeTypeList10.add(UniversityDegreeType.Doctorate);
+        degreeTypeList10.add(UniversityDegreeType.Bachelor);
+        degreeTypeList10.add(UniversityDegreeType.MasterDegree);
+        dto10.setDegreeTypeList(degreeTypeList10);
+        dto10.setPhotoId("068d9e8c-6bd7-4b99-9c1a-c5d6fac047f3");
+        scholarShipService.create(dto10);
+
     }
 
 
