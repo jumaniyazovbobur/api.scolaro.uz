@@ -447,6 +447,16 @@ public class AppApplicationFilterRepository {
             params.put("consultingProfileId", consultingProfileId);
         }
 
+        if (filter.getStatus() != null && !filter.getStatus().equals(AppStatus.ALL)) {
+            stringBuilder.append(" and aa.status =:status ");
+            params.put("status", filter.getStatus());
+        }
+
+       /* if (filter.getApplicationStepLevelStatus() != null) {
+            stringBuilder.append(" and aa.status =:status ");
+            params.put("status", filter.getStatus());
+        }*/
+
         StringBuilder selectBuilder = new StringBuilder(
                 "SELECT aa.id as applicationId, " +
                         "(select order_number from consulting_step_level where id = aa.consulting_step_level_id) as stepLevelOrderNumber, " +
@@ -459,8 +469,10 @@ public class AppApplicationFilterRepository {
         selectBuilder.append(stringBuilder);
 
 
-        StringBuilder countBuilder = new StringBuilder("select count(*) from app_application aa  " +
-                "where aa.consulting_id =:consultingId and aa.university_id=:universityId " +
+        StringBuilder countBuilder = new StringBuilder("select count(*) " +
+                " from app_application aa  " +
+                " inner join profile as p on p.id = aa.student_id " +
+                " where aa.consulting_id =:consultingId and aa.university_id=:universityId " +
                 "  and aa.visible = true ");
         countBuilder.append(stringBuilder);
 

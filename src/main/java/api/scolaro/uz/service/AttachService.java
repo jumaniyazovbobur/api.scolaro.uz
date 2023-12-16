@@ -1,6 +1,7 @@
 package api.scolaro.uz.service;
 
 import api.scolaro.uz.config.details.EntityDetails;
+import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.appApplication.AppApplicationLevelAttachDTO;
 import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.dto.attach.AttachResponseDTO;
@@ -88,9 +89,10 @@ public class AttachService {
 
     }
 
-    public AppApplicationLevelAttachDTO createApplicationLevelAttach(MultipartFile file, String stepLevelId, AttachType attachType) {
+    public ApiResponse<AppApplicationLevelAttachDTO> createApplicationLevelAttach(MultipartFile file, String stepLevelId, AttachType attachType) {
         AttachDTO dto = upload(file); // Upload file
-        return applicationLevelAttachService.createAppLevelAttach(stepLevelId, dto, attachType); // save application level attach
+        AppApplicationLevelAttachDTO applicationLevelAttachDTO = applicationLevelAttachService.createAppLevelAttach(stepLevelId, dto, attachType); // save application level attach
+        return ApiResponse.ok(applicationLevelAttachDTO);
     }
 
     public byte[] open_general(String fileName) {

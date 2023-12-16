@@ -120,6 +120,7 @@ public class AppApplicationService {
         }
 
         AppApplicationEntity entity = optional.get();
+        String requestedUserId = EntityDetails.getCurrentUserId();
         String consultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
 
         List<String> roleList = Objects.requireNonNull(EntityDetails.getCurrentUserDetail())
@@ -127,8 +128,8 @@ public class AppApplicationService {
                 .stream()
                 .map(SimpleGrantedAuthority::getAuthority)
                 .toList();
-        if (EntityDetails.hasRole(RoleEnum.ROLE_STUDENT, roleList) && !consultingId.equals(entity.getStudentId())) {
-            log.info("Profile do not have access to this application {} profileId {}", id, consultingId);
+        if (EntityDetails.hasRole(RoleEnum.ROLE_STUDENT, roleList) && !requestedUserId.equals(entity.getStudentId())) {
+            log.info("Profile do not have access to this application {} profileId {}", id, requestedUserId);
             return ApiResponse.forbidden("Your access denied for this Application!");
         } else if (EntityDetails.hasRole(RoleEnum.ROLE_CONSULTING, roleList) && !consultingId.equals(entity.getConsultingId())) {
             log.info("Consulting do not have access to this application {} consulting {}", id, consultingId);
