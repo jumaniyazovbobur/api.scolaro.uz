@@ -33,6 +33,11 @@ public class SimpleMessageEntity extends BaseEntity{
     private ConsultingEntity consulting;
     @Column(name = "consulting_id")
     private String consultingId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "consulting_profile_id", insertable = false, updatable = false)
+    private ConsultingEntity consultingProfile;
+    @Column(name = "consulting_profile_id")
+    private String consultingProfileId;
     @Column(name = "is_student_read")
     private Boolean isStudentRead=Boolean.FALSE;
     @Column(name = "is_consulting_read")

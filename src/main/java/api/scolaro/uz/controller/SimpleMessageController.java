@@ -46,10 +46,10 @@ public class SimpleMessageController {
     @Operation(summary = "Get massage list by application id", description = "Method user for get messageList by application Id")
     @GetMapping("/application/{applicationId}")
     public ResponseEntity<ApiResponse<Page<SimpleMessageMapperDTO>>> getListByApplicationId(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                                                                       @RequestParam(value = "size", defaultValue = "5") Integer size,
-                                                                       @PathVariable String applicationId) {
+                                                                                            @RequestParam(value = "size", defaultValue = "5") Integer size,
+                                                                                            @PathVariable String applicationId) {
         log.info("get list by applicationId {}", applicationId);
-        return ResponseEntity.ok(simpleMessageService.getListByAppApplicationId(applicationId,page,size));
+        return ResponseEntity.ok(simpleMessageService.getListByAppApplicationId(applicationId, page, size));
     }
 
     @PreAuthorize("hasAnyRole('ROLE_STUDENT')")

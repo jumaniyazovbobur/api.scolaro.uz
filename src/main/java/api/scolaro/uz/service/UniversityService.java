@@ -33,8 +33,10 @@ import java.util.List;
 @Service
 public class UniversityService {
     private final UniversityRepository universityRepository;
-    private final UniversityCustomRepository customRepository;
-    private final AttachService attachService;
+    @Autowired
+    private  UniversityCustomRepository customRepository;
+    @Autowired
+    private  AttachService attachService;
     private final UniversityDegreeService universityDegreeService;
     private final CountryService countryService;
     private final UniversityFacultyService universityFacultyService;

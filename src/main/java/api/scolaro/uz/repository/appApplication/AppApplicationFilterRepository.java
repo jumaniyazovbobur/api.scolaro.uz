@@ -449,7 +449,7 @@ public class AppApplicationFilterRepository {
 
         if (filter.getStatus() != null && !filter.getStatus().equals(AppStatus.ALL)) {
             stringBuilder.append(" and aa.status =:status ");
-            params.put("status", filter.getStatus());
+            params.put("status", filter.getStatus().name());
         }
 
        /* if (filter.getApplicationStepLevelStatus() != null) {

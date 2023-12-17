@@ -47,6 +47,22 @@ public class AttachController {
         return ResponseEntity.ok(attachService.createApplicationLevelAttach(file, stepLevelId, attachType));
     }
 
+    @PostMapping("/upload/simp-message/consulting")
+    @Operation(summary = "upload file to simple-message as consulting", description = "")
+    public ResponseEntity<ApiResponse<String>> createSimpleMessageAttachAsConsulting(@RequestParam("file") MultipartFile file,
+                                                                         @RequestParam("applicationId") String applicationId) {
+        log.info("simple message attach as consulting  = {}", file.getOriginalFilename());
+        return ResponseEntity.ok(attachService.createSimpleMessageAttachAsConsulting(file, applicationId));
+    }
+
+    @PostMapping("/upload/simp-message/student")
+    @Operation(summary = "upload file to simple-message as student", description = "")
+    public ResponseEntity<ApiResponse<String>> createSimpleMessageAttachAsStudent(@RequestParam("file") MultipartFile file,
+                                                                         @RequestParam("applicationId") String applicationId) {
+        log.info("simple message attach  as student = {}", file.getOriginalFilename());
+        return ResponseEntity.ok(attachService.createSimpleMessageAttachAsStudent(file, applicationId));
+    }
+
     /**
      * PUBLIC
      */

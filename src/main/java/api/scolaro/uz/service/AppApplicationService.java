@@ -16,6 +16,7 @@ import api.scolaro.uz.repository.appApplication.AppApplicationRepository;
 import api.scolaro.uz.service.consulting.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -32,16 +33,26 @@ import java.util.Optional;
 @Slf4j
 public class AppApplicationService {
 
-    private final ConsultingService consultingService;
-    private final UniversityService universityService;
-    private final ProfileService profileService;
-    private final AppApplicationRepository appApplicationRepository;
-    private final AppApplicationFilterRepository appApplicationFilterRepository;
-    private final ConsultingStepLevelService consultingStepLevelService;
-    private final ResourceMessageService resourceMessageService;
-    private final ConsultingStepService consultingStepService;
-    private final ConsultingTariffService consultingTariffService;
-    private final ConsultingProfileService consultingProfileService;
+    @Autowired
+    private ConsultingService consultingService;
+    @Autowired
+    private UniversityService universityService;
+    @Autowired
+    private ProfileService profileService;
+    @Autowired
+    private AppApplicationRepository appApplicationRepository;
+    @Autowired
+    private AppApplicationFilterRepository appApplicationFilterRepository;
+    @Autowired
+    private ConsultingStepLevelService consultingStepLevelService;
+    @Autowired
+    private ResourceMessageService resourceMessageService;
+    @Autowired
+    private ConsultingStepService consultingStepService;
+    @Autowired
+    private ConsultingTariffService consultingTariffService;
+    @Autowired
+    private ConsultingProfileService consultingProfileService;
 
     public ApiResponse<AppApplicationResponseDTO> create(AppApplicationRequestDTO dto) {
         ConsultingEntity consulting = consultingService.get(dto.getConsultingId());

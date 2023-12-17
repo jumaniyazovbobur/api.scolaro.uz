@@ -22,6 +22,7 @@ import api.scolaro.uz.util.PhoneUtil;
 import api.scolaro.uz.util.RandomUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,18 +35,18 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 public class ProfileService {
-
-    private final ProfileRepository profileRepository;
-
-    private final CustomProfileRepository customProfileRepository;
-
-    private final AttachService attachService;
-
-    private final SmsHistoryService smsService;
-
-    private final PersonRoleService personRoleService;
-
-    private final ResourceMessageService resourceMessageService;
+    @Autowired
+    private ProfileRepository profileRepository;
+    @Autowired
+    private CustomProfileRepository customProfileRepository;
+    @Autowired
+    private AttachService attachService;
+    @Autowired
+    private SmsHistoryService smsService;
+    @Autowired
+    private PersonRoleService personRoleService;
+    @Autowired
+    private ResourceMessageService resourceMessageService;
 
 
     public ApiResponse<String> update(ProfileUpdateDTO dto, String id) {

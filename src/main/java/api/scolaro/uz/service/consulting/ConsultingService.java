@@ -45,8 +45,8 @@ public class ConsultingService {
     private final CustomConsultingRepository customRepository;
 
     private final PersonRoleService personRoleService;
-
-    private final AttachService attachService;
+    @Autowired
+    private AttachService attachService;
 
     private final SmsHistoryService smsService;
     private final ConsultingProfileRepository consultingProfileRepository;

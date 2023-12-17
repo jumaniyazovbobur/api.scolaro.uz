@@ -1,12 +1,13 @@
 package api.scolaro.uz.service;
 
+import api.scolaro.uz.config.details.CustomUserDetails;
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.simpleMessage.SimpleMessageRequestDTO;
 import api.scolaro.uz.dto.simpleMessage.SimpleMessageResponseDTO;
-import api.scolaro.uz.entity.application.AppApplicationEntity;
 import api.scolaro.uz.entity.SimpleMessageEntity;
+import api.scolaro.uz.entity.application.AppApplicationEntity;
 import api.scolaro.uz.enums.MessageType;
 import api.scolaro.uz.mapper.SimpleMessageMapperDTO;
 import api.scolaro.uz.repository.simpleMessage.SimpleMessageFilterRepository;
@@ -14,6 +15,7 @@ import api.scolaro.uz.repository.simpleMessage.SimpleMessageRepository;
 import api.scolaro.uz.service.consulting.ConsultingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -24,12 +26,16 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class SimpleMessageService {
 
-    private final SimpleMessageRepository simpleMessageRepository;
-    private final AttachService attachService;
-    private final ConsultingService consultingService;
-    private final AppApplicationService appApplicationService;
-    private final ResourceMessageService resourceMessageService;
-    private final SimpleMessageFilterRepository simpleMessageFilterRepository;
+    @Autowired
+    private SimpleMessageRepository simpleMessageRepository;
+    @Autowired
+    private AttachService attachService;
+    @Autowired
+    private AppApplicationService appApplicationService;
+    @Autowired
+    private ResourceMessageService resourceMessageService;
+    @Autowired
+    private SimpleMessageFilterRepository simpleMessageFilterRepository;
 
     public ApiResponse<String> createForStudent(SimpleMessageRequestDTO dto) {
         AppApplicationEntity app = appApplicationService.get(dto.getApplicationId());
@@ -49,7 +55,10 @@ public class SimpleMessageService {
         AppApplicationEntity app = appApplicationService.get(dto.getApplicationId());
         SimpleMessageEntity entity = new SimpleMessageEntity();
         entity.setMessage(dto.getMessage());
-        entity.setConsultingId(EntityDetails.getCurrentUserId());
+
+        CustomUserDetails customUserDetails = EntityDetails.getCurrentUserDetail();
+        entity.setConsultingId(customUserDetails.getProfileConsultingId()); // setConsultingId
+        entity.setConsultingProfileId(customUserDetails.getId());
         entity.setAttachId(dto.getAttachId());
         entity.setAppApplicationId(dto.getApplicationId());
         entity.setMessageType(MessageType.CONSULTING);
@@ -59,9 +68,9 @@ public class SimpleMessageService {
     }
 
 
-    public ApiResponse< Page<SimpleMessageMapperDTO> > getListByAppApplicationId(String id,int page, int size) {
+    public ApiResponse<Page<SimpleMessageMapperDTO>> getListByAppApplicationId(String id, int page, int size) {
 //        // TODO add pagination, Attach ning type-ni ham qo'shib berish kerak.
-        FilterResultDTO<SimpleMessageMapperDTO> filterResult=simpleMessageFilterRepository.filterPagination(id,page,size);
+        FilterResultDTO<SimpleMessageMapperDTO> filterResult = simpleMessageFilterRepository.filterPagination(id, page, size);
         Page<SimpleMessageMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
         return ApiResponse.ok(pageObj);
     }

@@ -5,6 +5,7 @@ import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.appApplication.AppApplicationLevelAttachDTO;
 import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.dto.attach.AttachResponseDTO;
+import api.scolaro.uz.dto.simpleMessage.SimpleMessageRequestDTO;
 import api.scolaro.uz.entity.AttachEntity;
 import api.scolaro.uz.enums.AttachType;
 import api.scolaro.uz.exp.ItemNotFoundException;
@@ -52,6 +53,8 @@ public class AttachService {
     private AttachRepository attachRepository;
     @Autowired
     private AppApplicationLevelAttachService applicationLevelAttachService;
+    @Autowired
+    private SimpleMessageService simpleMessageService;
 
     public AttachDTO upload(MultipartFile file) {
         if (file.isEmpty()) {
@@ -93,6 +96,22 @@ public class AttachService {
         AttachDTO dto = upload(file); // Upload file
         AppApplicationLevelAttachDTO applicationLevelAttachDTO = applicationLevelAttachService.createAppLevelAttach(stepLevelId, dto, attachType); // save application level attach
         return ApiResponse.ok(applicationLevelAttachDTO);
+    }
+
+    public ApiResponse<String> createSimpleMessageAttachAsConsulting(MultipartFile file, String applicationId) {
+        AttachDTO dto = upload(file); // Upload file
+        SimpleMessageRequestDTO simpleMessageRequestDTO = new SimpleMessageRequestDTO();
+        simpleMessageRequestDTO.setAttachId(dto.getId());
+        simpleMessageRequestDTO.setApplicationId(applicationId);
+        return simpleMessageService.createForConsulting(simpleMessageRequestDTO);
+    }
+
+    public ApiResponse<String> createSimpleMessageAttachAsStudent(MultipartFile file, String applicationId) {
+        AttachDTO dto = upload(file); // Upload file
+        SimpleMessageRequestDTO simpleMessageRequestDTO = new SimpleMessageRequestDTO();
+        simpleMessageRequestDTO.setAttachId(dto.getId());
+        simpleMessageRequestDTO.setApplicationId(applicationId);
+        return simpleMessageService.createForStudent(simpleMessageRequestDTO);
     }
 
     public byte[] open_general(String fileName) {
