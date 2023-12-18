@@ -49,7 +49,7 @@ public class AttachController {
 
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @PostMapping("/upload/simp-message/consulting")
-    @Operation(summary = "upload file to simple-message as consulting", description = "")
+    @Operation(summary = "Upload file to simple-message as consulting", description = "")
     public ResponseEntity<ApiResponse<String>> createSimpleMessageAttachAsConsulting(@RequestParam("file") MultipartFile file,
                                                                                      @RequestParam("applicationId") String applicationId) {
         log.info("simple message attach as consulting  = {}", file.getOriginalFilename());

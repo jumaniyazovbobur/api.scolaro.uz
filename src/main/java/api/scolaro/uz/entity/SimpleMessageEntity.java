@@ -2,6 +2,7 @@ package api.scolaro.uz.entity;
 
 import api.scolaro.uz.entity.application.AppApplicationEntity;
 import api.scolaro.uz.entity.consulting.ConsultingEntity;
+import api.scolaro.uz.entity.consulting.ConsultingProfileEntity;
 import api.scolaro.uz.enums.MessageType;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -35,7 +36,7 @@ public class SimpleMessageEntity extends BaseEntity{
     private String consultingId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "consulting_profile_id", insertable = false, updatable = false)
-    private ConsultingEntity consultingProfile;
+    private ConsultingProfileEntity consultingProfile;
     @Column(name = "consulting_profile_id")
     private String consultingProfileId;
     @Column(name = "is_student_read")

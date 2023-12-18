@@ -33,3 +33,16 @@ Content-Disposition: form-data; name="file"; filename="dimplom-data.pdf"
 
 ### DOWNLOAD BY ID
 GET http://localhost:8081/api/v1/attach/download/4028abb98bc471a5018bc475bbad0000/1.jpg
+
+
+
+### Upload file to simple-message as consulting
+POST http://localhost:8081/api/v1/attach/upload/simp-message/consulting?applicationId=8080b7ef8bae722c018bae85c0cf0002&attachType=OTHER
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDI4ODQ0MjMsImlkIjoiNDAyODgwZTU4YzYxZjFmMDAxOGM2MWYzNjBhMTAwMDIxMSIsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZXMiOiJST0xFX0NPTlNVTFRJTkcsUk9MRV9DT05TVUxUSU5HX01BTkFHRVIiLCJleHAiOjE3MDM0ODkyMjMsImlzcyI6IkphdmEgYmFja2VuZCJ9.pEx_fvdrygv8QhSC3mmq5MnJM8U1co_J9vQxUvRimmLtOF1-zmDCSjmaiI5YxHDsr9dcEQf8mW0tLxFvJLPcDw
+
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="testjon.jpg"
+
+< C:\Users\Bobur_Jumaniyazov\Desktop\images\testjon.jpg
