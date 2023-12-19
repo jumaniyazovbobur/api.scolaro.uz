@@ -57,11 +57,11 @@ public class CustomTransactionRepository {
                 select t.id, t.amount, t.transaction_type,
                 t.status, t.created_date
                 from transactions t
-                where visible = TRUE""");
-        selectBuilder.append(stringBuilder).append(" order by s.created_date desc ");
+                where t.visible = TRUE""");
+        selectBuilder.append(stringBuilder).append(" order by t.created_date desc ");
 
         StringBuilder countBuilder = new StringBuilder("""
-                select count(*) from transactions as t where s.visible=true
+                select count(*) from transactions as t where t.visible=true
                 """);
         countBuilder.append(stringBuilder);
 
@@ -135,11 +135,11 @@ public class CustomTransactionRepository {
                 p.created_date pCreatedDate,t.state
                 from transactions t
                 inner join profile p on p.id = t.profile_id
-                where visible = TRUE""");
-        selectBuilder.append(stringBuilder).append(" order by s.created_date desc ");
+                where t.visible = TRUE""");
+        selectBuilder.append(stringBuilder).append(" order by t.created_date desc ");
 
         StringBuilder countBuilder = new StringBuilder("""
-                select count(*) from transactions as t where s.visible=true
+                select count(*) from transactions as t where t.visible=true
                 """);
         countBuilder.append(stringBuilder);
 
@@ -173,7 +173,7 @@ public class CustomTransactionRepository {
             profile.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[9])));
             profile.setCreatedDate(MapperUtil.getLocalDateTimeValue(object[10]));
             dto.setProfile(profile);
-            dto.setState(MapperUtil.getStringValue(object[3]) != null ? TransactionState.parse(MapperUtil.getIntegerValue(object[11])) : null);
+            dto.setState(MapperUtil.getStringValue(object[11]) != null ? TransactionState.valueOf(MapperUtil.getStringValue(object[11])) : null);
             mapperList.add(dto);
         }
         return new FilterResultDTO<>(mapperList, totalCount);

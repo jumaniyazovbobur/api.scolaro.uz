@@ -1,8 +1,26 @@
 ### Create transaction for fill balance  250 000 = 25000000
-POST http://api.app.mazgi.uz/api/v1/transaction/student/fill-callback?amount=2500000
+POST http://localhost:8081/api/v1/transaction/student/fill-callback?amount=2500000
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDE5NTIyMzYsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTU0Njg2MzAwMjgiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNzAyNTU3MDM2LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.rCBbtgtm5YfIiKH0dZ_FfNLir-ISztSll8RFOe35BqvFu2Sn_6LwIbKEPOkZdg40214fc0BXsCfwL-c45loytA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDI5Njk1MjUsImlkIjoiMmM5YzcwODE4YzFhYmQ4NzAxOGMxYWMwNDI1NzAwMGEiLCJwaG9uZSI6Ijk5ODk3MjMyMjkwMyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNzAzNTc0MzI1LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.yXSYC4B4DhpKGf-4x7Ut5KSlyq7LzYzjqXxXdIi2K5MWeqctkWwx6e_Zifs-proozLHtT46bJybl56dUPwn-dw
 
 
 ### TODO url example for making request payme from frontend
 ### generate url for payme
+
+
+### Filter as student
+POST http://localhost:8081/api/v1/transaction/filter/student
+Content-Type: application/json
+Authorization: Bearer
+
+
+
+
+### Filter as admin
+POST http://localhost:8081/api/v1/transaction/filter/admin
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDI5NjkzMzIsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDM1NzQxMzIsImlzcyI6IkphdmEgYmFja2VuZCJ9.50gB_jYRS9OkUstzS6_Xy-yjRV_rV1XB7xq_QxK7d8BKViLaKz2wSw6B-pzu06hLClZLu1ttbX0fFFGyXO16ig
+
+{
+
+}
