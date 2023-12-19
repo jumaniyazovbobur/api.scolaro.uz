@@ -30,9 +30,11 @@ public class CustomTransactionRepository {
     private final EntityManager entityManager;
     private final AttachService attachService;
 
-    public FilterResultDTO<TransactionResponseAsStudentDTO> filterAsStudent(TransactionFilterAsStudentDTO filterDTO, int page, int size) {
+    public FilterResultDTO<TransactionResponseAsStudentDTO> filterAsStudent(TransactionFilterAsStudentDTO filterDTO,String studentId, int page, int size) {
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, Object> params = new HashMap<>();
+        stringBuilder.append(" and t.profile_id = :studentId ");
+        params.put("studentId",studentId);
         if (Optional.ofNullable(filterDTO).isPresent()) {
             if (Optional.ofNullable(filterDTO.getType()).isPresent()) {
                 stringBuilder.append(" and t.transaction_type = :type ");
@@ -86,7 +88,7 @@ public class CustomTransactionRepository {
             dto.setAmount(MapperUtil.getLongValue(object[1]));
             dto.setType(MapperUtil.getStringValue(object[2]) != null ? TransactionType.valueOf(MapperUtil.getStringValue(object[2])) : null);
             dto.setStatus(MapperUtil.getStringValue(object[3]) != null ? TransactionStatus.valueOf(MapperUtil.getStringValue(object[3])) : null);
-            dto.setCreatedDate(MapperUtil.getLocalDateTimeValue(object[5]));
+            dto.setCreatedDate(MapperUtil.getLocalDateTimeValue(object[4]));
             mapperList.add(dto);
         }
         return new FilterResultDTO<>(mapperList, totalCount);

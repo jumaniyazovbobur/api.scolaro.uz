@@ -11,8 +11,11 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDI5Njk1MjUsImlkIjoiMmM5Y
 ### Filter as student
 POST http://localhost:8081/api/v1/transaction/filter/student
 Content-Type: application/json
-Authorization: Bearer
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDI5Njk1MjUsImlkIjoiMmM5YzcwODE4YzFhYmQ4NzAxOGMxYWMwNDI1NzAwMGEiLCJwaG9uZSI6Ijk5ODk3MjMyMjkwMyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNzAzNTc0MzI1LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.yXSYC4B4DhpKGf-4x7Ut5KSlyq7LzYzjqXxXdIi2K5MWeqctkWwx6e_Zifs-proozLHtT46bJybl56dUPwn-dw
 
+{
+
+}
 
 
 

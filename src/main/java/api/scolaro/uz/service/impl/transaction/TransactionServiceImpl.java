@@ -429,7 +429,8 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public PageImpl<TransactionResponseAsStudentDTO> filterAsStudent(TransactionFilterAsStudentDTO dto, int page, int size) {
         if (page > 0) page--;
-        FilterResultDTO<TransactionResponseAsStudentDTO> result = customTransactionRepository.filterAsStudent(dto, page, size);
+        String studentId = EntityDetails.getCurrentUserId();
+        FilterResultDTO<TransactionResponseAsStudentDTO> result = customTransactionRepository.filterAsStudent(dto,studentId, page, size);
         return new PageImpl<>(result.getContent(), PageRequest.of(page, size), result.getTotalElement());
     }
 
