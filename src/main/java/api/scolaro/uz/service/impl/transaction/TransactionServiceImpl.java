@@ -1,10 +1,15 @@
 package api.scolaro.uz.service.impl.transaction;
 
 import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.transaction.PaymeCallBackRequestDTO;
 import api.scolaro.uz.dto.transaction.PaymeCallbackParamsDTO;
 import api.scolaro.uz.dto.transaction.TransactionResForPayme;
 import api.scolaro.uz.dto.transaction.TransactionResponseDTO;
+import api.scolaro.uz.dto.transaction.request.TransactionFilterAsAdminDTO;
+import api.scolaro.uz.dto.transaction.request.TransactionFilterAsStudentDTO;
+import api.scolaro.uz.dto.transaction.response.TransactionResponseAsAdminDTO;
+import api.scolaro.uz.dto.transaction.response.TransactionResponseAsStudentDTO;
 import api.scolaro.uz.dto.transaction.response.payme.*;
 import api.scolaro.uz.entity.transaction.TransactionsEntity;
 import api.scolaro.uz.enums.jsonrpc.PaymeResponseStatus;
@@ -12,11 +17,14 @@ import api.scolaro.uz.enums.transaction.ProfileType;
 import api.scolaro.uz.enums.transaction.TransactionState;
 import api.scolaro.uz.enums.transaction.TransactionStatus;
 import api.scolaro.uz.enums.transaction.TransactionType;
+import api.scolaro.uz.repository.transaction.CustomTransactionRepository;
 import api.scolaro.uz.repository.transaction.TransactionRepository;
 import api.scolaro.uz.service.ProfileService;
 import api.scolaro.uz.service.transaction.TransactionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -42,6 +50,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final ProfileService profileService;
+    private final CustomTransactionRepository customTransactionRepository;
     private final Long time_expired = 43_200_000L;
 
     @Override
@@ -405,5 +414,17 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         return response;
+    }
+
+    @Override
+    public PageImpl<TransactionResponseAsStudentDTO> filterAsStudent(TransactionFilterAsStudentDTO dto, int page, int size) {
+        if (page > 0) page--;
+        FilterResultDTO<TransactionResponseAsStudentDTO> result = customTransactionRepository.filterAsStudent(dto, page, size);
+        return new PageImpl<>(result.getContent(), PageRequest.of(page, size), result.getTotalElement());
+    }
+
+    @Override
+    public PageImpl<TransactionResponseAsAdminDTO> filterAsAdmin(TransactionFilterAsAdminDTO dto, int page, int size) {
+        return null;
     }
 }

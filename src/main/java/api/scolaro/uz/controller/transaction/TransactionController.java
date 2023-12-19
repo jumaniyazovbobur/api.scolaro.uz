@@ -4,6 +4,10 @@ import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.transaction.PaymeCallBackRequestDTO;
 import api.scolaro.uz.dto.transaction.TransactionResponseDTO;
+import api.scolaro.uz.dto.transaction.request.TransactionFilterAsAdminDTO;
+import api.scolaro.uz.dto.transaction.request.TransactionFilterAsStudentDTO;
+import api.scolaro.uz.dto.transaction.response.TransactionResponseAsAdminDTO;
+import api.scolaro.uz.dto.transaction.response.TransactionResponseAsStudentDTO;
 import api.scolaro.uz.dto.transaction.response.payme.PaymeResponseDTO;
 import api.scolaro.uz.service.transaction.TransactionService;
 import api.scolaro.uz.util.CheckAuthorizationUtil;
@@ -12,7 +16,9 @@ import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.IllegalFormatCodePointException;
@@ -59,5 +65,29 @@ public class TransactionController {
                     );
 
         return ResponseEntity.ok(transactionService.callBackPayme(body));
+    }
+
+
+    @PostMapping("/filter/student")
+    public ResponseEntity<PageImpl<TransactionResponseAsStudentDTO>> filterAsStudent(@RequestBody(required = false) TransactionFilterAsStudentDTO dto,
+                                                                                     @RequestParam(value = "page", defaultValue = "1") int page,
+                                                                                     @RequestParam(value = "size", defaultValue = "50") int size) {
+        log.info("Filter student");
+        return ResponseEntity
+                .ok(transactionService.filterAsStudent(
+                        dto, page, size
+                ));
+    }
+
+    @PostMapping("/filter/admin")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<PageImpl<TransactionResponseAsAdminDTO>> filterAsStudent(@RequestBody(required = false) TransactionFilterAsAdminDTO dto,
+                                                                                   @RequestParam(value = "page", defaultValue = "1") int page,
+                                                                                   @RequestParam(value = "size", defaultValue = "50") int size) {
+        log.info("Filter admin");
+        return ResponseEntity
+                .ok(transactionService.filterAsAdmin(
+                        dto, page, size
+                ));
     }
 }
