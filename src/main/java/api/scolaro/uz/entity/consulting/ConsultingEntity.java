@@ -28,7 +28,7 @@ public class ConsultingEntity extends BaseEntity {
     @Column(name = "about", columnDefinition = "TEXT")
     private String about;
     @Column(name = "balance")
-    private Long balance;// tiyin 1sum = 100 tiyin
+    private Long balance=0L;// tiyin 1sum = 100 tiyin
     @Column(name = "manager_id")
     private String managerId;
     @OneToOne(fetch = FetchType.LAZY)

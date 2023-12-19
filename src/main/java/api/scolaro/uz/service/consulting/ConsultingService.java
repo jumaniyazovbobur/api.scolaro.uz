@@ -237,4 +237,7 @@ public class ConsultingService {
         dto.setCreatedDate(entity.getCreatedDate());
         return dto;
     }
+    public void fillConsultingBalance(String consultingId, Long amount) {
+        consultingRepository.fillBalance(consultingId, amount);
+    }
 }
