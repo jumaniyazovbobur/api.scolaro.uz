@@ -2,6 +2,8 @@ package api.scolaro.uz.enums.transaction;
 
 import lombok.Getter;
 
+import java.util.Arrays;
+
 /**
  * @author 'Mukhtarov Sarvarbek' on 06.12.2023
  * @project api.scolaro.uz
@@ -18,5 +20,13 @@ public enum TransactionState {
 
     TransactionState(int value) {
         this.value = value;
+    }
+
+    public static TransactionState parse(Integer integerValue) {
+        return Arrays
+                .stream(TransactionState.values())
+                .filter(item -> item.value == integerValue)
+                .findAny()
+                .orElse(null);
     }
 }

@@ -1,5 +1,7 @@
 package api.scolaro.uz.dto.transaction.request;
 
+import api.scolaro.uz.enums.transaction.TransactionState;
+import api.scolaro.uz.enums.transaction.TransactionStatus;
 import api.scolaro.uz.enums.transaction.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,4 +24,7 @@ public class TransactionFilterAsAdminDTO {
     private TransactionType type;
     private LocalDateTime toDate;
     private LocalDateTime fromDate;
+    private String profileId;
+    private TransactionStatus status;
+    private TransactionState state;
 }

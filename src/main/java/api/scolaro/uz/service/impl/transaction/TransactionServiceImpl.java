@@ -425,6 +425,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public PageImpl<TransactionResponseAsAdminDTO> filterAsAdmin(TransactionFilterAsAdminDTO dto, int page, int size) {
-        return null;
+        if (page > 0) page--;
+        FilterResultDTO<TransactionResponseAsAdminDTO> result = customTransactionRepository.filterAsAdmin(dto, page, size);
+        return new PageImpl<>(result.getContent(), PageRequest.of(page, size), result.getTotalElement());
     }
 }

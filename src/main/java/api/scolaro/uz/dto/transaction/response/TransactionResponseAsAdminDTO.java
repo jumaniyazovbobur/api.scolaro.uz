@@ -1,6 +1,7 @@
 package api.scolaro.uz.dto.transaction.response;
 
-import api.scolaro.uz.dto.profile.ProfileResponseDTO;
+import api.scolaro.uz.dto.profile.ProfileDTO;
+import api.scolaro.uz.enums.transaction.TransactionState;
 import api.scolaro.uz.enums.transaction.TransactionStatus;
 import api.scolaro.uz.enums.transaction.TransactionType;
 import lombok.AllArgsConstructor;
@@ -25,5 +26,6 @@ public class TransactionResponseAsAdminDTO {
     private TransactionType type;
     private TransactionStatus status;
     private LocalDateTime createdDate;
-    private ProfileResponseDTO profile;
+    private ProfileDTO profile;
+    private TransactionState state;
 }
