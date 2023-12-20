@@ -2,7 +2,7 @@ package api.scolaro.uz.enums;
 
 public enum ApplicationStepLevelStatus {
 
-    ACCEPTED("Ariza qabul qilindi", "Заявка принята", "Заявка принята"),
+    ACCEPTED("Ariza qabul qilindi", "Accepted", "Заявка принята"),
     REVISION("Ariza qayta koʻrib chiqish uchun qaytarildi", "Application returned for revision", "Заявка возвращена на доработку"),
     REWORK_COMPLETED("Qayta ko'rish yakunlandi", "Rework completed", "Доработка  завершена"),
     // Одобрено на этапе рассмотрения 1-го этапа
