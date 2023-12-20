@@ -1,12 +1,13 @@
 ### Create appApplication level status
 POST localhost:8081/api/v1/app-application-level-status
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTkyNTM4MzcsImlkIjoiNDAyODgwZTg4YmEyNmIxODAxOGJhMjZkYTI0NzAwMDIiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HIiwiZXhwIjoxNjk5ODU4NjM3LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.ZpqpywVfdMXov5S17ZtxLfLWIyPAkVHp4xVhTjU7TuUtcZlB5DhH56yd1DYBJzO0wubahhQA6D7NcjPkg1VLHw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDI5NzQ5MzcsImlkIjoiNDAyODgwZTU4YzYxZjFmMDAxOGM2MWYzNjBhMTAwMDIxMSIsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZXMiOiJST0xFX0NPTlNVTFRJTkcsUk9MRV9DT05TVUxUSU5HX01BTkFHRVIiLCJleHAiOjE3MDM1Nzk3MzcsImlzcyI6IkphdmEgYmFja2VuZCJ9.qlfU2_CacQspEAmuJzusBsowSnS-ZtLc4P1mo4-4q2__1KBjR7dejP8M55BAw3hAL8tPVzYdin20zpWwTxWVtw
 
 {
-  "appApplicationId": "402880e88ba2ae64018ba2b330120000",
-  "consultingStepLevelId": "402880e48ba33c9b018ba33da92e0002",
-  "applicationStepLevelStatus": "REVISION",
+  "appApplicationId": "8080b7ef8bae722c018bae85c0cf0002",
+  "consultingStepLevelId": "8080b7ef8bae722c018bae8a39560005",
+  "applicationStepLevelStatus": "ACCEPTED",
+  "deadline": "2023-12-20",
   "description": "REVISION dasdas dasdme dasda sd"
 }
 
