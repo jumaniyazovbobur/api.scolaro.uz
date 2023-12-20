@@ -41,4 +41,9 @@ public interface ConsultingRepository extends JpaRepository<ConsultingEntity, St
     @Modifying
     @Query("update ConsultingEntity set managerId =:managerId where id=:id")
     int updateManager(@Param("id") String id, @Param("managerId") String managerId);
+
+    @Modifying
+    @Transactional
+    @Query("update ConsultingEntity set balance = balance + ?2 where id = ?1")
+    int fillBalance(String consultingId, Long amount);
 }

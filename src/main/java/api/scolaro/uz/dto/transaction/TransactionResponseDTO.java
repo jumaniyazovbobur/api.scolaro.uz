@@ -21,6 +21,8 @@ public class TransactionResponseDTO {
     private TransactionType transactionType;
 
     public static TransactionResponseDTO toDTO(TransactionsEntity entity) {
-        return new TransactionResponseDTO(entity.getId(), entity.getStatus(), entity.getProfileId(), entity.getAmount(), entity.getTransactionType());
+        return new TransactionResponseDTO(entity.getId(), entity.getStatus(),
+                entity.getProfileId(), entity.getAmount(),
+                entity.getTransactionType());
     }
 }

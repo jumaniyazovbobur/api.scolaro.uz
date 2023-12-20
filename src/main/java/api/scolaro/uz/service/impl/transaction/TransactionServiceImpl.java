@@ -1,22 +1,37 @@
 package api.scolaro.uz.service.impl.transaction;
 
+import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.transaction.PaymeCallBackRequestDTO;
 import api.scolaro.uz.dto.transaction.PaymeCallbackParamsDTO;
 import api.scolaro.uz.dto.transaction.TransactionResForPayme;
 import api.scolaro.uz.dto.transaction.TransactionResponseDTO;
+import api.scolaro.uz.dto.transaction.request.TransactionFilterAsAdminDTO;
+import api.scolaro.uz.dto.transaction.request.TransactionFilterAsStudentDTO;
+import api.scolaro.uz.dto.transaction.request.WithdrawMoneyFromStudentDTO;
+import api.scolaro.uz.dto.transaction.response.TransactionResponseAsAdminDTO;
+import api.scolaro.uz.dto.transaction.response.TransactionResponseAsStudentDTO;
 import api.scolaro.uz.dto.transaction.response.payme.*;
+import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.entity.transaction.TransactionsEntity;
+import api.scolaro.uz.enums.LanguageEnum;
 import api.scolaro.uz.enums.jsonrpc.PaymeResponseStatus;
 import api.scolaro.uz.enums.transaction.ProfileType;
 import api.scolaro.uz.enums.transaction.TransactionState;
 import api.scolaro.uz.enums.transaction.TransactionStatus;
 import api.scolaro.uz.enums.transaction.TransactionType;
+import api.scolaro.uz.repository.transaction.CustomTransactionRepository;
 import api.scolaro.uz.repository.transaction.TransactionRepository;
 import api.scolaro.uz.service.ProfileService;
+import api.scolaro.uz.service.ResourceMessageService;
+import api.scolaro.uz.service.consulting.ConsultingService;
 import api.scolaro.uz.service.transaction.TransactionService;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -42,6 +57,10 @@ public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final ProfileService profileService;
+    private final CustomTransactionRepository customTransactionRepository;
+    private final ResourceMessageService resourceMessageService;
+    private final ConsultingService consultingService;
+
     private final Long time_expired = 43_200_000L;
 
     @Override
@@ -405,5 +424,60 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         return response;
+    }
+
+    @Override
+    public PageImpl<TransactionResponseAsStudentDTO> filterAsStudent(TransactionFilterAsStudentDTO dto, int page, int size) {
+        if (page > 0) page--;
+        String studentId = EntityDetails.getCurrentUserId();
+        FilterResultDTO<TransactionResponseAsStudentDTO> result = customTransactionRepository.filterAsStudent(dto,studentId, page, size);
+        return new PageImpl<>(result.getContent(), PageRequest.of(page, size), result.getTotalElement());
+    }
+
+    @Override
+    public PageImpl<TransactionResponseAsAdminDTO> filterAsAdmin(TransactionFilterAsAdminDTO dto, int page, int size) {
+        if (page > 0) page--;
+        FilterResultDTO<TransactionResponseAsAdminDTO> result = customTransactionRepository.filterAsAdmin(dto, page, size);
+        return new PageImpl<>(result.getContent(), PageRequest.of(page, size), result.getTotalElement());
+    }
+
+    @Override
+    public ApiResponse<TransactionResponseDTO> withdrawMoneyFromStudentAsConsulting(WithdrawMoneyFromStudentDTO dto, LanguageEnum lang) {
+        ProfileEntity student = profileService.get(dto.getStudentId());
+        String consultingId = Objects.requireNonNull(EntityDetails.getCurrentUserDetail()).getProfileConsultingId();
+
+        TransactionsEntity transactionForStudent = toEntity(dto.getStudentId(), ProfileType.PROFILE, dto.getAmount(), TransactionType.CREDIT);
+        TransactionsEntity transactionForConsulting = toEntity(consultingId, ProfileType.CONSULTING, dto.getAmount(), TransactionType.DEBIT);
+
+        if (!profileService.checkBalance(dto.getStudentId(), dto.getAmount())) {
+            transactionForStudent.setStatus(TransactionStatus.CANCELED);
+            transactionForConsulting.setStatus(TransactionStatus.CANCELED);
+            transactionRepository.save(transactionForStudent);
+            transactionRepository.save(transactionForConsulting);
+            log.warn("Not enough amount! studentBalance={}, amount={}", student.getBalance(), dto.getAmount());
+            return ApiResponse.bad(resourceMessageService.getMessage("", lang));
+        }
+
+        log.info("reduceFromBalance");
+        profileService.reduceFromBalance(student.getId(), dto.getAmount());
+        log.info("fill consulting balance");
+        consultingService.fillConsultingBalance(consultingId, dto.getAmount());
+
+        transactionForStudent.setStatus(TransactionStatus.SUCCESS);
+        transactionForConsulting.setStatus(TransactionStatus.SUCCESS);
+
+        transactionRepository.save(transactionForStudent);
+        transactionRepository.save(transactionForConsulting);
+
+        return ApiResponse.ok(TransactionResponseDTO.toDTO(transactionForStudent));
+    }
+
+    private TransactionsEntity toEntity(String profileId, ProfileType profileType, Long amount, TransactionType type) {
+        TransactionsEntity entity = new TransactionsEntity();
+        entity.setProfileId(profileId);
+        entity.setProfileType(profileType);
+        entity.setAmount(amount);
+        entity.setTransactionType(type);
+        return entity;
     }
 }
