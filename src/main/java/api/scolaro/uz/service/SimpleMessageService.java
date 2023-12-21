@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,6 +37,7 @@ public class SimpleMessageService {
     private ResourceMessageService resourceMessageService;
     @Autowired
     private SimpleMessageFilterRepository simpleMessageFilterRepository;
+    private final SimpMessagingTemplate template;
 
     public ApiResponse<String> createForStudent(SimpleMessageRequestDTO dto) {
         AppApplicationEntity app = appApplicationService.get(dto.getApplicationId());
@@ -47,6 +49,10 @@ public class SimpleMessageService {
         entity.setMessageType(MessageType.STUDENT);
         entity.setIsStudentRead(true);
         simpleMessageRepository.save(entity);
+
+        template.convertAndSend("/topic/messages/%s".formatted(entity.getAppApplicationId()),
+                SimpleMessageMapperDTO.toDTO(entity, attachService.getResponseAttach(dto.getAttachId()))
+        );
         return new ApiResponse<>("Success", 200, false);
     }
 
@@ -64,6 +70,9 @@ public class SimpleMessageService {
         entity.setMessageType(MessageType.CONSULTING);
         entity.setIsConsultingRead(true);
         simpleMessageRepository.save(entity);
+        template.convertAndSend("/topic/messages/%s".formatted(entity.getAppApplicationId()),
+                SimpleMessageMapperDTO.toDTO(entity, attachService.getResponseAttach(dto.getAttachId()))
+        );
         return new ApiResponse<>("Success", 200, false);
     }
 
