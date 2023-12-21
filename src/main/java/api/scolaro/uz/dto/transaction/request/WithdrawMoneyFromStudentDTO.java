@@ -16,5 +16,9 @@ import lombok.Setter;
 @Setter
 public class WithdrawMoneyFromStudentDTO {
     private String studentId;
-    private Long amount;
+    private String consultingId;
+    private Long amount; // in tiyin
+    private String applicationId;
+    private String consultingStepLevelId;
+    private String applicationLevelStatusId;
 }

@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Table(name = "app_application_level_status")
@@ -38,4 +39,8 @@ public class AppApplicationLevelStatusEntity extends BaseEntity {
 
     @Column(name = "description")
     private String description;
+    @Column(name = "payment_date")
+    private LocalDateTime paymentDate;
+    @Column(name = "amount")
+    private Long amount; // in tiyin
 }

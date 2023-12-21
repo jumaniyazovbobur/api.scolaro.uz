@@ -9,6 +9,7 @@ import api.scolaro.uz.dto.transaction.request.WithdrawMoneyFromStudentDTO;
 import api.scolaro.uz.dto.transaction.response.TransactionResponseAsAdminDTO;
 import api.scolaro.uz.dto.transaction.response.TransactionResponseAsStudentDTO;
 import api.scolaro.uz.dto.transaction.response.payme.PaymeResponseDTO;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.LanguageEnum;
 import org.springframework.data.domain.PageImpl;
 
@@ -30,5 +31,5 @@ public interface TransactionService {
     PageImpl<TransactionResponseAsAdminDTO> filterAsAdmin(TransactionFilterAsAdminDTO dto, int page, int size);
 
 
-    ApiResponse<TransactionResponseDTO> withdrawMoneyFromStudentAsConsulting(WithdrawMoneyFromStudentDTO dto, LanguageEnum lang);
+    ApiResponse<TransactionResponseDTO> makeTransfer(WithdrawMoneyFromStudentDTO dto, AppLanguage lang);
 }

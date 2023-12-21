@@ -6,10 +6,12 @@ import api.scolaro.uz.dto.appApplication.AppApplicationLevelStatusCreateDTO;
 import api.scolaro.uz.dto.appApplication.AppApplicationLevelStatusDTO;
 import api.scolaro.uz.dto.appApplication.AppApplicationLevelStatusUpdateDTO;
 import api.scolaro.uz.dto.appApplication.AppApplicationRequestDTO;
+import api.scolaro.uz.dto.transaction.TransactionResponseDTO;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.AppApplicationLevelStatusService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +31,10 @@ public class AppApplicationLevelStatusController {
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @Operation(summary = "Create application level status", description = "")
     @PostMapping("")
-    public ResponseEntity<ApiResponse<AppApplicationLevelStatusDTO>> create(@RequestBody AppApplicationLevelStatusCreateDTO dto) {
+    public ResponseEntity<ApiResponse<AppApplicationLevelStatusDTO>> create(@RequestBody AppApplicationLevelStatusCreateDTO dto,
+                                                                            @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Create application level status create {}", dto);
-        return ResponseEntity.ok(applicationLevelStatusService.create(dto));
+        return ResponseEntity.ok(applicationLevelStatusService.create(dto, language));
     }
 
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
@@ -49,5 +52,14 @@ public class AppApplicationLevelStatusController {
     public ResponseEntity<ApiResponse<List<KeyValueDTO>>> listForDropDown(@RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Get application level status enum list");
         return ResponseEntity.ok(applicationLevelStatusService.getLevelStatuEnumList(language));
+    }
+
+    @Operation(summary = "Finish payment in Application level status", description = "Used to finish payment level status")
+    @GetMapping("/payment/finish/{applicationLevelStatusId}")
+    public ResponseEntity<ApiResponse<String>> levelStatusFinishPayment(
+            @PathParam("applicationLevelStatusId") String applicationLevelStatusId,
+            @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
+        log.info("Finish payment in Application level status:  {} ", applicationLevelStatusId);
+        return ResponseEntity.ok(applicationLevelStatusService.levelStatusFinishPayment(applicationLevelStatusId, language));
     }
 }

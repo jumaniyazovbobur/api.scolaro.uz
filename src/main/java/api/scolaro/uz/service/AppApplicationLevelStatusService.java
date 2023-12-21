@@ -6,23 +6,30 @@ import api.scolaro.uz.dto.KeyValueDTO;
 import api.scolaro.uz.dto.appApplication.AppApplicationLevelStatusCreateDTO;
 import api.scolaro.uz.dto.appApplication.AppApplicationLevelStatusDTO;
 import api.scolaro.uz.dto.appApplication.AppApplicationLevelStatusUpdateDTO;
+import api.scolaro.uz.dto.transaction.TransactionResponseDTO;
+import api.scolaro.uz.dto.transaction.request.WithdrawMoneyFromStudentDTO;
 import api.scolaro.uz.entity.FeedbackEntity;
 import api.scolaro.uz.entity.application.AppApplicationEntity;
 import api.scolaro.uz.entity.application.AppApplicationLevelStatusEntity;
 import api.scolaro.uz.entity.consulting.ConsultingStepLevelEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.ApplicationStepLevelStatus;
+import api.scolaro.uz.enums.LanguageEnum;
 import api.scolaro.uz.enums.StepLevelStatus;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.appApplication.AppApplicationLevelStatusRepository;
 import api.scolaro.uz.repository.appApplication.AppApplicationRepository;
 import api.scolaro.uz.repository.consultingStepLevel.ConsultingStepLevelRepository;
 import api.scolaro.uz.service.consulting.ConsultingStepLevelService;
+import api.scolaro.uz.service.transaction.TransactionService;
+import api.scolaro.uz.util.TransactionUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,8 +43,14 @@ public class AppApplicationLevelStatusService {
     private final ConsultingStepLevelRepository consultingStepLevelRepository;
     private final AppApplicationService appApplicationService;
     private final AppApplicationRepository appApplicationRepository;
+    @Autowired
+    private TransactionService transactionService;
+    @Autowired
+    private ProfileService profileService;
+    @Autowired
+    private ResourceMessageService resourceMessageService;
 
-    public ApiResponse<AppApplicationLevelStatusDTO> create(AppApplicationLevelStatusCreateDTO dto) {
+    public ApiResponse<AppApplicationLevelStatusDTO> create(AppApplicationLevelStatusCreateDTO dto, AppLanguage lang) {
         ConsultingStepLevelEntity consultingStepLevelEntity = consultingStepLevelService.get(dto.getConsultingStepLevelId());
         // check if level finished before
         if (consultingStepLevelEntity.getStepLevelStatus() != null && consultingStepLevelEntity.getStepLevelStatus().equals(StepLevelStatus.FINISHED)) {
@@ -57,15 +70,39 @@ public class AppApplicationLevelStatusService {
         entity.setDeadline(dto.getDeadline());
         entity.setAppApplicationId(dto.getAppApplicationId());// application
         entity.setConsultingStepLevelId(dto.getConsultingStepLevelId()); // stepLevel
-        entity.setApplicationStepLevelStatus(dto.getApplicationStepLevelStatus()); // applicationStepLevelStatus
+        entity.setAmount(TransactionUtil.sumToTiyin(dto.getAmount()));
+        if (dto.getApplicationStepLevelStatus().equals(ApplicationStepLevelStatus.PAYMENT)) {
+            entity.setApplicationStepLevelStatus(ApplicationStepLevelStatus.PAYMENT_FAILED);
+        } else {
+            entity.setApplicationStepLevelStatus(dto.getApplicationStepLevelStatus()); // applicationStepLevelStatus
+        }
         // check if previous exists
         ConsultingStepLevelEntity previousStepLevel = consultingStepLevelRepository.getPreviousStepLevelByStepIdAndStepLevelOrderNumber(consultingStepLevelEntity.getConsultingStepId(), consultingStepLevelEntity.getOrderNumber());
         // if previous exists and it is not finished yet
         if (previousStepLevel != null && !previousStepLevel.getStepLevelStatus().equals(StepLevelStatus.FINISHED)) {
-            return ApiResponse.bad("Oldingi bosqich tugatilmagan."); // if previous step not finished
+            return ApiResponse.bad(resourceMessageService.getMessage("step.before.not.finished", lang));  // if previous step not finished
         }
 
         appApplicationLevelStatusRepository.save(entity); // save applicationStepLevelStatus
+        // payment check before start transaction if balance enough. If enough then start.
+        if (dto.getApplicationStepLevelStatus().equals(ApplicationStepLevelStatus.PAYMENT) &&
+                profileService.checkBalance(appApplication.getStudentId(), dto.getAmount())) {
+            //
+            WithdrawMoneyFromStudentDTO withdrawMoney = new WithdrawMoneyFromStudentDTO();
+            withdrawMoney.setApplicationId(dto.getAppApplicationId());
+            withdrawMoney.setConsultingId(currentConsultingId);
+            withdrawMoney.setStudentId(appApplication.getStudentId());
+            withdrawMoney.setAmount(TransactionUtil.sumToTiyin(dto.getAmount())); // convert to tiyin
+            withdrawMoney.setConsultingStepLevelId(dto.getConsultingStepLevelId());
+            withdrawMoney.setApplicationLevelStatusId(entity.getId());
+
+            ApiResponse<TransactionResponseDTO> apiResponse = transactionService.makeTransfer(withdrawMoney, lang); // make transfer
+            if (!apiResponse.getIsError()) { // transaction success
+                appApplicationLevelStatusRepository.updateApplicationStepLevelStatus(entity.getId(),
+                        ApplicationStepLevelStatus.PAYMENT_SUCCESS, LocalDateTime.now());
+            }
+        }
+
         appApplicationRepository.updateConsultingStepLevelStatusId(appApplication.getId(), entity.getId());
 
         // if stepLevel going to finish. update ConsultingStepLevelEntity
@@ -103,10 +140,38 @@ public class AppApplicationLevelStatusService {
         return ApiResponse.ok(toDTO(entity));
     }
 
+    public ApiResponse<String> levelStatusFinishPayment(String applicationLevelStatusId, AppLanguage lang) {
+        AppApplicationLevelStatusEntity entity = get(applicationLevelStatusId);
+        if (!entity.getApplicationStepLevelStatus().equals(ApplicationStepLevelStatus.PAYMENT_FAILED)) {
+            return ApiResponse.bad(resourceMessageService.getMessage("wrong.status", lang));
+        }
+        AppApplicationEntity appApplication = appApplicationService.get(entity.getAppApplicationId());
+        if (profileService.checkBalance(appApplication.getStudentId(), entity.getAmount())) {
+            //
+            WithdrawMoneyFromStudentDTO withdrawMoney = new WithdrawMoneyFromStudentDTO();
+            withdrawMoney.setApplicationId(entity.getAppApplicationId());
+            withdrawMoney.setConsultingId(appApplication.getConsultingId());
+            withdrawMoney.setStudentId(appApplication.getStudentId());
+            withdrawMoney.setAmount(entity.getAmount()); // amount is already in tiyin
+            withdrawMoney.setConsultingStepLevelId(entity.getConsultingStepLevelId());
+            withdrawMoney.setApplicationLevelStatusId(entity.getId());
+
+            ApiResponse<TransactionResponseDTO> apiResponse = transactionService.makeTransfer(withdrawMoney, lang); // make transfer
+            if (!apiResponse.getIsError()) { // transaction success
+                appApplicationLevelStatusRepository.updateApplicationStepLevelStatus(entity.getId(),
+                        ApplicationStepLevelStatus.PAYMENT_SUCCESS, LocalDateTime.now());
+                return ApiResponse.bad(resourceMessageService.getMessage("success", lang));
+            }
+        }
+        return ApiResponse.bad(resourceMessageService.getMessage("failed", lang));
+    }
+
     public ApiResponse<List<KeyValueDTO>> getLevelStatuEnumList(AppLanguage appLanguage) {
         List<KeyValueDTO> dtoList = new LinkedList<>();
         for (ApplicationStepLevelStatus status : ApplicationStepLevelStatus.values()) {
-            dtoList.add(new KeyValueDTO(status.name(), status.getName(appLanguage)));
+            if (!status.equals(ApplicationStepLevelStatus.PAYMENT_FAILED) && !status.equals(ApplicationStepLevelStatus.PAYMENT_SUCCESS)) {
+                dtoList.add(new KeyValueDTO(status.name(), status.getName(appLanguage)));
+            }
         }
         return ApiResponse.ok(dtoList);
     }

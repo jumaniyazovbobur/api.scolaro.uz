@@ -15,6 +15,8 @@ import api.scolaro.uz.dto.transaction.response.TransactionResponseAsStudentDTO;
 import api.scolaro.uz.dto.transaction.response.payme.*;
 import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.entity.transaction.TransactionsEntity;
+import api.scolaro.uz.entity.transaction.TransformEntity;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.LanguageEnum;
 import api.scolaro.uz.enums.jsonrpc.PaymeResponseStatus;
 import api.scolaro.uz.enums.transaction.ProfileType;
@@ -23,6 +25,7 @@ import api.scolaro.uz.enums.transaction.TransactionStatus;
 import api.scolaro.uz.enums.transaction.TransactionType;
 import api.scolaro.uz.repository.transaction.CustomTransactionRepository;
 import api.scolaro.uz.repository.transaction.TransactionRepository;
+import api.scolaro.uz.repository.transaction.TransformRepository;
 import api.scolaro.uz.service.ProfileService;
 import api.scolaro.uz.service.ResourceMessageService;
 import api.scolaro.uz.service.consulting.ConsultingService;
@@ -60,6 +63,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final CustomTransactionRepository customTransactionRepository;
     private final ResourceMessageService resourceMessageService;
     private final ConsultingService consultingService;
+    private final TransformRepository transformRepository;
 
     private final Long time_expired = 43_200_000L;
 
@@ -430,7 +434,7 @@ public class TransactionServiceImpl implements TransactionService {
     public PageImpl<TransactionResponseAsStudentDTO> filterAsStudent(TransactionFilterAsStudentDTO dto, int page, int size) {
         if (page > 0) page--;
         String studentId = EntityDetails.getCurrentUserId();
-        FilterResultDTO<TransactionResponseAsStudentDTO> result = customTransactionRepository.filterAsStudent(dto,studentId, page, size);
+        FilterResultDTO<TransactionResponseAsStudentDTO> result = customTransactionRepository.filterAsStudent(dto, studentId, page, size);
         return new PageImpl<>(result.getContent(), PageRequest.of(page, size), result.getTotalElement());
     }
 
@@ -442,42 +446,47 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public ApiResponse<TransactionResponseDTO> withdrawMoneyFromStudentAsConsulting(WithdrawMoneyFromStudentDTO dto, LanguageEnum lang) {
+    public ApiResponse makeTransfer(WithdrawMoneyFromStudentDTO dto, AppLanguage lang) {
         ProfileEntity student = profileService.get(dto.getStudentId());
-        String consultingId = Objects.requireNonNull(EntityDetails.getCurrentUserDetail()).getProfileConsultingId();
-
-        TransactionsEntity transactionForStudent = toEntity(dto.getStudentId(), ProfileType.PROFILE, dto.getAmount(), TransactionType.CREDIT);
-        TransactionsEntity transactionForConsulting = toEntity(consultingId, ProfileType.CONSULTING, dto.getAmount(), TransactionType.DEBIT);
-
+        // check balance
         if (!profileService.checkBalance(dto.getStudentId(), dto.getAmount())) {
-            transactionForStudent.setStatus(TransactionStatus.CANCELED);
-            transactionForConsulting.setStatus(TransactionStatus.CANCELED);
-            transactionRepository.save(transactionForStudent);
-            transactionRepository.save(transactionForConsulting);
-            log.warn("Not enough amount! studentBalance={}, amount={}", student.getBalance(), dto.getAmount());
-            return ApiResponse.bad(resourceMessageService.getMessage("", lang));
+            log.warn("Not enough amount! consultingId={}, studentId={},  studentBalance={}, amount={}", dto.getConsultingId(), student.getId(), student.getBalance(), dto.getAmount());
+            return ApiResponse.bad(resourceMessageService.getMessage("not.enough.balance", lang));
         }
-
-        log.info("reduceFromBalance");
+        // save transform
+        TransformEntity transform = new TransformEntity();
+        transform.setStudentId(student.getId());
+        transform.setConsultingId(dto.getConsultingId());
+        transform.setApplicationId(dto.getApplicationId());
+        transform.setConsultingStepLevelId(dto.getConsultingStepLevelId());
+        transform.setApplicationLevelStatusId(dto.getApplicationLevelStatusId());
+        transform.setAmount(dto.getAmount());
+        transformRepository.save(transform);
+        // save transactions
+        TransactionsEntity transactionForStudent = toEntity(dto.getStudentId(), ProfileType.PROFILE, dto.getAmount(), TransactionType.CREDIT, transform.getId(), 1);
+        TransactionsEntity transactionForConsulting = toEntity(dto.getConsultingId(), ProfileType.CONSULTING, dto.getAmount(), TransactionType.DEBIT, transform.getId(), 2);
+        // withdraw student balance
+        log.info("withdraw student balance");
         profileService.reduceFromBalance(student.getId(), dto.getAmount());
-        log.info("fill consulting balance");
-        consultingService.fillConsultingBalance(consultingId, dto.getAmount());
-
-        transactionForStudent.setStatus(TransactionStatus.SUCCESS);
-        transactionForConsulting.setStatus(TransactionStatus.SUCCESS);
-
+        // save transaction 1
         transactionRepository.save(transactionForStudent);
+        //f ill consulting balance
+        log.info("fill consulting balance");
+        consultingService.fillConsultingBalance(dto.getConsultingId(), dto.getAmount());
+        // save transaction 2
         transactionRepository.save(transactionForConsulting);
-
-        return ApiResponse.ok(TransactionResponseDTO.toDTO(transactionForStudent));
+        return ApiResponse.ok();
     }
 
-    private TransactionsEntity toEntity(String profileId, ProfileType profileType, Long amount, TransactionType type) {
+    private TransactionsEntity toEntity(String profileId, ProfileType profileType, Long amount, TransactionType type, String transformId, Integer transformOrder) {
         TransactionsEntity entity = new TransactionsEntity();
         entity.setProfileId(profileId);
         entity.setProfileType(profileType);
         entity.setAmount(amount);
         entity.setTransactionType(type);
+        entity.setTransformId(transformId);
+        entity.setTransformOrder(transformOrder);
+        entity.setStatus(TransactionStatus.SUCCESS);
         return entity;
     }
 }
