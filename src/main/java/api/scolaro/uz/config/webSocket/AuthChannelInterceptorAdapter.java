@@ -37,6 +37,7 @@ public class AuthChannelInterceptorAdapter implements ChannelInterceptor {
 
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
+
         log.debug("Intercepting new message, " + message.getPayload());
         final StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
@@ -45,23 +46,9 @@ public class AuthChannelInterceptorAdapter implements ChannelInterceptor {
             return null;
         } else if (accessor.getCommand() == StompCommand.CONNECT) {
             final String tokenWithBearer = accessor.getFirstNativeHeader(TOKEN_HEADER);
-            if (tokenWithBearer == null) {
-                log.error("token is null");
-                return null;
-            }
-            final String token = tokenWithBearer.substring(7).trim();
-            JwtDTO jwtDTO = JwtUtil.decode(token);
-            // load user depending on role
-            UserDetails userDetails;
-            String phone = jwtDTO.getPhone();
-            if (EntityDetails.hasRole(RoleEnum.ROLE_CONSULTING, jwtDTO.getRoleList())) {  // load consulting
-                userDetails = customUserDetailsService.loadConsultingByPhone(phone);
-            } else { // load student or admin
-                userDetails = customUserDetailsService.loadUserByUsername(phone);
-            }
-            final UsernamePasswordAuthenticationToken user = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            System.out.println(tokenWithBearer);
 
-            accessor.setUser(user);
+            accessor.setUser((UsernamePasswordAuthenticationToken) accessor.getHeader("simpUser"));
         } else if (accessor.getCommand() == StompCommand.SEND) {
             if (accessor.getUser() == null || accessor.getUser().getName().isEmpty()) {
                 log.debug("User not authorized - preventing message");
@@ -71,5 +58,7 @@ public class AuthChannelInterceptorAdapter implements ChannelInterceptor {
 
         return message;
     }
+
+
 
 }
