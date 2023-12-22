@@ -84,6 +84,7 @@ public class ConsultingService {
         consultingEntity.setPhotoId(dto.getPhotoId());
         consultingEntity.setStatus(GeneralStatus.ACTIVE);
         consultingEntity.setAbout(dto.getAbout());
+        consultingEntity.setBalance(0L);
         consultingRepository.save(consultingEntity);// save
 
         ConsultingProfileEntity consultingProfile = new ConsultingProfileEntity();

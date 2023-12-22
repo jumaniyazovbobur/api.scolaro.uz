@@ -84,7 +84,7 @@ public class AppApplicationLevelStatusService {
         }
 
         appApplicationLevelStatusRepository.save(entity); // save applicationStepLevelStatus
-        // payment check before start transaction if balance enough. If enough then start.
+        // payment check before start transaction if balance enough. If enough then make transaction.
         if (dto.getApplicationStepLevelStatus().equals(ApplicationStepLevelStatus.PAYMENT) &&
                 profileService.checkBalance(appApplication.getStudentId(), dto.getAmount())) {
             //
@@ -183,6 +183,7 @@ public class AppApplicationLevelStatusService {
         dto.setDeadline(entity.getDeadline());
         dto.setConsultingStepLevelId(entity.getConsultingStepLevelId());
         dto.setCreatedDate(entity.getCreatedDate());
+        dto.setAmount(entity.getAmount());
         return dto;
     }
 

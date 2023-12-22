@@ -234,5 +234,8 @@ public class AttachService {
         return id == null ? null : new AttachDTO(id, getUrl(id), extension);
     }
 
-
+    public ApiResponse<Boolean> stepLevelDeleteAttach(String attachId) {
+        applicationLevelAttachService.deleteLevelAttachByAttachId(attachId);
+        return ApiResponse.ok();
+    }
 }

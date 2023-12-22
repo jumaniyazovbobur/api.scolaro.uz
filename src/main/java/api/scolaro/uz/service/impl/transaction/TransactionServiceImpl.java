@@ -463,8 +463,8 @@ public class TransactionServiceImpl implements TransactionService {
         transform.setAmount(dto.getAmount());
         transformRepository.save(transform);
         // save transactions
-        TransactionsEntity transactionForStudent = toEntity(dto.getStudentId(), ProfileType.PROFILE, dto.getAmount(), TransactionType.CREDIT, transform.getId(), 1);
-        TransactionsEntity transactionForConsulting = toEntity(dto.getConsultingId(), ProfileType.CONSULTING, dto.getAmount(), TransactionType.DEBIT, transform.getId(), 2);
+        TransactionsEntity transactionForStudent = toEntity(dto.getStudentId(), "INNER", ProfileType.PROFILE, dto.getAmount(), TransactionType.CREDIT, transform.getId(), 1);
+        TransactionsEntity transactionForConsulting = toEntity(dto.getConsultingId(), "INNER", ProfileType.CONSULTING, dto.getAmount(), TransactionType.DEBIT, transform.getId(), 2);
         // withdraw student balance
         log.info("withdraw student balance");
         profileService.reduceFromBalance(student.getId(), dto.getAmount());
@@ -478,7 +478,7 @@ public class TransactionServiceImpl implements TransactionService {
         return ApiResponse.ok();
     }
 
-    private TransactionsEntity toEntity(String profileId, ProfileType profileType, Long amount, TransactionType type, String transformId, Integer transformOrder) {
+    private TransactionsEntity toEntity(String profileId, String paymentType, ProfileType profileType, Long amount, TransactionType type, String transformId, Integer transformOrder) {
         TransactionsEntity entity = new TransactionsEntity();
         entity.setProfileId(profileId);
         entity.setProfileType(profileType);
@@ -487,6 +487,7 @@ public class TransactionServiceImpl implements TransactionService {
         entity.setTransformId(transformId);
         entity.setTransformOrder(transformOrder);
         entity.setStatus(TransactionStatus.SUCCESS);
+        entity.setPaymentType(paymentType);
         return entity;
     }
 }

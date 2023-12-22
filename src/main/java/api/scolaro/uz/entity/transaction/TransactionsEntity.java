@@ -39,7 +39,7 @@ public class TransactionsEntity extends BaseEntity {
     @Column(name = "status")
     private TransactionStatus status;  // to enum
     @Column(name = "payment_type")
-    private String paymentType; // PAYME
+    private String paymentType; // PAYME,INNER
     @Column(name = "create_time")
     private Long createTime; // create time in the payme
     @Column(name = "perform_time")

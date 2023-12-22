@@ -20,4 +20,5 @@ public class AppApplicationLevelStatusDTO {
     private LocalDate deadline;
     private String description;
     private LocalDateTime createdDate;
+    private Long amount;
 }

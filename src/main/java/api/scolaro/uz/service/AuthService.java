@@ -86,6 +86,7 @@ public class AuthService {
         userEntity.setGenderType(dto.getGender());
         userEntity.setNickName(dto.getNickName());
         userEntity.setFireBaseId(dto.getFireBaseId());
+        userEntity.setBalance(0L);
 
         profileRepository.save(userEntity);
         // send sms verification code

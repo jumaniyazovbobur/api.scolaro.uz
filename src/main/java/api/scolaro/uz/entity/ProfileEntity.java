@@ -49,5 +49,5 @@ public class ProfileEntity extends BaseEntity {
     private GenderType genderType;
 
     @Column(name = "balance")
-    private Long balance; // tiyin 1sum = 100 tiyin
+    private Long balance=0L; // tiyin 1sum = 100 tiyin
 }
