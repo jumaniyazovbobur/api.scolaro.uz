@@ -4,6 +4,7 @@ import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.consulting.ConsultingProfileDTO;
+import api.scolaro.uz.dto.consultingProfile.ConsultingProfileCreateDTO;
 import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
 import api.scolaro.uz.entity.consulting.ConsultingProfileEntity;
 import api.scolaro.uz.enums.sms.SmsType;
@@ -151,6 +152,18 @@ public class ConsultingProfileService {
         return dto;
     }
 
+    public ApiResponse<String> create(ConsultingProfileCreateDTO dto) {
+        return null;
+    }
+
+    private ConsultingProfileEntity toEntity(ConsultingProfileCreateDTO dto) {
+        ConsultingProfileEntity entity = new ConsultingProfileEntity();
+//        entity.setConsultingId();
+        entity.setAddress(dto.getAddress());
+        entity.setName(dto.getName());
+        entity.setPhone(dto.getPhone());
+        return entity;
+    }
     // currentConsulting.setRoleList(personRoleService.getProfileRoleList(details.getId()));
 //    public ApiResponse<String> deleteAccount() {
 //        ConsultingEntity entity = get(EntityDetails.getCurrentUserId());

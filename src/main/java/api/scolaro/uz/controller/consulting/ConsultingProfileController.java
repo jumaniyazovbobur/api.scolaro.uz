@@ -4,6 +4,7 @@ import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.consulting.ConsultingProfileDTO;
+import api.scolaro.uz.dto.consultingProfile.ConsultingProfileCreateDTO;
 import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
 import api.scolaro.uz.service.consulting.ConsultingProfileService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -71,4 +72,14 @@ public class ConsultingProfileController {
     }*/
 
 
+    /**
+     * FOR CONSULTING_MANAGER
+     */
+    @PreAuthorize("hasRole('ROLE_CONSULTING_MANAGER')")
+    @PostMapping("")
+    @Operation(summary = "Create consulting profile", description = "for consulting manager")
+    public ResponseEntity<ApiResponse<String>> create(@RequestBody @Valid ConsultingProfileCreateDTO dto) {
+        log.info("Create consulting profile");
+        return ResponseEntity.ok(consultingProfileService.create(dto));
+    }
 }
