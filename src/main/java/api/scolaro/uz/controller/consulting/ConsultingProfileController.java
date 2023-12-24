@@ -5,15 +5,16 @@ import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.consulting.ConsultingProfileDTO;
 import api.scolaro.uz.dto.consultingProfile.ConsultingProfileCreateDTO;
+import api.scolaro.uz.dto.consultingProfile.ConsultingProfileUpdateDTO;
 import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
 import api.scolaro.uz.service.consulting.ConsultingProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -81,5 +82,32 @@ public class ConsultingProfileController {
     public ResponseEntity<ApiResponse<String>> create(@RequestBody @Valid ConsultingProfileCreateDTO dto) {
         log.info("Create consulting profile");
         return ResponseEntity.ok(consultingProfileService.create(dto));
+    }
+
+    @PreAuthorize("hasRole('ROLE_CONSULTING_MANAGER')")
+    @PutMapping("/{id}")
+    @Operation(summary = "Edit consulting profile", description = "for consulting manager")
+    public ResponseEntity<ApiResponse<String>> update(@RequestBody @Valid ConsultingProfileUpdateDTO dto,
+                                                      @PathVariable String id) {
+        log.info("Update consulting profile");
+        return ResponseEntity.ok(consultingProfileService.update(id, dto));
+    }
+
+    @PreAuthorize("hasRole('ROLE_CONSULTING_MANAGER')")
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete", description = "for consulting manager")
+    public ResponseEntity<ApiResponse<String>> delete(@PathVariable String id) {
+        log.info("Delete consulting profile");
+        return ResponseEntity.ok(consultingProfileService.delete(id));
+    }
+
+    @PreAuthorize("hasRole('ROLE_CONSULTING_MANAGER')")
+    @GetMapping("")
+    @Operation(summary = "Delete", description = "for consulting manager")
+    public ResponseEntity<ApiResponse<PageImpl<ConsultingProfileDTO>>> findAll(@RequestParam(name = "size", defaultValue = "50") int size,
+                                                                               @RequestParam(name = "page", defaultValue = "1") int page) {
+        log.info("FindAll consulting profile");
+        if (page > 0) page--;
+        return ResponseEntity.ok(consultingProfileService.findAll(page, size));
     }
 }

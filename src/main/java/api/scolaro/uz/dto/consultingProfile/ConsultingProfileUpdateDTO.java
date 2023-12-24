@@ -13,14 +13,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ConsultingProfileCreateDTO {
+public class ConsultingProfileUpdateDTO {
     private String name;
 
     private String surname;
 
     private String phone;
-
-    private String password;
 
     private String photoId;
 

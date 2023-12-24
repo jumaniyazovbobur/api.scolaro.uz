@@ -42,5 +42,4 @@ public class EntityDetails {
         assert details != null;
         return details.getRoleList().stream().map(SimpleGrantedAuthority::getAuthority).collect(Collectors.toList());
     }
-
 }

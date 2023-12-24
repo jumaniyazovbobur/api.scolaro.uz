@@ -5,6 +5,7 @@ import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.consulting.ConsultingProfileDTO;
 import api.scolaro.uz.dto.consultingProfile.ConsultingProfileCreateDTO;
+import api.scolaro.uz.dto.consultingProfile.ConsultingProfileUpdateDTO;
 import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
 import api.scolaro.uz.entity.consulting.ConsultingProfileEntity;
 import api.scolaro.uz.enums.sms.SmsType;
@@ -20,8 +21,11 @@ import api.scolaro.uz.util.RandomUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -38,7 +42,7 @@ public class ConsultingProfileService {
     private AttachService attachService;
     @Autowired
     private ConsultingService consultingService;
-
+    private final PasswordEncoder passwordEncoder;
 
     public ApiResponse<String> updatePassword(UpdatePasswordDTO dto) {
         if (!dto.getNewPassword().equals(dto.getConfirmPassword())) {
@@ -153,16 +157,90 @@ public class ConsultingProfileService {
     }
 
     public ApiResponse<String> create(ConsultingProfileCreateDTO dto) {
-        return null;
+        String phone = dto.getPhone();
+
+        if (phone.startsWith("+")) {
+            phone = phone.substring(1);
+        }
+
+        if (!PhoneUtil.validatePhone(phone)) {
+            log.info("Phone not valid {}", phone);
+            return ApiResponse.bad("Phone not valid");
+        }
+
+        Optional<ConsultingProfileEntity> optional = consultingProfileRepository.findByPhoneAndVisibleIsTrue(phone);
+
+        if (optional.isPresent()) {
+            log.info("{} Phone exist", phone);
+            return ApiResponse.bad("Phone exist !");
+        }
+
+        String consultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
+        ConsultingProfileEntity entity = toEntity(dto, consultingId);
+
+        consultingProfileRepository.save(entity);
+        return ApiResponse.ok();
     }
 
-    private ConsultingProfileEntity toEntity(ConsultingProfileCreateDTO dto) {
+    private ConsultingProfileEntity toEntity(ConsultingProfileCreateDTO dto, String consultingId) {
         ConsultingProfileEntity entity = new ConsultingProfileEntity();
-//        entity.setConsultingId();
+        entity.setConsultingId(consultingId);
         entity.setAddress(dto.getAddress());
         entity.setName(dto.getName());
         entity.setPhone(dto.getPhone());
+        entity.setSurname(dto.getSurname());
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+        entity.setPhotoId(dto.getPhotoId());
+        entity.setCountryId(dto.getCountryId());
         return entity;
+    }
+
+    public ApiResponse<String> update(String id, ConsultingProfileUpdateDTO dto) {
+
+        Optional<ConsultingProfileEntity> optional = consultingProfileRepository.findByIdAndVisibleTrue(id);
+        if (optional.isEmpty()) {
+            log.info("Consulting profile not found! {}", id);
+            return ApiResponse.bad("Profile not found");
+        }
+
+        ConsultingProfileEntity entity = optional.get();
+        String consultingId = Objects.requireNonNull(EntityDetails.getCurrentUserDetail()).getProfileConsultingId();
+
+        if (!consultingId.equals(entity.getConsultingId())) {
+            log.info("Access denied! {}", id);
+            return ApiResponse.forbidden("Access denied!");
+        }
+
+        entity.setConsultingId(consultingId);
+        entity.setAddress(dto.getAddress());
+        entity.setName(dto.getName());
+        entity.setPhone(dto.getPhone());
+        entity.setSurname(dto.getSurname());
+        entity.setPhotoId(dto.getPhotoId());
+        entity.setCountryId(dto.getCountryId());
+        consultingProfileRepository.save(entity);
+        return ApiResponse.ok();
+    }
+
+    public ApiResponse<String> delete(String id) {
+        consultingProfileRepository.updateVisible(id, false);
+        return ApiResponse.ok();
+    }
+
+    public ApiResponse<PageImpl<ConsultingProfileDTO>> findAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdDate"));
+        Page<ConsultingProfileEntity> entityPage = consultingProfileRepository.findAllByVisibleIsTrue(pageable);
+
+        return ApiResponse.ok(
+                new PageImpl<>(
+                        entityPage
+                                .stream()
+                                .map(this::toDTO)
+                                .toList(),
+                        pageable,
+                        entityPage.getTotalElements()
+                )
+        );
     }
     // currentConsulting.setRoleList(personRoleService.getProfileRoleList(details.getId()));
 //    public ApiResponse<String> deleteAccount() {

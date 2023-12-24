@@ -1,6 +1,8 @@
 package api.scolaro.uz.repository.consulting;
 
 import api.scolaro.uz.entity.consulting.ConsultingProfileEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -42,4 +44,12 @@ public interface ConsultingProfileRepository extends CrudRepository<ConsultingPr
 
     @Query(value = "select * from consulting_profile where consulting_id=:consultingId and id in (select person_id from person_role where role = 'ROLE_CONSULTING_MANAGER') ", nativeQuery = true)
     Optional<ConsultingProfileEntity> findConsultingManagerByConsultingId(@Param("consultingId") String consultingId);
+
+    @Query("update ConsultingProfileEntity set visible = ?2 where id = ?1")
+    @Modifying
+    @Transactional
+    int updateVisible(String id, Boolean b);
+
+    Page<ConsultingProfileEntity> findAllByVisibleIsTrue(Pageable pageable);
+
 }
