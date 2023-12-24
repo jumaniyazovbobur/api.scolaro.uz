@@ -8,6 +8,8 @@ import api.scolaro.uz.dto.consultingProfile.ConsultingProfileCreateDTO;
 import api.scolaro.uz.dto.consultingProfile.ConsultingProfileUpdateDTO;
 import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
 import api.scolaro.uz.entity.consulting.ConsultingProfileEntity;
+import api.scolaro.uz.enums.GeneralStatus;
+import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.enums.sms.SmsType;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.consulting.ConsultingProfileRepository;
@@ -25,6 +27,8 @@ import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -179,6 +183,7 @@ public class ConsultingProfileService {
         ConsultingProfileEntity entity = toEntity(dto, consultingId);
 
         consultingProfileRepository.save(entity);
+        personRoleService.create(entity.getId(), Arrays.asList(RoleEnum.ROLE_CONSULTING, RoleEnum.ROLE_CONSULTING_PROFILE));
         return ApiResponse.ok();
     }
 
@@ -189,9 +194,10 @@ public class ConsultingProfileService {
         entity.setName(dto.getName());
         entity.setPhone(dto.getPhone());
         entity.setSurname(dto.getSurname());
-        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+        entity.setPassword(MD5Util.getMd5(dto.getPassword()));
         entity.setPhotoId(dto.getPhotoId());
         entity.setCountryId(dto.getCountryId());
+        entity.setStatus(GeneralStatus.ACTIVE);
         return entity;
     }
 
@@ -214,7 +220,6 @@ public class ConsultingProfileService {
         entity.setConsultingId(consultingId);
         entity.setAddress(dto.getAddress());
         entity.setName(dto.getName());
-        entity.setPhone(dto.getPhone());
         entity.setSurname(dto.getSurname());
         entity.setPhotoId(dto.getPhotoId());
         entity.setCountryId(dto.getCountryId());
@@ -227,9 +232,9 @@ public class ConsultingProfileService {
         return ApiResponse.ok();
     }
 
-    public ApiResponse<PageImpl<ConsultingProfileDTO>> findAll(int page, int size) {
+    public ApiResponse<PageImpl<ConsultingProfileDTO>> findAll(String consultingId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdDate"));
-        Page<ConsultingProfileEntity> entityPage = consultingProfileRepository.findAllByVisibleIsTrue(pageable);
+        Page<ConsultingProfileEntity> entityPage = consultingProfileRepository.findAllByConsultingIdAndVisibleIsTrue(consultingId, pageable);
 
         return ApiResponse.ok(
                 new PageImpl<>(
@@ -241,6 +246,11 @@ public class ConsultingProfileService {
                         entityPage.getTotalElements()
                 )
         );
+    }
+
+    public ApiResponse<String> updateStatus(String id, GeneralStatus status) {
+        consultingProfileRepository.updateStatus(id,status);
+        return ApiResponse.ok();
     }
     // currentConsulting.setRoleList(personRoleService.getProfileRoleList(details.getId()));
 //    public ApiResponse<String> deleteAccount() {

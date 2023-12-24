@@ -1,5 +1,8 @@
 package api.scolaro.uz.dto.consultingProfile;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,12 +17,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ConsultingProfileCreateDTO {
+    @NotBlank(message = "Name is required!")
     private String name;
 
+    @NotBlank(message = "Surname is required!")
     private String surname;
 
+    @NotBlank(message = "Phone is required!")
     private String phone;
 
+    @NotBlank(message = "Password required")
+    @Size(min = 6, max = 20, message = "About Me must between 6 and 20 characters")
     private String password;
 
     private String photoId;
@@ -27,5 +35,4 @@ public class ConsultingProfileCreateDTO {
     private Long countryId;
 
     private String address;
-
 }

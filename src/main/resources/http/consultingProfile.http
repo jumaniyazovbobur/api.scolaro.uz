@@ -1,0 +1,36 @@
+### Create
+POST http://localhost:8081/api/v1/consulting-profile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDM0MTM5OTYsImlkIjoiNDAyODgwZTU4YzYxZjFmMDAxOGM2MWYzNjBhMTAwMDIxMSIsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZXMiOiJST0xFX0NPTlNVTFRJTkcsUk9MRV9DT05TVUxUSU5HX01BTkFHRVIiLCJleHAiOjE3MDQwMTg3OTYsImlzcyI6IkphdmEgYmFja2VuZCJ9.sDwfF3TUNPd37Imeh6AE4jUeqJ6jSDRK5amzfQJ183mzagyg_HdIv059N-yoKT_mstOMxvoj2Y6jUsGlv80yMw
+
+{
+  "name": "Sarvar",
+  "surname": "Mukhtarov",
+  "password": "123456",
+  "phone": "998972322904",
+  "address": "Toshkent, Chilonzor 19"
+}
+
+### Update
+PUT http://localhost:8081/api/v1/consulting-profile/4028f80a8c9b91e3018c9b92c2940000
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDM0MTM5OTYsImlkIjoiNDAyODgwZTU4YzYxZjFmMDAxOGM2MWYzNjBhMTAwMDIxMSIsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZXMiOiJST0xFX0NPTlNVTFRJTkcsUk9MRV9DT05TVUxUSU5HX01BTkFHRVIiLCJleHAiOjE3MDQwMTg3OTYsImlzcyI6IkphdmEgYmFja2VuZCJ9.sDwfF3TUNPd37Imeh6AE4jUeqJ6jSDRK5amzfQJ183mzagyg_HdIv059N-yoKT_mstOMxvoj2Y6jUsGlv80yMw
+
+{
+  "name": "Sarvar1",
+  "surname": "Mukhtarov1",
+  "address": "Toshkent, Chilonzor 20"
+}
+
+### delete
+DELETE http://localhost:8081/api/v1/consulting-profile/4028f80a8c9b86ab018c9b86d5290000
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDM0MTM5OTYsImlkIjoiNDAyODgwZTU4YzYxZjFmMDAxOGM2MWYzNjBhMTAwMDIxMSIsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZXMiOiJST0xFX0NPTlNVTFRJTkcsUk9MRV9DT05TVUxUSU5HX01BTkFHRVIiLCJleHAiOjE3MDQwMTg3OTYsImlzcyI6IkphdmEgYmFja2VuZCJ9.sDwfF3TUNPd37Imeh6AE4jUeqJ6jSDRK5amzfQJ183mzagyg_HdIv059N-yoKT_mstOMxvoj2Y6jUsGlv80yMw
+
+
+### FIND ALL
+GET http://localhost:8081/api/v1/consulting-profile
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDM0MTM5OTYsImlkIjoiNDAyODgwZTU4YzYxZjFmMDAxOGM2MWYzNjBhMTAwMDIxMSIsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZXMiOiJST0xFX0NPTlNVTFRJTkcsUk9MRV9DT05TVUxUSU5HX01BTkFHRVIiLCJleHAiOjE3MDQwMTg3OTYsImlzcyI6IkphdmEgYmFja2VuZCJ9.sDwfF3TUNPd37Imeh6AE4jUeqJ6jSDRK5amzfQJ183mzagyg_HdIv059N-yoKT_mstOMxvoj2Y6jUsGlv80yMw
+
+### Update status
+PUT http://localhost:8081/api/v1/consulting-profile/update-status/4028f80a8c9b86ab018c9b86d5290000
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDM0MTM5OTYsImlkIjoiNDAyODgwZTU4YzYxZjFmMDAxOGM2MWYzNjBhMTAwMDIxMSIsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZXMiOiJST0xFX0NPTlNVTFRJTkcsUk9MRV9DT05TVUxUSU5HX01BTkFHRVIiLCJleHAiOjE3MDQwMTg3OTYsImlzcyI6IkphdmEgYmFja2VuZCJ9.sDwfF3TUNPd37Imeh6AE4jUeqJ6jSDRK5amzfQJ183mzagyg_HdIv059N-yoKT_mstOMxvoj2Y6jUsGlv80yMw

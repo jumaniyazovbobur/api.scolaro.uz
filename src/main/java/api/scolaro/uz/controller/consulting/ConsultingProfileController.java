@@ -7,6 +7,7 @@ import api.scolaro.uz.dto.consulting.ConsultingProfileDTO;
 import api.scolaro.uz.dto.consultingProfile.ConsultingProfileCreateDTO;
 import api.scolaro.uz.dto.consultingProfile.ConsultingProfileUpdateDTO;
 import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
+import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.service.consulting.ConsultingProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,6 +19,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/consulting-profile")
@@ -108,6 +111,16 @@ public class ConsultingProfileController {
                                                                                @RequestParam(name = "page", defaultValue = "1") int page) {
         log.info("FindAll consulting profile");
         if (page > 0) page--;
-        return ResponseEntity.ok(consultingProfileService.findAll(page, size));
+        String consultingId = Objects.requireNonNull(EntityDetails.getCurrentUserDetail()).getProfileConsultingId();
+        return ResponseEntity.ok(consultingProfileService.findAll(consultingId, page, size));
+    }
+
+    @PutMapping("/update-status/{id}")
+    @PreAuthorize("hasRole('ROLE_CONSULTING_MANAGER')")
+    @Operation(summary = "Update status", description = "for consulting manager")
+    public ResponseEntity<ApiResponse<String>> updateStatus(@PathVariable String id,
+                                                            @RequestParam(name = "status") GeneralStatus status) {
+        log.info("Update status {}", id);
+        return ResponseEntity.ok(consultingProfileService.updateStatus(id,status));
     }
 }

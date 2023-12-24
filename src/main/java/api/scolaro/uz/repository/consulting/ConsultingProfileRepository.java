@@ -1,6 +1,7 @@
 package api.scolaro.uz.repository.consulting;
 
 import api.scolaro.uz.entity.consulting.ConsultingProfileEntity;
+import api.scolaro.uz.enums.GeneralStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
@@ -50,6 +51,9 @@ public interface ConsultingProfileRepository extends CrudRepository<ConsultingPr
     @Transactional
     int updateVisible(String id, Boolean b);
 
-    Page<ConsultingProfileEntity> findAllByVisibleIsTrue(Pageable pageable);
-
+    Page<ConsultingProfileEntity> findAllByConsultingIdAndVisibleIsTrue(String consultingId,Pageable pageable);
+    @Transactional
+    @Modifying
+    @Query("update ConsultingProfileEntity set status = ?2 where id = ?1 ")
+    int updateStatus(String id, GeneralStatus status);
 }
