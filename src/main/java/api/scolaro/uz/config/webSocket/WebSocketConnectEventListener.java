@@ -6,12 +6,15 @@ package api.scolaro.uz.config.webSocket;
  * @package api.scolaro.uz.config.webSocket
  * @contact @sarvargo
  */
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 
 @Component
+@Slf4j
 public class WebSocketConnectEventListener implements ApplicationListener<SessionConnectedEvent> {
 
     @Override
@@ -22,6 +25,6 @@ public class WebSocketConnectEventListener implements ApplicationListener<Sessio
         String sessionId = headerAccessor.getSessionId();
 
         // Perform any necessary actions or logging
-        System.out.println("User connected. Session ID: " + sessionId);
+        log.info("User connected. Session ID:{}", sessionId);
     }
 }

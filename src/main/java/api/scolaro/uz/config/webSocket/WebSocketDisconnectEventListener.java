@@ -6,6 +6,8 @@ package api.scolaro.uz.config.webSocket;
  * @package api.scolaro.uz.config.webSocket
  * @contact @sarvargo
  */
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
@@ -14,6 +16,7 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import java.security.Principal;
 
 @Component
+@Slf4j
 public class WebSocketDisconnectEventListener implements ApplicationListener<SessionDisconnectEvent> {
 
     @Override
@@ -25,6 +28,6 @@ public class WebSocketDisconnectEventListener implements ApplicationListener<Ses
         Principal user = headerAccessor.getUser();
 
         // Perform any necessary cleanup or logging
-        System.out.println("User disconnected. Session ID: " + sessionId);
+        log.info("User disconnected. Session ID: {}", sessionId);
     }
 }
