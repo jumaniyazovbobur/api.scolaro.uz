@@ -222,7 +222,7 @@ public class AppApplicationService {
     public AppApplicationEntity get(String id) {
         return appApplicationRepository.findByIdAndVisibleTrue(id).orElseThrow(() -> {
             log.warn("Application not Found");
-            throw new ItemNotFoundException("Application not found");
+            return new ItemNotFoundException("Application not found");
         });
     }
 
@@ -243,7 +243,7 @@ public class AppApplicationService {
 
     public ApiResponse<String> updateStep(AppApplicationStepDTO dto, String applicationId) {
         AppApplicationEntity appApplication = get(applicationId);
-        String consultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
+        String consultingId = Objects.requireNonNull(EntityDetails.getCurrentUserDetail()).getProfileConsultingId();
         if (!consultingId.equals(appApplication.getConsultingId())) {
             log.info("Consulting {}  do not have access to application {}", consultingId, applicationId);
             return ApiResponse.forbidden("Your access denied for this Application!");
@@ -256,4 +256,15 @@ public class AppApplicationService {
     }
 
 
+    public ApiResponse<String> updateConsultingProfile(String applicationId, String newProfileId) {
+        AppApplicationEntity application = get(applicationId);
+        String consultingId = Objects.requireNonNull(EntityDetails.getCurrentUserDetail()).getProfileConsultingId();
+
+        if (!application.getConsultingId().equals(consultingId)) {
+            log.warn("Access denied updateConsultingProfile inDbConsultingId={},currentConsultingId={}", application.getConsultingId(), consultingId);
+            return ApiResponse.forbidden("Access denied");
+        }
+        appApplicationRepository.updateConsultingProfile(applicationId, newProfileId);
+        return ApiResponse.ok();
+    }
 }
