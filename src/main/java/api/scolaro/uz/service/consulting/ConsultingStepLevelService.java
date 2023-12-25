@@ -40,14 +40,14 @@ public class ConsultingStepLevelService {
         stepEntity.setDescriptionRu(dto.getDescriptionRu());
         stepEntity.setOrderNumber(dto.getOrderNumber());
         stepEntity.setConsultingStepId(dto.getConsultingStepId());
-        stepEntity.setConsultingId(EntityDetails.getCurrentUserId()); // set consulting id
+        stepEntity.setConsultingId(EntityDetails.getCurrentUserDetail().getProfileConsultingId()); // set consulting id
         consultingStepLevelRepository.save(stepEntity);
         return new ApiResponse<>(200, false, resourceMessageService.getMessage("success.insert"));
     }
 
     public ApiResponse<ConsultingStepLevelDTO> update(String id, ConsultingStepLevelUpdateDTO dto) {
         ConsultingStepLevelEntity entity = get(id);
-        if (!entity.getConsultingId().equals(EntityDetails.getCurrentUserId())) {
+        if (!entity.getConsultingId().equals(EntityDetails.getCurrentUserDetail().getProfileConsultingId())) {
             log.warn("consultingStepLevelEntity {} not belongs to current consulting {} ", id, EntityDetails.getCurrentUserId());
             throw new AppBadRequestException("ConsultingStepLevel not belongs to current consulting.");
         }
@@ -65,11 +65,11 @@ public class ConsultingStepLevelService {
 
     public ApiResponse<Boolean> delete(String id) {
         ConsultingStepLevelEntity entity = get(id);
-        if (!entity.getConsultingId().equals(EntityDetails.getCurrentUserId())) {
-            log.warn("consultingStepLevelEntity {} not belongs to current consulting {} ", id, EntityDetails.getCurrentUserId());
+        if (!entity.getConsultingId().equals(EntityDetails.getCurrentUserDetail().getProfileConsultingId())) {
+            log.warn("consultingStepLevelEntity {} not belongs to current consulting {} ", id, EntityDetails.getCurrentUserDetail().getProfileConsultingId());
             throw new AppBadRequestException("ConsultingStepLevel not belongs to current consulting.");
         }
-        int i = consultingStepLevelRepository.deleted(id, EntityDetails.getCurrentUserId(), LocalDateTime.now());
+        int i = consultingStepLevelRepository.deleted(id, EntityDetails.getCurrentUserDetail().getProfileConsultingId(), LocalDateTime.now());
         return new ApiResponse<>(200, false, i > 0);
     }
 

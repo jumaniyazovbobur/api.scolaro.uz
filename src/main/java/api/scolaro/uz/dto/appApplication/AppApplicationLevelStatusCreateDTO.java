@@ -23,4 +23,5 @@ public class AppApplicationLevelStatusCreateDTO {
     private ApplicationStepLevelStatus applicationStepLevelStatus;
     private LocalDate deadline;
     private String description;
+    private Long amount; // in sum. (not in tiyin)
 }

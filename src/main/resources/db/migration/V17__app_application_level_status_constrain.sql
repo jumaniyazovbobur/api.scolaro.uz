@@ -1,0 +1,1 @@
+alter table app_application_level_status drop constraint if exists app_application_level_status_application_step_level_statu_check;

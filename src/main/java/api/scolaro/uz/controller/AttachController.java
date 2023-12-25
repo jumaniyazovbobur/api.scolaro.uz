@@ -47,6 +47,15 @@ public class AttachController {
         return ResponseEntity.ok(attachService.createApplicationLevelAttach(file, stepLevelId, attachType));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/delete/application/step-level/{attachId}")
+    @Operation(summary = "Delete file from step level", description = "")
+    public ResponseEntity<ApiResponse<Boolean>> deleteAttachFromStepLevel(@PathVariable("attachId") String attachId) {
+        log.info("Delete file from step level {}", attachId);
+        return ResponseEntity.ok(attachService.stepLevelDeleteAttach(attachId));
+    }
+
+
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @PostMapping("/upload/simp-message/consulting")
     @Operation(summary = "Upload file to simple-message as consulting", description = "")

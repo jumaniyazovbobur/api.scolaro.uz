@@ -272,7 +272,7 @@ public class AppApplicationFilterRepository {
         StringBuilder selectBuilder = new StringBuilder("select a.id,a.application_number as applicationNumber, " +
                 "       u.id,u.name,u.photo_id, " +
                 "       csl.order_number,csl.id as consultingStepLevelId, " +
-                "       ls.id as levelStatusId, ls.deadline, ls.description " +
+                "       ls.id as levelStatusId, ls.deadline, ls.description, ls.application_step_level_status " +
                 "from app_application as a " +
                 "inner join university u on u.id = a.university_id " +
                 "inner join consulting_step_level csl on csl.id = a.consulting_step_level_id " +
@@ -324,6 +324,10 @@ public class AppApplicationFilterRepository {
             applicationLevelStatus.setId(MapperUtil.getStringValue(object[7]));
             applicationLevelStatus.setDeadline(MapperUtil.getLocalDateValue(object[8]));
             applicationLevelStatus.setDescription(MapperUtil.getStringValue(object[9]));
+            String applicationStepLevelStatus = MapperUtil.getStringValue(object[10]);
+            if(applicationStepLevelStatus != null){
+                applicationLevelStatus.setApplicationStepLevelStatus(ApplicationStepLevelStatus.valueOf(applicationStepLevelStatus));
+            }
             dto.setAppApplicationLevelStatus(applicationLevelStatus);
 
             mapperList.add(dto);

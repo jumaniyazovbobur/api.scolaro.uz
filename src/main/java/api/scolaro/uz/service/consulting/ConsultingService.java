@@ -84,6 +84,7 @@ public class ConsultingService {
         consultingEntity.setPhotoId(dto.getPhotoId());
         consultingEntity.setStatus(GeneralStatus.ACTIVE);
         consultingEntity.setAbout(dto.getAbout());
+        consultingEntity.setBalance(0L);
         consultingRepository.save(consultingEntity);// save
 
         ConsultingProfileEntity consultingProfile = new ConsultingProfileEntity();
@@ -236,5 +237,8 @@ public class ConsultingService {
         if (entity.getPhotoId() != null) dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
         dto.setCreatedDate(entity.getCreatedDate());
         return dto;
+    }
+    public void fillConsultingBalance(String consultingId, Long amount) {
+        consultingRepository.fillBalance(consultingId, amount);
     }
 }

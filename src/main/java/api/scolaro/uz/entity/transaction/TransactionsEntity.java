@@ -20,29 +20,40 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TransactionsEntity extends BaseEntity {
-    private String profileId; // Profile consulting
+    @Column(name = "profile_id")
+    private String profileId; // Profile, consulting
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "profile_type")
     private ProfileType profileType; // PROFILE,CONSULTING
-
+    @Column(name = "amount")
     private Long amount = 0L; // as tiyn 1sum = 100 tiyin
-
+    @Column(name = "payme_transactions_id")
     private String paymeTransactionsId;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "transaction_type")
     private TransactionType transactionType; // DEBIT, CREDIT
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private TransactionStatus status;  // to enum
-
-    private String paymentType; // PAYME
-
+    @Column(name = "payment_type")
+    private String paymentType; // PAYME,INNER
+    @Column(name = "create_time")
     private Long createTime; // create time in the payme
+    @Column(name = "perform_time")
     private LocalDateTime performTime;
+    @Column(name = "cancel_time")
     private LocalDateTime cancelTime;
-
+    @Column(name = "reason")
     private Integer reason;
-
     @Enumerated(EnumType.STRING)
-    private TransactionState state; //
+    @Column(name = "state")
+    private TransactionState state;
+    @Column(name = "transform_id")
+    private String transformId;
+    @Column(name = "transform_order")
+    private Integer transformOrder;
+
 }
