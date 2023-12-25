@@ -26,10 +26,6 @@ public class ConsultingProfileCreateDTO {
     @NotBlank(message = "Phone is required!")
     private String phone;
 
-    @NotBlank(message = "Password required")
-    @Size(min = 6, max = 20, message = "About Me must between 6 and 20 characters")
-    private String password;
-
     private String photoId;
 
     private Long countryId;
