@@ -85,7 +85,7 @@ public class AppApplicationController {
                                                                                       @RequestBody AppApplicationFilterConsultingDTO dto,
                                                                                       @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Get Application student list by countryId for consulting. Mobile. page={},size={}", page, size);
-        return ResponseEntity.ok(appApplicationService.getApplicationStudentListByUniversityIdForConsulting_mobile(universityId, dto, page, size,language));
+        return ResponseEntity.ok(appApplicationService.getApplicationStudentListByUniversityIdForConsulting_mobile(universityId, dto, page, size, language));
     }
 
     @Operation(summary = "Change appApplication  status as consulting", description = "")
@@ -114,6 +114,16 @@ public class AppApplicationController {
         log.info("Update application consultingStep. appId {}, stepId {}", applicationId, dto.getConsultingStepId());
         return ResponseEntity.ok(appApplicationService.updateStep(dto, applicationId));
     }
+
+    @PreAuthorize("hasRole('ROLE_CONSULTING_MANAGER')")
+    @Operation(summary = "Update application consulting profile", description = "for consulting manager")
+    @PutMapping("/consulting/update-profile/{applicationId}")
+    public ResponseEntity<ApiResponse<String>> updateProfile(@PathVariable("applicationId") String applicationId,
+                                                             @RequestParam("newProfileId") String newProfileId) {
+        log.info("Update application profile profileId={},appId={}",newProfileId,applicationId);
+        return ResponseEntity.ok(appApplicationService.updateConsultingProfile(applicationId,newProfileId));
+    }
+
 
     /**
      * ADMIN

@@ -93,5 +93,6 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTgwNTgxNTcsImlkIjoiOTA5M
   "studentName": "Maxmud"
 }
 
-
-
+###
+PUT http://localhost:8081/api/v1/app-application/consulting/update-profile/8080b7ef8bae722c018bae85c0cf0002?newProfileId=4028f80a8c9b91e3018c9b92c2940000
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDM0MTM5OTYsImlkIjoiNDAyODgwZTU4YzYxZjFmMDAxOGM2MWYzNjBhMTAwMDIxMSIsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZXMiOiJST0xFX0NPTlNVTFRJTkcsUk9MRV9DT05TVUxUSU5HX01BTkFHRVIiLCJleHAiOjE3MDQwMTg3OTYsImlzcyI6IkphdmEgYmFja2VuZCJ9.sDwfF3TUNPd37Imeh6AE4jUeqJ6jSDRK5amzfQJ183mzagyg_HdIv059N-yoKT_mstOMxvoj2Y6jUsGlv80yMw

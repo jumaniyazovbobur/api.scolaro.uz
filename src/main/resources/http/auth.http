@@ -67,7 +67,6 @@ Content-Type: application/json
   "smsCode": "71824",
   "newPassword": "123457",
   "repeatNewPassword": "123457"
-
 }
 
 
@@ -77,8 +76,8 @@ POST http://localhost:8081/api/v1/auth/consulting/login
 Content-Type: application/json
 
 {
-  "phone": "998915721213",
-  "password": "3w3csl"
+  "phone": "998972322903",
+  "password": "123456"
 }
 
 

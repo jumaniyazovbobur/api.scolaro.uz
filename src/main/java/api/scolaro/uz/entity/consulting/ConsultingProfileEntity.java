@@ -35,6 +35,8 @@ public class ConsultingProfileEntity extends BaseEntity {
     private String tempPhone;
     @Column(name = "temp_sms_code")
     private String smsCode;
+    @Column(name = "country_id")
+    private Long countryId;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id", insertable = false, updatable = false)
     private CountryEntity country;
