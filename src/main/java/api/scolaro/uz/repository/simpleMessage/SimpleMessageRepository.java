@@ -32,6 +32,15 @@ public interface SimpleMessageRepository extends JpaRepository<SimpleMessageEnti
     @Query("update SimpleMessageEntity s set s.isStudentRead = true where s.appApplicationId = ?1 and s.isStudentRead=false and s.visible=true ")
     int updateIsStudentRead(String id);
 
+    @Query(value = """
+            select * from simple_message s where s.application_id = ?1 and s.is_student_read = true order by s.created_date desc limit ?2
+            """, nativeQuery = true)
+    List<SimpleMessageEntity> getLastReadMessageAsStudent(String applicationId, int size);
+    @Query(value = """
+            select * from simple_message s where s.application_id = ?1 and s.is_consulting_read = true order by s.created_date desc limit ?2
+            """, nativeQuery = true)
+    List<SimpleMessageEntity> getLastReadMessageAsConsulting(String applicationId, int size);
+
     @Modifying
     @Transactional
     @Query("update SimpleMessageEntity s set s.isConsultingRead = true where s.appApplicationId = ?1 and s.isConsultingRead=false and s.visible=true ")
