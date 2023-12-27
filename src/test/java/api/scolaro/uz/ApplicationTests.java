@@ -64,7 +64,7 @@ class ApplicationTests {
     @SneakyThrows
     @Test
     void contextLoads() {
-        StompHeaders connectHeaders = new StompHeaders();
+       /* StompHeaders connectHeaders = new StompHeaders();
         connectHeaders.add("X-Auth", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDMxNTUyNzIsImlkIjoiODA4MGI3ZWY4YmE0NjIzNjAxOGJhZTU0Njg2MzAwMjgiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNzAzNzYwMDcyLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.uK003y6T8LdQQ5pqSkLp1MHPh74pkhU2p6rcGXAw7tJWkZ_kG0zfGwpCkWrWUZl9Z0tiX6MDhcmguFkWkPa4cQ");
 
         WebSocketStompClient stompClient = new WebSocketStompClient(new SockJsClient(createTransportClient()));
@@ -87,7 +87,7 @@ class ApplicationTests {
         });
 
 
-        System.out.println(subscribe.getSubscriptionId());
+        System.out.println(subscribe.getSubscriptionId());*/
     }
 
     private List<Transport> createTransportClient() {

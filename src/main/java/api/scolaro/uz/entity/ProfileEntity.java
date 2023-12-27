@@ -4,6 +4,7 @@ package api.scolaro.uz.entity;
 import api.scolaro.uz.entity.place.CountryEntity;
 import api.scolaro.uz.enums.GenderType;
 import api.scolaro.uz.enums.GeneralStatus;
+import api.scolaro.uz.enums.LanguageEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,7 +48,13 @@ public class ProfileEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     private GenderType genderType;
-
     @Column(name = "balance")
-    private Long balance=0L; // tiyin 1sum = 100 tiyin
+    private Long balance = 0L; // tiyin 1sum = 100 tiyin
+
+    @Column(name = "is_online")
+    private Boolean isOnline = false;
+
+    @Column(name = "lang")
+    @Enumerated(EnumType.STRING)
+    private LanguageEnum lang = LanguageEnum.uz;
 }

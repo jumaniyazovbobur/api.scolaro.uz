@@ -225,6 +225,12 @@ public class AppApplicationService {
             return new ItemNotFoundException("Application not found");
         });
     }
+    public AppApplicationEntity getFetchAllData(String id) {
+        return appApplicationRepository.findAllDataByIdAndVisibleIsTrue(id).orElseThrow(() -> {
+            log.warn("Application not Found");
+            return new ItemNotFoundException("Application not found");
+        });
+    }
 
 
     public ApiResponse<?> updateTariffId(AppApplicationTariffIdUpdateDTO dto, String applicationId) {

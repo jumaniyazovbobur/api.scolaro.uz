@@ -1,10 +1,10 @@
 package api.scolaro.uz.config.details;
 
 
-import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.entity.consulting.ConsultingProfileEntity;
 import api.scolaro.uz.enums.GeneralStatus;
+import api.scolaro.uz.enums.LanguageEnum;
 import api.scolaro.uz.enums.RoleEnum;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,9 +22,12 @@ public class CustomUserDetails implements UserDetails {
     private String phone;
     private String password;
     private Boolean visible;
+    private Boolean isOnline = false; // true when connect to chat
     private List<SimpleGrantedAuthority> roleList = new LinkedList<>();
     private GeneralStatus status;
     private String profileConsultingId; // consultingId
+    private String firebaseId; // consultingId
+    private LanguageEnum currentLang; // consultingId
 
     public CustomUserDetails(ProfileEntity entity, List<RoleEnum> roles) {
         this.id = entity.getId();
@@ -32,6 +35,9 @@ public class CustomUserDetails implements UserDetails {
         this.status = entity.getStatus();
         this.password = entity.getPassword();
         this.visible = entity.getVisible();
+        this.isOnline = entity.getIsOnline();
+        this.firebaseId = entity.getFireBaseId();
+        this.currentLang = entity.getLang();
         for (RoleEnum role : roles) {
             roleList.add(new SimpleGrantedAuthority(role.name()));
         }
@@ -44,6 +50,9 @@ public class CustomUserDetails implements UserDetails {
         this.password = entity.getPassword();
         this.visible = entity.getVisible();
         this.profileConsultingId = entity.getConsultingId();
+        this.isOnline = entity.getIsOnline();
+        this.firebaseId = entity.getFireBaseId();
+        this.currentLang = entity.getLang();
         for (RoleEnum role : roles) {
             roleList.add(new SimpleGrantedAuthority(role.name()));
         }
