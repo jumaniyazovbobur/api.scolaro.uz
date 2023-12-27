@@ -6,6 +6,11 @@ package api.scolaro.uz.config.webSocket;
  * @contact @sarvargo
  */
 
+import api.scolaro.uz.config.details.CustomUserDetails;
+import api.scolaro.uz.config.details.EntityDetails;
+import api.scolaro.uz.enums.RoleEnum;
+import api.scolaro.uz.repository.consulting.ConsultingProfileRepository;
+import api.scolaro.uz.repository.profile.ProfileRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
@@ -14,15 +19,23 @@ import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
+import org.springframework.security.authentication.CachingUserDetailsService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
 public class AuthChannelInterceptorAdapter implements ChannelInterceptor {
+    private final ConsultingProfileRepository consultingProfileRepository;
+    private final ProfileRepository profileRepository;
 
     @Autowired
-    public AuthChannelInterceptorAdapter() {
+    public AuthChannelInterceptorAdapter(ConsultingProfileRepository consultingProfileRepository,
+                                         ProfileRepository profileRepository) {
+
+        this.consultingProfileRepository = consultingProfileRepository;
+        this.profileRepository = profileRepository;
     }
 
     @Override
@@ -35,13 +48,29 @@ public class AuthChannelInterceptorAdapter implements ChannelInterceptor {
             log.error("accessor is null");
             return null;
         } else if (accessor.getCommand() == StompCommand.CONNECT) {
-            accessor.setUser((UsernamePasswordAuthenticationToken) accessor.getHeader("simpUser"));
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = (UsernamePasswordAuthenticationToken) accessor.getHeader("simpUser");
+            accessor.setUser(usernamePasswordAuthenticationToken);
+//            CustomUserDetails user = (CustomUserDetails) usernamePasswordAuthenticationToken.getPrincipal();
+//            if (EntityDetails.hasRole(RoleEnum.ROLE_CONSULTING, user.getRoleList().stream().map(SimpleGrantedAuthority::getAuthority).toList())) {  // load consulting
+//                consultingProfileRepository.updateIsOnline(user.getProfileConsultingId(), false);
+//            } else { // load student or admin
+//                profileRepository.updateIsOnline(user.getId(), false);
+//            }
         } else if (accessor.getCommand() == StompCommand.SEND) {
             if (accessor.getUser() == null || accessor.getUser().getName().isEmpty()) {
                 log.debug("User not authorized - preventing message");
                 return null;
             }
+        } else if (accessor.getCommand() == StompCommand.DISCONNECT) {
+//            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = (UsernamePasswordAuthenticationToken) accessor.getHeader("simpUser");
+//            CustomUserDetails user = (CustomUserDetails) usernamePasswordAuthenticationToken.getPrincipal();
+//            if (EntityDetails.hasRole(RoleEnum.ROLE_CONSULTING, user.getRoleList().stream().map(SimpleGrantedAuthority::getAuthority).toList())) {  // load consulting
+//                consultingProfileRepository.updateIsOnline(user.getProfileConsultingId(), false);
+//            } else { // load student or admin
+//                profileRepository.updateIsOnline(user.getId(), false);
+//            }
         }
         return message;
     }
+
 }

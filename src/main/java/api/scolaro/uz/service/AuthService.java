@@ -149,7 +149,9 @@ public class AuthService {
             log.warn("Password wrong! username = {}", dto.getPassword());
             return new ApiResponse<>(resourceMessageService.getMessage("username.password.wrong"), 400, true);
         }
-
+        if (Optional.ofNullable(dto.getFirebaseId()).isPresent()){
+            profileRepository.updateFirebaseId(profile.getId(),dto.getFirebaseId());
+        }
         return new ApiResponse<>(200, false, getClientAuthorizationResponse(profile, language));
     }
 

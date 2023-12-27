@@ -90,7 +90,7 @@ public class SimpleMessageService {
         entity.setIsConsultingRead(true);
         simpleMessageRepository.save(entity);
 
-        Optional<ProfileEntity> profileEntityOptional = profileRepository.findById(app.getConsultingProfileId());
+        Optional<ProfileEntity> profileEntityOptional = profileRepository.findById(app.getStudentId());
 
         if (profileEntityOptional.isPresent()) {
             ProfileEntity profileEntity = profileEntityOptional.get();

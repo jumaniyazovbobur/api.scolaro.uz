@@ -56,4 +56,9 @@ public interface ConsultingProfileRepository extends CrudRepository<ConsultingPr
     @Modifying
     @Query("update ConsultingProfileEntity set status = ?2 where id = ?1 ")
     int updateStatus(String id, GeneralStatus status);
+
+    @Query("update ConsultingProfileEntity set isOnline = ?2 where id = ?1")
+    @Transactional
+    @Modifying
+    int updateIsOnline(String id, Boolean b);
 }
