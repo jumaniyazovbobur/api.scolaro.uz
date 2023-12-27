@@ -11,6 +11,7 @@ import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.mapper.AppApplicationFilterMapperDTO;
 import api.scolaro.uz.repository.appApplication.AppApplicationFilterRepository;
 import api.scolaro.uz.repository.university.UniversityCustomRepository;
+import api.scolaro.uz.repository.university.UniversityFacultyRepository;
 import api.scolaro.uz.repository.university.UniversityRepository;
 import api.scolaro.uz.service.consulting.ConsultingService;
 import api.scolaro.uz.service.place.CountryService;
@@ -34,14 +35,16 @@ import java.util.List;
 public class UniversityService {
     private final UniversityRepository universityRepository;
     @Autowired
-    private  UniversityCustomRepository customRepository;
+    private UniversityCustomRepository customRepository;
     @Autowired
-    private  AttachService attachService;
+    private AttachService attachService;
     private final UniversityDegreeService universityDegreeService;
     private final CountryService countryService;
     private final UniversityFacultyService universityFacultyService;
     @Autowired
     private ConsultingService consultingService;
+    @Autowired
+    private UniversityFacultyRepository universityFacultyRepository;
 
     public ApiResponse<UniversityResponseDTO> create(UniversityCreateDTO dto) {
         UniversityEntity entity = new UniversityEntity();
@@ -55,7 +58,7 @@ public class UniversityService {
         entity.setLogoId(dto.getLogoId());
         universityRepository.save(entity);
         universityDegreeService.merger(entity.getId(), dto.getDegreeList()); //merge university degreeType
-        universityFacultyService.merger(entity.getId(), dto.getFacultyList());
+        universityFacultyService.merger(entity.getId(), dto.getFacultyIdList());
         return ApiResponse.ok(toDTO(entity));
     }
 
@@ -77,7 +80,7 @@ public class UniversityService {
         entity.setLogoId(dto.getLogoId());
         universityRepository.save(entity);
         universityDegreeService.merger(entity.getId(), dto.getDegreeList()); //merge university degreeType\
-        universityFacultyService.merger(entity.getId(), dto.getFacultyList());
+        universityFacultyService.merger(entity.getId(), dto.getFacultyIdList());
         return ApiResponse.ok(toDTO(entity));
     }
 
@@ -85,7 +88,7 @@ public class UniversityService {
         UniversityEntity entity = get(id);
         UniversityResponseDTO responseDTO = toDTO(entity);
         responseDTO.setDegreeTypeList(universityDegreeService.getUniversityDegreeTypeList(id)); // get degree list
-        responseDTO.setFacultyList(universityFacultyService.getUniversityFacultyList(id, appLanguage)); // ser faculty list
+        responseDTO.setFacultyIdList(universityFacultyRepository.getFacultyIdListByUniversityId(id)); // ser faculty id list
         return ApiResponse.ok(responseDTO);
     }
 

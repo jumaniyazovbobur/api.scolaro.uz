@@ -29,6 +29,7 @@ public class UniversityResponseDTO {
     private List<KeyValueDTO> degreeList;
     private CountryResponseDTO country;
     private List<FacultyDTO> facultyList;
+    private List<String> facultyIdList;
     private List<ConsultingResponseDTO> consultingList;
     private Long studentCount;
 }

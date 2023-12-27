@@ -24,4 +24,5 @@ public class UniversityCreateDTO {
     private String description;
     private List<UniversityDegreeType> degreeList;
     private List<String> facultyList;
+    private List<String> facultyIdList;
 }
