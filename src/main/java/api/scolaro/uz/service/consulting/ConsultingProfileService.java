@@ -178,9 +178,15 @@ public class ConsultingProfileService {
             log.info("{} Phone exist", phone);
             return ApiResponse.bad("Phone exist !");
         }
+        // random sms password
+        String smsPassword = RandomUtil.getRandomString(6);
+        // send sms password
+        String text = "Scolaro.uz platformasiga kirish uchun sizning parolingiz: \n" + smsPassword;
+        smsService.sendMessage(dto.getPhone(), text, SmsType.CHANGE_PASSWORD, smsPassword);
 
-        String consultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
+        String consultingId = Objects.requireNonNull(EntityDetails.getCurrentUserDetail()).getProfileConsultingId();
         ConsultingProfileEntity entity = toEntity(dto, consultingId);
+        entity.setPassword(MD5Util.getMd5(smsPassword));
 
         consultingProfileRepository.save(entity);
         personRoleService.create(entity.getId(), Arrays.asList(RoleEnum.ROLE_CONSULTING, RoleEnum.ROLE_CONSULTING_PROFILE));
@@ -194,7 +200,6 @@ public class ConsultingProfileService {
         entity.setName(dto.getName());
         entity.setPhone(dto.getPhone());
         entity.setSurname(dto.getSurname());
-        entity.setPassword(MD5Util.getMd5(dto.getPassword()));
         entity.setPhotoId(dto.getPhotoId());
         entity.setCountryId(dto.getCountryId());
         entity.setStatus(GeneralStatus.ACTIVE);
