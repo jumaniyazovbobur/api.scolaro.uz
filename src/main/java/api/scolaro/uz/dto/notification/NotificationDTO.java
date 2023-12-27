@@ -36,7 +36,8 @@ public class NotificationDTO {
         res.put("notification", Map.of(
                 "body", this.body,
                 "title", this.title,
-                "image", this.imageUrl != null ? this.imageUrl : ""
+                "image", this.imageUrl != null ? this.imageUrl : "",
+                "android_channel_id","scolaro_notification_id"
         ));
         res.put("data", this.data);
         res.put("priority", "high");
