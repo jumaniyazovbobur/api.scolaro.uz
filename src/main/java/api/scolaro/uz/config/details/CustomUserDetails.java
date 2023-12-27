@@ -3,6 +3,7 @@ package api.scolaro.uz.config.details;
 
 import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.entity.consulting.ConsultingProfileEntity;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.LanguageEnum;
 import api.scolaro.uz.enums.RoleEnum;
@@ -27,7 +28,7 @@ public class CustomUserDetails implements UserDetails {
     private GeneralStatus status;
     private String profileConsultingId; // consultingId
     private String firebaseId; // consultingId
-    private LanguageEnum currentLang; // consultingId
+    private AppLanguage currentLang; // consultingId
 
     public CustomUserDetails(ProfileEntity entity, List<RoleEnum> roles) {
         this.id = entity.getId();

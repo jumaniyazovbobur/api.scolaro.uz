@@ -2,6 +2,7 @@ package api.scolaro.uz.entity;
 
 
 import api.scolaro.uz.entity.place.CountryEntity;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.GenderType;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.LanguageEnum;
@@ -56,5 +57,5 @@ public class ProfileEntity extends BaseEntity {
 
     @Column(name = "lang")
     @Enumerated(EnumType.STRING)
-    private LanguageEnum lang = LanguageEnum.uz;
+    private AppLanguage lang = AppLanguage.uz;
 }
