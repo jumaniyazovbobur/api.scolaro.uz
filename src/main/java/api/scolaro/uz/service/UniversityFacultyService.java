@@ -6,17 +6,40 @@ import api.scolaro.uz.entity.UniversityDegreeTypeEntity;
 import api.scolaro.uz.entity.UniversityFacultyEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.UniversityDegreeType;
+import api.scolaro.uz.repository.FacultyRepository;
 import api.scolaro.uz.repository.university.UniversityFacultyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 public class UniversityFacultyService {
     @Autowired
     private UniversityFacultyRepository universityFacultyRepository;
+    @Autowired
+    private FacultyRepository facultyRepository;
+
+    public void collectAndMerge(Long universityId, List<String> newList) {
+        Map<String, String> facultyIdMap = new HashMap<>();
+        for (String facultyId : newList) {
+            facultyIdMap.put(facultyId, facultyId);
+            String facultyIdStr = facultyRepository.finFacultyParentIdList(facultyId);
+            if (!facultyIdStr.isBlank()) {
+                String[] idList = facultyIdStr.split(",");
+                for (String id : idList) {
+                    if (!id.isBlank()) {
+                        facultyIdMap.put(id, id);
+                    }
+                }
+            }
+        }
+        merger(universityId, new LinkedList<>(facultyIdMap.values()));
+    }
 
     public void merger(Long universityId, List<String> newList) {
         List<String> oldList = universityFacultyRepository.getFacultyIdListByUniversityId(universityId);

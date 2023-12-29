@@ -50,4 +50,6 @@ public interface FacultyRepository extends CrudRepository<FacultyEntity, String>
             "where parent_id =:parentId visible=true ", nativeQuery = true)
     List<FacultyTreeMapper> getFacultySubList(@Param("parentId") String parentId, @Param("lang") String lang);
 
+    @Query(value = "select get_faculty_parent_list(:facultyId)", nativeQuery = true)
+    String finFacultyParentIdList(@Param("facultyId") String facultyId);
 }

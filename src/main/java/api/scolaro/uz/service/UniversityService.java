@@ -58,7 +58,7 @@ public class UniversityService {
         entity.setLogoId(dto.getLogoId());
         universityRepository.save(entity);
         universityDegreeService.merger(entity.getId(), dto.getDegreeList()); //merge university degreeType
-        universityFacultyService.merger(entity.getId(), dto.getFacultyIdList());
+        universityFacultyService.collectAndMerge(entity.getId(), dto.getFacultyIdList());
         return ApiResponse.ok(toDTO(entity));
     }
 
@@ -80,7 +80,7 @@ public class UniversityService {
         entity.setLogoId(dto.getLogoId());
         universityRepository.save(entity);
         universityDegreeService.merger(entity.getId(), dto.getDegreeList()); //merge university degreeType\
-        universityFacultyService.merger(entity.getId(), dto.getFacultyIdList());
+        universityFacultyService.collectAndMerge(entity.getId(), dto.getFacultyIdList());
         return ApiResponse.ok(toDTO(entity));
     }
 

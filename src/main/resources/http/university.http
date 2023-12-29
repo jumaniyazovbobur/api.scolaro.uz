@@ -1,23 +1,22 @@
 ### CREATE UNIVERSITY
 POST http://localhost:8081/api/v1/university
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDM4NjU0MTgsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDQ0NzAyMTgsImlzcyI6IkphdmEgYmFja2VuZCJ9.nnaTTKNvJGkh6U5fJDkaSeDGcD1t3MntJqmJEbyKAJI-rTKecggrNnOD-Jm8QR8PTNVEFT3G1hvh_nKaM6dn-g
 
 {
-  "name": "Milliy",
+  "name": "BestUniversity",
   "webSite": "www.tuit3.uz",
   "rating": 1,
   "countryId": 1,
-  "photoId": "2c9e40818c0f3f74018c0f77a82c0002",
+  "photoId": "872224bc-6717-48a0-a833-8febea3d8287_logo",
   "degreeList": [
     "Bachelor",
     "MasterDegree"
   ],
-  "facultyList": [
-    "2c9c70818c1971ba018c197682840009",
-    "2c9c70818c1971ba018c19765ca00008",
-    "2c9c70818c1971ba018c197625960007",
-    "2c9c70818c1971ba018c1975ce4b0006"
+  "facultyIdList": [
+    "76949a37-2d3b-4ce6-b4ab-9f67f1b561f3",
+    "2a0f19d7-bce5-4cfb-8c75-5012adefa8dd",
+    "846e13da-a586-4521-804b-e5d2800b5896"
   ]
 }
 
@@ -36,7 +35,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDA4OTQ5NjksImlkIjoiOTA5M
     "Bachelor",
     "MasterDegree"
   ],
-  "facultyList": [
+  "facultyIdList": [
     "402880ea8bf4e7f6018bf4edd38b0000",
     "402880e48c01cac3018c01ce6e200000",
     "402880e48c01cac3018c01d1b0e40005"
