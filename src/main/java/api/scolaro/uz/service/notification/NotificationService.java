@@ -1,5 +1,6 @@
 package api.scolaro.uz.service.notification;
 
+import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.notification.NotificationDTO;
 import api.scolaro.uz.entity.notification.NotificationHistoryEntity;
 import api.scolaro.uz.enums.transaction.ProfileType;
@@ -74,5 +75,10 @@ public class NotificationService {
         }
         String responseBody = responseEntity.getBody();
         log.info("Success Send notification body = {}", responseBody);
+    }
+
+    public ApiResponse<?> markAsRead(String id) {
+        notificationHistoryRepository.updateIsRead(id,true);
+        return ApiResponse.ok();
     }
 }

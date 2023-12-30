@@ -14,6 +14,7 @@ import api.scolaro.uz.repository.consulting.ConsultingProfileRepository;
 import api.scolaro.uz.repository.profile.ProfileRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -42,5 +43,10 @@ public class WebSocketDisconnectEventListener implements ApplicationListener<Ses
 
         // Perform any necessary cleanup or logging
         log.info("User disconnected. Session ID: {}", sessionId);
+    }
+
+    @EventListener
+    public void onDisconnectEvent(SessionDisconnectEvent event) {
+        log.info("Client with username {} disconnected", event.getUser());
     }
 }

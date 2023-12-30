@@ -32,4 +32,5 @@ public class NotificationHistoryEntity extends BaseEntity {
     private ProfileType fromProfileType;
 
     private String firebaseToken;
+    private Boolean isRead = false;
 }
