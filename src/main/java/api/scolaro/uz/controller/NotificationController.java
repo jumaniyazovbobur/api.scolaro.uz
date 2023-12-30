@@ -25,4 +25,12 @@ public class NotificationController {
         log.info("Mark as read = {}", id);
         return ResponseEntity.ok(notificationService.markAsRead(id));
     }
+
+    @GetMapping("/not-read")
+    public ResponseEntity<ApiResponse<?>> notRead(@RequestParam(value = "page", defaultValue = "1") int page,
+                                                  @RequestParam(value = "size", defaultValue = "20") int size) {
+
+        log.info("Find All Not read notification");
+        return ResponseEntity.ok(notificationService.findAllByIsReadFalse(page, size));
+    }
 }

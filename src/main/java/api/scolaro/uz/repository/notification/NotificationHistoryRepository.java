@@ -1,6 +1,8 @@
 package api.scolaro.uz.repository.notification;
 
 import api.scolaro.uz.entity.notification.NotificationHistoryEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,4 +13,6 @@ public interface NotificationHistoryRepository extends JpaRepository<Notificatio
     @Transactional
     @Modifying
     void updateIsRead(String id, boolean b);
+
+    Page<NotificationHistoryEntity> findAllByIsReadIsFalseAndToProfileId(String toProfileId, Pageable pageable);
 }
