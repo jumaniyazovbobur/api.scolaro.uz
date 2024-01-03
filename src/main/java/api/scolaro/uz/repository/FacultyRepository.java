@@ -18,6 +18,15 @@ public interface FacultyRepository extends CrudRepository<FacultyEntity, String>
             "where parent_id isnull and visible=true;", nativeQuery = true)
     List<FacultyTreeMapper> getFacultyTree(@Param("lang") String lang);
 
+    @Query(value = "select f.id, " +
+            "       CASE :lang WHEN 'uz' THEN f.name_uz WHEN 'en' THEN f.name_en else f.name_ru END as name, " +
+            "       f.order_number as orderNumber, " +
+            "       get_university_sub_faculty(f.id,'en',:universityId) as subFaculty," +
+            "       (select exists(select true from university_faculty where university_id =:universityId and faculty_id =f.id and visible = true )) as isSelected " +
+            "from faculty as f " +
+            "where parent_id isnull and visible=true;", nativeQuery = true)
+    List<FacultyTreeMapper> getFacultyTreeForUniversity(@Param("universityId") Long universityId, @Param("lang") String lang);
+
     @Query(value = "select f.id,\n" +
             "       CASE :lang WHEN 'uz' THEN f.name_uz WHEN 'en' THEN f.name_en else f.name_ru END as name,\n" +
             "       f.order_number as orderNumber,\n" +

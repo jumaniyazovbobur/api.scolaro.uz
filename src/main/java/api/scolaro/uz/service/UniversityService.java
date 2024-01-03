@@ -45,6 +45,8 @@ public class UniversityService {
     private ConsultingService consultingService;
     @Autowired
     private UniversityFacultyRepository universityFacultyRepository;
+    @Autowired
+    private FacultyService facultyService;
 
     public ApiResponse<UniversityResponseDTO> create(UniversityCreateDTO dto) {
         UniversityEntity entity = new UniversityEntity();
@@ -88,7 +90,8 @@ public class UniversityService {
         UniversityEntity entity = get(id);
         UniversityResponseDTO responseDTO = toDTO(entity);
         responseDTO.setDegreeTypeList(universityDegreeService.getUniversityDegreeTypeList(id)); // get degree list
-        responseDTO.setFacultyIdList(universityFacultyRepository.getFacultyIdListByUniversityId(id)); // ser faculty id list
+        responseDTO.setFacultyList(facultyService.getFacultyTreeForUniversity(id, appLanguage));
+//        responseDTO.setFacultyIdList(universityFacultyRepository.getFacultyIdListByUniversityId(id)); // set faculty id list
         return ApiResponse.ok(responseDTO);
     }
 

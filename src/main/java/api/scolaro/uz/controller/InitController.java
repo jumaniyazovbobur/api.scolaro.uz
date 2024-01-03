@@ -122,7 +122,7 @@ public class InitController {
         facultyList1.add("c0c17f05-325d-49ff-9661-0759698b9e37");
         facultyList1.add("caa5de66-07ff-404c-85ef-0162069aa4c8");
         facultyList1.add("7933edfc-92dd-49ae-8e23-163bf2707e3c");
-        university1.setFacultyList(facultyList1);
+        university1.setFacultyIdList(facultyList1);
 
         universityService.create(university1);
 
@@ -196,7 +196,7 @@ public class InitController {
         facultyList2.add("463e52b3-1342-4c8f-8983-6724b08ee0ab");
         facultyList2.add("04a46a8d-cd88-486d-80cb-47393ef0f431");
 
-        university2.setFacultyList(facultyList2);
+        university2.setFacultyIdList(facultyList2);
         universityService.create(university2);
 
         // 3. Cambridge
@@ -290,7 +290,7 @@ public class InitController {
         facultyList3.add("f550bcf1-4eca-49b8-b539-05684beb6882");
         facultyList3.add("977c2254-0d11-4c2f-81f2-620350181c11");
         facultyList3.add("b39c362f-c87d-49c6-a39b-1ae1a45030ef");
-        university3.setFacultyList(facultyList3);
+        university3.setFacultyIdList(facultyList3);
         universityService.create(university3);
 
         // 4.Stanford
@@ -386,7 +386,7 @@ public class InitController {
         facultyList4.add("30e3813f-6780-477a-b720-218956e3eb90");
         facultyList4.add("fa41bbf7-05f5-45d2-894b-00b9b7f1eb8e");
         facultyList4.add("daa31b19-8078-4f25-bac1-e580c372d65d");
-        university4.setFacultyList(facultyList4);
+        university4.setFacultyIdList(facultyList4);
         universityService.create(university4);
 
         //5. MIT
@@ -469,7 +469,7 @@ public class InitController {
         facultyList5.add("23eee949-7f8c-471c-af12-63e8e76d530c");
         facultyList5.add("27d34c29-b132-451f-82ea-fdcc3dd83a2b");
         facultyList5.add("5c9e1167-a38b-4d72-967c-9b1d51c6879e");
-        university5.setFacultyList(facultyList5);
+        university5.setFacultyIdList(facultyList5);
         universityService.create(university5);
 
         // 6. California Institute of technology
@@ -548,7 +548,7 @@ public class InitController {
         facultyList6.add("23eee949-7f8c-471c-af12-63e8e76d530c");
         facultyList6.add("27d34c29-b132-451f-82ea-fdcc3dd83a2b");
         facultyList6.add("5c9e1167-a38b-4d72-967c-9b1d51c6879e");
-        university6.setFacultyList(facultyList6);
+        university6.setFacultyIdList(facultyList6);
         universityService.create(university6);
         //7.  Princeton University
         UniversityCreateDTO university7 = new UniversityCreateDTO();
@@ -637,7 +637,7 @@ public class InitController {
         facultyList7.add("30e3813f-6780-477a-b720-218956e3eb90");
         facultyList7.add("fa41bbf7-05f5-45d2-894b-00b9b7f1eb8e");
         facultyList7.add("daa31b19-8078-4f25-bac1-e580c372d65d");
-        university7.setFacultyList(facultyList7);
+        university7.setFacultyIdList(facultyList7);
         universityService.create(university7);
 
         //8.University of California, Berkeley
@@ -714,7 +714,7 @@ public class InitController {
         facultyList8.add("59c38745-b5b6-4b3e-aa51-4635e2fb5a67");
         facultyList8.add("575a16ad-1794-4d60-9b8b-a81b962c70f1");
         facultyList8.add("3b88f23e-0138-4f04-9765-fee2228406bd");
-        university8.setFacultyList(facultyList8);
+        university8.setFacultyIdList(facultyList8);
         universityService.create(university8);
 
         //9 . Yale university
@@ -792,7 +792,7 @@ public class InitController {
         facultyList9.add("977c2254-0d11-4c2f-81f2-620350181c11");
         facultyList9.add("b39c362f-c87d-49c6-a39b-1ae1a45030ef");
 
-        university9.setFacultyList(facultyList9);
+        university9.setFacultyIdList(facultyList9);
         universityService.create(university9);
 
 
@@ -856,7 +856,7 @@ public class InitController {
         facultyList10.add("868072cb-ec2c-4ea6-a287-7c9cccfb0e4d");
         facultyList10.add("a82df7f9-da8c-4a9e-8e2c-8ca56159557f");
 
-        university10.setFacultyList(facultyList10);
+        university10.setFacultyIdList(facultyList10);
         universityService.create(university10);
 
         // 11. Columbia University
@@ -936,7 +936,7 @@ public class InitController {
         facultyList11.add("6665930e-3a67-4710-970f-11e37a684170");
         facultyList11.add("7b3d2ad4-5361-462d-9da2-fab299c1e7bd");
         facultyList11.add("a73931e1-9732-47fd-ad69-a29fcfc43100");
-        university11.setFacultyList(facultyList11);
+        university11.setFacultyIdList(facultyList11);
         universityService.create(university11);
 
 
@@ -1025,7 +1025,7 @@ public class InitController {
         facultyList12.add("3225bfbc-eaf7-4b00-b8f8-475a1ecb30ca");
         facultyList12.add("9d868d71-4784-4668-947c-bccee9539b95");
         facultyList12.add("f830b1b0-d45f-44b4-849a-ea72c2b560fc");
-        university12.setFacultyList(facultyList12);
+        university12.setFacultyIdList(facultyList12);
         universityService.create(university12);
 
 
@@ -1108,7 +1108,7 @@ public class InitController {
         facultyList13.add("30e3813f-6780-477a-b720-218956e3eb90");
         facultyList13.add("fa41bbf7-05f5-45d2-894b-00b9b7f1eb8e");
         facultyList13.add("daa31b19-8078-4f25-bac1-e580c372d65d");
-        university13.setFacultyList(facultyList13);
+        university13.setFacultyIdList(facultyList13);
         universityService.create(university13);
 
 
@@ -1174,7 +1174,7 @@ public class InitController {
         facultyList14.add("428d5bf1-d724-4894-a07a-bba22bddbb58");
         facultyList14.add("463e52b3-1342-4c8f-8983-6724b08ee0ab");
         facultyList14.add("04a46a8d-cd88-486d-80cb-47393ef0f431");
-        university14.setFacultyList(facultyList14);
+        university14.setFacultyIdList(facultyList14);
         universityService.create(university14);
 
 
@@ -1304,7 +1304,7 @@ public class InitController {
         facultyList16.add("6665930e-3a67-4710-970f-11e37a684170");
         facultyList16.add("7b3d2ad4-5361-462d-9da2-fab299c1e7bd");
         facultyList16.add("a73931e1-9732-47fd-ad69-a29fcfc43100");
-        university16.setFacultyList(facultyList16);
+        university16.setFacultyIdList(facultyList16);
         universityService.create(university16);
 
 
@@ -1395,7 +1395,7 @@ public class InitController {
         facultyList17.add("c0c17f05-325d-49ff-9661-0759698b9e37");
         facultyList17.add("caa5de66-07ff-404c-85ef-0162069aa4c8");
         facultyList17.add("7933edfc-92dd-49ae-8e23-163bf2707e3c");
-        university17.setFacultyList(facultyList17);
+        university17.setFacultyIdList(facultyList17);
         universityService.create(university17);
 
 
@@ -1469,7 +1469,7 @@ public class InitController {
         facultyList18.add("23eee949-7f8c-471c-af12-63e8e76d530c");
         facultyList18.add("27d34c29-b132-451f-82ea-fdcc3dd83a2b");
         facultyList18.add("5c9e1167-a38b-4d72-967c-9b1d51c6879e");
-        university18.setFacultyList(facultyList18);
+        university18.setFacultyIdList(facultyList18);
         universityService.create(university18);
 
 
@@ -1536,7 +1536,7 @@ public class InitController {
         facultyList19.add("977c2254-0d11-4c2f-81f2-620350181c11");
         facultyList19.add("b39c362f-c87d-49c6-a39b-1ae1a45030ef");
 
-        university19.setFacultyList(facultyList19);
+        university19.setFacultyIdList(facultyList19);
         universityService.create(university19);
 
 
@@ -1604,7 +1604,7 @@ public class InitController {
         facultyList20.add("fa78cfac-9452-419e-a3a9-1824b3c620af");
         facultyList20.add("29623dfa-5ec1-4357-8c5e-fb56f6b506be");
         facultyList20.add("7c7fb5f3-8a8c-4973-a927-c34862b94595");
-        university20.setFacultyList(facultyList20);
+        university20.setFacultyIdList(facultyList20);
         universityService.create(university20);
     }
 
