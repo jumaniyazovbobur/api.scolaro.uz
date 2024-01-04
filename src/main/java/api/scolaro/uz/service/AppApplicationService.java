@@ -63,6 +63,7 @@ public class AppApplicationService {
         entity.setConsultingId(consulting.getId());
         entity.setUniversityId(university.getId());
         entity.setStatus(AppStatus.TRAIL);
+        entity.setConsultingProfileId(consulting.getManagerId());
         entity.setApplicationNumber(appApplicationRepository.getSequenceApplicationNumber());
 
         appApplicationRepository.save(entity);

@@ -1,6 +1,7 @@
 package api.scolaro.uz.entity.notification;
 
 import api.scolaro.uz.entity.BaseEntity;
+import api.scolaro.uz.enums.notification.NotificationType;
 import api.scolaro.uz.enums.transaction.ProfileType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -32,5 +33,8 @@ public class NotificationHistoryEntity extends BaseEntity {
     private ProfileType fromProfileType;
 
     private String firebaseToken;
+
+    private NotificationType type;
+
     private Boolean isRead = false;
 }

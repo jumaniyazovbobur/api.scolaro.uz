@@ -5,6 +5,7 @@ import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.notification.NotificationDTO;
 import api.scolaro.uz.dto.notification.NotificationResponseDTO;
 import api.scolaro.uz.entity.notification.NotificationHistoryEntity;
+import api.scolaro.uz.enums.notification.NotificationType;
 import api.scolaro.uz.enums.transaction.ProfileType;
 import api.scolaro.uz.repository.notification.NotificationHistoryRepository;
 import com.google.gson.Gson;
@@ -12,10 +13,7 @@ import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.support.DefaultBeanNameGenerator;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpEntity;
@@ -59,6 +57,7 @@ public class NotificationService {
         NotificationHistoryEntity entity = new NotificationHistoryEntity();
         entity.setTitle(notification.getTitle());
         entity.setBody(notification.getBody());
+        entity.setType(notification.getType());
         if (!notification.getProfiles().isEmpty()) {
             entity.setToProfileId(notification.getProfiles().get(index).getToProfile());
             entity.setToProfileType(notification.getProfiles().get(index).getToType());
@@ -90,14 +89,14 @@ public class NotificationService {
     }
 
     public ApiResponse<PageImpl<NotificationResponseDTO>> findAllByIsReadFalse(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdDate"));
         String currentUserId = EntityDetails.getCurrentUserId();
         Page<NotificationHistoryEntity> pageEntity = notificationHistoryRepository
                 .findAllByIsReadIsFalseAndToProfileId(currentUserId, pageable);
 
         return ApiResponse
                 .ok(
-                        new PageImpl<NotificationResponseDTO>(
+                        new PageImpl<>(
                                 pageEntity
                                         .stream()
                                         .map(NotificationResponseDTO::toDTO)
@@ -117,5 +116,9 @@ public class NotificationService {
                 .ok(
                         count
                 );
+    }
+
+    public void readAllNotificationByType(NotificationType notificationType, String currentUserId) {
+        notificationHistoryRepository.updateIsReadByType(true, notificationType, currentUserId);
     }
 }

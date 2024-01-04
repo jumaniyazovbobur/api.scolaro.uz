@@ -1,6 +1,7 @@
 package api.scolaro.uz.repository.notification;
 
 import api.scolaro.uz.entity.notification.NotificationHistoryEntity;
+import api.scolaro.uz.enums.notification.NotificationType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,9 @@ public interface NotificationHistoryRepository extends JpaRepository<Notificatio
     Page<NotificationHistoryEntity> findAllByIsReadIsFalseAndToProfileId(String toProfileId, Pageable pageable);
 
     Long countByIsReadIsFalseAndToProfileId(String toProfileId);
+
+    @Query("update NotificationHistoryEntity set isRead = ?1 where toProfileId = ?3 and type = ?2")
+    @Transactional
+    @Modifying
+    int updateIsReadByType(boolean b,NotificationType notificationType, String currentUserId);
 }

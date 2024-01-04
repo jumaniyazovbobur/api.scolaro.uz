@@ -100,7 +100,9 @@ public class SimpleMessageService {
         return new ApiResponse<>("Success", 200, false);
     }
 
-    private void sendSocketOrNotification(SimpleMessageRequestDTO dto, AppApplicationEntity app, SimpleMessageEntity entity, Boolean isOnline, String fireBaseId) {
+    private void sendSocketOrNotification(SimpleMessageRequestDTO dto, AppApplicationEntity app,
+                                          SimpleMessageEntity entity, Boolean isOnline,
+                                          String fireBaseId) {
         if (isOnline != null && isOnline) {
             template.convertAndSend("/topic/messages/%s".formatted(entity.getAppApplicationId()),
                     Collections.singleton(SimpleMessageMapperDTO.toDTO(entity, attachService.getResponseAttach(dto.getAttachId())))
@@ -117,12 +119,13 @@ public class SimpleMessageService {
             notification.getData().put("applicationId", dto.getApplicationId());
             notification.getData().put("type", NotificationType.CHAT.name());
             notification.setTitle("Chat");
+            notification.setType(NotificationType.CHAT);
             notification.setBody(resourceMessageService.getMessage("new.message", AppLanguage.uz));
             notification.setProfiles(
                     Collections
                             .singletonList(new ProfileInfoDTO(
-                                    app.getConsultingProfileId(), ProfileType.CONSULTING,
-                                    EntityDetails.getCurrentUserId(), ProfileType.PROFILE
+                                    entity.getMessageType().equals(MessageType.STUDENT) ? app.getConsultingProfileId() : app.getStudentId(), entity.getMessageType().equals(MessageType.STUDENT) ? ProfileType.CONSULTING : ProfileType.PROFILE,
+                                    EntityDetails.getCurrentUserId(), !entity.getMessageType().equals(MessageType.STUDENT) ? ProfileType.CONSULTING : ProfileType.PROFILE
                             ))
             );
             notification.setRegistrationIds(Collections.singletonList(fireBaseId));
@@ -134,6 +137,7 @@ public class SimpleMessageService {
 //        // TODO add pagination, Attach ning type-ni ham qo'shib berish kerak.
         FilterResultDTO<SimpleMessageMapperDTO> filterResult = simpleMessageFilterRepository.filterPagination(id, page, size);
         Page<SimpleMessageMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
+        notificationService.readAllNotificationByType(NotificationType.CHAT, EntityDetails.getCurrentUserId());
         return ApiResponse.ok(pageObj);
     }
 

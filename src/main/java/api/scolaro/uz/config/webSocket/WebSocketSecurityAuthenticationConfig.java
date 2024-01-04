@@ -5,6 +5,7 @@ package api.scolaro.uz.config.webSocket;
  * @project api.scolaro.uz
  * @contact @sarvargo
  */
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -29,5 +30,6 @@ public class WebSocketSecurityAuthenticationConfig implements WebSocketMessageBr
     public void configureClientInboundChannel(ChannelRegistration registration) {
         log.debug("Registering new web socket interceptor: " + authChannelInterceptorAdapter);
         registration.interceptors(authChannelInterceptorAdapter);
+        WebSocketMessageBrokerConfigurer.super.configureClientInboundChannel(registration);
     }
 }
