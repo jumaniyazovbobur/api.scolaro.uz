@@ -15,4 +15,6 @@ public interface NotificationHistoryRepository extends JpaRepository<Notificatio
     void updateIsRead(String id, boolean b);
 
     Page<NotificationHistoryEntity> findAllByIsReadIsFalseAndToProfileId(String toProfileId, Pageable pageable);
+
+    Long countByIsReadIsFalseAndToProfileId(String toProfileId);
 }

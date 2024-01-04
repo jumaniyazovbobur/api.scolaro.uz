@@ -1,9 +1,11 @@
 package api.scolaro.uz.controller;
 
 import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.notification.NotificationResponseDTO;
 import api.scolaro.uz.service.notification.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,10 +29,17 @@ public class NotificationController {
     }
 
     @GetMapping("/not-read")
-    public ResponseEntity<ApiResponse<?>> notRead(@RequestParam(value = "page", defaultValue = "1") int page,
-                                                  @RequestParam(value = "size", defaultValue = "20") int size) {
+    public ResponseEntity<ApiResponse<PageImpl<NotificationResponseDTO>>> notRead(@RequestParam(value = "page", defaultValue = "1") int page,
+                                                                                  @RequestParam(value = "size", defaultValue = "20") int size) {
 
         log.info("Find All Not read notification");
         return ResponseEntity.ok(notificationService.findAllByIsReadFalse(page, size));
+    }
+
+    @GetMapping("/not-read-count")
+    public ResponseEntity<ApiResponse<Long>> notReadCount() {
+
+        log.info("Find All Not read notification count");
+        return ResponseEntity.ok(notificationService.findAllByIsReadFalseCount());
     }
 }

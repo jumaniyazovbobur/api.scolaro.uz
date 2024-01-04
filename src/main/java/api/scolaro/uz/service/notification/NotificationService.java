@@ -8,6 +8,7 @@ import api.scolaro.uz.entity.notification.NotificationHistoryEntity;
 import api.scolaro.uz.enums.transaction.ProfileType;
 import api.scolaro.uz.repository.notification.NotificationHistoryRepository;
 import com.google.gson.Gson;
+import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.support.DefaultBeanNameGenerator;
@@ -104,6 +105,17 @@ public class NotificationService {
                                 pageable,
                                 pageEntity.getTotalElements()
                         )
+                );
+    }
+
+    public ApiResponse<Long> findAllByIsReadFalseCount() {
+        String currentUserId = EntityDetails.getCurrentUserId();
+        Long count = notificationHistoryRepository
+                .countByIsReadIsFalseAndToProfileId(currentUserId);
+
+        return ApiResponse
+                .ok(
+                        count
                 );
     }
 }
