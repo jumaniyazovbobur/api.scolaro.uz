@@ -16,7 +16,14 @@ public interface AppApplicationRepository extends JpaRepository<AppApplicationEn
     Optional<AppApplicationEntity> findByIdAndVisibleTrue(String s);
 
     Optional<AppApplicationEntity> findByStudentIdAndConsultingIdAndVisibleTrue(String studentId, String consultingId);
-
+    @Query("""
+            from AppApplicationEntity a
+            left join fetch a.consulting
+            left join fetch a.university
+            left join fetch a.student
+            where a.id = ?1 and a.visible = true
+            """)
+    Optional<AppApplicationEntity> findAllDataByIdAndVisibleIsTrue(String applicationId);
     @Transactional
     @Modifying
     @Query("update AppApplicationEntity set status = 'STARTED', startedDate = current_timestamp where id=:id")

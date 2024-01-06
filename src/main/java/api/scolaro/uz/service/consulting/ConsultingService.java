@@ -162,6 +162,7 @@ public class ConsultingService {
             consultingDTO.setPhoto(attachService.getResponseAttach(details.getPhotoId()));
         }
         consultingDTO.setAddress(details.getAddress());
+        consultingDTO.setAbout(details.getAbout());
         // get consulting university list
         List<UniversityResponseDTO> oldList = universityService.getConsultingUniversityList(consultingId);
         consultingDTO.setUniversityList(oldList);

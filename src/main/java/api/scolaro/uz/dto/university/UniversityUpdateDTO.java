@@ -24,4 +24,5 @@ public class UniversityUpdateDTO {
     private String logoId;
     private List<UniversityDegreeType> degreeList;
     private List<String> facultyList;
+    private List<String> facultyIdList;
 }

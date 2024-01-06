@@ -123,6 +123,21 @@ public class FacultyService {
         return ApiResponse.ok(dtoList);
     }
 
+    public List<FacultyDTO> getFacultyTreeForUniversity(Long universityId, AppLanguage appLanguage) {
+        List<FacultyTreeMapper> mapperList = facultyRepository.getFacultyTreeForUniversity(universityId, appLanguage.name());
+        List<FacultyDTO> dtoList = new LinkedList<>();
+        for (FacultyTreeMapper mapper : mapperList) {
+            FacultyDTO dto = new FacultyDTO();
+            dto.setId(mapper.getId());
+            dto.setName(mapper.getName());
+            dto.setOrderNumber(mapper.getOrderNumber());
+            dto.setSubFaculty(mapper.getSubFaculty());
+            dto.setIsSelected(mapper.getIsSelected());
+            dtoList.add(dto);
+        }
+        return dtoList;
+    }
+
     public ApiResponse<List<FacultyDTO>> getFirstLevelFacultyListWithUniversityCount(AppLanguage appLanguage) {
         List<FacultyTreeMapper> mapperList = facultyRepository.getFirstLevelFacultyListWithUniversityCount(appLanguage.name());
         List<FacultyDTO> dtoList = new LinkedList<>();

@@ -63,6 +63,7 @@ public class AppApplicationService {
         entity.setConsultingId(consulting.getId());
         entity.setUniversityId(university.getId());
         entity.setStatus(AppStatus.TRAIL);
+        entity.setConsultingProfileId(consulting.getManagerId());
         entity.setApplicationNumber(appApplicationRepository.getSequenceApplicationNumber());
 
         appApplicationRepository.save(entity);
@@ -221,6 +222,12 @@ public class AppApplicationService {
 
     public AppApplicationEntity get(String id) {
         return appApplicationRepository.findByIdAndVisibleTrue(id).orElseThrow(() -> {
+            log.warn("Application not Found");
+            return new ItemNotFoundException("Application not found");
+        });
+    }
+    public AppApplicationEntity getFetchAllData(String id) {
+        return appApplicationRepository.findAllDataByIdAndVisibleIsTrue(id).orElseThrow(() -> {
             log.warn("Application not Found");
             return new ItemNotFoundException("Application not found");
         });

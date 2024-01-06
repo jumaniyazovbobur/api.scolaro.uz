@@ -3,7 +3,9 @@ package api.scolaro.uz.entity.consulting;
 import api.scolaro.uz.entity.AttachEntity;
 import api.scolaro.uz.entity.BaseEntity;
 import api.scolaro.uz.entity.place.CountryEntity;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.GeneralStatus;
+import api.scolaro.uz.enums.LanguageEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -49,4 +51,9 @@ public class ConsultingProfileEntity extends BaseEntity {
     @Column(name = "consulting_id")
     private String consultingId;
 
+    @Column(name = "is_online")
+    private Boolean isOnline = false;
+    @Column(name = "lang")
+    @Enumerated(EnumType.STRING)
+    private AppLanguage lang = AppLanguage.uz;
 }
