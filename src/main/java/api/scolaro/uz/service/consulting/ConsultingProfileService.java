@@ -6,6 +6,7 @@ import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.consulting.ConsultingProfileDTO;
 import api.scolaro.uz.dto.consultingProfile.ConsultingProfileCreateDTO;
 import api.scolaro.uz.dto.consultingProfile.ConsultingProfileUpdateDTO;
+import api.scolaro.uz.dto.consultingProfile.CurrentConsultingProfileUpdateDTO;
 import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
 import api.scolaro.uz.entity.consulting.ConsultingProfileEntity;
 import api.scolaro.uz.enums.GeneralStatus;
@@ -232,6 +233,22 @@ public class ConsultingProfileService {
         return ApiResponse.ok();
     }
 
+    public ApiResponse<String> updateCurrentConsultingProfile(CurrentConsultingProfileUpdateDTO dto) {
+        String id = EntityDetails.getCurrentUserId();
+        Optional<ConsultingProfileEntity> optional = consultingProfileRepository.findByIdAndVisibleTrue(id);
+        if (optional.isEmpty()) {
+            log.info("Consulting profile not found! {}", id);
+            return ApiResponse.bad("Profile not found");
+        }
+        ConsultingProfileEntity entity = optional.get();
+
+        entity.setName(dto.getName());
+        entity.setSurname(dto.getSurname());
+        entity.setPhotoId(dto.getPhotoId());
+        consultingProfileRepository.save(entity);
+        return ApiResponse.ok();
+    }
+
     public ApiResponse<String> delete(String id) {
         consultingProfileRepository.updateVisible(id, false);
         return ApiResponse.ok();
@@ -254,7 +271,7 @@ public class ConsultingProfileService {
     }
 
     public ApiResponse<String> updateStatus(String id, GeneralStatus status) {
-        consultingProfileRepository.updateStatus(id,status);
+        consultingProfileRepository.updateStatus(id, status);
         return ApiResponse.ok();
     }
     // currentConsulting.setRoleList(personRoleService.getProfileRoleList(details.getId()));
