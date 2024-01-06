@@ -6,6 +6,7 @@ import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.consulting.ConsultingProfileDTO;
 import api.scolaro.uz.dto.consultingProfile.ConsultingProfileCreateDTO;
 import api.scolaro.uz.dto.consultingProfile.ConsultingProfileUpdateDTO;
+import api.scolaro.uz.dto.consultingProfile.CurrentConsultingProfileUpdateDTO;
 import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.service.consulting.ConsultingProfileService;
@@ -67,7 +68,13 @@ public class ConsultingProfileController {
         log.info("Get current consulting profile detail");
         return ResponseEntity.ok(consultingProfileService.getConsultingProfileDetail(EntityDetails.getCurrentUserId()));
     }
-
+    @PreAuthorize("hasRole('ROLE_CONSULTING_MANAGER')")
+    @PutMapping("")
+    @Operation(summary = "Edit current consulting profile", description = "for consulting manager")
+    public ResponseEntity<ApiResponse<String>> updateCurrent(@RequestBody @Valid CurrentConsultingProfileUpdateDTO dto) {
+        log.info("Update current consulting profile");
+        return ResponseEntity.ok(consultingProfileService.updateCurrentConsultingProfile(dto));
+    }
 
 /*    @DeleteMapping("/delete-accTOount")
     @Operation(summary = "Delete your consulting api", description = "for consulting")

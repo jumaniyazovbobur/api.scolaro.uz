@@ -31,12 +31,12 @@ public class ProfileController {
      * FOR OWNER USER
      */
     @PreAuthorize("hasRole('ROLE_STUDENT')")
-    @PutMapping("/update/{id}")
-    @Operation(summary = "Update api", description = "")
-    public ResponseEntity<ApiResponse<String>> update(@Valid @RequestBody ProfileUpdateDTO dto,
-                                                 @PathVariable("id") String id ) {
+    @PutMapping("/update")
+    @Operation(summary = "Update api", description = "for student")
+    public ResponseEntity<ApiResponse<String>> update(@Valid @RequestBody ProfileUpdateDTO dto) {
         log.info("Update user ");
-        return ResponseEntity.ok(profileService.update(dto,id));
+        String currentUserId = EntityDetails.getCurrentUserId();
+        return ResponseEntity.ok(profileService.update(dto, currentUserId));
     }
 
     /**
@@ -91,8 +91,8 @@ public class ProfileController {
     @PreAuthorize("hasRole('ROLE_STUDENT')")
     @PutMapping("/update-phone")
     @Operation(summary = "Update  profile phone  api", description = "for user")
-    public ResponseEntity<ApiResponse<?>> updatePhone(@RequestParam("phone") String phone ) {
-        log.info("Update phone {}",phone);
+    public ResponseEntity<ApiResponse<?>> updatePhone(@RequestParam("phone") String phone) {
+        log.info("Update phone {}", phone);
         return ResponseEntity.ok(profileService.updatePhone(phone));
     }
 
@@ -102,6 +102,7 @@ public class ProfileController {
         log.info("Delete your profile");
         return ResponseEntity.ok(profileService.deleteAccount());
     }
+
     /**
      * FOR USER
      */
@@ -109,7 +110,7 @@ public class ProfileController {
     @PutMapping("/phone-verification")
     @Operation(summary = "Update  profile phone verification api", description = "for user")
     public ResponseEntity<ApiResponse<?>> updatePhoneVerification(@RequestBody SmsDTO dto) {
-        log.info("Update phone verification {}",dto.getPhone());
+        log.info("Update phone verification {}", dto.getPhone());
         return ResponseEntity.ok(profileService.verification(dto));
     }
 
@@ -136,7 +137,6 @@ public class ProfileController {
         log.info("Change status {}", id);
         return ResponseEntity.ok(profileService.changeStatus(id, status));
     }
-
 
 
 }
