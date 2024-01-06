@@ -80,7 +80,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, "/api/v1/consulting/comment/*").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/search").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/transaction/student/payme-callback").permitAll()
-                        .requestMatchers("/chat-websocket/**","/topic/messages/**").permitAll()
+                        .requestMatchers("/chat-websocket/**").permitAll()
                         .anyRequest().authenticated()
         ).addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         http.csrf(AbstractHttpConfigurer::disable);

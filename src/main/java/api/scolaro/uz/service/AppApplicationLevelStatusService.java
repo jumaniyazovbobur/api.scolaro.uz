@@ -6,21 +6,28 @@ import api.scolaro.uz.dto.KeyValueDTO;
 import api.scolaro.uz.dto.appApplication.AppApplicationLevelStatusCreateDTO;
 import api.scolaro.uz.dto.appApplication.AppApplicationLevelStatusDTO;
 import api.scolaro.uz.dto.appApplication.AppApplicationLevelStatusUpdateDTO;
+import api.scolaro.uz.dto.notification.NotificationDTO;
+import api.scolaro.uz.dto.notification.ProfileInfoDTO;
 import api.scolaro.uz.dto.transaction.TransactionResponseDTO;
 import api.scolaro.uz.dto.transaction.request.WithdrawMoneyFromStudentDTO;
 import api.scolaro.uz.entity.FeedbackEntity;
+import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.entity.application.AppApplicationEntity;
 import api.scolaro.uz.entity.application.AppApplicationLevelStatusEntity;
+import api.scolaro.uz.entity.consulting.ConsultingProfileEntity;
 import api.scolaro.uz.entity.consulting.ConsultingStepLevelEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.ApplicationStepLevelStatus;
 import api.scolaro.uz.enums.LanguageEnum;
 import api.scolaro.uz.enums.StepLevelStatus;
+import api.scolaro.uz.enums.notification.NotificationType;
+import api.scolaro.uz.enums.transaction.ProfileType;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.appApplication.AppApplicationLevelStatusRepository;
 import api.scolaro.uz.repository.appApplication.AppApplicationRepository;
 import api.scolaro.uz.repository.consultingStepLevel.ConsultingStepLevelRepository;
 import api.scolaro.uz.service.consulting.ConsultingStepLevelService;
+import api.scolaro.uz.service.notification.NotificationService;
 import api.scolaro.uz.service.transaction.TransactionService;
 import api.scolaro.uz.util.TransactionUtil;
 import lombok.AllArgsConstructor;
@@ -30,6 +37,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -43,6 +51,7 @@ public class AppApplicationLevelStatusService {
     private final ConsultingStepLevelRepository consultingStepLevelRepository;
     private final AppApplicationService appApplicationService;
     private final AppApplicationRepository appApplicationRepository;
+    private final NotificationService notificationService;
     @Autowired
     private TransactionService transactionService;
     @Autowired
@@ -59,7 +68,7 @@ public class AppApplicationLevelStatusService {
 
         String currentConsultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
         // check if application belongs to current consulting.
-        AppApplicationEntity appApplication = appApplicationService.get(dto.getAppApplicationId());
+        AppApplicationEntity appApplication = appApplicationService.getFetchAllData(dto.getAppApplicationId());
         if (!appApplication.getConsultingId().equals(currentConsultingId)) { //
             log.info("Consulting {}  do not have access to application {}", currentConsultingId, dto.getAppApplicationId());
             return ApiResponse.forbidden("Your access denied for this Application!");
@@ -128,6 +137,9 @@ public class AppApplicationLevelStatusService {
             consultingStepLevelRepository.save(consultingStepLevelEntity); // start stepLevel
             appApplicationRepository.updateConsultingStepLevelId(appApplication.getId(), consultingStepLevelEntity.getId()); // update application stepLevel id
         }
+        ProfileEntity student = appApplication.getStudent();
+
+        sendNotification(student.getFireBaseId(), student.getLang(), student.getId(), appApplication.getConsultingProfileId(), appApplication.getId());
 
         return ApiResponse.ok(toDTO(entity));
     }
@@ -137,7 +149,24 @@ public class AppApplicationLevelStatusService {
         entity.setDeadline(dto.getDeadline());
         entity.setDescription(dto.getDescription());
         appApplicationLevelStatusRepository.save(entity);
+        AppApplicationEntity app = appApplicationService.getFetchAllData(entity.getAppApplicationId());
+        ProfileEntity student = app.getStudent();
+        sendNotification(student.getFireBaseId(), student.getLang(), student.getId(), app.getConsultingProfileId(), app.getId());
         return ApiResponse.ok(toDTO(entity));
+    }
+
+    private void sendNotification(String fireBaseId, AppLanguage lang, String studentId, String consultingProfileId, String applicationId) {
+        NotificationDTO dto = new NotificationDTO();
+        dto.setTitle(resourceMessageService.getMessage("update.applicationStatus", lang));
+        dto.setBody(resourceMessageService.getMessage("update.applicationStatus", lang));
+        dto.setProfiles(Collections.singletonList(new ProfileInfoDTO(
+                consultingProfileId, ProfileType.CONSULTING, studentId, ProfileType.PROFILE
+        )));
+        dto.getRegistrationIds().add(fireBaseId);
+        dto.getData().put("applicationId", applicationId);
+        dto.getData().put("type", NotificationType.STATUS.name());
+
+        notificationService.sendTo(dto);
     }
 
     public ApiResponse<String> levelStatusFinishPayment(String applicationLevelStatusId, AppLanguage lang) {

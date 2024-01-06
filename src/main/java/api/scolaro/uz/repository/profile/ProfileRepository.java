@@ -48,6 +48,7 @@ public interface ProfileRepository extends JpaRepository<ProfileEntity, String> 
     @Transactional
     @Query("update ProfileEntity set status = ?2,visible=true where  phone = ?1")
     void updateStatusAndVisibleTrue(String phone, GeneralStatus active);
+
     Optional<ProfileEntity> findByPhoneAndVisibleIsTrue(String phone);
 
 
@@ -60,6 +61,7 @@ public interface ProfileRepository extends JpaRepository<ProfileEntity, String> 
             "order by created_date desc limit 1 ",
             nativeQuery = true)
     ProfileEntity getProfileEntityDesc(@Param("phone") String phone);
+
     @Transactional
     @Modifying
     @Query("update ProfileEntity set visible=false, deletedId=:deletedId, deletedDate=:date where id=:id")
@@ -97,11 +99,22 @@ public interface ProfileRepository extends JpaRepository<ProfileEntity, String> 
     @Transactional
     @Modifying
     void fillStudentBalance(String profileId, Long amount);
+
     @Query("UPDATE ProfileEntity SET balance = balance - ?2 WHERE id = ?1")
     @Transactional
     @Modifying
     void reduceStudentBalance(String profileId, Long amount);
 
-    @Query(value = "SELECT TRUE FROM profile WHERE id = ?1 AND balance >= ?2 AND visible = TRUE LIMIT 1;",nativeQuery = true)
+    @Query(value = "SELECT TRUE FROM profile WHERE id = ?1 AND balance >= ?2 AND visible = TRUE LIMIT 1;", nativeQuery = true)
     boolean existsByIdAndBalanceIsGreaterThan(String profileId, Long amount);
+
+    @Query("update ProfileEntity set isOnline = ?2 where id = ?1")
+    @Transactional
+    @Modifying
+    int updateIsOnline(String id, Boolean b);
+
+    @Query("update ProfileEntity set fireBaseId = ?2 where id = ?1")
+    @Transactional
+    @Modifying
+    int updateFirebaseId(String id, String firebaseId);
 }
