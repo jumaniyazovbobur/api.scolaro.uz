@@ -10,4 +10,6 @@ public interface FacultyTreeMapper {
     String getSubFaculty();
 
     Integer getUniversityCount();
+
+    Boolean getIsSelected();
 }

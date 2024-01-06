@@ -20,4 +20,5 @@ public class FacultyDTO {
     private int orderNumber;
     private String subFaculty;
     private Integer universityCount;
+    private Boolean isSelected;
 }

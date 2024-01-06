@@ -1,67 +1,15 @@
 package api.scolaro.uz;
 
-
-import lombok.SneakyThrows;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.ResourceMessageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.MediaType;
-import org.springframework.messaging.converter.MappingJackson2MessageConverter;
-import org.springframework.messaging.simp.stomp.StompHeaders;
-import org.springframework.messaging.simp.stomp.StompSession;
-import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.socket.WebSocketHttpHeaders;
-import org.springframework.web.socket.client.standard.StandardWebSocketClient;
-import org.springframework.web.socket.messaging.WebSocketStompClient;
-import org.springframework.web.socket.sockjs.client.SockJsClient;
-import org.springframework.web.socket.sockjs.client.Transport;
-import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest
 class ApplicationTests {
-
-    @LocalServerPort
-    private Integer port;
-    private MockMvc mockMvc;
-
-    private CompletableFuture<Object> completableFuture;
     @Autowired
-    WebApplicationContext wac;
-
-    @BeforeEach
-    void setUp() {
-        completableFuture = new CompletableFuture<>();
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-                .apply(springSecurity())
-                .build();
-    }
-
-    @SneakyThrows
+    private ResourceMessageService resourceMessageService;
     @Test
     void contextLoads() {
        /* StompHeaders connectHeaders = new StompHeaders();
@@ -88,11 +36,6 @@ class ApplicationTests {
 
 
         System.out.println(subscribe.getSubscriptionId());*/
-    }
 
-    private List<Transport> createTransportClient() {
-        List<Transport> transports = new ArrayList<>(1);
-        transports.add(new WebSocketTransport(new StandardWebSocketClient()));
-        return transports;
     }
 }
