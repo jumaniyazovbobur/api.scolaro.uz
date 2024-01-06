@@ -120,7 +120,7 @@ public class AppApplicationLevelStatusService {
                 appApplicationRepository.updateConsultingStepLevelId(appApplication.getId(), nextStepLevel.getId()); // update application stepLevel id
             }
             // if next step not exists. Means it was last step and front will use separate api for finishing the application
-            // api/v1/app-application/change-status/{applicationId}  - use this one
+            // api/v1/app-application/change-status/{applicationId}  - use this one TODO
 
         } else if (consultingStepLevelEntity.getStepLevelStatus() == null) { // if current step level not started yet! start it.
             consultingStepLevelEntity.setStartedDate(LocalDateTime.now());

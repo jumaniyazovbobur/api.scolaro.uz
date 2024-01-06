@@ -150,7 +150,7 @@ public class CountryService {
     }
 
     public List<CountryResponseDTO> search(String query, AppLanguage language) {
-        List<CountryEntity> entityList = countryRepository.searchByName(query.toLowerCase());
+        List<CountryEntity> entityList = countryRepository.searchByName("%"+query.toLowerCase()+"%");
         List<CountryResponseDTO> dtoList = new LinkedList<>();
         entityList.forEach(entity -> dtoList.add(toDTO(entity, language)));
         return dtoList;

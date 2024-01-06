@@ -78,7 +78,7 @@ public class UniversityService {
         entity.setRating(dto.getRating());
         entity.setCountryId(dto.getCountryId());
         entity.setDescription(dto.getDescription());
-        entity.setPhotoId(dto.getPhotoId());
+        entity.setPhotoId(dto.getPhotoId()); // Delete old photo.
         entity.setLogoId(dto.getLogoId());
         universityRepository.save(entity);
         universityDegreeService.merger(entity.getId(), dto.getDegreeList()); //merge university degreeType\
@@ -89,9 +89,11 @@ public class UniversityService {
     public ApiResponse<UniversityResponseDTO> getById(Long id, AppLanguage appLanguage) {
         UniversityEntity entity = get(id);
         UniversityResponseDTO responseDTO = toDTO(entity);
-        responseDTO.setDegreeTypeList(universityDegreeService.getUniversityDegreeTypeList(id)); // get degree list
-        responseDTO.setFacultyList(facultyService.getFacultyTreeForUniversity(id, appLanguage));
-//        responseDTO.setFacultyIdList(universityFacultyRepository.getFacultyIdListByUniversityId(id)); // set faculty id list
+//        responseDTO.setDegreeTypeList(universityDegreeService.getUniversityDegreeTypeList(id)); // get degree list
+        responseDTO.setCountry(countryService.getById(entity.getCountryId(), appLanguage));
+        responseDTO.setDegreeList(universityDegreeService.getUniversityDegreeTypeList(id, appLanguage));
+//        responseDTO.setFacultyList(facultyService.getFacultyTreeForUniversity(id, appLanguage));
+        responseDTO.setFacultyIdList(universityFacultyRepository.getFacultyIdListByUniversityId(id)); // set faculty id list
         return ApiResponse.ok(responseDTO);
     }
 
