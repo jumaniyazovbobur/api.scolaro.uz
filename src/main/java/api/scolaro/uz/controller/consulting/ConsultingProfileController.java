@@ -124,4 +124,5 @@ public class ConsultingProfileController {
         log.info("Update status {}", id);
         return ResponseEntity.ok(consultingProfileService.updateStatus(id,status));
     }
+
 }
