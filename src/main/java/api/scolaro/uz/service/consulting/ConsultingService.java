@@ -52,6 +52,8 @@ public class ConsultingService {
     private final ConsultingProfileRepository consultingProfileRepository;
     @Autowired
     private UniversityService universityService;
+    @Autowired
+    private ConsultingProfileService consultingProfileService;
 
     public ApiResponse<ConsultingResponseDTO> create(ConsultingCreateDTO dto) {
         if (dto.getPhone().startsWith("+")) {
@@ -131,6 +133,14 @@ public class ConsultingService {
 
     public ApiResponse<ConsultingResponseDTO> getId(String id) {
         ConsultingEntity entity = get(id);
+        ConsultingResponseDTO dto = toDTO(entity);
+        ConsultingProfileEntity profile = consultingProfileService.getConsultingManagerByConsultingId(entity.getId());
+        if (profile != null) {
+            dto.setOwnerName(profile.getName());
+            dto.setOwnerSurname(profile.getSurname());
+            dto.setPhone(profile.getPhone());
+        }
+        //
         return ApiResponse.ok(toDTO(entity));
     }
 
@@ -239,6 +249,7 @@ public class ConsultingService {
         dto.setCreatedDate(entity.getCreatedDate());
         return dto;
     }
+
     public void fillConsultingBalance(String consultingId, Long amount) {
         consultingRepository.fillBalance(consultingId, amount);
     }
