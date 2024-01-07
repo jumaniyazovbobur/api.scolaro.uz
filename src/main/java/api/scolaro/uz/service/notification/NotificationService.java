@@ -58,6 +58,7 @@ public class NotificationService {
         entity.setTitle(notification.getTitle());
         entity.setBody(notification.getBody());
         entity.setType(notification.getType());
+        entity.setData(notification.getData());
         if (!notification.getProfiles().isEmpty()) {
             entity.setToProfileId(notification.getProfiles().get(index).getToProfile());
             entity.setToProfileType(notification.getProfiles().get(index).getToType());

@@ -29,7 +29,7 @@ public class SimpleMessageController {
     @PreAuthorize("hasRole('ROLE_STUDENT')")
     @Operation(summary = "Student message create", description = "Method user for  student message")
     @PostMapping("/student")
-    public ResponseEntity<ApiResponse<String>> createForStudent(@RequestBody @Valid SimpleMessageRequestDTO dto) {
+    public ResponseEntity<ApiResponse<SimpleMessageMapperDTO>> createForStudent(@RequestBody @Valid SimpleMessageRequestDTO dto) {
         log.info("student simple message create {}", dto);
         return ResponseEntity.ok(simpleMessageService.createForStudent(dto));
     }
@@ -37,7 +37,7 @@ public class SimpleMessageController {
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
     @Operation(summary = "Consulting message create", description = "Method user for consulting message")
     @PostMapping("/consulting")
-    public ResponseEntity<ApiResponse<String>> createForConsulting(@RequestBody @Valid SimpleMessageRequestDTO dto) {
+    public ResponseEntity<ApiResponse<SimpleMessageMapperDTO>> createForConsulting(@RequestBody @Valid SimpleMessageRequestDTO dto) {
         log.info("consulting simple message create {}", dto);
         return ResponseEntity.ok(simpleMessageService.createForConsulting(dto));
     }

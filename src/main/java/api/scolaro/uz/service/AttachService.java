@@ -9,6 +9,7 @@ import api.scolaro.uz.dto.simpleMessage.SimpleMessageRequestDTO;
 import api.scolaro.uz.entity.AttachEntity;
 import api.scolaro.uz.enums.AttachType;
 import api.scolaro.uz.exp.ItemNotFoundException;
+import api.scolaro.uz.mapper.SimpleMessageMapperDTO;
 import api.scolaro.uz.repository.attach.AttachRepository;
 import api.scolaro.uz.service.application.AppApplicationLevelAttachService;
 import lombok.RequiredArgsConstructor;
@@ -98,7 +99,7 @@ public class AttachService {
         return ApiResponse.ok(applicationLevelAttachDTO);
     }
 
-    public ApiResponse<String> createSimpleMessageAttachAsConsulting(MultipartFile file, String applicationId) {
+    public ApiResponse<SimpleMessageMapperDTO> createSimpleMessageAttachAsConsulting(MultipartFile file, String applicationId) {
         AttachDTO dto = upload(file); // Upload file
         SimpleMessageRequestDTO simpleMessageRequestDTO = new SimpleMessageRequestDTO();
         simpleMessageRequestDTO.setAttachId(dto.getId());
@@ -106,7 +107,7 @@ public class AttachService {
         return simpleMessageService.createForConsulting(simpleMessageRequestDTO);
     }
 
-    public ApiResponse<String> createSimpleMessageAttachAsStudent(MultipartFile file, String applicationId) {
+    public ApiResponse<SimpleMessageMapperDTO> createSimpleMessageAttachAsStudent(MultipartFile file, String applicationId) {
         AttachDTO dto = upload(file); // Upload file
         SimpleMessageRequestDTO simpleMessageRequestDTO = new SimpleMessageRequestDTO();
         simpleMessageRequestDTO.setAttachId(dto.getId());

@@ -3,12 +3,12 @@ package api.scolaro.uz.entity.notification;
 import api.scolaro.uz.entity.BaseEntity;
 import api.scolaro.uz.enums.notification.NotificationType;
 import api.scolaro.uz.enums.transaction.ProfileType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
+import api.scolaro.uz.service.notification.MapToStringConverter;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Map;
 
 /**
  * @author 'Mukhtarov Sarvarbek' on 27.12.2023
@@ -25,10 +25,12 @@ public class NotificationHistoryEntity extends BaseEntity {
     private String body;
 
     private String toProfileId;
+
     private String fromProfileId;
 
     @Enumerated(EnumType.STRING)
     private ProfileType toProfileType;
+
     @Enumerated(EnumType.STRING)
     private ProfileType fromProfileType;
 
@@ -37,4 +39,8 @@ public class NotificationHistoryEntity extends BaseEntity {
     private NotificationType type;
 
     private Boolean isRead = false;
+
+    @Convert(converter = MapToStringConverter.class)
+    @Column(columnDefinition = "text")
+    private Map<String, String> data;
 }
