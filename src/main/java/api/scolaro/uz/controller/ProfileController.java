@@ -6,6 +6,7 @@ import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.profile.*;
 
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.service.ProfileService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,6 +38,15 @@ public class ProfileController {
         log.info("Update user ");
         String currentUserId = EntityDetails.getCurrentUserId();
         return ResponseEntity.ok(profileService.update(dto, currentUserId));
+    }
+
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    @PutMapping("/update-lang")
+    @Operation(summary = "Update lang", description = "for student")
+    public ResponseEntity<ApiResponse<String>> updateLang(@RequestParam AppLanguage lang) {
+        log.info("Update user lang +{} ", lang);
+        String currentUserId = EntityDetails.getCurrentUserId();
+        return ResponseEntity.ok(profileService.updateLang(lang, currentUserId));
     }
 
     /**

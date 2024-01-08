@@ -2,7 +2,9 @@ package api.scolaro.uz.repository.profile;
 
 
 import api.scolaro.uz.entity.ProfileEntity;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.GeneralStatus;
+import org.aspectj.lang.annotation.After;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -117,4 +119,9 @@ public interface ProfileRepository extends JpaRepository<ProfileEntity, String> 
     @Transactional
     @Modifying
     int updateFirebaseId(String id, String firebaseId);
+
+    @Query("update ProfileEntity set lang = ?2 where id =?1")
+    @Transactional
+    @Modifying
+    int updateLang(String currentUserId, AppLanguage lang);
 }
