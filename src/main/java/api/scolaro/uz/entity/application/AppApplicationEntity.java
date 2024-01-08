@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Table(name = "app_application")
 @Entity
 @Setter
-@ToString
+//@ToString
 public class AppApplicationEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", insertable = false, updatable = false)

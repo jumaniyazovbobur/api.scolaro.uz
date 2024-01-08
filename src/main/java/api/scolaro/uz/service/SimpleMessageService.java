@@ -57,7 +57,7 @@ public class SimpleMessageService {
     private final SimpMessagingTemplate template;
     private final NotificationService notificationService;
 
-    public ApiResponse<String> createForStudent(SimpleMessageRequestDTO dto) {
+    public ApiResponse<SimpleMessageMapperDTO> createForStudent(SimpleMessageRequestDTO dto) {
         AppApplicationEntity app = appApplicationService.getFetchAllData(dto.getApplicationId());
         SimpleMessageEntity entity = new SimpleMessageEntity();
         entity.setMessage(dto.getMessage());
@@ -74,10 +74,10 @@ public class SimpleMessageService {
             ConsultingProfileEntity consultingProfile = consultingProfileOptional.get();
             sendSocketOrNotification(dto, app, entity, consultingProfile.getIsOnline(), consultingProfile.getFireBaseId());
         }
-        return new ApiResponse<>("Success", 200, false);
+        return new ApiResponse<>("Success", 200, false,SimpleMessageMapperDTO.toDTO(entity,attachService.getResponseAttach(entity.getAttachId())));
     }
 
-    public ApiResponse<String> createForConsulting(SimpleMessageRequestDTO dto) {
+    public ApiResponse<SimpleMessageMapperDTO> createForConsulting(SimpleMessageRequestDTO dto) {
         AppApplicationEntity app = appApplicationService.get(dto.getApplicationId());
         SimpleMessageEntity entity = new SimpleMessageEntity();
         entity.setMessage(dto.getMessage());
@@ -97,7 +97,7 @@ public class SimpleMessageService {
             sendSocketOrNotification(dto, app, entity, profileEntity.getIsOnline(), profileEntity.getFireBaseId());
         }
 
-        return new ApiResponse<>("Success", 200, false);
+        return new ApiResponse<>("Success", 200, false,SimpleMessageMapperDTO.toDTO(entity,attachService.getResponseAttach(entity.getAttachId())));
     }
 
     private void sendSocketOrNotification(SimpleMessageRequestDTO dto, AppApplicationEntity app,
