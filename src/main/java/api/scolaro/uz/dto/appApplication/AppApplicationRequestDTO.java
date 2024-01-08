@@ -13,6 +13,6 @@ import lombok.ToString;
 public class AppApplicationRequestDTO {
     @NotBlank(message = "consulting Id required")
     private String consultingId;
-    @NotBlank(message = "university Id required")
+//    @NotBlank(message = "university Id required")
     private Long universityId;
 }

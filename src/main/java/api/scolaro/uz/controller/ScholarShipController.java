@@ -76,14 +76,15 @@ public class ScholarShipController {
 
     @Operation(summary = "Filter scholarShip", description = "Method used for filtering scholarShip")
     @PostMapping("/filter")
-    public ResponseEntity<?> filter(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                                    @RequestParam(value = "size", defaultValue = "5") Integer size,
+    public ResponseEntity<?> filter(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                    @RequestParam(value = "size", defaultValue = "30") Integer size,
                                     @RequestBody ScholarShipFilterDTO dto,
                                     @RequestHeader(value = "Accept-Language",
                                             defaultValue = "uz") AppLanguage appLanguage) {
         log.info("Filtered scholarShipList page={},size={}", page, size);
         return ResponseEntity.ok(scholarShipService.filter(dto, page, size, appLanguage));
     }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "ScholarShip get By Id", description = "Method ScholarShip get By Id")
     @GetMapping("/get-all")

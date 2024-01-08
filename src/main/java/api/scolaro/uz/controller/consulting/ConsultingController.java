@@ -4,6 +4,7 @@ import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.consulting.*;
 import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.service.consulting.ConsultingService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,9 +33,10 @@ public class ConsultingController {
      */
     @GetMapping("/public/{id}")
     @Operation(summary = "Get consulting detail by id. Public. Used in university page")
-    public ResponseEntity<ApiResponse<ConsultingDTO>> consultingDetail(@PathVariable("id") String consultingId) {
+    public ResponseEntity<ApiResponse<ConsultingDTO>> consultingDetail(@PathVariable("id") String consultingId,
+                                                                       @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Get consulting detail by id api. Public");
-        return ResponseEntity.ok(consultingService.getConsultingDetail(consultingId));
+        return ResponseEntity.ok(consultingService.getConsultingDetail(consultingId, language));
     }
 
     @GetMapping("/top-consulting")

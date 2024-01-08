@@ -147,7 +147,7 @@ public class AppApplicationFilterRepository {
                 "       un.name              as uniName " +
                 "from app_application as a " +
                 "         inner join consulting as c on a.consulting_id = c.id " +
-                "         inner join university as un on a.university_id = un.id " +
+                "         left join university as un on a.university_id = un.id " +
                 "where a.visible = true and student_id=:studentId " +
                 "order by a.created_date;");
         selectBuilder.append(stringBuilder);
@@ -274,7 +274,7 @@ public class AppApplicationFilterRepository {
                 "       csl.order_number,csl.id as consultingStepLevelId, " +
                 "       ls.id as levelStatusId, ls.deadline, ls.description, ls.application_step_level_status " +
                 "from app_application as a " +
-                "inner join university u on u.id = a.university_id " +
+                "left join university u on u.id = a.university_id " +
                 "inner join consulting_step_level csl on csl.id = a.consulting_step_level_id " +
                 "inner join app_application_level_status ls on ls.id = a.consulting_step_level_status_id " +
                 "where a.visible = true " +
@@ -374,7 +374,7 @@ public class AppApplicationFilterRepository {
                 "       p.surname as studentSurname, " +
                 "       p.phone as phone " +
                 "from app_application as a " +
-                "         inner join university as un on a.university_id = un.id " +
+                "         left join university as un on a.university_id = un.id " +
                 "         inner join profile p on p.id = a.student_id " +
                 "where a.visible = true " +
                 "  and consulting_id = :consultingId ");

@@ -16,6 +16,12 @@ public interface AppApplicationRepository extends JpaRepository<AppApplicationEn
     Optional<AppApplicationEntity> findByIdAndVisibleTrue(String s);
 
     Optional<AppApplicationEntity> findByStudentIdAndConsultingIdAndVisibleTrue(String studentId, String consultingId);
+
+    Optional<AppApplicationEntity> findByStudentIdAndConsultingIdAndUniversityIdAndVisibleTrue(String studentId, String consultingId, Long universityId);
+
+    @Query(" from AppApplicationEntity a where a.status = 'TRAIL' and a.studentId =:studentId and a.consultingId =:consultingId and a.universityId is null and a.visible=true")
+    Optional<AppApplicationEntity> getStatusTrailApplicationWithNoUniversity(@Param("studentId") String studentId, @Param("consultingId") String consultingId);
+
     @Query("""
             from AppApplicationEntity a
             left join fetch a.consulting
@@ -24,6 +30,7 @@ public interface AppApplicationRepository extends JpaRepository<AppApplicationEn
             where a.id = ?1 and a.visible = true
             """)
     Optional<AppApplicationEntity> findAllDataByIdAndVisibleIsTrue(String applicationId);
+
     @Transactional
     @Modifying
     @Query("update AppApplicationEntity set status = 'STARTED', startedDate = current_timestamp where id=:id")

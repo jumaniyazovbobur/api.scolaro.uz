@@ -29,6 +29,7 @@ import api.scolaro.uz.repository.consultingStepLevel.ConsultingStepLevelReposito
 import api.scolaro.uz.service.consulting.ConsultingStepLevelService;
 import api.scolaro.uz.service.notification.NotificationService;
 import api.scolaro.uz.service.transaction.TransactionService;
+import api.scolaro.uz.util.LangUtil;
 import api.scolaro.uz.util.TransactionUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -139,7 +140,7 @@ public class AppApplicationLevelStatusService {
         }
         ProfileEntity student = appApplication.getStudent();
 
-        sendNotification(student.getFireBaseId(), student.getLang(), student.getId(), appApplication.getConsultingProfileId(), appApplication.getId());
+        sendNotification(student.getFireBaseId(), LangUtil.getDefaultLang(student), student.getId(), appApplication.getConsultingProfileId(), appApplication.getId());
 
         return ApiResponse.ok(toDTO(entity));
     }

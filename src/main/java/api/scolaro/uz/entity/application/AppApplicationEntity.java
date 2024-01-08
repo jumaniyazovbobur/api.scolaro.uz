@@ -5,7 +5,6 @@ import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.entity.UniversityEntity;
 import api.scolaro.uz.entity.consulting.*;
 import api.scolaro.uz.enums.AppStatus;
-import api.scolaro.uz.enums.ApplicationStepLevelStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -86,4 +85,8 @@ public class AppApplicationEntity extends BaseEntity {
 
     @Column(name = "application_number")
     private Long applicationNumber;
+
+ /*   @Column(name = "application_type")
+    @Enumerated(EnumType.STRING)
+    private ApplicationType applicationType;*/
 }

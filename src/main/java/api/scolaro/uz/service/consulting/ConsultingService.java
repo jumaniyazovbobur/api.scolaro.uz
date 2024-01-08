@@ -5,9 +5,11 @@ import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.consulting.*;
+import api.scolaro.uz.dto.consultingTariff.ConsultingTariffResponseDTO;
 import api.scolaro.uz.dto.university.UniversityResponseDTO;
 import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.entity.consulting.ConsultingProfileEntity;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.enums.sms.SmsType;
@@ -54,6 +56,8 @@ public class ConsultingService {
     private UniversityService universityService;
     @Autowired
     private ConsultingProfileService consultingProfileService;
+    @Autowired
+    private ConsultingTariffService consultingTariffService;
 
     public ApiResponse<ConsultingResponseDTO> create(ConsultingCreateDTO dto) {
         if (dto.getPhone().startsWith("+")) {
@@ -140,8 +144,7 @@ public class ConsultingService {
             dto.setOwnerSurname(profile.getSurname());
             dto.setPhone(profile.getPhone());
         }
-        //
-        return ApiResponse.ok(toDTO(entity));
+        return ApiResponse.ok(dto);
     }
 
     public ConsultingResponseDTO getById(String id) {
@@ -151,8 +154,8 @@ public class ConsultingService {
 
     public PageImpl<ConsultingResponseDTO> filter(ConsultingFilterDTO dto, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        FilterResultDTO<ConsultingEntity> filterResultDTO = customRepository.filterPagination(dto, page, size);
-        return new PageImpl<>(filterResultDTO.getContent().stream().map(this::toDTO).toList(), pageable, filterResultDTO.getTotalElement());
+        FilterResultDTO<ConsultingResponseDTO> filterResultDTO = customRepository.filterPagination(dto, page, size);
+        return new PageImpl<>(filterResultDTO.getContent(), pageable, filterResultDTO.getTotalElement());
     }
 
 //    public ApiResponse<String> deleted(String id) {
@@ -162,7 +165,7 @@ public class ConsultingService {
 //        return ApiResponse.ok("Success");
 //    }
 
-    public ApiResponse<ConsultingDTO> getConsultingDetail(String consultingId) {
+    public ApiResponse<ConsultingDTO> getConsultingDetail(String consultingId, AppLanguage language) {
         ConsultingEntity details = get(consultingId);
         ConsultingDTO consultingDTO = new ConsultingDTO();
         consultingDTO.setId(details.getId());
@@ -176,7 +179,9 @@ public class ConsultingService {
         // get consulting university list
         List<UniversityResponseDTO> oldList = universityService.getConsultingUniversityList(consultingId);
         consultingDTO.setUniversityList(oldList);
-
+        // consulting tariff list
+        List<ConsultingTariffResponseDTO> list = consultingTariffService.getAllByConsultingId(consultingId, language);
+        consultingDTO.setTariffList(list);
         return new ApiResponse<>(200, false, consultingDTO);
     }
 

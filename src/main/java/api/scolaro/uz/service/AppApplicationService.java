@@ -55,18 +55,34 @@ public class AppApplicationService {
     private ConsultingProfileService consultingProfileService;
 
     public ApiResponse<AppApplicationResponseDTO> create(AppApplicationRequestDTO dto) {
+        String studentId = EntityDetails.getCurrentUserId();
         ConsultingEntity consulting = consultingService.get(dto.getConsultingId());
-        UniversityEntity university = universityService.get(dto.getUniversityId());
+
+        // TODO check if application exists
 
         AppApplicationEntity entity = new AppApplicationEntity();
+        if (dto.getUniversityId() != null) {
+            AppApplicationEntity appApplication = getByStudentIdAndConsultingIdAndUniversityId(studentId, consulting.getId(), dto.getUniversityId());
+            if (appApplication != null) { // application exists return this application no need to open new one
+                return new ApiResponse<>(200, false, toDTO(appApplication));
+            }
+            UniversityEntity university = universityService.get(dto.getUniversityId()); // check university exits
+            entity.setUniversityId(university.getId());
+        } else { // no university
+            // check for application with status trail and no university
+            Optional<AppApplicationEntity> optional = appApplicationRepository.getStatusTrailApplicationWithNoUniversity(studentId, consulting.getId());
+            if (optional.isPresent()) { // trail application without university exists
+                return new ApiResponse<>(200, false, toDTO(optional.get()));
+            }
+            entity.setUniversityId(null);
+        }
+        // create new application
         entity.setStudentId(EntityDetails.getCurrentUserId());
         entity.setConsultingId(consulting.getId());
-        entity.setUniversityId(university.getId());
         entity.setStatus(AppStatus.TRAIL);
         entity.setConsultingProfileId(consulting.getManagerId());
-        entity.setApplicationNumber(appApplicationRepository.getSequenceApplicationNumber());
-
-        appApplicationRepository.save(entity);
+        entity.setApplicationNumber(appApplicationRepository.getSequenceApplicationNumber()); // appliction number
+        appApplicationRepository.save(entity); // save
         return new ApiResponse<>(200, false, toDTO(entity));
     }
 
@@ -215,8 +231,13 @@ public class AppApplicationService {
         return dto;
     }
 
-    public AppApplicationEntity getByStudentIdAndConsultingId(String studentId, String consultingId) {
+    public AppApplicationEntity getByStudentIdAndConsultingId(String studentId, String consultingId) { // TODO
         Optional<AppApplicationEntity> appApplication = appApplicationRepository.findByStudentIdAndConsultingIdAndVisibleTrue(studentId, consultingId);
+        return appApplication.orElse(null);
+    }
+
+    public AppApplicationEntity getByStudentIdAndConsultingIdAndUniversityId(String studentId, String consultingId, Long universityId) {
+        Optional<AppApplicationEntity> appApplication = appApplicationRepository.findByStudentIdAndConsultingIdAndUniversityIdAndVisibleTrue(studentId, consultingId, universityId);
         return appApplication.orElse(null);
     }
 
@@ -226,6 +247,7 @@ public class AppApplicationService {
             return new ItemNotFoundException("Application not found");
         });
     }
+
     public AppApplicationEntity getFetchAllData(String id) {
         return appApplicationRepository.findAllDataByIdAndVisibleIsTrue(id).orElseThrow(() -> {
             log.warn("Application not Found");

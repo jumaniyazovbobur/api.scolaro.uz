@@ -79,7 +79,8 @@ public class ConsultingTariffController {
     @Operation(summary = "Get current consulting tariff list", description = "for consulting")
     public ResponseEntity<ApiResponse<List<ConsultingTariffResponseDTO>>> getAllByCurrentConsulting(@RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Get current consulting tariff list");
-        return ResponseEntity.ok(consultingTariffService.getAllByConsultingId(EntityDetails.getCurrentUserDetail().getProfileConsultingId(), language));
+        List<ConsultingTariffResponseDTO> list = consultingTariffService.getAllByConsultingId(EntityDetails.getCurrentUserDetail().getProfileConsultingId(), language);
+        return ResponseEntity.ok(ApiResponse.ok(list));
     }
 
     @GetMapping("/template-list")

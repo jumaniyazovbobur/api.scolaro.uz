@@ -2,8 +2,15 @@ package api.scolaro.uz.repository.consulting;
 
 import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.consulting.ConsultingFilterDTO;
+import api.scolaro.uz.dto.consulting.ConsultingResponseDTO;
+import api.scolaro.uz.dto.consulting.ConsultingResponseFilterDTO;
 import api.scolaro.uz.dto.consulting.ConsultingTopFilterDTO;
+import api.scolaro.uz.dto.profile.ProfileResponseFilterDTO;
 import api.scolaro.uz.entity.consulting.ConsultingEntity;
+import api.scolaro.uz.enums.GeneralStatus;
+import api.scolaro.uz.mapper.ConsultingCommentFilterMapperDTO;
+import api.scolaro.uz.service.AttachService;
+import api.scolaro.uz.util.MapperUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,62 +19,88 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 @Repository
 public class CustomConsultingRepository {
     @Autowired
+    private AttachService attachService;
+    @Autowired
     private EntityManager entityManager;
 
-    public FilterResultDTO<ConsultingEntity> filterPagination(ConsultingFilterDTO dto, Integer page, Integer size) {
-        StringBuilder selectBuilder = new StringBuilder("from ConsultingEntity as c");
-        StringBuilder countBuilder = new StringBuilder("select count(c) from ConsultingEntity as c ");
-        StringBuilder builder = new StringBuilder(" where c.visible=true ");
+    public FilterResultDTO<ConsultingResponseDTO> filterPagination(ConsultingFilterDTO filter, Integer page, Integer size) {
+        StringBuilder selectBuilder = new StringBuilder(" select c.id, c.name, c.address, c.photo_id, c.status, " +
+                "cp.name,cp.surname " +
+                "from consulting c " +
+                "left join  consulting_profile cp on c.manager_id = cp.id " +
+                "where c.visible =true ");
+        StringBuilder countBuilder = new StringBuilder(" select count(*) " +
+                "from consulting c " +
+                "left join  consulting_profile cp on c.manager_id = cp.id " +
+                "where c.visible =true ");
+
+        StringBuilder builder = new StringBuilder();
         Map<String, Object> params = new LinkedHashMap<>();
-        if (dto.getName() != null && !dto.getName().isBlank()) {
+        if (filter.getName() != null && !filter.getName().isBlank()) {
             builder.append(" and lower(c.name) like :name ");
-            params.put("name", "%" + dto.getName().toLowerCase() + "%");
+            params.put("name", "%" + filter.getName().toLowerCase() + "%");
         }
-        if (dto.getAddress() != null && !dto.getAddress().isBlank()) {
+        if (filter.getAddress() != null && !filter.getAddress().isBlank()) {
             builder.append(" and lower(c.address) like :address ");
-            params.put("address", "%" + dto.getAddress().toLowerCase() + "%");
+            params.put("address", "%" + filter.getAddress().toLowerCase() + "%");
         }
-        if (dto.getOwnerName() != null && !dto.getOwnerName().isBlank()) {
-            builder.append(" and lower(c.ownerName) like :ownerName ");
-            params.put("ownerName", "%" + dto.getOwnerName().toLowerCase() + "%");
+        if (filter.getOwnerName() != null && !filter.getOwnerName().isBlank()) {
+            builder.append(" and lower(cp.name) like :ownerName ");
+            params.put("ownerName", "%" + filter.getOwnerName().toLowerCase() + "%");
         }
-        if (dto.getOwnerSurname() != null && !dto.getOwnerSurname().isBlank()) {
-            builder.append(" and lower(c.ownerSurname) like :ownerSurname ");
-            params.put("ownerSurname", "%" + dto.getOwnerSurname().toLowerCase() + "%");
+        if (filter.getOwnerSurname() != null && !filter.getOwnerSurname().isBlank()) {
+            builder.append(" and lower(cp.surname) like :ownerSurname ");
+            params.put("ownerSurname", "%" + filter.getOwnerSurname().toLowerCase() + "%");
         }
-        if (dto.getPhone() != null && !dto.getPhone().isBlank()) {
-            builder.append(" and c.phone = :phone ");
-            params.put("phone", dto.getPhone());
+        if (filter.getPhone() != null && !filter.getPhone().isBlank()) {
+            builder.append(" and cp.phone = :phone ");
+            params.put("phone", filter.getPhone());
         }
-        if (dto.getFromCreatedDate() != null) {
-            builder.append(" and c.createdDate>=:from ");
-            params.put("from", LocalDateTime.of(dto.getFromCreatedDate(), LocalTime.MIN));
+        if (filter.getFromCreatedDate() != null) {
+            builder.append(" and c.created_date>=:from ");
+            params.put("from", LocalDateTime.of(filter.getFromCreatedDate(), LocalTime.MIN));
         }
-        if (dto.getToCreatedDate() != null) {
-            builder.append(" and c.createdDate<=:to ");
-            params.put("to", LocalDateTime.of(dto.getToCreatedDate(), LocalTime.MAX));
+        if (filter.getToCreatedDate() != null) {
+            builder.append(" and c.created_date<=:to ");
+            params.put("to", LocalDateTime.of(filter.getToCreatedDate(), LocalTime.MAX));
         }
         countBuilder.append(builder);
-        builder.append(" order by c.createdDate ");
+        builder.append(" order by c.created_date ");
         selectBuilder.append(builder);
-        Query selectQuery = entityManager.createQuery(selectBuilder.toString());
-        Query countQuery = entityManager.createQuery(countBuilder.toString());
+        Query selectQuery = entityManager.createNativeQuery(selectBuilder.toString());
+        Query countQuery = entityManager.createNativeQuery(countBuilder.toString());
         for (Map.Entry<String, Object> p : params.entrySet()) {
             selectQuery.setParameter(p.getKey(), p.getValue());
             countQuery.setParameter(p.getKey(), p.getValue());
         }
         selectQuery.setFirstResult(page * size);
         selectQuery.setMaxResults(size);
-        List<ConsultingEntity> entityList = selectQuery.getResultList();
+        List<Object[]> entityList = selectQuery.getResultList();
         Long totalElement = (Long) countQuery.getSingleResult();
-        return new FilterResultDTO<ConsultingEntity>(entityList, totalElement);
 
+        List<ConsultingResponseDTO> dtoList = new LinkedList<>();
+        for (Object[] object : entityList) {
+            ConsultingResponseDTO dto = new ConsultingResponseDTO();
+            dto.setId(MapperUtil.getStringValue(object[0]));
+            dto.setName(MapperUtil.getStringValue(object[1]));
+            dto.setAddress(MapperUtil.getStringValue(object[2]));
+            dto.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[3])));
+            if (object[4] != null) {
+                dto.setStatus(GeneralStatus.valueOf(MapperUtil.getStringValue(object[4])));
+            }
+            dto.setOwnerName(MapperUtil.getStringValue(object[5]));
+            dto.setOwnerSurname(MapperUtil.getStringValue(object[6]));
+            dtoList.add(dto);
+        }
+
+        return new FilterResultDTO<ConsultingResponseDTO>(dtoList, totalElement);
     }
 
     public FilterResultDTO<ConsultingEntity> filterPaginationForTopConsulting(ConsultingTopFilterDTO dto, Integer page, Integer size) {

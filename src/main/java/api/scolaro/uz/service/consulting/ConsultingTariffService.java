@@ -112,11 +112,11 @@ public class ConsultingTariffService {
         return new ApiResponse<>(resourceMessageService.getMessage("fail.delete"), 200, false);
     }
 
-    public ApiResponse<List<ConsultingTariffResponseDTO>> getAllByConsultingId(String consultingId, AppLanguage lang) {
+    public List<ConsultingTariffResponseDTO> getAllByConsultingId(String consultingId, AppLanguage lang) {
         List<ConsultingTariffEntity> list = consultingTariffRepository.getByConsultingId(consultingId);
         List<ConsultingTariffResponseDTO> dtoList = new LinkedList<>();
         list.forEach(entity -> dtoList.add(toDto(entity, lang)));
-        return new ApiResponse<>(200, false, dtoList);
+        return dtoList;
     }
 
     public ApiResponse<List<ConsultingTariffResponseDTO>> getTemplateList(AppLanguage lang) {

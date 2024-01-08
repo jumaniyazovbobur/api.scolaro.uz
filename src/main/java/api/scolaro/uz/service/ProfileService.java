@@ -189,7 +189,7 @@ public class ProfileService {
         int result = profileRepository.changePhone(currentUser.getId(), currentUser.getTempPhone());
         if (result == 0) return ApiResponse.bad("Try again !");
 
-        String jwt = JwtUtil.encode(currentUser.getId(), currentUser.getPhone(), personRoleService.getProfileRoleList(currentUser.getId()));
+        String jwt = JwtUtil.encode(currentUser.getId(), currentUser.getTempPhone(), personRoleService.getProfileRoleList(currentUser.getId()));
         return ApiResponse.ok(jwt);
 
     }
