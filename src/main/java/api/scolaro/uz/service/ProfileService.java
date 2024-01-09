@@ -92,6 +92,7 @@ public class ProfileService {
         responseDTO.setName(profile.getName());
         responseDTO.setSurname(profile.getSurname());
         responseDTO.setPhone(profile.getPhone());
+        responseDTO.setLang(profile.getLang());
         responseDTO.setRoleList(personRoleService.getProfileRoleList(profile.getId()));
         if (profile.getPhotoId() != null) responseDTO.setPhoto(attachService.getResponseAttach(profile.getPhotoId()));
         return ApiResponse.ok(responseDTO);

@@ -131,6 +131,7 @@ public class ConsultingProfileService {
         responseDTO.setName(entity.getName());
         responseDTO.setSurname(entity.getSurname());
         responseDTO.setPhone(entity.getPhone());
+        responseDTO.setLang(entity.getLang());
         responseDTO.setRoleList(personRoleService.getProfileRoleList(entity.getId()));
         if (entity.getPhotoId() != null) responseDTO.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
         responseDTO.setConsulting(consultingService.getById(entity.getConsultingId()));
@@ -277,7 +278,7 @@ public class ConsultingProfileService {
     }
 
     public ApiResponse<String> updateLang(String id, AppLanguage lang) {
-        consultingProfileRepository.updateLang(id,lang);
+        consultingProfileRepository.updateLang(id, lang);
         return ApiResponse.ok();
     }
     // currentConsulting.setRoleList(personRoleService.getProfileRoleList(details.getId()));
