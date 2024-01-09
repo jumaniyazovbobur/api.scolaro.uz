@@ -10,6 +10,7 @@ import api.scolaro.uz.dto.consultingProfile.CurrentConsultingProfileUpdateDTO;
 import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.service.consulting.ConsultingProfileService;
+import api.scolaro.uz.util.PaginationUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -120,7 +121,7 @@ public class ConsultingProfileController {
         log.info("FindAll consulting profile");
         if (page > 0) page--;
         String consultingId = Objects.requireNonNull(EntityDetails.getCurrentUserDetail()).getProfileConsultingId();
-        return ResponseEntity.ok(consultingProfileService.findAll(consultingId, page, size));
+        return ResponseEntity.ok(consultingProfileService.findAll(consultingId, PaginationUtil.page(page), size));
     }
 
     @PutMapping("/update-status/{id}")

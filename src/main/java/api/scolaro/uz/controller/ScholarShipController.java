@@ -82,7 +82,7 @@ public class ScholarShipController {
                                     @RequestHeader(value = "Accept-Language",
                                             defaultValue = "uz") AppLanguage appLanguage) {
         log.info("Filtered scholarShipList page={},size={}", page, size);
-        return ResponseEntity.ok(scholarShipService.filter(dto, page, size, appLanguage));
+        return ResponseEntity.ok(scholarShipService.filter(dto, page-1, size, appLanguage));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

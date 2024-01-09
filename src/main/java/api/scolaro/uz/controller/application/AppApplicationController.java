@@ -5,6 +5,7 @@ import api.scolaro.uz.dto.appApplication.*;
 import api.scolaro.uz.dto.scholarShip.ScholarShipFilterDTO;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.AppApplicationService;
+import api.scolaro.uz.util.PaginationUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -37,29 +38,29 @@ public class AppApplicationController {
     @Operation(summary = "AppApplication list for Student. Web", description = "")
     @GetMapping("/student")
     @PreAuthorize("hasRole('ROLE_STUDENT')")
-    public ResponseEntity<?> applicationListForStudent_web(@RequestParam(value = "page", defaultValue = "0") Integer page,
+    public ResponseEntity<?> applicationListForStudent_web(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                            @RequestParam(value = "size", defaultValue = "5") Integer size) {
         log.info("AppApplication list for student page={},size={}", page, size);
-        return ResponseEntity.ok(appApplicationService.getApplicationListForStudent_web(page, size));
+        return ResponseEntity.ok(appApplicationService.getApplicationListForStudent_web(PaginationUtil.page(page), size));
     }
 
     @Operation(summary = "Get application consulting list for student . Mobile", description = "Get Student ApplicationConsulting List for mobile. Mobile first page")
     @GetMapping("/mobile/student/consulting")
     @PreAuthorize("hasRole('ROLE_STUDENT')")
-    public ResponseEntity<?> applicationConsultingListForStudent_mobile(@RequestParam(value = "page", defaultValue = "0") Integer page,
+    public ResponseEntity<?> applicationConsultingListForStudent_mobile(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                                         @RequestParam(value = "size", defaultValue = "20") Integer size) {
         log.info("Filtered appApplicationList list for student page={},size={}", page, size);
-        return ResponseEntity.ok(appApplicationService.getApplicationConsultingListForStudent_mobile(page, size));
+        return ResponseEntity.ok(appApplicationService.getApplicationConsultingListForStudent_mobile(PaginationUtil.page(page), size));
     }
 
     @Operation(summary = "Get application university list by consulting id for student. Mobile", description = "")
     @GetMapping("/mobile/student/{consultingId}/university")
     @PreAuthorize("hasRole('ROLE_STUDENT')")
     public ResponseEntity<?> applicationUniversityListByConsultingIdForStudent_mobile(@PathVariable("consultingId") String consultingId,
-                                                                                      @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                                                      @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                                                       @RequestParam(value = "size", defaultValue = "20") Integer size) {
         log.info("Get application university list by consulting id. Mobile page={},size={}", page, size);
-        return ResponseEntity.ok(appApplicationService.getApplicationUniversityListByConsultingIdForStudent_mobile(consultingId, page, size));
+        return ResponseEntity.ok(appApplicationService.getApplicationUniversityListByConsultingIdForStudent_mobile(consultingId, PaginationUtil.page(page), size));
     }
 
     /**
@@ -69,23 +70,23 @@ public class AppApplicationController {
     @Operation(summary = "Filter AppApplicationList for Consulting. Web", description = "Method user for filtering AppApplication for Consulting")
     @PostMapping("/consulting/filter")
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
-    public ResponseEntity<?> filterForConsulting(@RequestParam(value = "page", defaultValue = "0") Integer page,
+    public ResponseEntity<?> filterForConsulting(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                  @RequestParam(value = "size", defaultValue = "5") Integer size,
                                                  @RequestBody AppApplicationFilterConsultingDTO dto) {
         log.info("Filter AppApplicationList for Consulting. Web. page={},size={}", page, size);
-        return ResponseEntity.ok(appApplicationService.getApplicationListForConsulting_web(dto, page, size));
+        return ResponseEntity.ok(appApplicationService.getApplicationListForConsulting_web(dto, PaginationUtil.page(page), size));
     }
 
     @Operation(summary = "Get Application student list by universityId for Consulting. Mobile", description = "")
     @PostMapping("/mobile/consulting/university/{universityId}")
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
-    public ResponseEntity<?> applicationStudentListByUniversityIdForConsulting_mobile(@RequestParam(value = "page", defaultValue = "0") Integer page,
+    public ResponseEntity<?> applicationStudentListByUniversityIdForConsulting_mobile(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                                                       @RequestParam(value = "size", defaultValue = "5") Integer size,
                                                                                       @PathVariable("universityId") Long universityId,
                                                                                       @RequestBody AppApplicationFilterConsultingDTO dto,
                                                                                       @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Get Application student list by countryId for consulting. Mobile. page={},size={}", page, size);
-        return ResponseEntity.ok(appApplicationService.getApplicationStudentListByUniversityIdForConsulting_mobile(universityId, dto, page, size, language));
+        return ResponseEntity.ok(appApplicationService.getApplicationStudentListByUniversityIdForConsulting_mobile(universityId, dto, PaginationUtil.page(page), size, language));
     }
 
     @Operation(summary = "Change appApplication  status as consulting", description = "")

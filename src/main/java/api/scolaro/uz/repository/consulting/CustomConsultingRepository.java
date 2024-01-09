@@ -3,12 +3,9 @@ package api.scolaro.uz.repository.consulting;
 import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.consulting.ConsultingFilterDTO;
 import api.scolaro.uz.dto.consulting.ConsultingResponseDTO;
-import api.scolaro.uz.dto.consulting.ConsultingResponseFilterDTO;
 import api.scolaro.uz.dto.consulting.ConsultingTopFilterDTO;
-import api.scolaro.uz.dto.profile.ProfileResponseFilterDTO;
 import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.enums.GeneralStatus;
-import api.scolaro.uz.mapper.ConsultingCommentFilterMapperDTO;
 import api.scolaro.uz.service.AttachService;
 import api.scolaro.uz.util.MapperUtil;
 import jakarta.persistence.EntityManager;
@@ -32,7 +29,7 @@ public class CustomConsultingRepository {
 
     public FilterResultDTO<ConsultingResponseDTO> filterPagination(ConsultingFilterDTO filter, Integer page, Integer size) {
         StringBuilder selectBuilder = new StringBuilder(" select c.id, c.name, c.address, c.photo_id, c.status, " +
-                "cp.name,cp.surname " +
+                "cp.name,cp.surname, cp.phone " +
                 "from consulting c " +
                 "left join  consulting_profile cp on c.manager_id = cp.id " +
                 "where c.visible =true ");
@@ -97,6 +94,7 @@ public class CustomConsultingRepository {
             }
             dto.setOwnerName(MapperUtil.getStringValue(object[5]));
             dto.setOwnerSurname(MapperUtil.getStringValue(object[6]));
+            dto.setPhone(MapperUtil.getStringValue(object[7]));
             dtoList.add(dto);
         }
 

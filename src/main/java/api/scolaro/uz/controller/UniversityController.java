@@ -4,6 +4,7 @@ import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.university.*;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.UniversityService;
+import api.scolaro.uz.util.PaginationUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -73,7 +74,7 @@ public class UniversityController {
     public ResponseEntity<ApiResponse<Page<UniversityResponseDTO>>> getApplicationUniversityListForConsulting(@RequestParam(value = "page", defaultValue = "1") int page,
                                                                                                               @RequestParam(value = "size", defaultValue = "30") int size) {
         log.info("Get application university list for consulting. Consulting mobile first page");
-        return ResponseEntity.ok(universityService.getApplicationUniversityListForConsulting_mobile(page - 1, size));
+        return ResponseEntity.ok(universityService.getApplicationUniversityListForConsulting_mobile(PaginationUtil.page(page), size));
     }
 
     /**
@@ -96,7 +97,7 @@ public class UniversityController {
                                                                         @RequestHeader(value = "Accept-Language",
                                                                                 defaultValue = "uz") AppLanguage appLanguage) {
         log.info("Get filter university");
-        return ResponseEntity.ok(universityService.filter(page - 1, size, dto, appLanguage));
+        return ResponseEntity.ok(universityService.filter(PaginationUtil.page(page), size, dto, appLanguage));
     }
 
     @GetMapping("/top-university")

@@ -3,6 +3,7 @@ package api.scolaro.uz.controller;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.notification.NotificationResponseDTO;
 import api.scolaro.uz.service.notification.NotificationService;
+import api.scolaro.uz.util.PaginationUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
@@ -33,7 +34,7 @@ public class NotificationController {
                                                                                   @RequestParam(value = "size", defaultValue = "20") int size) {
 
         log.info("Find All Not read notification");
-        return ResponseEntity.ok(notificationService.findAllByIsReadFalse(page, size));
+        return ResponseEntity.ok(notificationService.findAllByIsReadFalse(PaginationUtil.page(page), size));
     }
 
     @GetMapping("/not-read-count")

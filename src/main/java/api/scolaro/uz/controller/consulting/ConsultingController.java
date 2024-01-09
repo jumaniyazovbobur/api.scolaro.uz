@@ -7,6 +7,7 @@ import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.service.consulting.ConsultingService;
+import api.scolaro.uz.util.PaginationUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -51,7 +52,7 @@ public class ConsultingController {
     public ResponseEntity<PageImpl<ConsultingResponseDTO>> filterTopConsulting(@RequestBody ConsultingTopFilterDTO consultingFilterDTO,
                                                                                @RequestParam(value = "page", defaultValue = "1") int page,
                                                                                @RequestParam(value = "size", defaultValue = "30") int size) {
-        return ResponseEntity.ok(consultingService.filterForTopConsulting(consultingFilterDTO, page - 1, size));
+        return ResponseEntity.ok(consultingService.filterForTopConsulting(consultingFilterDTO, PaginationUtil.page(page), size));
     }
 
     /**
@@ -100,7 +101,7 @@ public class ConsultingController {
     public ResponseEntity<PageImpl<ConsultingResponseDTO>> filter(@RequestBody ConsultingFilterDTO consultingFilterDTO,
                                                                   @RequestParam(value = "page", defaultValue = "1") int page,
                                                                   @RequestParam(value = "size", defaultValue = "30") int size) {
-        return ResponseEntity.ok(consultingService.filter(consultingFilterDTO, page - 1, size));
+        return ResponseEntity.ok(consultingService.filter(consultingFilterDTO, PaginationUtil.page(page), size));
     }
 
 

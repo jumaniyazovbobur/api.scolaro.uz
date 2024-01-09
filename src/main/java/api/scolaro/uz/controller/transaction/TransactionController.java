@@ -11,6 +11,7 @@ import api.scolaro.uz.dto.transaction.response.TransactionResponseAsStudentDTO;
 import api.scolaro.uz.dto.transaction.response.payme.PaymeResponseDTO;
 import api.scolaro.uz.service.transaction.TransactionService;
 import api.scolaro.uz.util.CheckAuthorizationUtil;
+import api.scolaro.uz.util.PaginationUtil;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -75,7 +76,7 @@ public class TransactionController {
         log.info("Filter student");
         return ResponseEntity
                 .ok(transactionService.filterAsStudent(
-                        dto, page, size
+                        dto, PaginationUtil.page(page), size
                 ));
     }
 
@@ -87,7 +88,7 @@ public class TransactionController {
         log.info("Filter admin");
         return ResponseEntity
                 .ok(transactionService.filterAsAdmin(
-                        dto, page, size
+                        dto, PaginationUtil.page(page), size
                 ));
     }
 }

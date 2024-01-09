@@ -7,6 +7,7 @@ import api.scolaro.uz.dto.attach.AttachFilterDTO;
 import api.scolaro.uz.enums.AttachType;
 import api.scolaro.uz.mapper.SimpleMessageMapperDTO;
 import api.scolaro.uz.service.AttachService;
+import api.scolaro.uz.util.PaginationUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -115,7 +116,7 @@ public class AttachController {
     @Operation(summary = "File get all api", description = "")
     public ResponseEntity<PageImpl<AttachDTO>> getAll(@RequestParam(value = "page", defaultValue = "1") int page,
                                                       @RequestParam(value = "size", defaultValue = "15") int size) {
-        return ResponseEntity.ok(attachService.getAll(page - 1, size));
+        return ResponseEntity.ok(attachService.getAll(PaginationUtil.page(page), size));
     }
 
 }

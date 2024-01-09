@@ -42,11 +42,11 @@ public class ConsultingCommentController {
     @Operation(summary = "Filter AppApplication", description = "Method user for filtering AppApplication")
     @PostMapping("/filter")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> filter(@RequestParam(value = "page", defaultValue = "0") Integer page,
+    public ResponseEntity<?> filter(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                     @RequestParam(value = "size", defaultValue = "5") Integer size,
                                     @RequestBody ConsultingCommentFilterDTO dto) {
         log.info("Admin filtered appApplicationList  page={},size={}", page, size);
-        return ResponseEntity.ok(consultingCommentService.filterForAdmin(dto, page, size));
+        return ResponseEntity.ok(consultingCommentService.filterForAdmin(dto, page-1, size));
     }
 
 }

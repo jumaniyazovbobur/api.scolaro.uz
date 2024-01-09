@@ -4,6 +4,7 @@ import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.country.*;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.place.CountryService;
+import api.scolaro.uz.util.PaginationUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;
@@ -88,7 +89,7 @@ public class CountryController {
     public ResponseEntity<PageImpl<CountryResponseDTO>> pagination(@RequestBody CountryFilterDTO dto,
                                                                    @RequestParam(value = "page", defaultValue = "1") int page,
                                                                    @RequestParam(value = "size", defaultValue = "30") int size) {
-        return ResponseEntity.ok().body(countryService.pagination(dto, page - 1, size));
+        return ResponseEntity.ok().body(countryService.pagination(dto, PaginationUtil.page(page), size));
     }
 
     @ApiOperation(value = "Country search by name", notes = "Method : Search country for admin", response = CountryResponseDTO.class)

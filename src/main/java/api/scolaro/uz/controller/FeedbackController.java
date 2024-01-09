@@ -8,6 +8,7 @@ import api.scolaro.uz.dto.feeback.FeedbackFilterDTO;
 import api.scolaro.uz.entity.FeedbackEntity;
 import api.scolaro.uz.mapper.FeedbackFilterMapperDTO;
 import api.scolaro.uz.service.FeedbackService;
+import api.scolaro.uz.util.PaginationUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -48,10 +49,10 @@ public class FeedbackController {
     @Operation(summary = "Filter AppApplication", description = "Method user for filtering AppApplication")
     @PostMapping("/filter")
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> filter(@RequestParam(value = "page", defaultValue = "0") Integer page,
+    public ResponseEntity<?> filter(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                     @RequestParam(value = "size", defaultValue = "5") Integer size,
                                     @RequestBody FeedbackFilterDTO dto) {
-        log.info("Admin filtered appApplicationList  page={},size={}", page, size);
+        log.info("Admin filtered appApplicationList  page={},size={}", PaginationUtil.page(page), size);
         return ResponseEntity.ok(feedbackService.filterForAdmin(dto, page, size));
     }
 

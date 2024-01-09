@@ -4,6 +4,7 @@ import api.scolaro.uz.dto.search.res.SearchFilterResDTO;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.repository.search.CustomPaginationForSearch;
 import api.scolaro.uz.service.search.SearchService;
+import api.scolaro.uz.util.PaginationUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,6 @@ public class SearchController {
                                                             @RequestParam(value = "page", defaultValue = "1") int page,
                                                             @RequestParam(value = "size", defaultValue = "30") int size,
                                                             @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
-        return ResponseEntity.ok(searchService.search(dto, page, size, language));
+        return ResponseEntity.ok(searchService.search(dto, PaginationUtil.page(page), size, language));
     }
 }
