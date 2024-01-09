@@ -149,8 +149,8 @@ public class AuthService {
             log.warn("Password wrong! username = {}", dto.getPassword());
             return new ApiResponse<>(resourceMessageService.getMessage("username.password.wrong"), 400, true);
         }
-        if (Optional.ofNullable(dto.getFirebaseId()).isPresent()){
-            profileRepository.updateFirebaseId(profile.getId(),dto.getFirebaseId());
+        if (Optional.ofNullable(dto.getFirebaseId()).isPresent()) {
+            profileRepository.updateFirebaseId(profile.getId(), dto.getFirebaseId());
         }
         return new ApiResponse<>(200, false, getClientAuthorizationResponse(profile, language));
     }
@@ -160,6 +160,7 @@ public class AuthService {
         AuthResponseDTO dto = new AuthResponseDTO();
         dto.setId(entity.getId());
         dto.setNickName(entity.getNickName());
+        dto.setLang(entity.getLang());
         if (entity.getCountryId() != null) {
             dto.setCountry(countryService.getById(entity.getCountryId(), language));
         }
@@ -183,6 +184,7 @@ public class AuthService {
         dto.setRoleList(personRoleService.getProfileRoleList(entity.getId()));
         String jwt = JwtUtil.encode(entity.getId(), entity.getPhone(), dto.getRoleList());
         dto.setJwt(jwt);
+        dto.setLang(entity.getLang());
         return dto;
     }
 
@@ -210,8 +212,8 @@ public class AuthService {
             log.warn("Password wrong! username = {}", dto.getPassword());
             return new ApiResponse<>(resourceMessageService.getMessage("username.password.wrong"), 400, true);
         }
-        if (Optional.ofNullable(dto.getFirebaseId()).isPresent()){
-            consultingProfileRepository.updateFirebaseId(entity.getId(),dto.getFirebaseId());
+        if (Optional.ofNullable(dto.getFirebaseId()).isPresent()) {
+            consultingProfileRepository.updateFirebaseId(entity.getId(), dto.getFirebaseId());
         }
         AuthResponseDTO response = getClientAuthorizationResponse(entity);
 

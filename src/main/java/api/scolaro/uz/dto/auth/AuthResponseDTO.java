@@ -3,6 +3,7 @@ package api.scolaro.uz.dto.auth;
 import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.dto.attach.AttachResponseDTO;
 import api.scolaro.uz.dto.country.CountryResponseDTO;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.RoleEnum;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
@@ -25,4 +26,5 @@ public class AuthResponseDTO {
     private CountryResponseDTO country;
 //    private AttachResponseDTO photo;
     private List<RoleEnum> roleList;
+    private AppLanguage lang;
 }
