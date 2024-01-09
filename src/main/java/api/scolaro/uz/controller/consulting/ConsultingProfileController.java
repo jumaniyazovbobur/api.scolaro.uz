@@ -8,7 +8,9 @@ import api.scolaro.uz.dto.consultingProfile.ConsultingProfileCreateDTO;
 import api.scolaro.uz.dto.consultingProfile.ConsultingProfileUpdateDTO;
 import api.scolaro.uz.dto.consultingProfile.CurrentConsultingProfileUpdateDTO;
 import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.GeneralStatus;
+import api.scolaro.uz.enums.LanguageEnum;
 import api.scolaro.uz.service.consulting.ConsultingProfileService;
 import api.scolaro.uz.util.PaginationUtil;
 import io.swagger.v3.oas.annotations.Operation;
@@ -132,5 +134,12 @@ public class ConsultingProfileController {
         log.info("Update status {}", id);
         return ResponseEntity.ok(consultingProfileService.updateStatus(id,status));
     }
-
+    @PutMapping("/update-lang")
+    @PreAuthorize("hasRole('ROLE_CONSULTING_MANAGER')")
+    @Operation(summary = "Update language", description = "for consulting manager")
+    public ResponseEntity<ApiResponse<String>> updateLang(@RequestParam(name = "lang") AppLanguage lang) {
+        log.info("Update lang {}", lang);
+        String id = EntityDetails.getCurrentUserId();
+        return ResponseEntity.ok(consultingProfileService.updateLang(id,lang));
+    }
 }

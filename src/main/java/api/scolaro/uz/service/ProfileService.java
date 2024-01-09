@@ -10,6 +10,7 @@ import api.scolaro.uz.dto.profile.*;
 
 
 import api.scolaro.uz.entity.ProfileEntity;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.sms.SmsType;
 import api.scolaro.uz.exp.ItemNotFoundException;
@@ -91,6 +92,7 @@ public class ProfileService {
         responseDTO.setName(profile.getName());
         responseDTO.setSurname(profile.getSurname());
         responseDTO.setPhone(profile.getPhone());
+        responseDTO.setLang(profile.getLang());
         responseDTO.setRoleList(personRoleService.getProfileRoleList(profile.getId()));
         if (profile.getPhotoId() != null) responseDTO.setPhoto(attachService.getResponseAttach(profile.getPhotoId()));
         return ApiResponse.ok(responseDTO);
@@ -251,5 +253,10 @@ public class ProfileService {
 
     public void reduceFromBalance(String profileId, Long amount) {
         profileRepository.reduceStudentBalance(profileId, amount);
+    }
+
+    public ApiResponse<String> updateLang(AppLanguage lang, String currentUserId) {
+        profileRepository.updateLang(currentUserId,lang);
+        return ApiResponse.ok();
     }
 }

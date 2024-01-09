@@ -74,7 +74,7 @@ public class SimpleMessageService {
             ConsultingProfileEntity consultingProfile = consultingProfileOptional.get();
             sendSocketOrNotification(dto, app, entity, consultingProfile.getIsOnline(), consultingProfile.getFireBaseId());
         }
-        return new ApiResponse<>("Success", 200, false,SimpleMessageMapperDTO.toDTO(entity,attachService.getResponseAttach(entity.getAttachId())));
+        return new ApiResponse<>("Success", 200, false, SimpleMessageMapperDTO.toDTO(entity, attachService.getResponseAttach(entity.getAttachId())));
     }
 
     public ApiResponse<SimpleMessageMapperDTO> createForConsulting(SimpleMessageRequestDTO dto) {
@@ -97,7 +97,7 @@ public class SimpleMessageService {
             sendSocketOrNotification(dto, app, entity, profileEntity.getIsOnline(), profileEntity.getFireBaseId());
         }
 
-        return new ApiResponse<>("Success", 200, false,SimpleMessageMapperDTO.toDTO(entity,attachService.getResponseAttach(entity.getAttachId())));
+        return new ApiResponse<>("Success", 200, false, SimpleMessageMapperDTO.toDTO(entity, attachService.getResponseAttach(entity.getAttachId())));
     }
 
     private void sendSocketOrNotification(SimpleMessageRequestDTO dto, AppApplicationEntity app,

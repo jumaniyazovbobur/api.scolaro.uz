@@ -9,6 +9,7 @@ import api.scolaro.uz.dto.consultingProfile.ConsultingProfileUpdateDTO;
 import api.scolaro.uz.dto.consultingProfile.CurrentConsultingProfileUpdateDTO;
 import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
 import api.scolaro.uz.entity.consulting.ConsultingProfileEntity;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.enums.sms.SmsType;
@@ -130,6 +131,7 @@ public class ConsultingProfileService {
         responseDTO.setName(entity.getName());
         responseDTO.setSurname(entity.getSurname());
         responseDTO.setPhone(entity.getPhone());
+        responseDTO.setLang(entity.getLang());
         responseDTO.setRoleList(personRoleService.getProfileRoleList(entity.getId()));
         if (entity.getPhotoId() != null) responseDTO.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
         responseDTO.setConsulting(consultingService.getById(entity.getConsultingId()));
@@ -272,6 +274,11 @@ public class ConsultingProfileService {
 
     public ApiResponse<String> updateStatus(String id, GeneralStatus status) {
         consultingProfileRepository.updateStatus(id, status);
+        return ApiResponse.ok();
+    }
+
+    public ApiResponse<String> updateLang(String id, AppLanguage lang) {
+        consultingProfileRepository.updateLang(id, lang);
         return ApiResponse.ok();
     }
     // currentConsulting.setRoleList(personRoleService.getProfileRoleList(details.getId()));

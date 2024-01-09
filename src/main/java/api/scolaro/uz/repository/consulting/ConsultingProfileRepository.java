@@ -1,6 +1,7 @@
 package api.scolaro.uz.repository.consulting;
 
 import api.scolaro.uz.entity.consulting.ConsultingProfileEntity;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.GeneralStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -67,4 +68,9 @@ public interface ConsultingProfileRepository extends CrudRepository<ConsultingPr
     @Transactional
     @Modifying
     int updateFirebaseId(String id, String firebaseId);
+
+    @Query("update ConsultingProfileEntity  set lang = ?2 where id = ?1")
+    @Transactional
+    @Modifying
+    int updateLang(String id, AppLanguage lang);
 }

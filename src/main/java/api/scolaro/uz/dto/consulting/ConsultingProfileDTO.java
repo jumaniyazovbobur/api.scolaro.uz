@@ -1,6 +1,7 @@
 package api.scolaro.uz.dto.consulting;
 
 import api.scolaro.uz.dto.attach.AttachDTO;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.RoleEnum;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
@@ -21,4 +22,6 @@ public class ConsultingProfileDTO {
     private LocalDateTime createdDate;
     private ConsultingResponseDTO consulting;
     private List<RoleEnum> roleList;
+    private AppLanguage lang;
 }
+
