@@ -222,6 +222,7 @@ public class AppApplicationService {
 
     public AppApplicationResponseDTO toDTO(AppApplicationEntity entity) {
         AppApplicationResponseDTO dto = new AppApplicationResponseDTO();
+        dto.setId(entity.getId());
         dto.setConsultingId(entity.getConsultingId());
         dto.setCreatedDate(entity.getCreatedDate());
         dto.setUniversityId(entity.getUniversityId());
