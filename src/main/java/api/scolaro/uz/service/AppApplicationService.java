@@ -168,7 +168,9 @@ public class AppApplicationService {
         dto.setId(entity.getId());
         dto.setStatus(entity.getStatus());
         dto.setCreatedDate(entity.getCreatedDate());
-        dto.setUniversity(universityService.getUniversityForApp(entity.getUniversityId()));
+        if (entity.getUniversityId() != null) {
+            dto.setUniversity(universityService.getUniversityForApp(entity.getUniversityId()));
+        }
         dto.setConsulting(consultingService.getConsultingForApp(entity.getConsultingId()));
         dto.setStudent(profileService.getProfileForApp(entity.getStudentId()));
         if (entity.getConsultingStepId() != null) {
