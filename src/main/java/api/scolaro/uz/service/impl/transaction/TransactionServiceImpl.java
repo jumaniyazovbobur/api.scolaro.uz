@@ -30,9 +30,11 @@ import api.scolaro.uz.service.ProfileService;
 import api.scolaro.uz.service.ResourceMessageService;
 import api.scolaro.uz.service.consulting.ConsultingService;
 import api.scolaro.uz.service.transaction.TransactionService;
+import api.scolaro.uz.util.Base64Util;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -64,8 +66,13 @@ public class TransactionServiceImpl implements TransactionService {
     private final ResourceMessageService resourceMessageService;
     private final ConsultingService consultingService;
     private final TransformRepository transformRepository;
-
     private final Long time_expired = 43_200_000L;
+
+    @Value("${payme.merchant.id}")
+    private String merchantId;
+
+    @Value("${payme.checkout.url}")
+    private String checkoutUrl;
 
     @Override
     public ApiResponse<TransactionResponseDTO> createTransactionForFillBalance(String currentUserId, Long amount) {
@@ -79,7 +86,17 @@ public class TransactionServiceImpl implements TransactionService {
         transactions.setPaymentType("PAYME");
         transactionRepository.save(transactions);
 
-        return ApiResponse.ok(TransactionResponseDTO.toDTO(transactions));
+        TransactionResponseDTO dto = TransactionResponseDTO.toDTO(transactions);
+        String urlParams = """
+                m=%s;ac.order_id=%s;a=%d
+                """
+                .formatted(
+                        merchantId,
+                        transactions.getId(),
+                        transactions.getAmount()
+                );
+        dto.setUrl(checkoutUrl + Base64Util.encodeBase64(urlParams));
+        return ApiResponse.ok(dto);
     }
 
     private boolean isExpiredTime(Long createdTime, PaymeResponseDTO res, TransactionsEntity entity) {
