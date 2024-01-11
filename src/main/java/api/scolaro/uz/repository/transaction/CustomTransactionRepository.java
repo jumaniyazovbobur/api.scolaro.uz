@@ -144,10 +144,12 @@ public class CustomTransactionRepository {
                 p.name  pName,p.surname, p.phone,p.photo_id,
                 p.created_date pCreatedDate,t.state,cp.id as cpId,
                 cp.name as cpName,cp.surname as cpSurname,cp.phone as cpPhone,
-                cp.photo_id as cpPhoto,t.profile_type as tProfileType
+                cp.photo_id as cpPhoto,t.profile_type as tProfileType,app.application_number
                 from transactions t
                 left join profile p on p.id = t.profile_id
                 left join consulting_profile cp on cp.id = t.profile_id
+                left join transform tr on tr.id = t.transform_id
+                left join app_application app on app.id = tr.application_id
                 where t.visible = TRUE""");
         selectBuilder.append(stringBuilder).append(" order by t.created_date desc ");
 
@@ -198,6 +200,7 @@ public class CustomTransactionRepository {
             consultingProfile.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[16])));
             dto.setConsultingProfile(consultingProfile);
             dto.setProfileType(MapperUtil.getStringValue(object[16]) != null ? ProfileType.valueOf(MapperUtil.getStringValue(object[16])) : null);
+            dto.setApplicationNumber(MapperUtil.getLongValue(object[17]));
             // add to list
             mapperList.add(dto);
         }

@@ -32,4 +32,5 @@ public class TransactionResponseAsAdminDTO {
     private ConsultingProfileDTO consultingProfile;
     private TransactionState state;
     private ProfileType profileType;
+    private Long applicationNumber;
 }
