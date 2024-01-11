@@ -121,7 +121,6 @@ public class ConsultingProfileController {
     public ResponseEntity<ApiResponse<PageImpl<ConsultingProfileDTO>>> findAll(@RequestParam(name = "size", defaultValue = "50") int size,
                                                                                @RequestParam(name = "page", defaultValue = "1") int page) {
         log.info("FindAll consulting profile");
-        if (page > 0) page--;
         String consultingId = Objects.requireNonNull(EntityDetails.getCurrentUserDetail()).getProfileConsultingId();
         return ResponseEntity.ok(consultingProfileService.findAll(consultingId, PaginationUtil.page(page), size));
     }
