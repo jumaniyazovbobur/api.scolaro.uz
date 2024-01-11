@@ -24,4 +24,5 @@ public class TransactionResponseAsStudentDTO {
     private TransactionType type;
     private TransactionStatus status;
     private LocalDateTime createdDate;
+    private Long applicationNumber;
 }

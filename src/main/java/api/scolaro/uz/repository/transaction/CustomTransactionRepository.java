@@ -57,13 +57,18 @@ public class CustomTransactionRepository {
 
         StringBuilder selectBuilder = new StringBuilder("""
                 select t.id, t.amount, t.transaction_type,
-                t.status, t.created_date
+                t.status, t.created_date,app.application_number
                 from transactions t
+                inner join transform tr on tr.id = t.transform_id
+                inner join app_application app on app.id = tr.application_id
                 where t.visible = TRUE""");
         selectBuilder.append(stringBuilder).append(" order by t.created_date desc ");
 
         StringBuilder countBuilder = new StringBuilder("""
-                select count(*) from transactions as t where t.visible=true
+                select count(*) from transactions as t
+                inner join transform tr on tr.id = t.transform_id
+                inner join app_application app on app.id = tr.application_id
+                where t.visible=true
                 """);
         countBuilder.append(stringBuilder);
 
@@ -89,6 +94,7 @@ public class CustomTransactionRepository {
             dto.setType(MapperUtil.getStringValue(object[2]) != null ? TransactionType.valueOf(MapperUtil.getStringValue(object[2])) : null);
             dto.setStatus(MapperUtil.getStringValue(object[3]) != null ? TransactionStatus.valueOf(MapperUtil.getStringValue(object[3])) : null);
             dto.setCreatedDate(MapperUtil.getLocalDateTimeValue(object[4]));
+            dto.setApplicationNumber(MapperUtil.getLongValue(object[5]));
             mapperList.add(dto);
         }
         return new FilterResultDTO<>(mapperList, totalCount);
