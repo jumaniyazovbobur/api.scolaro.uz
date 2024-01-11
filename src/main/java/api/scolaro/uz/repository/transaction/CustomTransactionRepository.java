@@ -2,11 +2,13 @@ package api.scolaro.uz.repository.transaction;
 
 import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.attach.AttachDTO;
+import api.scolaro.uz.dto.consulting.ConsultingProfileDTO;
 import api.scolaro.uz.dto.profile.ProfileDTO;
 import api.scolaro.uz.dto.transaction.request.TransactionFilterAsAdminDTO;
 import api.scolaro.uz.dto.transaction.request.TransactionFilterAsStudentDTO;
 import api.scolaro.uz.dto.transaction.response.TransactionResponseAsAdminDTO;
 import api.scolaro.uz.dto.transaction.response.TransactionResponseAsStudentDTO;
+import api.scolaro.uz.enums.transaction.ProfileType;
 import api.scolaro.uz.enums.transaction.TransactionState;
 import api.scolaro.uz.enums.transaction.TransactionStatus;
 import api.scolaro.uz.enums.transaction.TransactionType;
@@ -30,11 +32,11 @@ public class CustomTransactionRepository {
     private final EntityManager entityManager;
     private final AttachService attachService;
 
-    public FilterResultDTO<TransactionResponseAsStudentDTO> filterAsStudent(TransactionFilterAsStudentDTO filterDTO,String studentId, int page, int size) {
+    public FilterResultDTO<TransactionResponseAsStudentDTO> filterAsStudent(TransactionFilterAsStudentDTO filterDTO, String studentId, int page, int size) {
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, Object> params = new HashMap<>();
         stringBuilder.append(" and t.profile_id = :studentId ");
-        params.put("studentId",studentId);
+        params.put("studentId", studentId);
         if (Optional.ofNullable(filterDTO).isPresent()) {
             if (Optional.ofNullable(filterDTO.getType()).isPresent()) {
                 stringBuilder.append(" and t.transaction_type = :type ");
@@ -140,9 +142,12 @@ public class CustomTransactionRepository {
                 select t.id, t.amount, t.transaction_type,
                 t.status, t.created_date,p.id  pId,
                 p.name  pName,p.surname, p.phone,p.photo_id,
-                p.created_date pCreatedDate,t.state
+                p.created_date pCreatedDate,t.state,cp.id as cpId,
+                cp.name as cpName,cp.surname as cpSurname,cp.phone as cpPhone,
+                cp.photo_id as cpPhoto,t.profile_type as tProfileType
                 from transactions t
-                inner join profile p on p.id = t.profile_id
+                left join profile p on p.id = t.profile_id
+                left join consulting_profile cp on cp.id = t.profile_id
                 where t.visible = TRUE""");
         selectBuilder.append(stringBuilder).append(" order by t.created_date desc ");
 
@@ -173,6 +178,7 @@ public class CustomTransactionRepository {
             dto.setType(MapperUtil.getStringValue(object[2]) != null ? TransactionType.valueOf(MapperUtil.getStringValue(object[2])) : null);
             dto.setStatus(MapperUtil.getStringValue(object[3]) != null ? TransactionStatus.valueOf(MapperUtil.getStringValue(object[3])) : null);
             dto.setCreatedDate(MapperUtil.getLocalDateTimeValue(object[4]));
+            // profile (student)
             ProfileDTO profile = new ProfileDTO();
             profile.setId(MapperUtil.getStringValue(object[5]));
             profile.setName(MapperUtil.getStringValue(object[6]));
@@ -181,7 +187,18 @@ public class CustomTransactionRepository {
             profile.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[9])));
             profile.setCreatedDate(MapperUtil.getLocalDateTimeValue(object[10]));
             dto.setProfile(profile);
+
             dto.setState(MapperUtil.getStringValue(object[11]) != null ? TransactionState.valueOf(MapperUtil.getStringValue(object[11])) : null);
+            // consulting profile
+            ConsultingProfileDTO consultingProfile = new ConsultingProfileDTO();
+            consultingProfile.setId(MapperUtil.getStringValue(object[12]));
+            consultingProfile.setName(MapperUtil.getStringValue(object[13]));
+            consultingProfile.setSurname(MapperUtil.getStringValue(object[14]));
+            consultingProfile.setPhone(MapperUtil.getStringValue(object[15]));
+            consultingProfile.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[16])));
+            dto.setConsultingProfile(consultingProfile);
+            dto.setProfileType(MapperUtil.getStringValue(object[16]) != null ? ProfileType.valueOf(MapperUtil.getStringValue(object[16])) : null);
+            // add to list
             mapperList.add(dto);
         }
         return new FilterResultDTO<>(mapperList, totalCount);

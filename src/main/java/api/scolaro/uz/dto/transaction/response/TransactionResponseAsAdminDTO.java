@@ -1,6 +1,8 @@
 package api.scolaro.uz.dto.transaction.response;
 
+import api.scolaro.uz.dto.consulting.ConsultingProfileDTO;
 import api.scolaro.uz.dto.profile.ProfileDTO;
+import api.scolaro.uz.enums.transaction.ProfileType;
 import api.scolaro.uz.enums.transaction.TransactionState;
 import api.scolaro.uz.enums.transaction.TransactionStatus;
 import api.scolaro.uz.enums.transaction.TransactionType;
@@ -27,5 +29,7 @@ public class TransactionResponseAsAdminDTO {
     private TransactionStatus status;
     private LocalDateTime createdDate;
     private ProfileDTO profile;
+    private ConsultingProfileDTO consultingProfile;
     private TransactionState state;
+    private ProfileType profileType;
 }
