@@ -199,8 +199,8 @@ public class CustomTransactionRepository {
             consultingProfile.setPhone(MapperUtil.getStringValue(object[15]));
             consultingProfile.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[16])));
             dto.setConsultingProfile(consultingProfile);
-            dto.setProfileType(MapperUtil.getStringValue(object[16]) != null ? ProfileType.valueOf(MapperUtil.getStringValue(object[16])) : null);
-            dto.setApplicationNumber(MapperUtil.getLongValue(object[17]));
+            dto.setProfileType(MapperUtil.getStringValue(object[17]) != null ? ProfileType.valueOf(MapperUtil.getStringValue(object[17])) : null);
+            dto.setApplicationNumber(MapperUtil.getLongValue(object[18]));
             // add to list
             mapperList.add(dto);
         }
