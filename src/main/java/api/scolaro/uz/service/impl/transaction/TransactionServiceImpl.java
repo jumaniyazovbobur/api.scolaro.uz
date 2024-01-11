@@ -449,7 +449,6 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public PageImpl<TransactionResponseAsStudentDTO> filterAsStudent(TransactionFilterAsStudentDTO dto, int page, int size) {
-        if (page > 0) page--;
         String studentId = EntityDetails.getCurrentUserId();
         FilterResultDTO<TransactionResponseAsStudentDTO> result = customTransactionRepository.filterAsStudent(dto, studentId, page, size);
         return new PageImpl<>(result.getContent(), PageRequest.of(page, size), result.getTotalElement());
@@ -457,7 +456,6 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public PageImpl<TransactionResponseAsAdminDTO> filterAsAdmin(TransactionFilterAsAdminDTO dto, int page, int size) {
-        if (page > 0) page--;
         FilterResultDTO<TransactionResponseAsAdminDTO> result = customTransactionRepository.filterAsAdmin(dto, page, size);
         return new PageImpl<>(result.getContent(), PageRequest.of(page, size), result.getTotalElement());
     }
