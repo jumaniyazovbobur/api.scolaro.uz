@@ -5,8 +5,10 @@ import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.transaction.PaymeCallBackRequestDTO;
 import api.scolaro.uz.dto.transaction.TransactionResponseDTO;
 import api.scolaro.uz.dto.transaction.request.TransactionFilterAsAdminDTO;
+import api.scolaro.uz.dto.transaction.request.TransactionFilterAsConsultingDTO;
 import api.scolaro.uz.dto.transaction.request.TransactionFilterAsStudentDTO;
 import api.scolaro.uz.dto.transaction.response.TransactionResponseAsAdminDTO;
+import api.scolaro.uz.dto.transaction.response.TransactionResponseAsConsultingDTO;
 import api.scolaro.uz.dto.transaction.response.TransactionResponseAsStudentDTO;
 import api.scolaro.uz.dto.transaction.response.payme.PaymeResponseDTO;
 import api.scolaro.uz.service.transaction.TransactionService;
@@ -40,6 +42,7 @@ public class TransactionController {
     private String paymeAuthToken;
 
     @PostMapping("/student/fill-callback")
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
     public ResponseEntity<ApiResponse<TransactionResponseDTO>> createTransactionForFillBalance(@RequestParam("amount")
                                                                                                @Valid
                                                                                                @Min(value = 0, message = "Amount must not be less than 0")
@@ -70,6 +73,7 @@ public class TransactionController {
 
 
     @PostMapping("/filter/student")
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
     public ResponseEntity<PageImpl<TransactionResponseAsStudentDTO>> filterAsStudent(@RequestBody(required = false) TransactionFilterAsStudentDTO dto,
                                                                                      @RequestParam(value = "page", defaultValue = "1") int page,
                                                                                      @RequestParam(value = "size", defaultValue = "50") int size) {
@@ -82,12 +86,24 @@ public class TransactionController {
 
     @PostMapping("/filter/admin")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<PageImpl<TransactionResponseAsAdminDTO>> filterAsStudent(@RequestBody(required = false) TransactionFilterAsAdminDTO dto,
-                                                                                   @RequestParam(value = "page", defaultValue = "1") int page,
-                                                                                   @RequestParam(value = "size", defaultValue = "50") int size) {
+    public ResponseEntity<PageImpl<TransactionResponseAsAdminDTO>> filterAsAdmin(@RequestBody(required = false) TransactionFilterAsAdminDTO dto,
+                                                                                 @RequestParam(value = "page", defaultValue = "1") int page,
+                                                                                 @RequestParam(value = "size", defaultValue = "50") int size) {
         log.info("Filter admin");
         return ResponseEntity
                 .ok(transactionService.filterAsAdmin(
+                        dto, PaginationUtil.page(page), size
+                ));
+    }
+
+    @PostMapping("/filter/consulting")
+    @PreAuthorize("hasAnyRole('ROLE_CONSULTING','ROLE_CONSULTING_PROFILE')")
+    public ResponseEntity<PageImpl<TransactionResponseAsConsultingDTO>> filterAsConsulting(@RequestBody(required = false) TransactionFilterAsConsultingDTO dto,
+                                                                                           @RequestParam(value = "page", defaultValue = "1") int page,
+                                                                                           @RequestParam(value = "size", defaultValue = "50") int size) {
+        log.info("Filter consulting");
+        return ResponseEntity
+                .ok(transactionService.filterAsConsulting(
                         dto, PaginationUtil.page(page), size
                 ));
     }

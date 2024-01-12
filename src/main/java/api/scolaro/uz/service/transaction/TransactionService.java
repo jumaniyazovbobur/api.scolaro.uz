@@ -4,9 +4,11 @@ import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.transaction.PaymeCallBackRequestDTO;
 import api.scolaro.uz.dto.transaction.TransactionResponseDTO;
 import api.scolaro.uz.dto.transaction.request.TransactionFilterAsAdminDTO;
+import api.scolaro.uz.dto.transaction.request.TransactionFilterAsConsultingDTO;
 import api.scolaro.uz.dto.transaction.request.TransactionFilterAsStudentDTO;
 import api.scolaro.uz.dto.transaction.request.WithdrawMoneyFromStudentDTO;
 import api.scolaro.uz.dto.transaction.response.TransactionResponseAsAdminDTO;
+import api.scolaro.uz.dto.transaction.response.TransactionResponseAsConsultingDTO;
 import api.scolaro.uz.dto.transaction.response.TransactionResponseAsStudentDTO;
 import api.scolaro.uz.dto.transaction.response.payme.PaymeResponseDTO;
 import api.scolaro.uz.enums.AppLanguage;
@@ -32,4 +34,6 @@ public interface TransactionService {
 
 
     ApiResponse<TransactionResponseDTO> makeTransfer(WithdrawMoneyFromStudentDTO dto, AppLanguage lang);
+
+    PageImpl<TransactionResponseAsConsultingDTO> filterAsConsulting(TransactionFilterAsConsultingDTO dto, int page, int size);
 }

@@ -5,8 +5,10 @@ import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.dto.consulting.ConsultingProfileDTO;
 import api.scolaro.uz.dto.profile.ProfileDTO;
 import api.scolaro.uz.dto.transaction.request.TransactionFilterAsAdminDTO;
+import api.scolaro.uz.dto.transaction.request.TransactionFilterAsConsultingDTO;
 import api.scolaro.uz.dto.transaction.request.TransactionFilterAsStudentDTO;
 import api.scolaro.uz.dto.transaction.response.TransactionResponseAsAdminDTO;
+import api.scolaro.uz.dto.transaction.response.TransactionResponseAsConsultingDTO;
 import api.scolaro.uz.dto.transaction.response.TransactionResponseAsStudentDTO;
 import api.scolaro.uz.enums.transaction.ProfileType;
 import api.scolaro.uz.enums.transaction.TransactionState;
@@ -42,7 +44,6 @@ public class CustomTransactionRepository {
                 stringBuilder.append(" and t.transaction_type = :type ");
                 params.put("type", filterDTO.getType().name());
             }
-
             if (Optional.ofNullable(filterDTO.getFromDate()).isPresent() &&
                     Optional.ofNullable(filterDTO.getToDate()).isPresent()) {
                 stringBuilder.append(" and t.created_date between :fromDate and :toDate ");
@@ -206,5 +207,100 @@ public class CustomTransactionRepository {
         }
         return new FilterResultDTO<>(mapperList, totalCount);
 
+    }
+
+    public FilterResultDTO<TransactionResponseAsConsultingDTO> filterAsConsulting(TransactionFilterAsConsultingDTO dto, int page, int size, String currentConsultingId) {
+        StringBuilder stringBuilder = new StringBuilder();
+        Map<String, Object> params = new HashMap<>();
+        if (Optional.ofNullable(dto).isPresent()) {
+            if (Optional.ofNullable(dto.getType()).isPresent()) {
+                stringBuilder.append(" and t.transaction_type = :type ");
+                params.put("type", dto.getType().name());
+            }
+            if (Optional.ofNullable(dto.getFromDate()).isPresent() &&
+                    Optional.ofNullable(dto.getToDate()).isPresent()) {
+                stringBuilder.append(" and t.created_date between :fromDate and :toDate ");
+                params.put("fromDate", dto.getFromDate());
+                params.put("toDate", dto.getToDate());
+            } else if (Optional.ofNullable(dto.getFromDate()).isPresent()) {
+                stringBuilder.append(" and t.created_date >= :fromDate ");
+                params.put("fromDate", dto.getFromDate());
+            } else if (Optional.ofNullable(dto.getToDate()).isPresent()) {
+                stringBuilder.append(" and t.created_date <= :toDate ");
+                params.put("toDate", dto.getToDate());
+            }
+
+            if (Optional.ofNullable(dto.getState()).isPresent()) {
+                stringBuilder.append(" and t.state <= :state ");
+                params.put("state", dto.getState().getValue());
+            }
+            if (Optional.ofNullable(dto.getStatus()).isPresent()) {
+                stringBuilder.append(" and t.status <= :status ");
+                params.put("status", dto.getStatus().name());
+            }
+            if (Optional.ofNullable(dto.getProfileId()).isPresent()) {
+                stringBuilder.append(" and t.profile_id <= :profileId ");
+                params.put("profileId", dto.getProfileId());
+            }
+        }
+
+        StringBuilder selectBuilder = new StringBuilder("""
+                select t.id, t.amount, t.transaction_type,
+                t.status, t.created_date,p.id  pId,
+                p.name  pName,p.surname, p.phone,p.photo_id,
+                p.created_date pCreatedDate,t.state,t.profile_type as tProfileType,
+                app.application_number
+                from transactions t
+                left join profile p on p.id = t.profile_id
+                left join app_application app on app.id = tr.application_id
+                where t.visible = TRUE and app.consulting_id = :currentConsultingId""");
+        selectBuilder.append(stringBuilder).append(" order by t.created_date desc ");
+        params.put("currentConsultingId", currentConsultingId); // current consulting id
+
+        StringBuilder countBuilder = new StringBuilder("""
+                select count(*) from transactions as t where t.visible=true
+                """);
+        countBuilder.append(stringBuilder);
+
+        Query selectQuery = entityManager.createNativeQuery(selectBuilder.toString());
+        Query countQuery = entityManager.createNativeQuery(countBuilder.toString());
+        selectQuery.setMaxResults(size); // limit
+        selectQuery.setFirstResult(size * page); // offset
+
+        // params
+        for (Map.Entry<String, Object> param : params.entrySet()) {
+            selectQuery.setParameter(param.getKey(), param.getValue());
+            countQuery.setParameter(param.getKey(), param.getValue());
+        }
+
+        List<Object[]> entityList = selectQuery.getResultList();
+        Long totalCount = (Long) countQuery.getSingleResult();
+        List<TransactionResponseAsConsultingDTO> mapperList = new LinkedList<>();
+
+        for (Object[] object : entityList) {
+            TransactionResponseAsConsultingDTO item = new TransactionResponseAsConsultingDTO();
+            item.setId(MapperUtil.getStringValue(object[0]));
+            item.setAmount(MapperUtil.getLongValue(object[1]));
+            item.setType(MapperUtil.getStringValue(object[2]) != null ? TransactionType.valueOf(MapperUtil.getStringValue(object[2])) : null);
+            item.setStatus(MapperUtil.getStringValue(object[3]) != null ? TransactionStatus.valueOf(MapperUtil.getStringValue(object[3])) : null);
+            item.setCreatedDate(MapperUtil.getLocalDateTimeValue(object[4]));
+            // profile (student)
+            ProfileDTO profile = new ProfileDTO();
+            profile.setId(MapperUtil.getStringValue(object[5]));
+            profile.setName(MapperUtil.getStringValue(object[6]));
+            profile.setSurname(MapperUtil.getStringValue(object[7]));
+            profile.setPhone(MapperUtil.getStringValue(object[8]));
+            profile.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[9])));
+            profile.setCreatedDate(MapperUtil.getLocalDateTimeValue(object[10]));
+            item.setProfile(profile);
+
+            item.setState(MapperUtil.getStringValue(object[11]) != null ? TransactionState.valueOf(MapperUtil.getStringValue(object[11])) : null);
+            // consulting profile
+            item.setProfileType(MapperUtil.getStringValue(object[12]) != null ? ProfileType.valueOf(MapperUtil.getStringValue(object[12])) : null);
+            item.setApplicationNumber(MapperUtil.getLongValue(object[13]));
+            // add to list
+            mapperList.add(item);
+        }
+        return new FilterResultDTO<>(mapperList, totalCount);
     }
 }
