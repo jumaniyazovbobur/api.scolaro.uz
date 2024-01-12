@@ -30,7 +30,6 @@ public class SearchRepository {
     private final AttachService attachService;
 
     public CustomPaginationForSearch search(SearchFilterResDTO dto, String lang, int page, int size) {
-        page--;
         StringBuilder universityQuery = new StringBuilder("""
                 select cast(university.id as varchar) as id,
                 university.name as name,'UNIVERSITY' AS type,
