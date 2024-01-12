@@ -8,9 +8,11 @@ import api.scolaro.uz.dto.transaction.PaymeCallbackParamsDTO;
 import api.scolaro.uz.dto.transaction.TransactionResForPayme;
 import api.scolaro.uz.dto.transaction.TransactionResponseDTO;
 import api.scolaro.uz.dto.transaction.request.TransactionFilterAsAdminDTO;
+import api.scolaro.uz.dto.transaction.request.TransactionFilterAsConsultingDTO;
 import api.scolaro.uz.dto.transaction.request.TransactionFilterAsStudentDTO;
 import api.scolaro.uz.dto.transaction.request.WithdrawMoneyFromStudentDTO;
 import api.scolaro.uz.dto.transaction.response.TransactionResponseAsAdminDTO;
+import api.scolaro.uz.dto.transaction.response.TransactionResponseAsConsultingDTO;
 import api.scolaro.uz.dto.transaction.response.TransactionResponseAsStudentDTO;
 import api.scolaro.uz.dto.transaction.response.payme.*;
 import api.scolaro.uz.entity.ProfileEntity;
@@ -491,6 +493,13 @@ public class TransactionServiceImpl implements TransactionService {
         // save transaction 2
         transactionRepository.save(transactionForConsulting);
         return ApiResponse.ok();
+    }
+
+    @Override
+    public PageImpl<TransactionResponseAsConsultingDTO> filterAsConsulting(TransactionFilterAsConsultingDTO dto, int page, int size) {
+        String consultingId = Objects.requireNonNull(EntityDetails.getCurrentUserDetail()).getProfileConsultingId();
+        FilterResultDTO<TransactionResponseAsConsultingDTO> result = customTransactionRepository.filterAsConsulting(dto, page, size,consultingId);
+        return new PageImpl<>(result.getContent(), PageRequest.of(page, size), result.getTotalElement());
     }
 
     private TransactionsEntity toEntity(String profileId, String paymentType, ProfileType profileType, Long amount, TransactionType type, String transformId, Integer transformOrder) {
