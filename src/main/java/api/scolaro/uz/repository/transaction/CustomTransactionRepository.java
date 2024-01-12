@@ -126,15 +126,15 @@ public class CustomTransactionRepository {
             }
 
             if (Optional.ofNullable(filterDTO.getState()).isPresent()) {
-                stringBuilder.append(" and t.state <= :state ");
+                stringBuilder.append(" and t.state = :state ");
                 params.put("state", filterDTO.getState().getValue());
             }
             if (Optional.ofNullable(filterDTO.getStatus()).isPresent()) {
-                stringBuilder.append(" and t.status <= :status ");
+                stringBuilder.append(" and t.status = :status ");
                 params.put("status", filterDTO.getStatus().name());
             }
             if (Optional.ofNullable(filterDTO.getProfileId()).isPresent()) {
-                stringBuilder.append(" and t.profile_id <= :profileId ");
+                stringBuilder.append(" and t.profile_id = :profileId ");
                 params.put("profileId", filterDTO.getProfileId());
             }
         }
@@ -231,15 +231,15 @@ public class CustomTransactionRepository {
             }
 
             if (Optional.ofNullable(dto.getState()).isPresent()) {
-                stringBuilder.append(" and t.state <= :state ");
+                stringBuilder.append(" and t.state = :state ");
                 params.put("state", dto.getState().getValue());
             }
             if (Optional.ofNullable(dto.getStatus()).isPresent()) {
-                stringBuilder.append(" and t.status <= :status ");
+                stringBuilder.append(" and t.status = :status ");
                 params.put("status", dto.getStatus().name());
             }
             if (Optional.ofNullable(dto.getProfileId()).isPresent()) {
-                stringBuilder.append(" and t.profile_id <= :profileId ");
+                stringBuilder.append(" and t.profile_id = :profileId ");
                 params.put("profileId", dto.getProfileId());
             }
         }
