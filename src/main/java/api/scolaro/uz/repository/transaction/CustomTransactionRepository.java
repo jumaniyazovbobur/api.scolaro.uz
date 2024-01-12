@@ -252,13 +252,19 @@ public class CustomTransactionRepository {
                 app.application_number
                 from transactions t
                 left join profile p on p.id = t.profile_id
+                left join transform tr on tr.id = t.transform_id
                 left join app_application app on app.id = tr.application_id
                 where t.visible = TRUE and app.consulting_id = :currentConsultingId""");
         selectBuilder.append(stringBuilder).append(" order by t.created_date desc ");
         params.put("currentConsultingId", currentConsultingId); // current consulting id
 
         StringBuilder countBuilder = new StringBuilder("""
-                select count(*) from transactions as t where t.visible=true
+                select count(*)
+                from transactions as t
+                left join profile p on p.id = t.profile_id
+                left join transform tr on tr.id = t.transform_id
+                left join app_application app on app.id = tr.application_id
+                where t.visible=true and app.consulting_id = :currentConsultingId
                 """);
         countBuilder.append(stringBuilder);
 
