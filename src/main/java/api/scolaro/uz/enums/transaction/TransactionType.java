@@ -6,6 +6,6 @@ package api.scolaro.uz.enums.transaction;
  * @contact @sarvargo
  */
 public enum TransactionType {
-    DEBIT, // kirim
-    CREDIT; // chiqim
+    DEBIT, // Kirim, Доход, Debit
+    CREDIT; // chiqim, Расход, Credit
 }
