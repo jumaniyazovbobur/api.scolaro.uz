@@ -88,4 +88,37 @@ public class ConsultingStepController {
         log.info("Copy template consulting step to consulting tariff");
         return ResponseEntity.ok(consultingStepService.copyTemplateToConsultingStep(templateStepId));
     }
+
+    /**
+     * ADMIN
+     */
+
+    @PostMapping("/adm")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Operation(summary = "Create Template consulting step step ", description = "For admin")
+    public ResponseEntity<ApiResponse<String>> createTemplate(@RequestBody @Valid ConsultingStepCreateDTO dto) {
+        log.info("Create template consulting step {}", dto.getName());
+        return ResponseEntity.ok(consultingStepService.createTemplate(dto));
+    }
+
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/adm/{id}")
+    @Operation(summary = "Update template consulting step", description = "For admin")
+    public ResponseEntity<ApiResponse<ConsultingStepDTO>> updateTemplate(@PathVariable("id") String id,
+                                                                         @RequestBody @Valid ConsultingStepCreateDTO dto) {
+        log.info("Request for template consulting step update {}", id);
+        return ResponseEntity.ok(consultingStepService.updateTemplate(id, dto));
+    }
+
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/adm/{id}")
+    @Operation(summary = "Delete template consulting step", description = "For admin")
+    public ResponseEntity<ApiResponse<Boolean>> deleteTemplate(@PathVariable("id") String id) {
+        log.info("Request for template consulting delete {}", id);
+        return ResponseEntity.ok(consultingStepService.deleteTemplate(id));
+    }
+
+
 }

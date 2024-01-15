@@ -120,9 +120,18 @@ public class AppApplicationController {
     @Operation(summary = "Update application consulting profile", description = "for consulting manager")
     @PutMapping("/consulting/update-profile/{applicationId}")
     public ResponseEntity<ApiResponse<String>> updateProfile(@PathVariable("applicationId") String applicationId,
-                                                             @RequestParam("newProfileId") String newProfileId) {
-        log.info("Update application profile profileId={},appId={}",newProfileId,applicationId);
-        return ResponseEntity.ok(appApplicationService.updateConsultingProfile(applicationId,newProfileId));
+                                                             @RequestParam("profileId") String newProfileId) {
+        log.info("Update application profile profileId={},appId={}", newProfileId, applicationId);
+        return ResponseEntity.ok(appApplicationService.updateConsultingProfile(applicationId, newProfileId));
+    }
+
+    @PreAuthorize("hasRole('ROLE_CONSULTING')")
+    @Operation(summary = "Update application university ", description = "Updating application university")
+    @PutMapping("/consulting/{applicationId}/university")
+    public ResponseEntity<?> updateUniversityId(@PathVariable("applicationId") String applicationId,
+                                                @RequestParam("universityId") String newUniversityId) {
+        log.info("Update application {} university {}", applicationId, newUniversityId);
+        return ResponseEntity.ok(appApplicationService.updateUniversity(applicationId, newUniversityId));
     }
 
 

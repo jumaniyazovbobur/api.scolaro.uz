@@ -100,4 +100,24 @@ public class ConsultingTariffController {
         return ResponseEntity.ok(consultingTariffService.copyTemplateToConsultingTariff(templateTariffId));
     }
 
+    /**
+     * ADMIN
+     */
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/adm")
+    @Operation(summary = "Create template consulting tariff", description = "For admin")
+    public ResponseEntity<ApiResponse<String>> createTemplateTariff(@RequestBody @Valid ConsultingTariffRequestDTO dto) {
+        log.info("Create template consulting tariff {}", dto);
+        return ResponseEntity.ok(consultingTariffService.createTemplateTariff(dto));
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/adm/{id}")
+    @Operation(summary = "Update template consulting tariff", description = "for consulting")
+    public ResponseEntity<ApiResponse<String>> updateTemplateTariff(@RequestBody ConsultingTariffUpdateDTO dto, @PathVariable String id) {
+        log.info("Update consulting tariff {}", dto);
+        return ResponseEntity.ok(consultingTariffService.updateTemplateTariff(dto, id));
+    }
+
 }
