@@ -5,6 +5,7 @@ import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.consulting.ConsultingProfileDTO;
 import api.scolaro.uz.dto.consultingProfile.ConsultingProfileCreateDTO;
+import api.scolaro.uz.dto.consultingProfile.ConsultingProfileInfoAsAdminDTO;
 import api.scolaro.uz.dto.consultingProfile.ConsultingProfileUpdateDTO;
 import api.scolaro.uz.dto.consultingProfile.CurrentConsultingProfileUpdateDTO;
 import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -280,6 +282,26 @@ public class ConsultingProfileService {
     public ApiResponse<String> updateLang(String id, AppLanguage lang) {
         consultingProfileRepository.updateLang(id, lang);
         return ApiResponse.ok();
+    }
+
+    public ApiResponse<List<ConsultingProfileInfoAsAdminDTO>> findByConsultingId(String consultingId) {
+        List<ConsultingProfileInfoAsAdminDTO> result =
+                consultingProfileRepository
+                        .findAllByConsultingIdAndVisibleIsTrue(
+                                consultingId,
+                                Sort
+                                        .by("createdDate")
+                                        .descending()
+                        )
+                        .stream()
+                        .map(item -> ConsultingProfileInfoAsAdminDTO
+                                .toDTO(
+                                        item,
+                                        attachService.getResponseAttach(item.getPhotoId())
+                                )
+                        )
+                        .toList();
+        return ApiResponse.ok(result);
     }
     // currentConsulting.setRoleList(personRoleService.getProfileRoleList(details.getId()));
 //    public ApiResponse<String> deleteAccount() {

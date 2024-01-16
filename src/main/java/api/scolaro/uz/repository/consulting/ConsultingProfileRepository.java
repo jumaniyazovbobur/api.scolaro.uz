@@ -5,6 +5,7 @@ import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.GeneralStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -12,6 +13,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface ConsultingProfileRepository extends CrudRepository<ConsultingProfileEntity, String> {
@@ -53,6 +55,8 @@ public interface ConsultingProfileRepository extends CrudRepository<ConsultingPr
     int updateVisible(String id, Boolean b);
 
     Page<ConsultingProfileEntity> findAllByConsultingIdAndVisibleIsTrue(String consultingId, Pageable pageable);
+
+    List<ConsultingProfileEntity> findAllByConsultingIdAndVisibleIsTrue(String consultingId, Sort sort);
 
     @Transactional
     @Modifying
