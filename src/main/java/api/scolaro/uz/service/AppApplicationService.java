@@ -299,4 +299,9 @@ public class AppApplicationService {
         appApplicationRepository.updateConsultingProfile(applicationId, newProfileId);
         return ApiResponse.ok();
     }
+
+    public ApiResponse<List<ApplicationInfoAsAdminDTO>> findByApplicationsByStudentId(String studentId) {
+
+        return ApiResponse.ok();
+    }
 }
