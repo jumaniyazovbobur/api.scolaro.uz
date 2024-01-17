@@ -12,6 +12,7 @@ import api.scolaro.uz.dto.profile.*;
 import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.GeneralStatus;
+import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.enums.sms.SmsType;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.profile.CustomProfileRepository;
@@ -30,6 +31,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -256,7 +259,17 @@ public class ProfileService {
     }
 
     public ApiResponse<String> updateLang(AppLanguage lang, String currentUserId) {
-        profileRepository.updateLang(currentUserId,lang);
+        profileRepository.updateLang(currentUserId, lang);
+        return ApiResponse.ok();
+    }
+
+    public ApiResponse<String> changeRole(String id, ChangeProfileRoleReqDTO dto) {
+        List<RoleEnum> oldRoleList = personRoleService.getProfileRoleList(id);
+        List<RoleEnum> list = dto.getRoles()
+                .stream()
+                .filter(role -> !oldRoleList.contains(role) && !List.of(RoleEnum.ROLE_ADMIN, RoleEnum.ROLE_STUDENT).contains(role))
+                .toList();
+        personRoleService.create(id, list);
         return ApiResponse.ok();
     }
 }

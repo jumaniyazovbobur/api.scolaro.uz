@@ -60,6 +60,16 @@ public class ProfileController {
         return ResponseEntity.ok(profileService.getId(id));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/change-role/{id}")
+    @Operation(summary = "Update profile role", description = "for admin")
+    public ResponseEntity<ApiResponse<String>> changeProfileRole(@PathVariable("id") String id,
+                                                                 @RequestBody @Valid ChangeProfileRoleReqDTO dto) {
+        log.info("Change profile role profileId={},roles={}", id, dto.getRoles());
+        return ResponseEntity.ok(profileService.changeRole(id, dto));
+    }
+
+
     /**
      * FOR STUDENT
      */
