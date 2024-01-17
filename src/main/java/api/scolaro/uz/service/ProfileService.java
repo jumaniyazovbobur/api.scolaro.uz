@@ -267,7 +267,7 @@ public class ProfileService {
         List<RoleEnum> oldRoleList = personRoleService.getProfileRoleList(id);
         List<RoleEnum> list = dto.getRoles()
                 .stream()
-                .filter(role -> !oldRoleList.contains(role) && !List.of(RoleEnum.ROLE_ADMIN, RoleEnum.ROLE_STUDENT).contains(role))
+                .filter(role -> !oldRoleList.contains(role) && List.of(RoleEnum.ROLE_ADMIN, RoleEnum.ROLE_STUDENT).contains(role))
                 .toList();
         personRoleService.create(id, list);
         return ApiResponse.ok();
