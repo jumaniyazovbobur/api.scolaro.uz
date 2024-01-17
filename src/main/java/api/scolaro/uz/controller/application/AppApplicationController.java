@@ -9,6 +9,7 @@ import api.scolaro.uz.util.PaginationUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -142,7 +143,7 @@ public class AppApplicationController {
     }
 
     @Operation(summary = "Find AppApplications by student id", description = "Method for admin")
-    @PostMapping("/adm/student/{studentId}")
+    @GetMapping("/adm/student/{studentId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ApiResponse<List<ApplicationInfoAsAdminDTO>>> filter(@PathVariable("studentId") String studentId) {
         log.info("Find AppApplications by student id = {}", studentId);

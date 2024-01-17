@@ -1,6 +1,9 @@
 package api.scolaro.uz.dto.appApplication;
 
 import api.scolaro.uz.dto.consulting.ConsultingShortInfoDTO;
+import api.scolaro.uz.entity.application.AppApplicationEntity;
+import api.scolaro.uz.entity.consulting.ConsultingEntity;
+import api.scolaro.uz.entity.consulting.ConsultingStepLevelEntity;
 import api.scolaro.uz.enums.AppStatus;
 import api.scolaro.uz.enums.StepLevelStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -29,4 +32,14 @@ public class ApplicationInfoAsAdminDTO {
     StepLevelStatus stepStatus;
     LocalDateTime createdDate;
     ConsultingShortInfoDTO consulting;
+
+    public static ApplicationInfoAsAdminDTO toDTO(AppApplicationEntity entity) {
+        ConsultingEntity consult = entity.getConsulting();
+        ConsultingStepLevelEntity stepLevel = entity.getConsultingStepLevel();
+        return new ApplicationInfoAsAdminDTO(
+                entity.getId(), entity.getApplicationNumber(), entity.getStatus(),
+                stepLevel.getStepLevelStatus(), entity.getCreatedDate(),
+                new ConsultingShortInfoDTO(consult.getId(), consult.getName())
+        );
+    }
 }
