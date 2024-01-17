@@ -43,13 +43,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String header = request.getHeader("Authorization");
-
+        String tokenHeader = request.getParameter("token");
+        boolean tokenIsHeader = tokenHeader != null;
         if (header == null || !header.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
-            return;
+            if (!tokenIsHeader) {
+                filterChain.doFilter(request, response);
+                return;
+            }
         }
+
         try {
-            final String token = header.substring(7).trim();
+            final String token = tokenIsHeader ? tokenHeader : header.substring(7).trim();
             JwtDTO jwtDTO = JwtUtil.decode(token);
             // load user depending on role
             UserDetails userDetails;
