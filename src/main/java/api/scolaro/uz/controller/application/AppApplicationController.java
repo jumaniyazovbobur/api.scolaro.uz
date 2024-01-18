@@ -9,11 +9,14 @@ import api.scolaro.uz.util.PaginationUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/app-application")
@@ -120,7 +123,7 @@ public class AppApplicationController {
     @Operation(summary = "Update application consulting profile", description = "for consulting manager")
     @PutMapping("/consulting/update-profile/{applicationId}")
     public ResponseEntity<ApiResponse<String>> updateProfile(@PathVariable("applicationId") String applicationId,
-                                                             @RequestParam("profileId") String newProfileId) {
+                                                             @RequestParam("newProfileId") String newProfileId) {
         log.info("Update application profile profileId={},appId={}", newProfileId, applicationId);
         return ResponseEntity.ok(appApplicationService.updateConsultingProfile(applicationId, newProfileId));
     }
@@ -146,6 +149,14 @@ public class AppApplicationController {
                                     @RequestBody AppApplicationFilterDTO dto) {
         log.info("Admin filtered appApplicationList  page={},size={}", page, size);
         return ResponseEntity.ok(appApplicationService.filterForAdmin(dto, page, size));
+    }
+
+    @Operation(summary = "Find AppApplications by student id", description = "Method for admin")
+    @GetMapping("/adm/student/{studentId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<ApiResponse<List<ApplicationInfoAsAdminDTO>>> filter(@PathVariable("studentId") String studentId) {
+        log.info("Find AppApplications by student id = {}", studentId);
+        return ResponseEntity.ok(appApplicationService.findByApplicationsByStudentId(studentId));
     }
 
     /**

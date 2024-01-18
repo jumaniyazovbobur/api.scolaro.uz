@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
@@ -310,5 +311,12 @@ public class AppApplicationService {
         }
         appApplicationRepository.updateApplicationConsultingProfile(applicationId, newUniversityId);
         return ApiResponse.ok();
+    }
+
+    public ApiResponse<List<ApplicationInfoAsAdminDTO>> findByApplicationsByStudentId(String studentId) {
+        List<AppApplicationEntity> dbResult = appApplicationRepository
+                .findByStudentIdAndVisibleTrue(studentId); // order by created date desc
+
+        return ApiResponse.ok(dbResult.stream().map(ApplicationInfoAsAdminDTO::toDTO).toList());
     }
 }

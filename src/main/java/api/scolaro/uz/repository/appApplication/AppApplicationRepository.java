@@ -1,6 +1,7 @@
 package api.scolaro.uz.repository.appApplication;
 
 import api.scolaro.uz.entity.application.AppApplicationEntity;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -8,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -16,6 +18,8 @@ public interface AppApplicationRepository extends JpaRepository<AppApplicationEn
     Optional<AppApplicationEntity> findByIdAndVisibleTrue(String s);
 
     Optional<AppApplicationEntity> findByStudentIdAndConsultingIdAndVisibleTrue(String studentId, String consultingId);
+    @Query("FROM AppApplicationEntity a join fetch a.consulting join fetch a.consultingStepLevel where a.studentId = ?1 order by a.createdDate desc ")
+    List<AppApplicationEntity> findByStudentIdAndVisibleTrue(String studentId);
 
     Optional<AppApplicationEntity> findByStudentIdAndConsultingIdAndUniversityIdAndVisibleTrue(String studentId, String consultingId, Long universityId);
 
