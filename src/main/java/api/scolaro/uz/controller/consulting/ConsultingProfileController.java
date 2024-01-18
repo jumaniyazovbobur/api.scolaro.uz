@@ -5,6 +5,7 @@ import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.consulting.ConsultingProfileDTO;
 import api.scolaro.uz.dto.consultingProfile.ConsultingProfileCreateDTO;
+import api.scolaro.uz.dto.consultingProfile.ConsultingProfileInfoAsAdminDTO;
 import api.scolaro.uz.dto.consultingProfile.ConsultingProfileUpdateDTO;
 import api.scolaro.uz.dto.consultingProfile.CurrentConsultingProfileUpdateDTO;
 import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
@@ -24,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -71,6 +73,7 @@ public class ConsultingProfileController {
         log.info("Get current consulting profile detail");
         return ResponseEntity.ok(consultingProfileService.getConsultingProfileDetail(EntityDetails.getCurrentUserId()));
     }
+
     @PreAuthorize("hasRole('ROLE_CONSULTING_MANAGER')")
     @PutMapping("")
     @Operation(summary = "Edit current consulting profile", description = "for consulting manager")
@@ -117,7 +120,7 @@ public class ConsultingProfileController {
 
     @PreAuthorize("hasRole('ROLE_CONSULTING_MANAGER')")
     @GetMapping("")
-    @Operation(summary = "Delete", description = "for consulting manager")
+    @Operation(summary = "Find all", description = "for consulting manager")
     public ResponseEntity<ApiResponse<PageImpl<ConsultingProfileDTO>>> findAll(@RequestParam(name = "size", defaultValue = "50") int size,
                                                                                @RequestParam(name = "page", defaultValue = "1") int page) {
         log.info("FindAll consulting profile");
@@ -131,14 +134,26 @@ public class ConsultingProfileController {
     public ResponseEntity<ApiResponse<String>> updateStatus(@PathVariable String id,
                                                             @RequestParam(name = "status") GeneralStatus status) {
         log.info("Update status {}", id);
-        return ResponseEntity.ok(consultingProfileService.updateStatus(id,status));
+        return ResponseEntity.ok(consultingProfileService.updateStatus(id, status));
     }
+
     @PutMapping("/update-lang")
     @PreAuthorize("hasRole('ROLE_CONSULTING_MANAGER')")
     @Operation(summary = "Update language", description = "for consulting manager")
     public ResponseEntity<ApiResponse<String>> updateLang(@RequestParam(name = "lang") AppLanguage lang) {
         log.info("Update lang {}", lang);
         String id = EntityDetails.getCurrentUserId();
-        return ResponseEntity.ok(consultingProfileService.updateLang(id,lang));
+        return ResponseEntity.ok(consultingProfileService.updateLang(id, lang));
+    }
+
+    /**
+     * FOR ADMIN
+     */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/adm/consulting/{consultingId}")
+    @Operation(summary = "Find all consulting profile by consulting id", description = "for admin")
+    public ResponseEntity<ApiResponse<List<ConsultingProfileInfoAsAdminDTO>>> findAllByConsultingId(@PathVariable("consultingId") String consultingId) {
+        log.info("Find all consulting profile by consulting id = {}", consultingId);
+        return ResponseEntity.ok(consultingProfileService.findByConsultingId(consultingId));
     }
 }
