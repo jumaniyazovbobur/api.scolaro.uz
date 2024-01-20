@@ -126,6 +126,7 @@ public class AppApplicationController {
                                                              @RequestParam("newProfileId") String newProfileId) {
         log.info("Update application profile profileId={},appId={}", newProfileId, applicationId);
         return ResponseEntity.ok(appApplicationService.updateConsultingProfile(applicationId, newProfileId));
+
     }
 
     @PreAuthorize("hasRole('ROLE_CONSULTING')")
