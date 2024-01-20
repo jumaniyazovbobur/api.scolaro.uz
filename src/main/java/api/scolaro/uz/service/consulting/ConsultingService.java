@@ -131,7 +131,6 @@ public class ConsultingService {
         entity.setName(dto.getName());
         entity.setAddress(dto.getAddress());
         entity.setAbout(dto.getAbout());
-        entity.setPhotoId(dto.getPhotoId());
         // update
         consultingRepository.save(entity);
         return ApiResponse.ok(toDTO(entity));
