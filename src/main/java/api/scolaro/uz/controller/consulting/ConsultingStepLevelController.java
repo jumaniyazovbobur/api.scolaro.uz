@@ -27,14 +27,14 @@ import java.util.List;
 public class ConsultingStepLevelController {
     private final ConsultingStepLevelService consultingStepLevelService;
 
-    @PostMapping("")
+    @PreAuthorize("hasAnyRole('ROLE_CONSULTING','ROLE_ADMIN')")
     @Operation(summary = "Create consulting step level")
     public ResponseEntity<ApiResponse<String>> create(@RequestBody @Valid ConsultingStepLevelCreateDTO dto) {
         log.info("Create consulting step level {}", dto.getNameUz());
         return ResponseEntity.ok(consultingStepLevelService.create(dto));
     }
 
-    @PreAuthorize("hasRole('ROLE_CONSULTING')")
+    @PreAuthorize("hasAnyRole('ROLE_CONSULTING','ROLE_ADMIN')")
     @GetMapping("/{id}")
     @Operation(summary = "Get consulting step level by id", description = "")
     public ResponseEntity<ApiResponse<ConsultingStepLevelDTO>> getById(@PathVariable("id") String id) {
@@ -42,7 +42,7 @@ public class ConsultingStepLevelController {
         return ResponseEntity.ok(consultingStepLevelService.getById(id));
     }
 
-    @PreAuthorize("hasRole('ROLE_CONSULTING')")
+    @PreAuthorize("hasAnyRole('ROLE_CONSULTING','ROLE_ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Update consulting step", description = "for owner")
     public ResponseEntity<ApiResponse<ConsultingStepLevelDTO>> update(@PathVariable("id") String id,
@@ -51,7 +51,7 @@ public class ConsultingStepLevelController {
         return ResponseEntity.ok(consultingStepLevelService.update(id, dto));
     }
 
-    @PreAuthorize("hasRole('ROLE_CONSULTING')")
+    @PreAuthorize("hasAnyRole('ROLE_CONSULTING','ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete consulting step level", description = "for owner")
     public ResponseEntity<ApiResponse<Boolean>> delete(@PathVariable("id") String id) {
@@ -59,7 +59,7 @@ public class ConsultingStepLevelController {
         return ResponseEntity.ok(consultingStepLevelService.delete(id));
     }
 
-    @PreAuthorize("hasRole('ROLE_CONSULTING')")
+    @PreAuthorize("hasAnyRole('ROLE_CONSULTING','ROLE_ADMIN')")
     @GetMapping("/step/{id}")
     @Operation(summary = "Get stepLevel list by stepId")
     public ResponseEntity<ApiResponse<List<ConsultingStepLevelResponseDTO>>> getConsultingStepLevelListByConsultingStepId(@PathVariable("id") String stepId,
