@@ -313,6 +313,7 @@ public class AppApplicationService {
         return ApiResponse.ok();
     }
 
+
     public ApiResponse<List<ApplicationInfoAsAdminDTO>> findByApplicationsByStudentId(String studentId) {
         List<AppApplicationEntity> dbResult = appApplicationRepository
                 .findByStudentIdAndVisibleTrue(studentId); // order by created date desc
