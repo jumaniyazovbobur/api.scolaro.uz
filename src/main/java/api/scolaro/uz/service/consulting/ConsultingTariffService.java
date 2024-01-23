@@ -44,6 +44,7 @@ public class ConsultingTariffService {
         return new ApiResponse<>(200, false, resourceMessageService.getMessage("success.insert"));
     }
 
+
     public ApiResponse<ConsultingTariffResponseDTO> getById(String id, AppLanguage lang) {
         ConsultingTariffEntity entity = get(id);
         ConsultingTariffResponseDTO dto = new ConsultingTariffResponseDTO();
@@ -61,7 +62,6 @@ public class ConsultingTariffService {
         dto.setOrderNumber(entity.getOrderNumber());
         return new ApiResponse<>(200, false, dto);
     }
-
 
     public ApiResponse<ConsultingTariffResponseDTO> getDetailById(String id) {
         ConsultingTariffEntity entity = get(id);
@@ -129,6 +129,65 @@ public class ConsultingTariffService {
         return new ApiResponse<>(200, false, dtoList);
     }
 
+    public ApiResponse<?> copyTemplateToConsultingTariff(String templateTariffId) {
+        ConsultingTariffEntity entity = get(templateTariffId);
+
+        if (!entity.getTariffType().equals(ConsultingTariffType.TEMPLATE)) {
+            log.warn("Only template tariffs allowed to copy.");
+            throw new AppBadRequestException("Only template tariffs allowed to copy.");
+        }
+        //copy
+        ConsultingTariffEntity copyTariff = new ConsultingTariffEntity();
+        copyTariff.setDescriptionUz(entity.getDescriptionUz());
+        copyTariff.setDescriptionEn(entity.getDescriptionEn());
+        copyTariff.setDescriptionRu(entity.getDescriptionRu());
+        copyTariff.setName(entity.getName());
+        copyTariff.setPrice(entity.getPrice());
+        copyTariff.setConsultingId(EntityDetails.getCurrentUserDetail().getProfileConsultingId());
+        copyTariff.setStatus(GeneralStatus.ACTIVE);
+        copyTariff.setTariffType(ConsultingTariffType.CONSULTING);
+        copyTariff.setOrderNumber(1);
+        // save
+        consultingTariffRepository.save(copyTariff);
+        return new ApiResponse<>("success", 200, false);
+    }
+
+    /**
+     * ADMIN
+     */
+    public ApiResponse<String> createTemplateTariff(ConsultingTariffRequestDTO dto) {
+        ConsultingTariffEntity entity = new ConsultingTariffEntity();
+        entity.setName(dto.getName());
+        entity.setDescriptionUz(dto.getDescriptionUz());
+        entity.setDescriptionRu(dto.getDescriptionRu());
+        entity.setDescriptionEn(dto.getDescriptionEn());
+        entity.setPrice(dto.getPrice());
+        entity.setTariffType(ConsultingTariffType.TEMPLATE);
+        entity.setStatus(dto.getStatus());
+        entity.setOrderNumber(dto.getOrderNumber());
+        consultingTariffRepository.save(entity);
+        return new ApiResponse<>(200, false, resourceMessageService.getMessage("success.insert"));
+    }
+
+    public ApiResponse<String> updateTemplateTariff(ConsultingTariffUpdateDTO dto, String id) {
+        ConsultingTariffEntity entity = get(id);
+        if (!entity.getTariffType().equals(ConsultingTariffType.TEMPLATE)) {
+            log.warn("Only Template tariff can be updated by admin");
+            throw new AppBadRequestException("Admin only can be update Template tariff");
+        }
+        entity.setId(entity.getId());
+        entity.setDescriptionUz(dto.getDescriptionUz());
+        entity.setDescriptionEn(dto.getDescriptionEn());
+        entity.setDescriptionRu(dto.getDescriptionRu());
+        entity.setName(dto.getName());
+        entity.setOrderNumber(dto.getOrder());
+        entity.setPrice(dto.getPrice());
+        entity.setStatus(dto.getStatus());
+        entity.setTariffType(dto.getTariffType());
+        consultingTariffRepository.save(entity);
+        return new ApiResponse<>(resourceMessageService.getMessage("success.update"), 200, false);
+    }
+
     public ConsultingTariffResponseDTO toDto(ConsultingTariffEntity entity, AppLanguage lang) {
         ConsultingTariffResponseDTO dto = new ConsultingTariffResponseDTO();
         switch (lang) {
@@ -152,27 +211,5 @@ public class ConsultingTariffService {
         });
     }
 
-    public ApiResponse<?> copyTemplateToConsultingTariff(String templateTariffId) {
-        ConsultingTariffEntity entity = get(templateTariffId);
-
-        if (!entity.getTariffType().equals(ConsultingTariffType.TEMPLATE)) {
-            log.warn("Only template tariffs allowed to copy.");
-            throw new AppBadRequestException("Only template tariffs allowed to copy.");
-        }
-        //copy
-        ConsultingTariffEntity copyTariff = new ConsultingTariffEntity();
-        copyTariff.setDescriptionUz(entity.getDescriptionUz());
-        copyTariff.setDescriptionEn(entity.getDescriptionEn());
-        copyTariff.setDescriptionRu(entity.getDescriptionRu());
-        copyTariff.setName(entity.getName());
-        copyTariff.setPrice(entity.getPrice());
-        copyTariff.setConsultingId(EntityDetails.getCurrentUserDetail().getProfileConsultingId());
-        copyTariff.setStatus(GeneralStatus.ACTIVE);
-        copyTariff.setTariffType(ConsultingTariffType.CONSULTING);
-        copyTariff.setOrderNumber(1);
-        // save
-        consultingTariffRepository.save(copyTariff);
-        return new ApiResponse<>("success", 200, false);
-    }
 
 }

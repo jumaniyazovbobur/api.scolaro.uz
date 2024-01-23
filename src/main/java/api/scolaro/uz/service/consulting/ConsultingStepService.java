@@ -31,6 +31,9 @@ public class ConsultingStepService {
     private final ConsultingStepLevelService consultingStepLevelService;
     private final ResourceMessageService resourceMessageService;
 
+    /**
+     * ADMIN
+     */
     public ApiResponse<String> create(ConsultingStepCreateDTO dto) {
         ConsultingStepEntity stepEntity = new ConsultingStepEntity();
         stepEntity.setName(dto.getName());
@@ -176,4 +179,43 @@ public class ConsultingStepService {
         list.forEach(consultingStepEntity -> dtoList.add(toDTO(consultingStepEntity)));
         return new ApiResponse<>(200, false, dtoList);
     }
+
+    /**
+     * ADMIN
+     */
+
+    public ApiResponse<String> createTemplate(ConsultingStepCreateDTO dto) {
+        ConsultingStepEntity stepEntity = new ConsultingStepEntity();
+        stepEntity.setName(dto.getName());
+        stepEntity.setStepType(StepType.TEMPLATE);
+        stepEntity.setDescription(dto.getDescription());
+        stepEntity.setOrderNumber(dto.getOrderNumber());
+        consultingStepRepository.save(stepEntity);
+        return new ApiResponse<>(200, false, resourceMessageService.getMessage("success.insert"));
+    }
+
+    public ApiResponse<Boolean> deleteTemplate(String id) {
+        ConsultingStepEntity entity = get(id);
+        if (!entity.getStepType().equals(StepType.TEMPLATE)) {
+            log.warn("Only Template Step can be deleted by admin");
+            throw new AppBadRequestException("Only Template Step can be deleted by admin");
+        }
+        int i = consultingStepRepository.deleted(id, EntityDetails.getCurrentUserId(), LocalDateTime.now());
+        return new ApiResponse<>(200, false, i > 0);
+    }
+
+    public ApiResponse<ConsultingStepDTO> updateTemplate(String id, ConsultingStepCreateDTO dto) {
+        ConsultingStepEntity entity = get(id);
+        if (!entity.getStepType().equals(StepType.TEMPLATE)) {
+            log.warn("Only Template Step can be updated by admin");
+            throw new AppBadRequestException("Only Template Step can be updated by admin");
+        }
+        entity.setName(dto.getName());
+        entity.setOrderNumber(dto.getOrderNumber());
+        entity.setDescription(dto.getDescription());
+        // update
+        consultingStepRepository.save(entity);
+        return new ApiResponse<>(200, false, toDTO(entity));
+    }
+
 }

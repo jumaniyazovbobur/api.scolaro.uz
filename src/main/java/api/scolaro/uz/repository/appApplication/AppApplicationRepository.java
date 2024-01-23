@@ -78,5 +78,10 @@ public interface AppApplicationRepository extends JpaRepository<AppApplicationEn
     @Query("update AppApplicationEntity set consultingProfileId = ?2 where id = ?1")
     @Transactional
     @Modifying
-    int updateConsultingProfile(String applicationId, String newProfileId);
+    int updateApplicationConsultingProfile(String applicationId, String newProfileId);
+
+    @Query("update AppApplicationEntity set universityId =:universityId where id =:appId")
+    @Transactional
+    @Modifying
+    int updateApplicationConsultingProfile(@Param("appId") String appId, @Param("universityId") Long universityId);
 }

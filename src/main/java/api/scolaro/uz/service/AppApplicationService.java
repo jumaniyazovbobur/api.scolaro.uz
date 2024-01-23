@@ -297,9 +297,22 @@ public class AppApplicationService {
             log.warn("Access denied updateConsultingProfile inDbConsultingId={},currentConsultingId={}", application.getConsultingId(), consultingId);
             return ApiResponse.forbidden("Access denied");
         }
-        appApplicationRepository.updateConsultingProfile(applicationId, newProfileId);
+        appApplicationRepository.updateApplicationConsultingProfile(applicationId, newProfileId);
         return ApiResponse.ok();
     }
+
+    public Object updateUniversity(String applicationId, String newUniversityId) {
+        AppApplicationEntity application = get(applicationId);
+        String consultingId = Objects.requireNonNull(EntityDetails.getCurrentUserDetail()).getProfileConsultingId();
+
+        if (!application.getConsultingId().equals(consultingId)) {
+            log.warn("Access denied updateConsultingProfile inDbConsultingId={},currentConsultingId={}", application.getConsultingId(), consultingId);
+            return ApiResponse.forbidden("Access denied");
+        }
+        appApplicationRepository.updateApplicationConsultingProfile(applicationId, newUniversityId);
+        return ApiResponse.ok();
+    }
+
 
     public ApiResponse<List<ApplicationInfoAsAdminDTO>> findByApplicationsByStudentId(String studentId) {
         List<AppApplicationEntity> dbResult = appApplicationRepository

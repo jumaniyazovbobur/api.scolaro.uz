@@ -110,6 +110,10 @@ public class ConsultingService {
 
     public ApiResponse<ConsultingResponseDTO> updateDetail(ConsultingUpdateDTO dto) {
         ConsultingEntity entity = get(EntityDetails.getCurrentUserDetail().getProfileConsultingId());
+        if (!dto.getPhotoId().equals(entity.getPhotoId())) { // delete old photo
+            attachService.delete(entity.getPhotoId());
+            entity.setPhotoId(dto.getPhotoId());
+        }
         entity.setName(dto.getName());
         entity.setAddress(dto.getAddress());
         entity.setAbout(dto.getAbout());
@@ -120,9 +124,14 @@ public class ConsultingService {
 
     public ApiResponse<ConsultingResponseDTO> updateConsulting(String id, ConsultingUpdateDTO dto) {
         ConsultingEntity entity = get(id);
+        if (!dto.getPhotoId().equals(entity.getPhotoId())) { // delete old photo
+            attachService.delete(entity.getPhotoId());
+            entity.setPhotoId(dto.getPhotoId());
+        }
         entity.setName(dto.getName());
         entity.setAddress(dto.getAddress());
         entity.setAbout(dto.getAbout());
+        entity.setPhotoId(dto.getPhotoId());
         // update
         consultingRepository.save(entity);
         return ApiResponse.ok(toDTO(entity));
