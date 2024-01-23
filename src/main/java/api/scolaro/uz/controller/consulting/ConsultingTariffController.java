@@ -57,7 +57,7 @@ public class ConsultingTariffController {
         return ResponseEntity.ok(consultingTariffService.update(dto, id));
     }
 
-    @PreAuthorize("hasRole('ROLE_CONSULTING')")
+    @PreAuthorize("hasAnyRole('ROLE_CONSULTING','ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete consulting tariff", description = "for consulting")
     public ResponseEntity<ApiResponse<String>> deleteById(@PathVariable String id) {
