@@ -28,4 +28,10 @@ public interface ConsultingTariffRepository extends JpaRepository<ConsultingTari
     @Query("update ConsultingTariffEntity set visible = false ,deletedDate = ?2, deletedId = ?3  where id = ?1")
     int updateVisibleIsFalse(String id, LocalDateTime now, String deletedId);
 
+    @Modifying
+    @Transactional
+    @Query("update ConsultingTariffEntity set visible = false ,deletedDate = ?2  where id = ?1")
+    int updateVisibleIsFalse(String id, LocalDateTime now);
+
+
 }

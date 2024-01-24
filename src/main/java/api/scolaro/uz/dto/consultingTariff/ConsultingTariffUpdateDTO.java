@@ -20,5 +20,5 @@ public class ConsultingTariffUpdateDTO {
     private Double price;
     private GeneralStatus status;
     private ConsultingTariffType tariffType;
-    private Integer order;
+    private Integer orderNumber;
 }

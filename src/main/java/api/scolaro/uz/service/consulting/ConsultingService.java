@@ -134,7 +134,7 @@ public class ConsultingService {
         entity.setAbout(dto.getAbout());
         // update
         consultingRepository.save(entity);
-        if (oldImageId != null) attachService.delete(entity.getPhotoId());
+        if (oldImageId != null) attachService.delete(oldImageId);
         return ApiResponse.ok(toDTO(entity));
     }
 

@@ -120,4 +120,13 @@ public class ConsultingTariffController {
         return ResponseEntity.ok(consultingTariffService.updateTemplateTariff(dto, id));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/adm/{id}")
+    @Operation(summary = "Delete template consulting tariff as admin", description = "for consulting")
+    public ResponseEntity<ApiResponse<String>> deleteTemplateTariffAsAdmin(@PathVariable String id) {
+        log.info("Delete template consulting tariff {}", id);
+        return ResponseEntity.ok(consultingTariffService.deleteAsAdmin(id));
+    }
+
+
 }

@@ -90,7 +90,7 @@ public class ConsultingTariffService {
         entity.setDescriptionEn(dto.getDescriptionEn());
         entity.setDescriptionRu(dto.getDescriptionRu());
         entity.setName(dto.getName());
-        entity.setOrderNumber(dto.getOrder());
+        entity.setOrderNumber(dto.getOrderNumber());
         entity.setPrice(dto.getPrice());
         entity.setStatus(dto.getStatus());
         entity.setTariffType(dto.getTariffType());
@@ -180,12 +180,25 @@ public class ConsultingTariffService {
         entity.setDescriptionEn(dto.getDescriptionEn());
         entity.setDescriptionRu(dto.getDescriptionRu());
         entity.setName(dto.getName());
-        entity.setOrderNumber(dto.getOrder());
+        entity.setOrderNumber(dto.getOrderNumber());
         entity.setPrice(dto.getPrice());
         entity.setStatus(dto.getStatus());
         entity.setTariffType(dto.getTariffType());
         consultingTariffRepository.save(entity);
         return new ApiResponse<>(resourceMessageService.getMessage("success.update"), 200, false);
+    }
+
+    public ApiResponse<String> deleteAsAdmin(String id) {
+        ConsultingTariffEntity entity = get(id);
+        if (!entity.getTariffType().equals(ConsultingTariffType.TEMPLATE)) {
+            log.warn("Admin can delete only Template tariffs");
+            throw new ItemNotFoundException("Admin can delete only Template tariffs");
+        }
+        int result = consultingTariffRepository.updateVisibleIsFalse(id, LocalDateTime.now());
+        if (result == 1) {
+            return new ApiResponse<>(resourceMessageService.getMessage("success.delete"), 200, false);
+        }
+        return new ApiResponse<>(resourceMessageService.getMessage("fail.delete"), 200, false);
     }
 
     public ConsultingTariffResponseDTO toDto(ConsultingTariffEntity entity, AppLanguage lang) {
