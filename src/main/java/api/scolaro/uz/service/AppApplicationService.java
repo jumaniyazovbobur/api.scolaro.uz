@@ -304,7 +304,7 @@ public class AppApplicationService {
         return ApiResponse.ok();
     }
 
-    public Object updateUniversity(String applicationId, String newUniversityId) {
+    public Object updateUniversity(String applicationId, Long newUniversityId) {
         AppApplicationEntity application = get(applicationId);
         String consultingId = Objects.requireNonNull(EntityDetails.getCurrentUserDetail()).getProfileConsultingId();
 
@@ -312,7 +312,7 @@ public class AppApplicationService {
             log.warn("Access denied updateConsultingProfile inDbConsultingId={},currentConsultingId={}", application.getConsultingId(), consultingId);
             return ApiResponse.forbidden("Access denied");
         }
-        appApplicationRepository.updateApplicationConsultingProfile(applicationId, newUniversityId);
+        appApplicationRepository.updateApplicationUniversityId(applicationId, newUniversityId);
         return ApiResponse.ok();
     }
 
