@@ -180,6 +180,9 @@ public class AppApplicationService {
         if (entity.getConsultingTariffId() != null) {
             dto.setTariff(consultingTariffService.getById(entity.getConsultingTariffId(), lang).getData());
         }
+        if (entity.getConsultingProfileId() != null) {
+            dto.setConsultingProfile(consultingProfileService.getConsultingProfile(entity.getConsultingProfileId()));
+        }
         return new ApiResponse<>(200, false, dto);
     }
 

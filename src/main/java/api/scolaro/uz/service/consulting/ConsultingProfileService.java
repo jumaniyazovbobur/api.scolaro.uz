@@ -154,6 +154,10 @@ public class ConsultingProfileService {
         return optional.get();
     }
 
+    public ConsultingProfileDTO getConsultingProfile(String id) {
+        return toDTO(get(id));
+    }
+
     private ConsultingProfileDTO toDTO(ConsultingProfileEntity entity) {
         ConsultingProfileDTO dto = new ConsultingProfileDTO();
         dto.setId(entity.getId());
