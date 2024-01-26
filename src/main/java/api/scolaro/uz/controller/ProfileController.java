@@ -86,7 +86,7 @@ public class ProfileController {
      * FOR ADMIN
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/filter")
+    @PostMapping("/filter")
     @Operation(summary = "Filter profile api", description = "")
     public ResponseEntity<ApiResponse<PageImpl<ProfileResponseDTO>>> filter(@RequestBody ProfileFilterDTO userFilterDTO,
                                                                             @RequestParam(value = "page", defaultValue = "1") int page,
