@@ -224,6 +224,8 @@ public class ProfileService {
         responseDTO.setSurname(entity.getSurname());
         responseDTO.setPhone(entity.getPhone());
         responseDTO.setCreatedDate(entity.getCreatedDate());
+        responseDTO.setStatus(entity.getStatus());
+        responseDTO.setRoles(personRoleService.getProfileRoleList(entity.getId()));
         if (entity.getPhotoId() != null) responseDTO.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
         return responseDTO;
     }
