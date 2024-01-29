@@ -124,7 +124,7 @@ Content-Type: application/json
 
 ################################################ Admin
 ### authenticate ADMIN
-POST https://api.scolaroconsult.uz/api/v1/auth/profile/login
+POST http://localhost:8081/api/v1/auth/profile/login
 Content-Type: application/json
 
 {

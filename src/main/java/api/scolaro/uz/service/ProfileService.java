@@ -224,6 +224,8 @@ public class ProfileService {
         responseDTO.setSurname(entity.getSurname());
         responseDTO.setPhone(entity.getPhone());
         responseDTO.setCreatedDate(entity.getCreatedDate());
+        responseDTO.setStatus(entity.getStatus());
+        responseDTO.setRoles(personRoleService.getProfileRoleList(entity.getId()));
         if (entity.getPhotoId() != null) responseDTO.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
         return responseDTO;
     }
@@ -264,12 +266,13 @@ public class ProfileService {
     }
 
     public ApiResponse<String> changeRole(String id, ChangeProfileRoleReqDTO dto) {
-        List<RoleEnum> oldRoleList = personRoleService.getProfileRoleList(id);
-        List<RoleEnum> list = dto.getRoles()
-                .stream()
-                .filter(role -> !oldRoleList.contains(role) && List.of(RoleEnum.ROLE_ADMIN, RoleEnum.ROLE_STUDENT).contains(role))
-                .toList();
-        personRoleService.create(id, list);
+        personRoleService.update(id,dto.getRoles());
+//        List<RoleEnum> oldRoleList = personRoleService.getProfileRoleList(id);
+//        List<RoleEnum> list = dto.getRoles()
+//                .stream()
+//                .filter(role -> !oldRoleList.contains(role) && List.of(RoleEnum.ROLE_ADMIN, RoleEnum.ROLE_STUDENT).contains(role))
+//                .toList();
+//        personRoleService.create(id, list);
         return ApiResponse.ok();
     }
 }

@@ -28,6 +28,7 @@ public class ConsultingStepLevelController {
     private final ConsultingStepLevelService consultingStepLevelService;
 
     @PreAuthorize("hasAnyRole('ROLE_CONSULTING','ROLE_ADMIN')")
+    @PostMapping("")
     @Operation(summary = "Create consulting step level")
     public ResponseEntity<ApiResponse<String>> create(@RequestBody @Valid ConsultingStepLevelCreateDTO dto) {
         log.info("Create consulting step level {}", dto.getNameUz());

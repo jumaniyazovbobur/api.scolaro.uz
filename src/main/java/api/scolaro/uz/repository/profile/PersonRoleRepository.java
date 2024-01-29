@@ -20,7 +20,7 @@ public interface PersonRoleRepository extends JpaRepository<PersonRoleEntity, St
     @Modifying
     @Transactional
     @Query(value = "UPDATE PersonRoleEntity t SET t.visible = false, t.deletedDate =?2  where t.id=?1")
-    List<RoleEnum> setVisibleFalse(String profileRoleEntityId, LocalDateTime deletedDate);
+    void setVisibleFalse(String profileRoleEntityId, LocalDateTime deletedDate);
 
     @Modifying
     @Transactional

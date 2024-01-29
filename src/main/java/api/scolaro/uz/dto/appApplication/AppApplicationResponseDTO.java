@@ -1,6 +1,7 @@
 package api.scolaro.uz.dto.appApplication;
 
 import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelResponseDTO;
+import api.scolaro.uz.dto.consulting.ConsultingProfileDTO;
 import api.scolaro.uz.dto.consulting.ConsultingResponseDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepResponseDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepUpdateResponseDTO;
@@ -35,5 +36,6 @@ public class AppApplicationResponseDTO {
     private AppStatus status;
     private LocalDateTime createdDate;
     private Long applicationNumber;
+    private ConsultingProfileDTO consultingProfile;
 
 }

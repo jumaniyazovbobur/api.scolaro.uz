@@ -1,18 +1,8 @@
 package api.scolaro.uz.repository.profile;
 
-import api.scolaro.uz.config.details.EntityDetails;
-import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelDTO;
 import api.scolaro.uz.dto.FilterResultDTO;
-import api.scolaro.uz.dto.consulting.ConsultingDTO;
-import api.scolaro.uz.dto.profile.ProfileDTO;
 import api.scolaro.uz.dto.profile.ProfileFilterDTO;
-import api.scolaro.uz.dto.profile.ProfileResponseDTO;
 import api.scolaro.uz.entity.ProfileEntity;
-import api.scolaro.uz.enums.AppStatus;
-import api.scolaro.uz.enums.ApplicationStepLevelStatus;
-import api.scolaro.uz.mapper.AppApplicationFilterMapperDTO;
-import api.scolaro.uz.service.AttachService;
-import api.scolaro.uz.util.MapperUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class CustomProfileRepository {
@@ -66,7 +58,7 @@ public class CustomProfileRepository {
         selectQuery.setMaxResults(size);
         List<ProfileEntity> entityList = selectQuery.getResultList();
         Long totalElement = (Long) countQuery.getSingleResult();
-        return new FilterResultDTO<ProfileEntity>(entityList, totalElement);
+        return new FilterResultDTO<>(entityList, totalElement);
 
     }
 
