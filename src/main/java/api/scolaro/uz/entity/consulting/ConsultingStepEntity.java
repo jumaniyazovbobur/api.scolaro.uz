@@ -20,7 +20,7 @@ public class ConsultingStepEntity extends BaseEntity {
     private StepType stepType;
     @Column(name = "order_number")
     private Integer orderNumber;
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "text")
     private String description;
     @Column(name = "consulting_id")
     private String consultingId;
