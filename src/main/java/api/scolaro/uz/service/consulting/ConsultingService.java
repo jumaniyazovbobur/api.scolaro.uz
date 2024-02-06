@@ -122,6 +122,11 @@ public class ConsultingService {
         return ApiResponse.ok(toDTO(entity));
     }
 
+    public ApiResponse<String> delete(String consultingId) {
+        consultingRepository.deleted(consultingId, EntityDetails.getCurrentUserId(), LocalDateTime.now());
+        return ApiResponse.ok("Success");
+    }
+
     public ApiResponse<ConsultingResponseDTO> updateConsulting(String id, ConsultingUpdateDTO dto) {
         ConsultingEntity entity = get(id);
         String oldImageId = null;
