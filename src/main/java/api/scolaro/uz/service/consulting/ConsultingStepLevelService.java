@@ -8,6 +8,7 @@ import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelUpdateDTO;
 import api.scolaro.uz.dto.consultingStep.ConsultingStepLevelResponseDTO;
 import api.scolaro.uz.entity.consulting.ConsultingStepLevelEntity;
 import api.scolaro.uz.enums.AppLanguage;
+import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.enums.StepLevelType;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
@@ -47,7 +48,9 @@ public class ConsultingStepLevelService {
 
     public ApiResponse<ConsultingStepLevelDTO> update(String id, ConsultingStepLevelUpdateDTO dto) {
         ConsultingStepLevelEntity entity = get(id);
-        if (!entity.getConsultingId().equals(EntityDetails.getCurrentUserDetail().getProfileConsultingId())) {
+        if (!EntityDetails.hasRole(RoleEnum.ROLE_ADMIN, EntityDetails.getCurrentProfileRoleList())
+                && entity.getConsultingId() != null
+                && !entity.getConsultingId().equals(EntityDetails.getCurrentUserDetail().getProfileConsultingId())) {
             log.warn("consultingStepLevelEntity {} not belongs to current consulting {} ", id, EntityDetails.getCurrentUserId());
             throw new AppBadRequestException("ConsultingStepLevel not belongs to current consulting.");
         }
