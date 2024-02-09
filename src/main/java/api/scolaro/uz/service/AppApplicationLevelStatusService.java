@@ -61,6 +61,11 @@ public class AppApplicationLevelStatusService {
     private ResourceMessageService resourceMessageService;
 
     public ApiResponse<AppApplicationLevelStatusDTO> create(AppApplicationLevelStatusCreateDTO dto, AppLanguage lang) {
+        if (dto.getApplicationStepLevelStatus().equals(ApplicationStepLevelStatus.PAYMENT) &&
+                (dto.getAmount() == null || dto.getAmount() == 0)) {
+            return ApiResponse.bad("Amount is required.");
+        }
+
         ConsultingStepLevelEntity consultingStepLevelEntity = consultingStepLevelService.get(dto.getConsultingStepLevelId());
         // check if level finished before
         if (consultingStepLevelEntity.getStepLevelStatus() != null && consultingStepLevelEntity.getStepLevelStatus().equals(StepLevelStatus.FINISHED)) {

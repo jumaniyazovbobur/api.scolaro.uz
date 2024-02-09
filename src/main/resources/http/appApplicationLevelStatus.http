@@ -1,13 +1,26 @@
 ### Create appApplication level status
 POST localhost:8081/api/v1/app-application-level-status
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDMyMjYyMjIsImlkIjoiNDAyODgwZTU4YzYxZjFmMDAxOGM2MWYzNjBhMTAwMDIxMSIsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZXMiOiJST0xFX0NPTlNVTFRJTkcsUk9MRV9DT05TVUxUSU5HX01BTkFHRVIiLCJleHAiOjE3MDM4MzEwMjIsImlzcyI6IkphdmEgYmFja2VuZCJ9.Z_uIJJxAmQssaGBYq6wi4GAjntTB0rg9mTsoCXj0VQhZIYA03l-I-ytWWcbYupkGvvNr4_ZByJS02i9xQ_9Rzg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc0NDY4NjQsImlkIjoiMzI1YTRmZmQ4ZDAyYjQwYTAxOGQwODIwMTE5YTA0NGUiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxNyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HLFJPTEVfQ09OU1VMVElOR19NQU5BR0VSIiwiZXhwIjoxNzA4MDUxNjY0LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.U8KddPL5w4TL_jWLkJTf7q2QZV99ucn_0apIKiAtG4CAprM6rdTZTw7jBc6Qe8yjuMCyhhKWk4OOggpT9YA-zg
 
 {
   "appApplicationId": "8080b7ef8bae722c018bae85c0cf0002",
   "consultingStepLevelId": "8080b7ef8bae722c018bae8a39560005",
   "applicationStepLevelStatus": "PAYMENT",
   "deadline": "2023-12-20",
+  "amount": 1234,
+  "description": "REVISION dasdas dasdme dasda sd"
+}
+
+### Create appApplication level status PROD
+POST localhost:8085/api/v1/app-application-level-status
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc0NDY4NjQsImlkIjoiMzI1YTRmZmQ4ZDAyYjQwYTAxOGQwODIwMTE5YTA0NGUiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxNyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HLFJPTEVfQ09OU1VMVElOR19NQU5BR0VSIiwiZXhwIjoxNzA4MDUxNjY0LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.U8KddPL5w4TL_jWLkJTf7q2QZV99ucn_0apIKiAtG4CAprM6rdTZTw7jBc6Qe8yjuMCyhhKWk4OOggpT9YA-zg
+
+{
+  "appApplicationId": "325a4ffd8d7d68d7018d7dfa4d78002f",
+  "consultingStepLevelId": "325a4ffd8d7f1f57018d7f2f7cf1002e",
+  "applicationStepLevelStatus": "PAYMENT",
   "amount": 1234,
   "description": "REVISION dasdas dasdme dasda sd"
 }
