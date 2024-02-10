@@ -195,10 +195,13 @@ public class AppApplicationLevelStatusService {
             if (!apiResponse.getIsError()) { // transaction success
                 appApplicationLevelStatusRepository.updateApplicationStepLevelStatus(entity.getId(),
                         ApplicationStepLevelStatus.PAYMENT_SUCCESS, LocalDateTime.now());
-                return ApiResponse.bad(resourceMessageService.getMessage("success", lang));
+                return ApiResponse.ok(resourceMessageService.getMessage("payment.success", lang));
+            }else{
+                return ApiResponse.bad(resourceMessageService.getMessage("payment.failed", lang));
             }
         }
-        return ApiResponse.bad(resourceMessageService.getMessage("failed", lang));
+        // send message to student of success payment
+        return ApiResponse.bad(resourceMessageService.getMessage("payment.not.enough.balance", lang));
     }
 
     public ApiResponse<List<KeyValueDTO>> getLevelStatuEnumList(AppLanguage appLanguage) {

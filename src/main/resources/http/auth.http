@@ -80,8 +80,16 @@ Content-Type: application/json
   "password": "3w3csl"
 }
 
-
 ### Consulting login 2
+POST http://localhost:8085/api/v1/auth/consulting/login
+Content-Type: application/json
+
+{
+  "phone": "998915721213",
+  "password": "3w3csl"
+}
+
+### Consulting login 3
 POST http://localhost:8081/api/v1/auth/consulting/login
 Content-Type: application/json
 

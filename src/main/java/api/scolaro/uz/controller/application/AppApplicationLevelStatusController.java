@@ -57,7 +57,7 @@ public class AppApplicationLevelStatusController {
     @Operation(summary = "Finish payment in Application level status", description = "Used to finish payment level status")
     @GetMapping("/payment/finish/{applicationLevelStatusId}")
     public ResponseEntity<ApiResponse<String>> levelStatusFinishPayment(
-            @PathParam("applicationLevelStatusId") String applicationLevelStatusId,
+            @PathVariable("applicationLevelStatusId") String applicationLevelStatusId,
             @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Finish payment in Application level status:  {} ", applicationLevelStatusId);
         return ResponseEntity.ok(applicationLevelStatusService.levelStatusFinishPayment(applicationLevelStatusId, language));
