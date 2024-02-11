@@ -105,7 +105,7 @@ public class SimpleMessageService {
                                           String fireBaseId) {
         if (isOnline != null && isOnline) {
             template.convertAndSend("/topic/messages/%s".formatted(entity.getAppApplicationId()),
-                    Collections.singleton(SimpleMessageMapperDTO.toDTO(entity, attachService.getResponseAttach(dto.getAttachId())))
+                    Collections.singleton(SimpleMessageMapperDTO.toDTO(entity, attachService.getResponseAttachWithExtension(dto.getAttachId(), dto.getExtension())))
             );
         } else if (fireBaseId != null) {
             NotificationDTO notification = new NotificationDTO();
