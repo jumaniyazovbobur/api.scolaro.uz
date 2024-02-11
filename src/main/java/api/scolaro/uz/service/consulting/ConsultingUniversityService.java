@@ -66,7 +66,8 @@ public class ConsultingUniversityService {
         consultingUniversityRepository.updateUniversity(consultingId, universityId);
     }
 
-    public List<CountryUniversityResponseDTO> getUniversityListWithConsulting(String consultingId, AppLanguage appLanguage) {
+    public List<CountryUniversityResponseDTO> getUniversityListWithConsulting(AppLanguage appLanguage) {
+        String consultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
         List<ConsultingUniversityMapper> list = consultingUniversityRepository.getUniversityListWithConsulting(consultingId, appLanguage.name());
         return list.stream().map(this::toDTO).collect(Collectors.toList());
     }

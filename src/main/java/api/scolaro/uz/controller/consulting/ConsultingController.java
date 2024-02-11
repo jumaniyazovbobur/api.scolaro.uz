@@ -1,9 +1,7 @@
 package api.scolaro.uz.controller.consulting;
 
 import api.scolaro.uz.dto.ApiResponse;
-import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.consulting.*;
-import api.scolaro.uz.dto.profile.UpdatePasswordDTO;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.service.consulting.ConsultingService;
@@ -105,13 +103,13 @@ public class ConsultingController {
     }
 
 
-  /*  @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Deleted consulting api", description = "for admin")
     public ResponseEntity<ApiResponse<String>> deleted(@PathVariable("id") String id) {
         log.info("Deleted consulting {}", id);
         return ResponseEntity.ok(consultingService.deleted(id));
-    }*/
+    }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")

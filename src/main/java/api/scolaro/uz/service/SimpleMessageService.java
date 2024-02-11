@@ -111,7 +111,7 @@ public class SimpleMessageService {
             NotificationDTO notification = new NotificationDTO();
             ProfileEntity student = app.getStudent();
             ConsultingEntity consulting = app.getConsulting();
-            notification.getData().put("universityName", app.getUniversity().getName());
+            notification.getData().put("universityName", app.getUniversity() != null ? app.getUniversity().getName() : "");
             notification.getData().put("consultingName", consulting.getName());
             notification.getData().put("studentFullName", student.getName() + " " + student.getSurname());
             notification.getData().put("studentPhotoUrl", attachService.getUrl(student.getPhotoId()));
