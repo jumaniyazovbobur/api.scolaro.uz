@@ -45,7 +45,7 @@ public class TransactionController {
     @PreAuthorize("hasRole('ROLE_STUDENT')")
     public ResponseEntity<ApiResponse<TransactionResponseDTO>> createTransactionForFillBalance(@RequestParam("amount")
                                                                                                @Valid
-                                                                                               @Min(value = 0, message = "Amount must not be less than 0")
+                                                                                               @Min(value = 1, message = "Amount must not be less than 0")
                                                                                                Long amount) {
         String currentUserId = EntityDetails.getCurrentUserId();
         log.info("Create transaction for fill balance userId={}", currentUserId);

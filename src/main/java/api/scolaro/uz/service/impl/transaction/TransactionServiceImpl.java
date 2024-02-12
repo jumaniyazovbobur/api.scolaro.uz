@@ -19,7 +19,6 @@ import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.entity.transaction.TransactionsEntity;
 import api.scolaro.uz.entity.transaction.TransformEntity;
 import api.scolaro.uz.enums.AppLanguage;
-import api.scolaro.uz.enums.LanguageEnum;
 import api.scolaro.uz.enums.jsonrpc.PaymeResponseStatus;
 import api.scolaro.uz.enums.transaction.ProfileType;
 import api.scolaro.uz.enums.transaction.TransactionState;
@@ -33,7 +32,6 @@ import api.scolaro.uz.service.ResourceMessageService;
 import api.scolaro.uz.service.consulting.ConsultingService;
 import api.scolaro.uz.service.transaction.TransactionService;
 import api.scolaro.uz.util.Base64Util;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,7 +46,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static api.scolaro.uz.dto.transaction.response.payme.PaymeResponseErrorDTO.ORDER_NOT_FOUND_FOR_CHECK_PERFORM;
+import static api.scolaro.uz.dto.transaction.response.payme.PaymeResponseErrorDTO.ErrorsOfIncorrectDataEntry;
 import static api.scolaro.uz.enums.jsonrpc.PaymeResponseStatus.*;
 import static api.scolaro.uz.enums.transaction.TransactionState.STATE_CANCELED;
 import static api.scolaro.uz.enums.transaction.TransactionState.STATE_POST_CANCELED;
@@ -82,7 +80,7 @@ public class TransactionServiceImpl implements TransactionService {
         TransactionsEntity transactions = new TransactionsEntity();
         transactions.setProfileId(currentUserId);
         transactions.setTransactionType(TransactionType.DEBIT);
-        transactions.setAmount(amount);
+        transactions.setAmount(amount * 100); // 1000 uzs -> 100 000 in tiyin
         transactions.setStatus(TransactionStatus.CREATED);
         transactions.setProfileType(ProfileType.PROFILE);
         transactions.setState(TransactionState.STATE_IN_PROGRESS);
@@ -223,6 +221,11 @@ public class TransactionServiceImpl implements TransactionService {
                             "Invalid state"
                     )
             );
+            return;
+        }
+        if (Optional.ofNullable(entity.getPaymeTransactionsId()).isPresent() && !entity.getPaymeTransactionsId().equals(paymeTransactionId)) {
+            log.warn("CreateTransaction error invalid state paymeTransactionId={}", paymeTransactionId);
+            res.setError(PaymeResponseErrorDTO.ErrorsOfIncorrectDataEntry());
             return;
         }
         // When subtracting the created time from the current time, an error will occur if the time_expired time is greater than the time_expired time
@@ -382,8 +385,8 @@ public class TransactionServiceImpl implements TransactionService {
 
                 TransactionsEntity transaction = isExistTransactionById(orderId, response);
 
-                if (transaction == null){
-                    response.setError(ORDER_NOT_FOUND_FOR_CHECK_PERFORM());
+                if (transaction == null) {
+                    response.setError(ErrorsOfIncorrectDataEntry());
                     return response;
                 }
 
@@ -396,7 +399,10 @@ public class TransactionServiceImpl implements TransactionService {
 
                 TransactionsEntity transaction = isExistTransactionById(orderId, response);
 
-                if (transaction == null) return response;
+                if (transaction == null) {
+                    response.setError(ErrorsOfIncorrectDataEntry());
+                    return response;
+                }
                 CreateTransaction(params.getTime(), orderId, params.getAmount(), params.getId(), response, transaction);
             }       // done
             case "PerformTransaction" -> {
@@ -502,7 +508,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public PageImpl<TransactionResponseAsConsultingDTO> filterAsConsulting(TransactionFilterAsConsultingDTO dto, int page, int size) {
         String consultingId = Objects.requireNonNull(EntityDetails.getCurrentUserDetail()).getProfileConsultingId();
-        FilterResultDTO<TransactionResponseAsConsultingDTO> result = customTransactionRepository.filterAsConsulting(dto, page, size,consultingId);
+        FilterResultDTO<TransactionResponseAsConsultingDTO> result = customTransactionRepository.filterAsConsulting(dto, page, size, consultingId);
         return new PageImpl<>(result.getContent(), PageRequest.of(page, size), result.getTotalElement());
     }
 

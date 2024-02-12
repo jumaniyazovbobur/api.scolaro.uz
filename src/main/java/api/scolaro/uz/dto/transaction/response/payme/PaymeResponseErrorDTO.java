@@ -1,6 +1,6 @@
 package api.scolaro.uz.dto.transaction.response.payme;
 
-import api.scolaro.uz.enums.jsonrpc.PaymeResponseStatus;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +18,7 @@ import static api.scolaro.uz.enums.jsonrpc.PaymeResponseStatus.NOT_ENOUGH_PRIVIL
 @NoArgsConstructor
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PaymeResponseErrorDTO {
     private Integer code;
     private String message;
@@ -32,7 +33,7 @@ public class PaymeResponseErrorDTO {
         return new PaymeResponseErrorDTO(NOT_ENOUGH_PRIVILEGES.getCode(), "Invalid params");
     }
 
-    public static PaymeResponseErrorDTO ORDER_NOT_FOUND_FOR_CHECK_PERFORM() {
+    public static PaymeResponseErrorDTO ErrorsOfIncorrectDataEntry() {
         return new PaymeResponseErrorDTO(-31099, "Invalid params");
     }
 }
