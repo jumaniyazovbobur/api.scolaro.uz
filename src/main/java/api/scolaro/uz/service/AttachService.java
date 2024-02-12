@@ -104,6 +104,7 @@ public class AttachService {
         SimpleMessageRequestDTO simpleMessageRequestDTO = new SimpleMessageRequestDTO();
         simpleMessageRequestDTO.setAttachId(dto.getId());
         simpleMessageRequestDTO.setApplicationId(applicationId);
+        simpleMessageRequestDTO.setExtension(dto.getExtension());
         return simpleMessageService.createForConsulting(simpleMessageRequestDTO);
     }
 
@@ -112,6 +113,7 @@ public class AttachService {
         SimpleMessageRequestDTO simpleMessageRequestDTO = new SimpleMessageRequestDTO();
         simpleMessageRequestDTO.setAttachId(dto.getId());
         simpleMessageRequestDTO.setApplicationId(applicationId);
+        simpleMessageRequestDTO.setExtension(dto.getExtension());
         return simpleMessageService.createForStudent(simpleMessageRequestDTO);
     }
 
