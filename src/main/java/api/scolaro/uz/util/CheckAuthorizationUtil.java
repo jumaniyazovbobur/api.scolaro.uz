@@ -19,7 +19,7 @@ public class CheckAuthorizationUtil {
         return Optional.ofNullable(authorization).isPresent()
                 && !authorization.isBlank()
                 && authorization.startsWith("Basic")
-                && !authorization.substring("Basic".length()).equals(paymeAuthToken);
+                && !authorization.substring("Basic ".length()).equals(paymeAuthToken);
     }
 
     public static PaymeResponseDTO withoutAuthorizationHeader(Long id, String method, String jsonrpc) {
