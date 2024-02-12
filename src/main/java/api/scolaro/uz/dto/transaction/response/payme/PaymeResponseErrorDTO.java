@@ -21,8 +21,18 @@ import static api.scolaro.uz.enums.jsonrpc.PaymeResponseStatus.NOT_ENOUGH_PRIVIL
 public class PaymeResponseErrorDTO {
     private Integer code;
     private String message;
+    private String data;
+
+    public PaymeResponseErrorDTO(Integer code, String message) {
+        this.code = code;
+        this.message = message;
+    }
 
     public static PaymeResponseErrorDTO NOT_ENOUGH_PRIVILEGES() {
-        return new PaymeResponseErrorDTO(NOT_ENOUGH_PRIVILEGES.getCode(),"Invalid params");
+        return new PaymeResponseErrorDTO(NOT_ENOUGH_PRIVILEGES.getCode(), "Invalid params");
+    }
+
+    public static PaymeResponseErrorDTO ORDER_NOT_FOUND_FOR_CHECK_PERFORM() {
+        return new PaymeResponseErrorDTO(-31099, "Invalid params");
     }
 }

@@ -48,6 +48,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static api.scolaro.uz.dto.transaction.response.payme.PaymeResponseErrorDTO.ORDER_NOT_FOUND_FOR_CHECK_PERFORM;
 import static api.scolaro.uz.enums.jsonrpc.PaymeResponseStatus.*;
 import static api.scolaro.uz.enums.transaction.TransactionState.STATE_CANCELED;
 import static api.scolaro.uz.enums.transaction.TransactionState.STATE_POST_CANCELED;
@@ -381,7 +382,10 @@ public class TransactionServiceImpl implements TransactionService {
 
                 TransactionsEntity transaction = isExistTransactionById(orderId, response);
 
-                if (transaction == null) return response;
+                if (transaction == null){
+                    response.setError(ORDER_NOT_FOUND_FOR_CHECK_PERFORM());
+                    return response;
+                }
 
                 CheckPerformTransaction(response, params.getAmount(), transaction.getAmount());
             } // done
