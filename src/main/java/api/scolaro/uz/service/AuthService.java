@@ -278,6 +278,26 @@ public class AuthService {
         return new ApiResponse<>(200, false, getClientAuthorizationResponse(profile, language));
     }
 
+    public ApiResponse<String> resendSmsCode(String phone, AppLanguage appLanguage) {
+        boolean validate = PhoneUtil.validatePhone(phone);
+        if (!validate) {
+            log.info("Phone not valid! phone={}", phone);
+            return new ApiResponse<>(resourceMessageService.getMessage("phone.validation.not-valid", appLanguage), 400, true);
+        }
+        Optional<ProfileEntity> optional = profileRepository.findByPhoneAndVisibleIsTrue(phone);
+        if (optional.isEmpty()) {
+            log.warn("Client not found! phone = {}", phone);
+            return new ApiResponse<>(resourceMessageService.getMessage("client.not.found", appLanguage), 400, true);
+        }
+        ProfileEntity profile = optional.get();
+        if (!profile.getStatus().equals(GeneralStatus.NOT_ACTIVE)) {
+            log.warn("Profile Not In Correct Status ! Phone = {}", phone);
+            return new ApiResponse<>(resourceMessageService.getMessage("client.status.blocked", appLanguage), 400, true);
+        }
+        smsHistoryService.sendRegistrationSms(phone);
+        return new ApiResponse<>(200, false, "Success");
+    }
+
     /*
      *CONSULTING RESET PASSWORD
      */

@@ -41,7 +41,7 @@ public class AuthController {
     public ResponseEntity<ApiResponse<AuthResponseDTO>> registrationVerification(@RequestBody @Valid SmsDTO dto,
                                                                                  @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Registration verification {}", dto);
-        return ResponseEntity.ok(authService.profileRegistrationVerification(dto,language));
+        return ResponseEntity.ok(authService.profileRegistrationVerification(dto, language));
     }
 
     @Operation(summary = "Profile login", description = "Method profile for  Login")
@@ -49,7 +49,7 @@ public class AuthController {
     public ResponseEntity<ApiResponse<AuthResponseDTO>> profileLogin(@RequestBody @Valid AuthRequestProfileDTO dto,
                                                                      @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Client login {}", dto);
-        return ResponseEntity.ok(authService.profileLogin(dto,language));
+        return ResponseEntity.ok(authService.profileLogin(dto, language));
     }
 
     @PostMapping("/profile/reset-password")
@@ -64,7 +64,7 @@ public class AuthController {
     public ResponseEntity<ApiResponse<AuthResponseDTO>> resetPasswordConfirm(@Valid @RequestBody ResetPasswordConfirmDTO dto,
                                                                              @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         log.info("Client Reset password confirm {}", dto);
-        return ResponseEntity.ok(authService.resetPasswordConfirm(dto,language));
+        return ResponseEntity.ok(authService.resetPasswordConfirm(dto, language));
     }
 
     @GetMapping("")
@@ -72,6 +72,14 @@ public class AuthController {
     public ResponseEntity<ApiResponse<Boolean>> getProfileByNickName(@RequestBody AuthNickNameDTO dto) {
         log.info("Get user by nickName {}", dto);
         return ResponseEntity.ok(profileService.getProfileByNickName(dto));
+    }
+
+    @PutMapping("/profile/resend/sms")
+    @Operation(summary = "Profile resend sms code")
+    public ResponseEntity<ApiResponse<String>> resendSms(@RequestParam("phone") String phone,
+                                                         @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
+        log.info("Profile resend sms code {}", phone);
+        return ResponseEntity.ok(authService.resendSmsCode(phone, language));
     }
 
     /**
@@ -98,5 +106,6 @@ public class AuthController {
         log.info("Consulting Reset password confirm {}", dto);
         return ResponseEntity.ok(authService.resetPasswordConsultingConfirm(dto));
     }
+
 
 }
