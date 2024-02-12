@@ -19,4 +19,5 @@ public class CurrentProfileDTO {
     private List<RoleEnum> roleList;
     private AttachDTO photo;
     private AppLanguage lang;
+    private Long balance;
 }

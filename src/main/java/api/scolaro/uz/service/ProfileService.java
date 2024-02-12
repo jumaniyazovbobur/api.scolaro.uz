@@ -96,6 +96,7 @@ public class ProfileService {
         responseDTO.setSurname(profile.getSurname());
         responseDTO.setPhone(profile.getPhone());
         responseDTO.setLang(profile.getLang());
+        responseDTO.setBalance(profile.getBalance());
         responseDTO.setRoleList(personRoleService.getProfileRoleList(profile.getId()));
         if (profile.getPhotoId() != null) responseDTO.setPhoto(attachService.getResponseAttach(profile.getPhotoId()));
         return ApiResponse.ok(responseDTO);
@@ -266,7 +267,7 @@ public class ProfileService {
     }
 
     public ApiResponse<String> changeRole(String id, ChangeProfileRoleReqDTO dto) {
-        personRoleService.update(id,dto.getRoles());
+        personRoleService.update(id, dto.getRoles());
 //        List<RoleEnum> oldRoleList = personRoleService.getProfileRoleList(id);
 //        List<RoleEnum> list = dto.getRoles()
 //                .stream()
