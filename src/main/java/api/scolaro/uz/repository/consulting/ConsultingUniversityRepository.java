@@ -33,15 +33,15 @@ public interface ConsultingUniversityRepository extends CrudRepository<Consultin
     @Transactional
     @Modifying
     @Query(value = "select c.id,case when :lang = 'uz' then name_uz when :lang='en' then name_en else name_ru end as name,\n" +
-            "       (select json_agg(temp_t1)\n" +
-            "        from (select u.id,u.name,cu.id as cuId from university u\n" +
-            "               left join consulting_university cu on u.id = cu.university_id\n" +
-            "              where (cu.visible = true or cu is null)\n" +
-            "                and u.visible =  true\n" +
-            "                and (consulting_id = :consultingId or consulting_id is null )\n" +
-            "                and u.country_id = c.id)\n" +
-            "                 as temp_t1) as universityList\n" +
-            "from country  as c\n" +
+            "       (select json_agg(temp_t1) " +
+            "        from (select u.id,u.name, " +
+            "                       (select id from consulting_university " +
+            "                                    where consulting_id =:consultingId and university_id = u.id) as cuId" +
+            "               from university u " +
+            "              where u.visible =  true " +
+            "                and u.country_id = c.id) " +
+            "                 as temp_t1) as universityList " +
+            "from country  as c " +
             "where  c.visible = true;", nativeQuery = true)
     List<ConsultingUniversityMapper> getUniversityListWithConsulting(@Param("consultingId") String consultingId, @Param("lang") String lang);
 }

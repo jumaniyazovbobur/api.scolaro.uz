@@ -41,6 +41,6 @@ public class ConsultingUniversityController {
     public ResponseEntity<ApiResponse<List<CountryUniversityResponseDTO>>> getConsultingUniversityList(@RequestHeader(value = "Accept-Language",
             defaultValue = "uz") AppLanguage language) {
         log.info("Get consulting university list");
-        return ResponseEntity.ok(ApiResponse.ok(consultingUniversityService.getUniversityListWithConsulting(EntityDetails.getCurrentUserId(), language)));
+        return ResponseEntity.ok(ApiResponse.ok(consultingUniversityService.getUniversityListWithConsulting(language)));
     }
 }

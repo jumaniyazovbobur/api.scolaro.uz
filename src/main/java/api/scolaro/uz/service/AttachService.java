@@ -104,6 +104,7 @@ public class AttachService {
         SimpleMessageRequestDTO simpleMessageRequestDTO = new SimpleMessageRequestDTO();
         simpleMessageRequestDTO.setAttachId(dto.getId());
         simpleMessageRequestDTO.setApplicationId(applicationId);
+        simpleMessageRequestDTO.setExtension(dto.getExtension());
         return simpleMessageService.createForConsulting(simpleMessageRequestDTO);
     }
 
@@ -112,6 +113,7 @@ public class AttachService {
         SimpleMessageRequestDTO simpleMessageRequestDTO = new SimpleMessageRequestDTO();
         simpleMessageRequestDTO.setAttachId(dto.getId());
         simpleMessageRequestDTO.setApplicationId(applicationId);
+        simpleMessageRequestDTO.setExtension(dto.getExtension());
         return simpleMessageService.createForStudent(simpleMessageRequestDTO);
     }
 
@@ -120,7 +122,8 @@ public class AttachService {
         try {
             BufferedImage originalImage = ImageIO.read(new File(getPath(entity)));
             ByteArrayOutputStream boas = new ByteArrayOutputStream();
-            ImageIO.write(originalImage, entity.getExtension(), boas);
+            ImageIO.write(originalImage, getTempExtension(entity.getExtension()), boas);
+//            ImageIO.write(originalImage, entity.getExtension(), boas);
             boas.flush();
             byte[] imageInByte = boas.toByteArray();
             boas.close();
@@ -129,6 +132,11 @@ public class AttachService {
             log.warn("Attach error : {}", e.getMessage());
             return new byte[0];
         }
+    }
+
+    public String getTempExtension(String extension) {
+        String extSml = extension.toLowerCase();
+        return extSml.equals("jpg") || extSml.equals("png") ? "png" : extension;
     }
 
     public ResponseEntity<Resource> download(String fileName) {

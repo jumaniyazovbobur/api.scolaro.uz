@@ -105,13 +105,13 @@ public class SimpleMessageService {
                                           String fireBaseId) {
         if (isOnline != null && isOnline) {
             template.convertAndSend("/topic/messages/%s".formatted(entity.getAppApplicationId()),
-                    Collections.singleton(SimpleMessageMapperDTO.toDTO(entity, attachService.getResponseAttach(dto.getAttachId())))
+                    Collections.singleton(SimpleMessageMapperDTO.toDTO(entity, attachService.getResponseAttachWithExtension(dto.getAttachId(), dto.getExtension())))
             );
         } else if (fireBaseId != null) {
             NotificationDTO notification = new NotificationDTO();
             ProfileEntity student = app.getStudent();
             ConsultingEntity consulting = app.getConsulting();
-            notification.getData().put("universityName", app.getUniversity().getName());
+            notification.getData().put("universityName", app.getUniversity() != null ? app.getUniversity().getName() : "");
             notification.getData().put("consultingName", consulting.getName());
             notification.getData().put("studentFullName", student.getName() + " " + student.getSurname());
             notification.getData().put("studentPhotoUrl", attachService.getUrl(student.getPhotoId()));
