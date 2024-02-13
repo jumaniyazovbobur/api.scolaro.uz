@@ -1,6 +1,7 @@
 package api.scolaro.uz.repository.simpleMessage;
 
 import api.scolaro.uz.dto.FilterResultDTO;
+import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.enums.MessageType;
 import api.scolaro.uz.mapper.SimpleMessageMapperDTO;
 import api.scolaro.uz.service.AttachService;
@@ -21,6 +22,7 @@ public class SimpleMessageFilterRepository {
 
     private final AttachService attachService;
     private final EntityManager entityManager;
+
     public FilterResultDTO<SimpleMessageMapperDTO> filterPagination(String applicationId, int page, int size) {
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, Object> params = new HashMap<>();
@@ -38,7 +40,7 @@ public class SimpleMessageFilterRepository {
                 "s.is_student_read as sStudentRead, " +
                 "s.is_consulting_read as sConsultingRead, " +
                 "s.message as sMessage, " +
-                "s.message_type as sMessageType " +
+                "s.message_type as sMessageType,a.origen_name as aOrigenName " +
                 "from simple_message as s " +
                 "left join attach as a on s.attach_id=a.id " +
                 "where s.visible =true ");
@@ -70,7 +72,11 @@ public class SimpleMessageFilterRepository {
             dto.setId(MapperUtil.getStringValue(object[0]));
             dto.setCreatedDate(MapperUtil.getLocalDateTimeValue(object[1]));
             dto.setApplicationId(MapperUtil.getStringValue(object[2]));
-            dto.setAttachDTO(attachService.getResponseAttachWithExtension(MapperUtil.getStringValue(object[3]),MapperUtil.getStringValue(object[4])));
+            AttachDTO attach = attachService.getResponseAttachWithExtension(MapperUtil.getStringValue(object[3]), MapperUtil.getStringValue(object[4]));
+            if (attach != null) {
+                attach.setOriginName(MapperUtil.getStringValue(object[11]));
+            }
+            dto.setAttachDTO(attach);
             dto.setConsultingId(MapperUtil.getStringValue(object[5]));
             dto.setStudentId(MapperUtil.getStringValue(object[6]));
             dto.setIsStudentRead(MapperUtil.getVisibleValue(object[7]));

@@ -77,6 +77,25 @@ public class SimpleMessageService {
         return new ApiResponse<>("Success", 200, false, SimpleMessageMapperDTO.toDTO(entity, attachService.getResponseAttach(entity.getAttachId())));
     }
 
+    public ApiResponse<SimpleMessageMapperDTO> createForConsultingWithAttach(SimpleMessageRequestDTO dto, String fileOriginName, String fileExtension) {
+        ApiResponse<SimpleMessageMapperDTO> forConsulting = this.createForConsulting(dto);
+        if (!forConsulting.getIsError()) {
+            SimpleMessageMapperDTO simpleMessageMapperDTO = forConsulting.getData();
+            simpleMessageMapperDTO.getAttachDTO().setOriginName(fileOriginName);
+            simpleMessageMapperDTO.getAttachDTO().setExtension(fileExtension);
+        }
+        return forConsulting;
+    }
+    public ApiResponse<SimpleMessageMapperDTO> createForStudentWithAttach(SimpleMessageRequestDTO dto, String fileOriginName, String fileExtension) {
+        ApiResponse<SimpleMessageMapperDTO> forConsulting = this.createForStudent(dto);
+        if (!forConsulting.getIsError()) {
+            SimpleMessageMapperDTO simpleMessageMapperDTO = forConsulting.getData();
+            simpleMessageMapperDTO.getAttachDTO().setOriginName(fileOriginName);
+            simpleMessageMapperDTO.getAttachDTO().setExtension(fileExtension);
+        }
+        return forConsulting;
+    }
+
     public ApiResponse<SimpleMessageMapperDTO> createForConsulting(SimpleMessageRequestDTO dto) {
         AppApplicationEntity app = appApplicationService.get(dto.getApplicationId());
         SimpleMessageEntity entity = new SimpleMessageEntity();
