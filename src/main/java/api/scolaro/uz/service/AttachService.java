@@ -105,7 +105,7 @@ public class AttachService {
         simpleMessageRequestDTO.setAttachId(dto.getId());
         simpleMessageRequestDTO.setApplicationId(applicationId);
         simpleMessageRequestDTO.setExtension(dto.getExtension());
-        return simpleMessageService.createForConsulting(simpleMessageRequestDTO);
+        return simpleMessageService.createForConsultingWithAttach(simpleMessageRequestDTO, dto.getOriginName(), dto.getExtension());
     }
 
     public ApiResponse<SimpleMessageMapperDTO> createSimpleMessageAttachAsStudent(MultipartFile file, String applicationId) {
@@ -114,7 +114,7 @@ public class AttachService {
         simpleMessageRequestDTO.setAttachId(dto.getId());
         simpleMessageRequestDTO.setApplicationId(applicationId);
         simpleMessageRequestDTO.setExtension(dto.getExtension());
-        return simpleMessageService.createForStudent(simpleMessageRequestDTO);
+        return simpleMessageService.createForStudentWithAttach(simpleMessageRequestDTO, dto.getOriginName(), dto.getExtension());
     }
 
     public byte[] open_general(String fileName) {
