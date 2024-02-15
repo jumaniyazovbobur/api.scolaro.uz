@@ -1,7 +1,6 @@
 package api.scolaro.uz.repository.appApplication;
 
 import api.scolaro.uz.entity.application.AppApplicationEntity;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -85,4 +84,7 @@ public interface AppApplicationRepository extends JpaRepository<AppApplicationEn
     @Transactional
     @Modifying
     int updateApplicationUniversityId(@Param("appId") String appId, @Param("universityId") Long universityId);
+
+    @Query(value = "select get_admin_dashboard_data()", nativeQuery = true)
+    String getAdminDashboardData();
 }

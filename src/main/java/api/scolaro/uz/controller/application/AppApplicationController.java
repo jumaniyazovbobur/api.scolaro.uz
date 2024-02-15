@@ -160,6 +160,14 @@ public class AppApplicationController {
         return ResponseEntity.ok(appApplicationService.findByApplicationsByStudentId(studentId));
     }
 
+    @Operation(summary = "Get admin dashboard data")
+    @GetMapping("/adm/dashboard")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<ApiResponse<String>> adminDashboardData() {
+        log.info("Get admin dashboard data");
+        return ResponseEntity.ok(appApplicationService.getAdminDashboardData());
+    }
+
     /**
      * ANY
      */
