@@ -43,7 +43,7 @@ public class SimpleMessageController {
         return ResponseEntity.ok(simpleMessageService.createForConsulting(dto));
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_STUDENT','ROLE_CONSULTING')")
+    @PreAuthorize("hasAnyRole('ROLE_STUDENT','ROLE_CONSULTING', 'ROLE_ADMIN')")
     @Operation(summary = "Get massage list by application id", description = "Method user for get messageList by application Id")
     @GetMapping("/application/{applicationId}")
     public ResponseEntity<ApiResponse<Page<SimpleMessageMapperDTO>>> getListByApplicationId(@RequestParam(value = "page", defaultValue = "1") Integer page,
