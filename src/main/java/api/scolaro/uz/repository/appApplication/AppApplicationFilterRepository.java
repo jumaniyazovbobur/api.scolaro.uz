@@ -2,6 +2,7 @@ package api.scolaro.uz.repository.appApplication;
 
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelDTO;
+import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelResponseDTO;
 import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.appApplication.AppApplicationFilterConsultingDTO;
 import api.scolaro.uz.dto.appApplication.AppApplicationFilterDTO;
@@ -63,11 +64,12 @@ public class AppApplicationFilterRepository {
                 "a.status as appStatus, " +
                 "c.id as conId, c.name as conName, c.photo_id as conPhotoId, " +
                 "un.name as uniName, un.id as uniId, un.photo_id as uniPhotoId, " +
-                "p.id as sId, p.name as sName, p.surname as sSurname,p.photo_id as sPhotoId " +
+                "p.id as sId, p.name as sName, p.surname as sSurname,p.photo_id as sPhotoId,a.application_number as aNumber,csl.order_number " +
                 "from app_application as a " +
                 "inner join profile as p on a.student_id=p.id " +
                 "inner join consulting as c on a.consulting_id=c.id " +
                 "inner join university as un on a.university_id=un.id " +
+                "left join consulting_step_level as csl on a.consulting_step_level_id = csl.id " +
                 "where a.visible = true ");
         selectBuilder.append(stringBuilder);
 
@@ -98,7 +100,6 @@ public class AppApplicationFilterRepository {
             AppApplicationFilterMapperDTO dto = new AppApplicationFilterMapperDTO();
             dto.setId(MapperUtil.getStringValue(object[0]));
             dto.setCreatedDate(MapperUtil.getLocalDateTimeValue(object[1]));
-//            dto.setAppVisible(MapperUtil.getVisibleValue(object[2]));
             dto.setStatus(AppStatus.valueOf(MapperUtil.getStringValue(object[3])));
 
             ConsultingDTO consulting = new ConsultingDTO();
@@ -119,6 +120,11 @@ public class AppApplicationFilterRepository {
             student.setSurname(MapperUtil.getStringValue(object[12]));
             student.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[13])));
             dto.setStudent(student);
+
+            dto.setApplicationNumber(MapperUtil.getLongValue(object[14]));
+            ConsultingStepLevelDTO stepLevelDTO = new ConsultingStepLevelDTO();
+            stepLevelDTO.setOrderNumber(MapperUtil.getIntegerValue(object[15]));
+            dto.setConsultingStepLevel(stepLevelDTO);
 
             mapperList.add(dto);
         }
@@ -325,7 +331,7 @@ public class AppApplicationFilterRepository {
             applicationLevelStatus.setDeadline(MapperUtil.getLocalDateValue(object[8]));
             applicationLevelStatus.setDescription(MapperUtil.getStringValue(object[9]));
             String applicationStepLevelStatus = MapperUtil.getStringValue(object[10]);
-            if(applicationStepLevelStatus != null){
+            if (applicationStepLevelStatus != null) {
                 applicationLevelStatus.setApplicationStepLevelStatus(ApplicationStepLevelStatus.valueOf(applicationStepLevelStatus));
             }
             dto.setAppApplicationLevelStatus(applicationLevelStatus);

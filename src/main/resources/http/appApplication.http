@@ -85,7 +85,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDMyMjYyMjIsImlkIjoiNDAyO
 
 ###------------------------------------------------- ADMIN
 ### Filter appApplication for admin
-POST http://api.app.mazgi.uz/api/v1/app-application/adm/filter?page=0&size=20
+POST http://api.app.mazgi.uz/api/v1/app-application/adm/filter?page=1&size=20
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc1Nzc1NjcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDgxODIzNjcsImlzcyI6IkphdmEgYmFja2VuZCJ9.vf-NaQZyllrRuILHs2cFdBiOxEEVUQKuLSQHhHiFditXewqTxNXhp_dkJfWbLyJ6r8Mdtjcw4SYeBKH9N6zkmg
 
