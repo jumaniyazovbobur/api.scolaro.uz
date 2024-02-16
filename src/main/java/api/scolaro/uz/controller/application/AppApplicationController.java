@@ -149,7 +149,7 @@ public class AppApplicationController {
                                     @RequestParam(value = "size", defaultValue = "5") Integer size,
                                     @RequestBody AppApplicationFilterDTO dto) {
         log.info("Admin filtered appApplicationList  page={},size={}", page, size);
-        return ResponseEntity.ok(appApplicationService.filterForAdmin(dto, page, size));
+        return ResponseEntity.ok(appApplicationService.filterForAdmin(dto, PaginationUtil.page(page), size));
     }
 
     @Operation(summary = "Find AppApplications by student id", description = "Method for admin")
