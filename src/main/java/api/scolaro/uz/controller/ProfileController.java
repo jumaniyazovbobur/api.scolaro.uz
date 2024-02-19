@@ -52,7 +52,7 @@ public class ProfileController {
     /**
      * FOR ADMIN
      */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ADMIN')")
     @GetMapping("/{id}")
     @Operation(summary = "Get by id api", description = "")
     public ResponseEntity<ApiResponse<ProfileResponseDTO>> getId(@PathVariable("id") String id) {
@@ -108,7 +108,7 @@ public class ProfileController {
     /**
      * FOR USER
      */
-    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ADMIN')")
     @PutMapping("/update-phone")
     @Operation(summary = "Update  profile phone  api", description = "for user")
     public ResponseEntity<ApiResponse<?>> updatePhone(@RequestParam("phone") String phone) {
@@ -126,7 +126,7 @@ public class ProfileController {
     /**
      * FOR USER
      */
-    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ADMIN')")
     @PutMapping("/phone-verification")
     @Operation(summary = "Update  profile phone verification api", description = "for user")
     public ResponseEntity<ApiResponse<?>> updatePhoneVerification(@RequestBody SmsDTO dto) {
@@ -138,7 +138,7 @@ public class ProfileController {
     /**
      * FOR USER
      */
-    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ADMIN')")
     @PutMapping("/update-password")
     @Operation(summary = "Update profile password api", description = "for user")
     public ResponseEntity<?> updatePassword(@Valid @RequestBody UpdatePasswordDTO dto) {
