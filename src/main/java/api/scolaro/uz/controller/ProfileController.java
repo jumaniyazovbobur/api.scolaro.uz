@@ -108,7 +108,7 @@ public class ProfileController {
     /**
      * FOR USER
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
     @PutMapping("/update-phone")
     @Operation(summary = "Update  profile phone  api", description = "for user")
     public ResponseEntity<ApiResponse<?>> updatePhone(@RequestParam("phone") String phone) {
