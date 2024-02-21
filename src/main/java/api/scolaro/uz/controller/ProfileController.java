@@ -31,7 +31,7 @@ public class ProfileController {
     /**
      * FOR OWNER USER
      */
-    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    @PreAuthorize("hasAnyRole('ROLE_STUDENT','ROLE_ADMIN')")
     @PutMapping("/update")
     @Operation(summary = "Update api", description = "for student")
     public ResponseEntity<ApiResponse<String>> update(@Valid @RequestBody ProfileUpdateDTO dto) {
