@@ -40,7 +40,7 @@ public class ProfileController {
         return ResponseEntity.ok(profileService.update(dto, currentUserId));
     }
 
-    @PreAuthorize("hasRole('ROLE_STUDENT','ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_STUDENT','ROLE_ADMIN')")
     @PutMapping("/update-lang")
     @Operation(summary = "Update lang", description = "for student")
     public ResponseEntity<ApiResponse<String>> updateLang(@RequestParam AppLanguage lang) {
