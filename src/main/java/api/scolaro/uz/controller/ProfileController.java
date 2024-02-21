@@ -40,7 +40,7 @@ public class ProfileController {
         return ResponseEntity.ok(profileService.update(dto, currentUserId));
     }
 
-    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    @PreAuthorize("hasRole('ROLE_STUDENT','ROLE_ADMIN')")
     @PutMapping("/update-lang")
     @Operation(summary = "Update lang", description = "for student")
     public ResponseEntity<ApiResponse<String>> updateLang(@RequestParam AppLanguage lang) {
@@ -126,7 +126,7 @@ public class ProfileController {
     /**
      * FOR USER
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
     @PutMapping("/phone-verification")
     @Operation(summary = "Update  profile phone verification api", description = "for user")
     public ResponseEntity<ApiResponse<?>> updatePhoneVerification(@RequestBody SmsDTO dto) {
