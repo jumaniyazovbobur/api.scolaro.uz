@@ -138,7 +138,7 @@ public class ProfileController {
     /**
      * FOR USER
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_STUDENT','ROLE_ADMIN')")
     @PutMapping("/update-password")
     @Operation(summary = "Update profile password api", description = "for user")
     public ResponseEntity<?> updatePassword(@Valid @RequestBody UpdatePasswordDTO dto) {
