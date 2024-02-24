@@ -68,11 +68,6 @@ public class AuthService {
                 log.warn("PhoneNumber already exist. Visible true {}", dto.getPhoneNumber());
                 return new ApiResponse<>(resourceMessageService.getMessage("phone.already.exists"), 400, true);
             }
-//            if (profileEntity.get().getStatus().equals(GeneralStatus.NOT_ACTIVE)) {
-//                // send sms for complete registration
-//                smsHistoryService.sendRegistrationSms(dto.getPhoneNumber());
-//                return new ApiResponse<>(200, false);
-//            }
         }
         //user create
         ProfileEntity userEntity = new ProfileEntity();

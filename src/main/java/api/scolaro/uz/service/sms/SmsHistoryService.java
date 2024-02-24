@@ -32,7 +32,6 @@ public class SmsHistoryService {
         sendMessage(phoneNumber, text, SmsType.REGISTRATION, smsCode);
     }
 
-
     public void sendMessage(String phone, String text, SmsType type, String smsCode) {
         Long countSms = smsHistoryRepository.countByPhoneAndCreatedDateBetween(phone,
                 LocalDateTime.now().minusMinutes(2),
@@ -46,15 +45,6 @@ public class SmsHistoryService {
             smsHistory.setStatus(SmsStatus.SEND);
             smsHistory.setPhone(phone);
             smsHistory.setSmsText(text);
-            /*SmsHistoryEntity build = SmsHistoryEntity
-                    .builder()
-                    .smsCode(smsCode)
-                    .type(type)
-                    .status(SmsStatus.SEND)
-                    .phone(newPhone)
-                    .smsText(text)
-                    .smsCount(0)
-                    .build();*/
             SmsHistoryEntity sms = smsHistoryRepository.save(smsHistory);
             smsSenderService.sendSmsHTTP(sms);
             return;
