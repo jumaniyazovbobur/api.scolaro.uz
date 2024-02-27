@@ -8,7 +8,6 @@ import api.scolaro.uz.dto.auth.AuthRequestProfileDTO;
 import api.scolaro.uz.dto.auth.AuthResetProfileDTO;
 import api.scolaro.uz.dto.auth.AuthResponseDTO;
 import api.scolaro.uz.enums.AppLanguage;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,6 @@ class AuthServiceTest extends AbstractTestContainers {
     private AuthRequestDTO authRequestDTO;
     private AuthRequestProfileDTO authRequest;
     private AppLanguage appLanguage;
-    private String accessToken;
 
     @BeforeEach
     void setUp() {
