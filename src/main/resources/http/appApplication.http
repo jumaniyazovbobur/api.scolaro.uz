@@ -74,6 +74,10 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDI3MTg1NjEsImlkIjoiNDAyO
 
 }
 
+### Gt consulting dashboard data
+GET http://localhost:8081/api/v1/app-application/consulting/dashboard
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDU0ODY0MzksImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDYwOTEyMzksImlzcyI6IkphdmEgYmFja2VuZCJ9.7_U5FPoLPgTMugHy1zNQyfhN7Hh0WVTmG8racrr9MQhxSNyM4BA73wIWo6JWi9SZt3uu3xHRp8Bdk_aVozaJkw
+
 
 ###------------------------------------------------- Genral
 ### Get AppAplication by id
@@ -99,3 +103,8 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDM0MTM5OTYsImlkIjoiNDAyO
 ###
 GET http://localhost:8081/api/v1/app-application/adm/student/8080b7ef8ba46236018bae5468630028
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDU0ODY0MzksImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDYwOTEyMzksImlzcyI6IkphdmEgYmFja2VuZCJ9.7_U5FPoLPgTMugHy1zNQyfhN7Hh0WVTmG8racrr9MQhxSNyM4BA73wIWo6JWi9SZt3uu3xHRp8Bdk_aVozaJkw
+
+### Gt admin dashboard data
+GET http://localhost:8081/api/v1/app-application/adm/dashboard
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDU0ODY0MzksImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3MDYwOTEyMzksImlzcyI6IkphdmEgYmFja2VuZCJ9.7_U5FPoLPgTMugHy1zNQyfhN7Hh0WVTmG8racrr9MQhxSNyM4BA73wIWo6JWi9SZt3uu3xHRp8Bdk_aVozaJkw
+

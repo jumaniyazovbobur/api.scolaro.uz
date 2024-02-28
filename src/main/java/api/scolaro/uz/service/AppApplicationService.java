@@ -326,4 +326,8 @@ public class AppApplicationService {
     public ApiResponse<String> getAdminDashboardData() {
         return ApiResponse.ok(appApplicationRepository.getAdminDashboardData());
     }
+
+    public ApiResponse<String> getConsultingDashboardData() {
+        return ApiResponse.ok(appApplicationRepository.getConsultingDashboardData(EntityDetails.getCurrentUserDetail().getProfileConsultingId()));
+    }
 }

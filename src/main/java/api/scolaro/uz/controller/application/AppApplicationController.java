@@ -138,6 +138,13 @@ public class AppApplicationController {
         return ResponseEntity.ok(appApplicationService.updateUniversity(applicationId, newUniversityId));
     }
 
+    @Operation(summary = "Get consulting dashboard data")
+    @GetMapping("/consulting/dashboard")
+    @PreAuthorize("hasRole('ROLE_CONSULTING')")
+    public ResponseEntity<ApiResponse<String>> consultingDashboardData() {
+        log.info("Get consulting dashboard data");
+        return ResponseEntity.ok(appApplicationService.getConsultingDashboardData());
+    }
 
     /**
      * ADMIN

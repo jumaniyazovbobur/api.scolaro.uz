@@ -87,4 +87,7 @@ public interface AppApplicationRepository extends JpaRepository<AppApplicationEn
 
     @Query(value = "select get_admin_dashboard_data()", nativeQuery = true)
     String getAdminDashboardData();
+
+    @Query(value = "select get_consulting_dashboard_data(?1)", nativeQuery = true)
+    String getConsultingDashboardData(String consultingId);
 }
