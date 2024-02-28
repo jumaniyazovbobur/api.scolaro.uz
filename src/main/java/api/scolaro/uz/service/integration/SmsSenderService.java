@@ -1,7 +1,6 @@
 package api.scolaro.uz.service.integration;
 
 
-
 import api.scolaro.uz.entity.sms.SmsHistoryEntity;
 
 public interface SmsSenderService {

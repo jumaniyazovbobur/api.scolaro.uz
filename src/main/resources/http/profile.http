@@ -49,8 +49,8 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDAwNTQyODIsImlkIjoiOTA5M
 
 
 ### Update profile phone
-PUT http://localhost:8081/api/v1/profile/update-phone?phone=998944497397
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MjQ0NTAsImlkIjoiNDAyODgwZTg4YWQ1ZGMyZTAxOGFkNWRlNDQyNTAwMDAiLCJwaG9uZSI6Ijk5ODk0NDQ5NzM5NyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNjk2NDI5MjUwLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.w4rcDDov1b53HB2bQQi-QaLWhvljm0fU--z_0TJ0B36X8lb6qodAZHnXtEofcPmNNu9ij7Ffrjm761g3kqLHVw
+PUT https://api.scolaroconsult.uz/api/v1/profile/update-phone?phone=998972322903
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDg0NDk3NTUsImlkIjoiMzI1YTRmZmQ4ZGMwM2E3YjAxOGRjNjYyYzYwMTAwMDIiLCJwaG9uZSI6Ijk5ODMzNjU0MzExMiIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNzA5MDU0NTU1LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.N3FZTEim9gvHr5vDyXLsjsL-2clFwAbYMwMHEsskM8PU2-DQaEv3AW0ttN9xuxEwklSn3_IYhiruk80uOsxE8g
 
 
 
@@ -63,7 +63,6 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MDUyNTUsImlkIjoiNDAyO
 {
   "phone": "998908070176",
   "code": "41111"
-
 }
 
 
@@ -76,7 +75,6 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTU4MjQ0NTAsImlkIjoiNDAyO
   "oldPassword": "123456",
   "newPassword": "111111",
   "confirmPassword": "111111"
-
 }
 
 
@@ -111,4 +109,15 @@ Content-Type: application/json
   "roles": [
     "ROLE_ADMIN"
   ]
+}
+
+
+###
+PUT https://api.scolaroconsult.uz/api/v1/profile/update
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDg0NDkxMzYsImlkIjoiMzI1YTRmZmQ4ZDdkNjhkNzAxOGQ3ZGE0OTMwYjAwMDAiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxMyIsInJvbGVzIjoiUk9MRV9TVFVERU5UIiwiZXhwIjoxNzA5MDUzOTM2LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.Wvtbu80gNN-pKFEqLSqCiy3O6pve0s9AbFco0TAveoKREpFXQjdaKy_xDkbmBTGDTg7VJVDG-64EW_TRfDnNSQ
+Content-Type: application/json
+
+{
+  "name": "Bobur11",
+  "surname": "Jumaniyazov11"
 }

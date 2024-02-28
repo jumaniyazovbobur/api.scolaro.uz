@@ -31,7 +31,7 @@ public class ProfileController {
     /**
      * FOR OWNER USER
      */
-    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    @PreAuthorize("hasAnyRole('ROLE_STUDENT','ROLE_ADMIN')")
     @PutMapping("/update")
     @Operation(summary = "Update api", description = "for student")
     public ResponseEntity<ApiResponse<String>> update(@Valid @RequestBody ProfileUpdateDTO dto) {
@@ -40,7 +40,7 @@ public class ProfileController {
         return ResponseEntity.ok(profileService.update(dto, currentUserId));
     }
 
-    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    @PreAuthorize("hasAnyRole('ROLE_STUDENT','ROLE_ADMIN')")
     @PutMapping("/update-lang")
     @Operation(summary = "Update lang", description = "for student")
     public ResponseEntity<ApiResponse<String>> updateLang(@RequestParam AppLanguage lang) {
@@ -108,7 +108,7 @@ public class ProfileController {
     /**
      * FOR USER
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
     @PutMapping("/update-phone")
     @Operation(summary = "Update  profile phone  api", description = "for user")
     public ResponseEntity<ApiResponse<?>> updatePhone(@RequestParam("phone") String phone) {
@@ -126,7 +126,7 @@ public class ProfileController {
     /**
      * FOR USER
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
     @PutMapping("/phone-verification")
     @Operation(summary = "Update  profile phone verification api", description = "for user")
     public ResponseEntity<ApiResponse<?>> updatePhoneVerification(@RequestBody SmsDTO dto) {
@@ -138,7 +138,7 @@ public class ProfileController {
     /**
      * FOR USER
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_STUDENT','ROLE_ADMIN')")
     @PutMapping("/update-password")
     @Operation(summary = "Update profile password api", description = "for user")
     public ResponseEntity<?> updatePassword(@Valid @RequestBody UpdatePasswordDTO dto) {
