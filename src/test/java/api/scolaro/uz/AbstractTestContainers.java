@@ -7,7 +7,6 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import javax.sql.DataSource;
 
@@ -17,34 +16,34 @@ import javax.sql.DataSource;
  * @package api.scolaro.uz
  * @contact @sarvargo
  */
-@Testcontainers
-public abstract class AbstractTestContainers {
-    @BeforeAll
-    static void beforeLAll() {
-        Flyway flyway = Flyway
-                .configure()
-                .dataSource(
-                        postgreSQLContainer.getJdbcUrl(),
-                        postgreSQLContainer.getUsername(),
-                        postgreSQLContainer.getPassword()
-                )
-                .load();
-        flyway.migrate();
-    }
 
+public abstract class AbstractTestContainers {
     @Container
     protected static final PostgreSQLContainer<?> postgreSQLContainer =
             new PostgreSQLContainer<>("postgres:15")
                     .withUsername("scolaro")
                     .withDatabaseName("scolaro_db")
-                    .withPassword("scolaro_pass");
-
+                    .withPassword("scolaro_pass")
+                    .withInitScript("schema.sql");
     @DynamicPropertySource
     private static void registerDataSourceProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
         registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
         registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
     }
+    @BeforeAll
+    static void beforeLAll() {
+        Flyway flyway = Flyway
+                .configure()
+                .dataSource(getDataSource())
+                .baselineOnMigrate(true)
+                .load();
+        flyway.migrate();
+    }
+
+
+
+
 
     protected static DataSource getDataSource() {
         return DataSourceBuilder
@@ -55,4 +54,6 @@ public abstract class AbstractTestContainers {
                 .driverClassName(postgreSQLContainer.getDriverClassName())
                 .build();
     }
+
+
 }
