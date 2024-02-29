@@ -1,17 +1,32 @@
 package api.scolaro.uz.service;
 
 import api.scolaro.uz.AbstractTestContainers;
+import api.scolaro.uz.config.details.CustomUserDetails;
+import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.SmsDTO;
 import api.scolaro.uz.dto.attach.AttachDTO;
+import api.scolaro.uz.dto.auth.AuthRequestDTO;
+import api.scolaro.uz.dto.auth.AuthRequestProfileDTO;
+import api.scolaro.uz.dto.auth.AuthResponseDTO;
+import api.scolaro.uz.entity.ProfileEntity;
+import api.scolaro.uz.entity.sms.SmsHistoryEntity;
+import api.scolaro.uz.enums.AppLanguage;
+import api.scolaro.uz.repository.sms.SmsHistoryRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,14 +37,95 @@ import static org.junit.jupiter.api.Assertions.*;
  * @contact @sarvargo
  */
 @SpringBootTest
+@Testcontainers
 @TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
 class AttachServiceTest extends AbstractTestContainers {
     @Autowired
     private AttachService attachService;
+    @Autowired
+    private AuthService authService;
+    @Autowired
+    private SmsHistoryRepository smsHistoryRepository;
+    @Autowired
+    private ProfileService profileService;
     private String attachId;
+    private String accessToken;
+    private AuthRequestDTO authRequestDTO;
+
+    @BeforeEach
+    void setUp() {
+        attachId = null;
+        authRequestDTO = AuthRequestDTO
+                .builder()
+                .name("Sarvarbek")
+                .surname("Mukhtarov")
+                .phoneNumber("998972322903")
+                .password("123456")
+                .nickName("sarvargo")
+                .countryId(1L)
+                .address("Tashkent")
+                .build();
+    }
+
+    @Test
+    @Order(0)
+    @DisplayName("Registration Success Case")
+    void registration_success_case() {
+        ApiResponse<String> registrationResponse = authService
+                .registration(authRequestDTO);
+        assertFalse(registrationResponse.getIsError());
+    }
 
     @Test
     @Order(1)
+    @DisplayName("Profile Registration Verification Success Case")
+    void profile_registration_verification_success_case() {
+        String phoneNumber = authRequestDTO.getPhoneNumber();
+        Optional<SmsHistoryEntity> smsHistory = smsHistoryRepository.findTopByPhoneOrderByCreatedDateDesc(phoneNumber);
+        assertTrue(smsHistory.isPresent());
+
+        SmsDTO requestDTO = SmsDTO.builder()
+                .phone(phoneNumber)
+                .code(smsHistory.get().getSmsCode())
+                .build();
+        ApiResponse<AuthResponseDTO> verificationResponse = authService.profileRegistrationVerification(requestDTO, AppLanguage.uz);
+        assertFalse(verificationResponse.getIsError());
+    }
+
+    @Test
+    @Order(2)
+    @DisplayName("Login and get access token")
+    void login() {
+        AuthRequestProfileDTO authRequestDTO = AuthRequestProfileDTO
+                .builder()
+                .phone("998972322903")
+                .password("123456")
+                .build();
+
+        ApiResponse<AuthResponseDTO> response = authService
+                .profileLogin(authRequestDTO, AppLanguage.uz);
+
+        assertNotNull(response);
+        assertFalse(response.getIsError());
+        assertNotNull(response.getData());
+        assertNotNull(response.getData().getJwt());
+        AuthResponseDTO data = response.getData();
+        accessToken = data.getJwt();
+        ProfileEntity profileEntity = profileService.get(data.getId());
+        assertNotNull(profileEntity);
+
+        UserDetails userDetails = new CustomUserDetails(profileEntity, data.getRoleList());
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+        SecurityContextHolder
+                .getContext()
+                .setAuthentication(
+                        authentication
+                );
+    }
+
+    @Test
+    @Order(3)
     @DisplayName("Upload file")
     void upload() throws IOException {
 
@@ -52,7 +148,7 @@ class AttachServiceTest extends AbstractTestContainers {
     }
 
     @Test
-    @Order(2)
+    @Order(4)
     @DisplayName("Get all attach")
     void getAll() {
         PageImpl<AttachDTO> allAttach = attachService.getAll(0, 1);
@@ -61,7 +157,7 @@ class AttachServiceTest extends AbstractTestContainers {
     }
 
     @Test
-    @Order(3)
+    @Order(5)
     @DisplayName("Delete attach success")
     void delete_success() {
         assertNotNull(attachId);
@@ -75,7 +171,7 @@ class AttachServiceTest extends AbstractTestContainers {
     }
 
     @Test
-    @Order(4)
+    @Order(6)
     @DisplayName("Delete attach failed")
     void delete_failed() {
         boolean deleted = attachService.delete(attachId);
