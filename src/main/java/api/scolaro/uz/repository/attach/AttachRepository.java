@@ -4,6 +4,8 @@ package api.scolaro.uz.repository.attach;
 import api.scolaro.uz.entity.AttachEntity;
 import jakarta.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,4 +23,5 @@ public interface AttachRepository extends JpaRepository<AttachEntity, String> {
     @Query("delete from AttachEntity where id = ?1 ")
     void delete(String id);
 
+    Page<AttachEntity> findAllByVisibleIsTrue(Pageable pageable);
 }

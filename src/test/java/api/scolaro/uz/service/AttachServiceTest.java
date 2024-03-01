@@ -20,6 +20,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.io.FileInputStream;
@@ -38,6 +39,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @SpringBootTest
 @Testcontainers
+@TestPropertySource(locations = "classpath:application-test.properties")
 @TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
 class AttachServiceTest extends AbstractTestContainers {
     @Autowired
@@ -48,13 +50,10 @@ class AttachServiceTest extends AbstractTestContainers {
     private SmsHistoryRepository smsHistoryRepository;
     @Autowired
     private ProfileService profileService;
-    private String attachId;
-    private String accessToken;
     private AuthRequestDTO authRequestDTO;
 
     @BeforeEach
     void setUp() {
-        attachId = null;
         authRequestDTO = AuthRequestDTO
                 .builder()
                 .name("Sarvarbek")
@@ -92,9 +91,6 @@ class AttachServiceTest extends AbstractTestContainers {
         assertFalse(verificationResponse.getIsError());
     }
 
-    @Test
-    @Order(2)
-    @DisplayName("Login and get access token")
     void login() {
         AuthRequestProfileDTO authRequestDTO = AuthRequestProfileDTO
                 .builder()
@@ -110,7 +106,6 @@ class AttachServiceTest extends AbstractTestContainers {
         assertNotNull(response.getData());
         assertNotNull(response.getData().getJwt());
         AuthResponseDTO data = response.getData();
-        accessToken = data.getJwt();
         ProfileEntity profileEntity = profileService.get(data.getId());
         assertNotNull(profileEntity);
 
@@ -128,7 +123,7 @@ class AttachServiceTest extends AbstractTestContainers {
     @Order(3)
     @DisplayName("Upload file")
     void upload() throws IOException {
-
+        login();
         Path filePath = Files.createTempFile("test", ".txt");
         Files.write(filePath, "Hello, World!".getBytes());
 
@@ -141,7 +136,6 @@ class AttachServiceTest extends AbstractTestContainers {
                     () -> assertNotNull(upload),
                     () -> assertNotNull(upload.getId())
             );
-            attachId = upload.getId();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -160,8 +154,10 @@ class AttachServiceTest extends AbstractTestContainers {
     @Order(5)
     @DisplayName("Delete attach success")
     void delete_success() {
-        assertNotNull(attachId);
-        boolean deleted = attachService.delete(attachId);
+        PageImpl<AttachDTO> all = attachService.getAll(0, 1);
+        assertTrue(all.getTotalElements() > 0);
+
+        boolean deleted = attachService.delete(all.getContent().get(0).getId());
         assertTrue(deleted);
 
         PageImpl<AttachDTO> allAttach = attachService.getAll(0, 1);
@@ -174,7 +170,9 @@ class AttachServiceTest extends AbstractTestContainers {
     @Order(6)
     @DisplayName("Delete attach failed")
     void delete_failed() {
-        boolean deleted = attachService.delete(attachId);
+        PageImpl<AttachDTO> all = attachService.getAll(0, 1);
+        assertTrue(all.getTotalElements() > 0);
+        boolean deleted = attachService.delete(all.getContent().get(0).getId());
         assertFalse(deleted);
     }
 }

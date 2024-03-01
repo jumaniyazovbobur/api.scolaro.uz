@@ -180,16 +180,12 @@ public class AttachService {
         AttachEntity entity = getEntity(fileName);
         attachRepository.delete(entity);
         File file = new File(getPath(entity));
-        boolean b = false;
-        if (file.exists()) {
-            b = file.delete();
-        }
-        return b;
+        return file.exists() && file.delete();
     }
 
     public PageImpl<AttachDTO> getAll(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<AttachEntity> entityPages = attachRepository.findAll(pageable);
+        Page<AttachEntity> entityPages = attachRepository.findAllByVisibleIsTrue(pageable);
         return new PageImpl<>(entityPages.stream().map(this::toDTO).toList(), pageable, entityPages.getTotalElements());
     }
 

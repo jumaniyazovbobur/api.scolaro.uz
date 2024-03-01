@@ -44,8 +44,6 @@ public class AuthService {
     private final AttachService attachService;
     private final CountryService countryService;
     @Autowired
-    private ConsultingProfileService consultingProfileService;
-    @Autowired
     private ConsultingProfileRepository consultingProfileRepository;
 
     public ApiResponse<String> registration(AuthRequestDTO dto) {
