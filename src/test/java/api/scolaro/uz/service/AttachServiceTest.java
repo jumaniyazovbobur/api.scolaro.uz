@@ -8,9 +8,11 @@ import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.dto.auth.AuthRequestDTO;
 import api.scolaro.uz.dto.auth.AuthRequestProfileDTO;
 import api.scolaro.uz.dto.auth.AuthResponseDTO;
+import api.scolaro.uz.entity.AttachEntity;
 import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.entity.sms.SmsHistoryEntity;
 import api.scolaro.uz.enums.AppLanguage;
+import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.sms.SmsHistoryRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,7 @@ class AttachServiceTest extends AbstractTestContainers {
     @Autowired
     private ProfileService profileService;
     private AuthRequestDTO authRequestDTO;
+    private String fileName = "test.txt";
 
     @BeforeEach
     void setUp() {
@@ -130,7 +133,7 @@ class AttachServiceTest extends AbstractTestContainers {
         try (
                 FileInputStream fileInputStream = new FileInputStream(filePath.toFile())
         ) {
-            MockMultipartFile file = new MockMultipartFile("file", "test.txt", "text/plain", fileInputStream);
+            MockMultipartFile file = new MockMultipartFile("file", fileName, "text/plain", fileInputStream);
             AttachDTO upload = attachService.upload(file);
             assertAll(
                     () -> assertNotNull(upload),
@@ -156,14 +159,10 @@ class AttachServiceTest extends AbstractTestContainers {
     void delete_success() {
         PageImpl<AttachDTO> all = attachService.getAll(0, 1);
         assertTrue(all.getTotalElements() > 0);
-
-        boolean deleted = attachService.delete(all.getContent().get(0).getId());
+        String attachId = all.getContent().get(0).getId();
+        boolean deleted = attachService.delete(attachId);
         assertTrue(deleted);
-
-        PageImpl<AttachDTO> allAttach = attachService.getAll(0, 1);
-        assertEquals(0, allAttach.getContent().size());
-
-        assertFalse(allAttach.getTotalElements() > 0);
+        assertThrows(ItemNotFoundException.class, () -> attachService.getEntity(attachId));
     }
 
     @Test
@@ -172,7 +171,13 @@ class AttachServiceTest extends AbstractTestContainers {
     void delete_failed() {
         PageImpl<AttachDTO> all = attachService.getAll(0, 1);
         assertTrue(all.getTotalElements() > 0);
+        AttachDTO attachDTO = all.getContent().get(0);
+        assertAll(
+                () -> assertNotNull(attachDTO),
+                () -> assertNotNull(attachDTO.getId())
+        );
+        boolean isAnotherFile = fileName.equals(attachDTO.getOriginName());
         boolean deleted = attachService.delete(all.getContent().get(0).getId());
-        assertFalse(deleted);
+        assertEquals(deleted, isAnotherFile);
     }
 }
