@@ -10,6 +10,7 @@ import api.scolaro.uz.service.AttachService;
 import api.scolaro.uz.util.PaginationUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.security.PermitAll;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -33,6 +34,13 @@ public class AttachController {
     /**
      * FOR PUBLIC AUTH
      */
+    @GetMapping("/compress-all")
+    @PermitAll
+    public ResponseEntity<?> compressAll() {
+        log.info("Compress all files");
+        return ResponseEntity.ok(attachService.compressAllOldImages());
+    }
+
     @PostMapping("/upload")
     @Operation(summary = "upload api", description = "")
     public ResponseEntity<AttachDTO> create(@RequestParam("file") MultipartFile file) {

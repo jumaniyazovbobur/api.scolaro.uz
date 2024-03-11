@@ -27,7 +27,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -36,13 +40,12 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Calendar;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class AttachService {
 
     @Value("${attach.upload.folder}")
@@ -50,12 +53,17 @@ public class AttachService {
     @Value("${attach.url}")
     private String attachUrl;
 
-    @Autowired
-    private AttachRepository attachRepository;
-    @Autowired
-    private AppApplicationLevelAttachService applicationLevelAttachService;
-    @Autowired
-    private SimpleMessageService simpleMessageService;
+    private final AttachRepository attachRepository;
+    private final AppApplicationLevelAttachService applicationLevelAttachService;
+    private final SimpleMessageService simpleMessageService;
+
+    private static final Map<String, Object> imageExtensionMap = new HashMap<>();
+
+    static {
+        imageExtensionMap.put("jpg", new Object());
+        imageExtensionMap.put("png", new Object());
+        imageExtensionMap.put("jpeg", new Object());
+    }
 
     public AttachDTO upload(MultipartFile file) {
         if (file.isEmpty()) {
@@ -83,14 +91,62 @@ public class AttachService {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(folderName + "/" + pathFolder + "/" + entity.getId() + "." + extension);
             Files.write(path, bytes);
-
+            if (imageExtensionMap.containsKey(extension.toLowerCase())) {
+                String compressedId = createCompressedImage(extension, file.getOriginalFilename(), file.getSize(), path.toFile(), pathFolder);
+                attachRepository.updateCompressedId(entity.getId(), compressedId);
+            }
             return toDTO(entity);
         } catch (IOException e) {
             log.warn("Attach error : {}", e.getMessage());
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+    }
 
+    public boolean compressAllOldImages() {
+        List<AttachEntity> attachEntities = attachRepository.findByIsCompressedFalse();
+        log.info("attachSize = {}", attachEntities.size());
+        for (AttachEntity attachEntity : attachEntities) {
+            if (imageExtensionMap.containsKey(attachEntity.getExtension().toLowerCase())) {
+                try {
+                    String compressedId = createCompressedImage(attachEntity.getExtension(), attachEntity.getOrigenName(), attachEntity.getSize(), new File(getPath(attachEntity)), attachEntity.getPath());
+                    attachRepository.updateCompressedId(attachEntity.getId(), compressedId);
+                } catch (IOException e) {
+                    log.warn("Attach error : {}", e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        }
+        return true;
+    }
+
+    public String createCompressedImage(String extension, String originalFilename, Long size, File courseFile, String pathFolder) throws IOException {
+
+        Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName(extension);
+        ImageWriter writer = writers.next();
+
+        AttachEntity entity = new AttachEntity();
+        entity.setPath(pathFolder);
+        entity.setOrigenName(originalFilename);
+        entity.setExtension(extension);
+        entity.setSize(size);
+        entity.setIsCompressed(true);
+        attachRepository.save(entity);
+
+        Path path = Paths.get(courseFile.getParent() + "/" + entity.getId() + "." + extension);
+
+        ImageOutputStream outputStream = ImageIO.createImageOutputStream(path.toFile());
+        writer.setOutput(outputStream);
+
+        ImageWriteParam params = writer.getDefaultWriteParam();
+        params.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+        params.setCompressionQuality(0.12f);
+
+        writer.write(null, new IIOImage(ImageIO.read(courseFile), null, null), params);
+
+        outputStream.close();
+        writer.dispose();
+        return entity.getId();
     }
 
     public ApiResponse<AppApplicationLevelAttachDTO> createApplicationLevelAttach(MultipartFile file, String stepLevelId, AttachType attachType) {

@@ -18,18 +18,31 @@ public class AttachEntity {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
+
     @Column(name = "create_id")
     private String createId;
+
     @Column(name = "path")
     private String path;
+
     @Column(name = "extension")
     private String extension;
+
     @Column(name = "origen_name")
     private String origenName;
+
     @Column(name = "size")
     private Long size;
+
+    @Column(name = "compressed_id")
+    private String compressedId;
+
+    @Column(name = "is_compressed")
+    private Boolean isCompressed = Boolean.FALSE;
+
     @Column(name = "created_date")
     private LocalDateTime createdDate = LocalDateTime.now();
+
     @Column(name = "visible")
     private Boolean visible = true;
 }

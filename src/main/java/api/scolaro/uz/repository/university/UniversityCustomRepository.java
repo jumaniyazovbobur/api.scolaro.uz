@@ -24,7 +24,7 @@ public class UniversityCustomRepository {
     private AttachService attachService;
 
     public FilterResultDTO<UniversityEntity> filterPagination(UniversityFilterDTO dto, Integer page, Integer size) {
-        StringBuilder selectBuilder = new StringBuilder("from UniversityEntity as u");
+        StringBuilder selectBuilder = new StringBuilder("from UniversityEntity as u left join fetch u.photo");
         StringBuilder countBuilder = new StringBuilder("select count(u) from UniversityEntity as u");
         StringBuilder builder = new StringBuilder(" where u.visible=true");
         Map<String, Object> params = new LinkedHashMap<>();

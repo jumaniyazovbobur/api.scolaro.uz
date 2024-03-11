@@ -4,6 +4,7 @@ import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.university.*;
+import api.scolaro.uz.entity.AttachEntity;
 import api.scolaro.uz.entity.UniversityEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.RoleEnum;
@@ -152,7 +153,8 @@ public class UniversityService {
         }
         dto.setWebSite(entity.getWebSite());
         if (entity.getPhotoId() != null) {
-            dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
+            AttachEntity photo = entity.getPhoto();
+            dto.setPhoto(attachService.getResponseAttach(photo.getIsCompressed() ? photo.getCompressedId() : entity.getPhotoId()));
         }
         dto.setDegreeList(universityDegreeService.getUniversityDegreeTypeList(entity.getId(), language));
         dto.setDescription(entity.getDescription());
@@ -178,7 +180,7 @@ public class UniversityService {
     }
 
     public ApiResponse<List<UniversityResponseFilterDTO>> getTopUniversity(AppLanguage language) {
-        List<UniversityEntity> list = universityRepository.getTopUniversity();
+        List<UniversityEntity> list = universityRepository.getTopUniversity(PageRequest.of(0, 10));
         List<UniversityResponseFilterDTO> dtoList = new LinkedList<>();
         for (UniversityEntity entity : list) {
             UniversityResponseFilterDTO dto = toDTOForTop(entity, language);
