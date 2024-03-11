@@ -1,4 +1,4 @@
-package api.scolaro.uz.service;
+package api.scolaro.uz.service.junit5;
 
 import api.scolaro.uz.AbstractTestContainers;
 import api.scolaro.uz.dto.ApiResponse;
@@ -7,6 +7,7 @@ import api.scolaro.uz.dto.auth.*;
 import api.scolaro.uz.entity.sms.SmsHistoryEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.repository.sms.SmsHistoryRepository;
+import api.scolaro.uz.service.AuthService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package api.scolaro.uz.service;
+package api.scolaro.uz.service.junit5;
 
 import api.scolaro.uz.AbstractTestContainers;
 import api.scolaro.uz.config.details.CustomUserDetails;
@@ -8,12 +8,14 @@ import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.dto.auth.AuthRequestDTO;
 import api.scolaro.uz.dto.auth.AuthRequestProfileDTO;
 import api.scolaro.uz.dto.auth.AuthResponseDTO;
-import api.scolaro.uz.entity.AttachEntity;
 import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.entity.sms.SmsHistoryEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.sms.SmsHistoryRepository;
+import api.scolaro.uz.service.AttachService;
+import api.scolaro.uz.service.AuthService;
+import api.scolaro.uz.service.ProfileService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -53,7 +55,7 @@ class AttachServiceTest extends AbstractTestContainers {
     @Autowired
     private ProfileService profileService;
     private AuthRequestDTO authRequestDTO;
-    private String fileName = "test.txt";
+    private final String fileName = "test.txt";
 
     @BeforeEach
     void setUp() {
