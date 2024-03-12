@@ -34,12 +34,6 @@ public class AttachController {
     /**
      * FOR PUBLIC AUTH
      */
-    @GetMapping("/compress-all")
-    @PermitAll
-    public ResponseEntity<?> compressAll() {
-        log.info("Compress all files");
-        return ResponseEntity.ok(attachService.compressAllOldImages());
-    }
 
     @PostMapping("/upload")
     @Operation(summary = "upload api", description = "")
