@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
@@ -45,7 +46,6 @@ import java.util.*;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class AttachService {
 
     @Value("${attach.upload.folder}")
@@ -54,8 +54,14 @@ public class AttachService {
     private String attachUrl;
 
     private final AttachRepository attachRepository;
-    private final AppApplicationLevelAttachService applicationLevelAttachService;
     private final SimpleMessageService simpleMessageService;
+    private final AppApplicationLevelAttachService applicationLevelAttachService;
+
+    public AttachService(AttachRepository attachRepository, @Lazy SimpleMessageService simpleMessageService, @Lazy AppApplicationLevelAttachService applicationLevelAttachService) {
+        this.attachRepository = attachRepository;
+        this.simpleMessageService = simpleMessageService;
+        this.applicationLevelAttachService = applicationLevelAttachService;
+    }
 
     private static final Map<String, Object> imageExtensionMap = new HashMap<>();
 
