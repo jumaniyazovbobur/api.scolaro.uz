@@ -102,7 +102,7 @@ public class CustomConsultingRepository {
     }
 
     public FilterResultDTO<ConsultingEntity> filterPaginationForTopConsulting(ConsultingTopFilterDTO dto, Integer page, Integer size) {
-        StringBuilder selectBuilder = new StringBuilder(" from ConsultingEntity as c ");
+        StringBuilder selectBuilder = new StringBuilder(" from ConsultingEntity as c left join fetch c.photo ");
         StringBuilder countBuilder = new StringBuilder("select count(c) from ConsultingEntity as c ");
         StringBuilder builder = new StringBuilder(" where c.visible=true ");
         Map<String, Object> params = new LinkedHashMap<>();

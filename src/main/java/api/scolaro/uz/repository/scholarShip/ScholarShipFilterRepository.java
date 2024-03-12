@@ -60,9 +60,10 @@ public class ScholarShipFilterRepository {
                 "s.price as sPrise, " +
                 "s.start_date as sSDate, " +
                 "s.expired_date as sEDate, " +
-                "s.photo_id as SPhoto, " +
+                "case when sAttach.compressed_id is not null then sAttach.compressed_id else s.photo_id end as SPhoto, " +
                 "u.id as UId, " +
                 "u.name as UName from scholar_ship as s " +
+                "left join attach as sAttach on sAttach.id = s.photo_id " +
                 "inner join university as u on s.university_id=u.id " +
                 "where s.visible = true ");
         selectBuilder.append(stringBuilder);

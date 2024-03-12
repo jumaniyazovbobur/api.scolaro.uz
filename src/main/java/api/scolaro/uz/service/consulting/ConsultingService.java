@@ -241,7 +241,17 @@ public class ConsultingService {
     public PageImpl<ConsultingResponseDTO> filterForTopConsulting(ConsultingTopFilterDTO dto, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         FilterResultDTO<ConsultingEntity> filterResultDTO = customRepository.filterPaginationForTopConsulting(dto, page, size);
-        return new PageImpl<>(filterResultDTO.getContent().stream().map(this::toDTO).toList(), pageable, filterResultDTO.getTotalElement());
+        return new PageImpl<>(filterResultDTO
+                .getContent()
+                .stream()
+                .map(item -> {
+                    ConsultingResponseDTO result = toDTO(item);
+                    if (item.getPhotoId() != null && item.getPhoto().getCompressedId() != null)
+                        result.setPhoto(attachService.getResponseAttach(item.getPhoto().getCompressedId()));
+                    return result;
+                })
+                .toList(),
+                pageable, filterResultDTO.getTotalElement());
     }
 
     public List<ConsultingResponseDTO> getUniversityConsultingList(Long universityId) {
