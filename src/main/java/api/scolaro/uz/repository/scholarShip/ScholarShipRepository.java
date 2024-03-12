@@ -24,6 +24,6 @@ public interface ScholarShipRepository extends JpaRepository<ScholarShipEntity, 
     @Query("update ScholarShipEntity t set t.deletedDate = ?2, t.visible = false where t.id = ?1")
     int updateDeletedDateAndVisible(String id, LocalDateTime deletedDate);
 
-    @Query("from ScholarShipEntity s join fetch s.university where s.visible = true and s.expiredDate >=now()")
+    @Query("from ScholarShipEntity s left join fetch s.university left join fetch s.photo where s.visible = true and s.expiredDate >=now()")
     List<ScholarShipEntity> getTopScholarShip();
 }

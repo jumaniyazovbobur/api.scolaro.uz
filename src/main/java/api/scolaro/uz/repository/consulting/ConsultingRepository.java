@@ -2,6 +2,7 @@ package api.scolaro.uz.repository.consulting;
 
 import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.enums.GeneralStatus;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -33,6 +34,9 @@ public interface ConsultingRepository extends JpaRepository<ConsultingEntity, St
 
     @Query(value = "select * from consulting where visible=true limit 6 ", nativeQuery = true)
     List<ConsultingEntity> getTopConsulting();
+    @Query(value = "from ConsultingEntity c left join fetch c.photo WHERE c.visible = true")
+    @Transactional(readOnly = true)
+    List<ConsultingEntity> getTopConsulting(Pageable pageable);
 
     @Query("select consulting from ConsultingUniversityEntity where universityId =:universityId")
     List<ConsultingEntity> getUniversityConsultingList(@Param("universityId") Long universityId);

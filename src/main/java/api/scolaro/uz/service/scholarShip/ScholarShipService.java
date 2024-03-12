@@ -123,6 +123,8 @@ public class ScholarShipService {
         for (ScholarShipEntity entity : list) {
             ScholarShipResponseDTO dto = toDTO(entity, language);
             dto.setUniversity(universityService.toDTO(entity.getUniversity()));
+            if (entity.getPhotoId() != null && entity.getPhoto().getCompressedId() != null)
+                dto.setAttach(attachService.getResponseAttach(entity.getPhoto().getCompressedId()));
             dtoList.add(dto);
         }
         return new ApiResponse<>(200, false, dtoList);

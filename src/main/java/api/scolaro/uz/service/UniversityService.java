@@ -154,7 +154,7 @@ public class UniversityService {
         dto.setWebSite(entity.getWebSite());
         if (entity.getPhotoId() != null) {
             AttachEntity photo = entity.getPhoto();
-            dto.setPhoto(attachService.getResponseAttach(photo.getIsCompressed() ? photo.getCompressedId() : entity.getPhotoId()));
+            dto.setPhoto(attachService.getResponseAttach(photo.getCompressedId() != null ? photo.getCompressedId() : entity.getPhotoId()));
         }
         dto.setDegreeList(universityDegreeService.getUniversityDegreeTypeList(entity.getId(), language));
         dto.setDescription(entity.getDescription());

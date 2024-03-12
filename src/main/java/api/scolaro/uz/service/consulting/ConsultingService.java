@@ -225,8 +225,16 @@ public class ConsultingService {
     }
 
     public ApiResponse<List<ConsultingResponseDTO>> getTopConsulting() {
-        List<ConsultingEntity> list = consultingRepository.getTopConsulting();
-        List<ConsultingResponseDTO> dtoList = list.stream().map(this::toDTO).toList();
+        List<ConsultingEntity> list = consultingRepository.getTopConsulting(PageRequest.of(0, 6));
+        List<ConsultingResponseDTO> dtoList = list
+                .stream()
+                .map(item -> {
+                    ConsultingResponseDTO dto = this.toDTO(item);
+                    if (item.getPhotoId() != null && item.getPhoto().getCompressedId() != null)
+                        dto.setPhoto(attachService.getResponseAttach(item.getPhoto().getCompressedId()));
+                    return dto;
+                })
+                .toList();
         return new ApiResponse<>(200, false, dtoList);
     }
 
