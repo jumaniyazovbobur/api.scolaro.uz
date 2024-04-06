@@ -104,13 +104,12 @@ public class AuthService {
         }
 
         Optional<ProfileEntity> userOptional = profileRepository.findByPhoneAndVisibleIsTrue(dto.getPhone());
-
         if (userOptional.isEmpty()) {
             log.warn("Client not found! phone = {}", dto.getPhone());
             throw new ItemNotFoundException(resourceMessageService.getMessage("client.not.found"));
         }
-
-        if (!userOptional.get().getStatus().equals(GeneralStatus.NOT_ACTIVE)) {
+        ProfileEntity profile = userOptional.get();
+        if (!profile.getStatus().equals(GeneralStatus.NOT_ACTIVE)) {
             log.warn("Profile Status Blocked! Phone = {}", dto.getPhone());
             return new ApiResponse<>(resourceMessageService.getMessage("wrong.client.status"), 400, true);
         }
@@ -120,8 +119,7 @@ public class AuthService {
             return new ApiResponse<>(400, true, null);
         }
         // change client status
-        ProfileEntity entity = profileRepository.getProfileEntityDesc(dto.getPhone());
-        profileRepository.updateStatus(entity.getId(), GeneralStatus.ACTIVE);
+        profileRepository.updateStatus(profile.getId(), GeneralStatus.ACTIVE);
         AuthResponseDTO responseDTO = getClientAuthorizationResponse(userOptional.get(), language);
         return new ApiResponse<>(200, false, responseDTO);
 

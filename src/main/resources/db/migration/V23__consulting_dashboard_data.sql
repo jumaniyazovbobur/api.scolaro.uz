@@ -31,7 +31,7 @@ response = '{ "studentCount":' || student_count || ',' ||
                '"trailCount":' || trail_count || ',' ||
                '"startedCount":' || started_count || ',' ||
                '"finishedCount":' || finished_count || ',' ||
-               '"cancelledCount":' || cancelled_count || ','
+               '"cancelledCount":' || cancelled_count ||
                '}';
 return response;
 end;$$
