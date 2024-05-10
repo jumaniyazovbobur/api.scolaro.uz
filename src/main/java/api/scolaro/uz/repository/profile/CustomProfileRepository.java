@@ -23,7 +23,7 @@ public class CustomProfileRepository {
     public FilterResultDTO<ProfileEntity> filterPagination(ProfileFilterDTO dto, Integer page, Integer size) {
         StringBuilder selectBuilder = new StringBuilder("from ProfileEntity as p");
         StringBuilder countBuilder = new StringBuilder("select count(p) from ProfileEntity as p");
-        StringBuilder builder = new StringBuilder(" where p.visible=true");
+        StringBuilder builder = new StringBuilder(" where p.visible=true ");
         Map<String, Object> params = new LinkedHashMap<>();
         if (dto.getName() != null && !dto.getName().isBlank()) {
             builder.append(" and lower(p.name) like :name");

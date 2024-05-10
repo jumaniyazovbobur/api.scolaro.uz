@@ -20,6 +20,7 @@ public class UniversityResponseFilterDTO {
     private Long rating;
     private CountryResponseDTO country;
     private String description;
+    private String abbreviation;
     private AttachDTO photo;
     private List<UniversityDegreeType> degreeTypeList;
     private List<KeyValueDTO> degreeList;

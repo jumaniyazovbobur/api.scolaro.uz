@@ -20,6 +20,7 @@ public class UniversityUpdateDTO {
     @NotNull(message = "Country is required")
     private Long countryId;
     private String description;
+    private String abbreviation;
     private String photoId;
     private String logoId;
     private List<UniversityDegreeType> degreeList;

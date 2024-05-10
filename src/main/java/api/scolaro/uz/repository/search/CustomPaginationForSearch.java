@@ -19,12 +19,10 @@ import java.util.List;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CustomPaginationForSearch {
-
     private CustomPaginationDTO<SearchResponseDTO> university;
-    private List<SearchResponseDTO> country;
+//    private List<SearchResponseDTO> country;
     private CustomPaginationDTO<SearchResponseDTO> scholar;
-    private List<SearchResponseDTO> faculty;
+//    private List<SearchResponseDTO> faculty;
     private CustomPaginationDTO<SearchResponseDTO> consulting;
-
-    private Long totalCount;
+//    private Long totalCount;
 }

@@ -3,6 +3,7 @@ package api.scolaro.uz.dto.scholarShip;
 import api.scolaro.uz.dto.KeyValueDTO;
 import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.dto.attach.AttachResponseDTO;
+import api.scolaro.uz.dto.consulting.ConsultingResponseDTO;
 import api.scolaro.uz.dto.university.UniversityResponseDTO;
 import api.scolaro.uz.dto.university.UniversityResponseFilterDTO;
 import api.scolaro.uz.enums.DegreeType;
@@ -31,4 +32,5 @@ public class ScholarShipResponseDTO {
     private UniversityResponseDTO university;
     private List<KeyValueDTO> degreeTypeList;
     private LocalDateTime createdDate;
+    private List<ConsultingResponseDTO> consultingList;
 }

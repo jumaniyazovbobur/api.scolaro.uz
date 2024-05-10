@@ -36,6 +36,8 @@ public class ScholarShipEntity extends BaseEntity {
     private Integer price;
     @Column(name = "photo_id")
     private String photoId;
+    @Column(name = "compressed_photo_id")
+    private String compressedPhotoId;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_id", insertable = false, updatable = false)
     private AttachEntity photo;

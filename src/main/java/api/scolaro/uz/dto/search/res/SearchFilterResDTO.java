@@ -14,10 +14,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SearchFilterResDTO {
     String query;
-    Long universityId;
-    String consultingId;
-    String facultyId;
     Long countryId;
     Long continentId;
-    String scholarShipId;
+    String facultyId;
+    String searchType; // SCHOLARSHIP, CONSULTING, UNIVERSITY
+    //    String scholarShipId;
+    //    Long universityId;
+//    String consultingId;
 }

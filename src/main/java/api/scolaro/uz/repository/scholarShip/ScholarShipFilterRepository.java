@@ -53,17 +53,15 @@ public class ScholarShipFilterRepository {
             params.put("scholarShiName", "%" + filterDTO.getName().toLowerCase() + "%");
         }
 
-
         StringBuilder selectBuilder = new StringBuilder("select s.id as sId, " +
                 "s.name as sName, " +
                 "s.description as sDescr, " + // TODO remove
                 "s.price as sPrise, " +
                 "s.start_date as sSDate, " +
                 "s.expired_date as sEDate, " +
-                "case when sAttach.compressed_id is not null then sAttach.compressed_id else s.photo_id end as SPhoto, " +
+                "s.compressed_photo_id, " +
                 "u.id as UId, " +
                 "u.name as UName from scholar_ship as s " +
-                "left join attach as sAttach on sAttach.id = s.photo_id " +
                 "inner join university as u on s.university_id=u.id " +
                 "where s.visible = true ");
         selectBuilder.append(stringBuilder);

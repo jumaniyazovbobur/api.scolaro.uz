@@ -24,7 +24,7 @@ public interface UniversityRepository extends JpaRepository<UniversityEntity, Lo
     List<UniversityEntity> getTopUniversity();
 
     // left join fetch u.photo and jpql
-    @Query(value = "from UniversityEntity u left join fetch u.photo where u.visible = true order by u.rating ")
+    @Query(value = "from UniversityEntity u  where u.visible = true order by u.rating ")
     List<UniversityEntity> getTopUniversity(Pageable pageable);
 
     @Query("select  university from ConsultingUniversityEntity where consultingId =:consultingId")

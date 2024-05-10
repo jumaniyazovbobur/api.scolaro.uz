@@ -9,6 +9,7 @@ import api.scolaro.uz.dto.profile.*;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.service.ProfileService;
+import api.scolaro.uz.util.PaginationUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -91,7 +92,7 @@ public class ProfileController {
     public ResponseEntity<ApiResponse<PageImpl<ProfileResponseDTO>>> filter(@RequestBody ProfileFilterDTO userFilterDTO,
                                                                             @RequestParam(value = "page", defaultValue = "1") int page,
                                                                             @RequestParam(value = "size", defaultValue = "30") int size) {
-        return ResponseEntity.ok(profileService.filter(userFilterDTO, page - 1, size));
+        return ResponseEntity.ok(profileService.filter(userFilterDTO, PaginationUtil.page(page), size));
     }
 
     /**

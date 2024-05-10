@@ -5,11 +5,13 @@ import api.scolaro.uz.dto.scholarShip.ScholarShipRequestDTO;
 import api.scolaro.uz.dto.scholarShip.ScholarShipUpdateDTO;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.scholarShip.ScholarShipService;
+import api.scolaro.uz.util.PaginationUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.support.PageableUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -82,7 +84,7 @@ public class ScholarShipController {
                                     @RequestHeader(value = "Accept-Language",
                                             defaultValue = "uz") AppLanguage appLanguage) {
         log.info("Filtered scholarShipList page={},size={}", page, size);
-        return ResponseEntity.ok(scholarShipService.filter(dto, page-1, size, appLanguage));
+        return ResponseEntity.ok(scholarShipService.filter(dto, PaginationUtil.page(page), size, appLanguage));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

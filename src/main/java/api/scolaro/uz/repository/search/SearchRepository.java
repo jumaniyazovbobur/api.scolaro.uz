@@ -11,10 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -30,192 +27,80 @@ public class SearchRepository {
     private final AttachService attachService;
 
     public CustomPaginationForSearch search(SearchFilterResDTO dto, String lang, int page, int size) {
-        StringBuilder universityQuery = new StringBuilder("""
-                select cast(university.id as varchar) as id,
-                university.name as name,'UNIVERSITY' AS type,
-                university.photo_id as image_id,university.description,
-                (select count(*) from university where visible is true
-                and lower(university.name) like lower(concat(:query, '%')) ) as total_count
-                from university
-                where visible is true and lower(university.name) like lower(concat(:query, '%'))
-                """);
-
-        StringBuilder countryQuery = new StringBuilder("""
-                select cast(country.id as varchar) id,
-                case :lang when 'uz' then country.name_uz
-                when 'en' then country.name_en
-                else country.name_ru end AS name,
-                'COUNTRY' as type, null image_id, null description,
-                (select count(*) from country
-                where visible is true and case :lang
-                when 'uz' then lower(country.name_uz) like lower(concat(:query, '%'))
-                when 'en' then lower(country.name_en) like lower(concat(:query, '%'))
-                else lower(country.name_ru) like lower(concat(:query, '%'))
-                end) as total_count
-                from country
-                where visible is true and case :lang
-                when 'uz' then lower(country.name_uz) like lower(concat(:query, '%'))
-                when 'en' then lower(country.name_en) like lower(concat(:query, '%'))
-                else lower(country.name_ru) like lower(concat(:query, '%'))
-                end
-                """);
-
-        StringBuilder consultingQuery = new StringBuilder("""
-                select consulting.id as id,
-                consulting.name as name, 'CONSULTING' as type,
-                consulting.photo_id as image_id, consulting.about as description,
-                (select count(*) from consulting where visible is true and lower(consulting.name) like lower(concat(:query, '%'))) as total_count
-                from consulting
-                where visible is true and lower(consulting.name) like lower(concat(:query, '%'))
-                """);
-
-        StringBuilder facultyQuery = new StringBuilder("""
-                select faculty.id as id,
-                case :lang when 'uz' then faculty.name_uz
-                when 'en' then faculty.name_en else faculty.name_ru
-                end AS name, 'FACULTY' as type,
-                null image_id, null as description,
-                (select count(*) from faculty where visible is true and case :lang
-                when 'uz' then lower(faculty.name_uz) like lower(concat(:query, '%'))
-                when 'en' then lower(faculty.name_en) like lower(concat(:query, '%'))
-                else lower(faculty.name_ru) like lower(concat(:query, '%')) end) as total_count
-                from faculty
-                where visible is true and case :lang
-                when 'uz' then lower(faculty.name_uz) like lower(concat(:query, '%'))
-                when 'en' then lower(faculty.name_en) like lower(concat(:query, '%'))
-                else lower(faculty.name_ru) like lower(concat(:query, '%')) end
-                """);
-
-        StringBuilder scholarQuery = new StringBuilder("""
-                select scholar.id   as id,
-                scholar.name as name, 'SCHOLAR' as type,
-                scholar.photo_id as image_id, scholar.description as description,
-                (select count(*) from scholar_ship as scholar
-                where visible is true and lower(scholar.name) like lower(concat(:query, '%'))) as total_count
-                from scholar_ship as scholar
-                where visible is true and lower(scholar.name) like lower(concat(:query, '%'))
-                """);
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("lang", lang);
-        boolean isQuery = false;
-        if (Optional.ofNullable(dto).isPresent()) {
-            isQuery = Optional.ofNullable(dto.getQuery()).isPresent();
-            params.put("query", Optional.ofNullable(dto.getQuery()).isPresent() ? dto.getQuery() : "");
-
-            if (Optional.ofNullable(dto.getCountryId()).isPresent()) {
-                // university in the country
-                universityQuery.append(" and university.country_id = :countryId");
-                countryQuery.append(" and false");
-                consultingQuery.append(" and false");
-                facultyQuery.append(" and false");
-                scholarQuery.append(" and false");
-                params.put("countryId", dto.getCountryId());
-            }
-            if (Optional.ofNullable(dto.getConsultingId()).isPresent()) {
-                consultingQuery.append(" and consulting.id = :consultingId");
-                countryQuery.append(" and false");
-                universityQuery.append(" and false");
-                facultyQuery.append(" and false");
-                scholarQuery.append(" and false");
-                params.put("consultingId", dto.getConsultingId());
-            }
-            if (Optional.ofNullable(dto.getFacultyId()).isPresent()) {
-                // getting university which university's faculty like
-                universityQuery.append(" and university.id in (select uf.university_id from university_faculty as uf where uf.faculty_id = :facultyId)");
-                countryQuery.append(" and false");
-                consultingQuery.append(" and false");
-                facultyQuery.append(" and false");
-                scholarQuery.append(" and false");
-                params.put("facultyId", dto.getFacultyId());
-            }
-            if (Optional.ofNullable(dto.getUniversityId()).isPresent()) {
-                universityQuery.append(" and university.id = :universityId");
-                countryQuery.append(" and false");
-                consultingQuery.append(" and false");
-                facultyQuery.append(" and false");
-                scholarQuery.append(" and false");
-                params.put("universityId", dto.getUniversityId());
-            }
-            if (Optional.ofNullable(dto.getScholarShipId()).isPresent()) {
-                scholarQuery.append(" and scholar.id = :scholarId");
-                countryQuery.append(" and false");
-                consultingQuery.append(" and false");
-                facultyQuery.append(" and false");
-                universityQuery.append(" and false");
-                params.put("scholarId", dto.getScholarShipId());
-            }
-            if (Optional.ofNullable(dto.getContinentId()).isPresent()) {
-                universityQuery.append(" and university.country_id in (select cc.country_id from continent_country cc where cc.continent_id = :continentId)");
-                countryQuery.append(" and false");
-                consultingQuery.append(" and false");
-                facultyQuery.append(" and false");
-                scholarQuery.append(" and false");
-                params.put("continentId", dto.getContinentId());
-            }
+        if (dto == null) {
+            return new CustomPaginationForSearch();
+        }
+        if (dto.getQuery() == null
+                && dto.getFacultyId() == null
+                && dto.getCountryId() == null
+                && dto.getContinentId() == null
+        ) {
+            return new CustomPaginationForSearch();
         }
 
-        StringBuilder sqlQuery = new StringBuilder("""
-                SELECT id, name, type, image_id, description, total_count
-                FROM (
-                %s
-                union
-                %s
-                union
-                %s
-                union
-                %s
-                union
-                %s ) AS result limit %d offset %d
-                """.formatted(scholarQuery, facultyQuery, consultingQuery, countryQuery, universityQuery, size, page * size)
-        );
-        String countSqlQuery = """
-                SELECT count(*)
-                FROM (
-                %s
-                union
-                %s
-                union
-                %s
-                union
-                %s
-                union
-                %s ) AS result
-                """.formatted(scholarQuery, facultyQuery, consultingQuery, countryQuery, universityQuery);
+        boolean isQuery = false;
+        Map<String, Object> params = new HashMap<>();
 
-        Query selectQuery = entityManager.createNativeQuery(sqlQuery.toString());
-        Query countQuery = entityManager.createNativeQuery(countSqlQuery);
+        if (dto.getQuery() != null) {
+            isQuery = true;
+            dto.setQuery("%" + dto.getQuery() + "%");
+            params.put("query", dto.getQuery());
+        }
+        // ------------------------
+        String selectSql = prepareSelectQuery(isQuery, dto, params);
+        String countSql = prepareCountQuery(isQuery, dto, params);
+        // ------------------------------------------------------------------------
+        Query selectQuery = entityManager.createNativeQuery(selectSql);
+        Query countQuery = entityManager.createNativeQuery(countSql);
+        // ----------------------
+//        selectQuery.setParameter("lang", lang);
+        selectQuery.setParameter("limit", size);
+        selectQuery.setParameter("offset", (page * size));
+        // ----------
+        params.forEach((key, value) -> {
+            countQuery.setParameter(key, value);
+            selectQuery.setParameter(key, value);
+        });
+        //
+        List<Object[]> selectQueryResultList = selectQuery.getResultList();
+        List<Object> countQueryResultList = countQuery.getResultList();
+        //
+        Long scholarshipTotalCount = 0L; // SCHOLARSHIP
+        Long consultingTotalCount = 0L; // CONSULTING
+        Long universityTotalCount = 0L; // UNIVERSITY
 
-        params.forEach(selectQuery::setParameter);
-        params.forEach(countQuery::setParameter);
+        if (dto.getSearchType() == null) {
+            scholarshipTotalCount = (Long) countQueryResultList.get(0); // SCHOLARSHIP
+            consultingTotalCount = (Long) countQueryResultList.get(1); // CONSULTING
+            universityTotalCount = (Long) countQueryResultList.get(2); // UNIVERSITY
+        } else if (dto.getSearchType().equals("SCHOLARSHIP")) {
+            scholarshipTotalCount = (Long) countQueryResultList.get(0); // SCHOLARSHIP
+        } else if (dto.getSearchType().equals("CONSULTING")) {
+            consultingTotalCount = (Long) countQueryResultList.get(0); // CONSULTING
+        } else if (dto.getSearchType().equals("UNIVERSITY")) {
+            universityTotalCount = (Long) countQueryResultList.get(0); // UNIVERSITY
+        }
 
-        List<Object[]> apartmentList = selectQuery.getResultList();
-        Long totalCount = (Long) countQuery.getSingleResult();
-
-
-        List<SearchResponseDTO> resultList = apartmentList
+        List<SearchResponseDTO> resultList = selectQueryResultList
                 .stream()
                 .map(this::convert)
                 .toList();
 
         CustomPaginationForSearch res = new CustomPaginationForSearch();
-        res.setTotalCount(totalCount);
+        Long finalScholarshipTotalCount = scholarshipTotalCount;
+        Long finalConsultingTotalCount = consultingTotalCount;
+        Long finalUniversityTotalCount = universityTotalCount;
         parseToCustomPagination(resultList)
                 .forEach((string, searchResponseDTOS) -> {
                     switch (string) {
-                        case "FACULTY" -> res.setFaculty(searchResponseDTOS);
-                        case "COUNTRY" -> res.setCountry(searchResponseDTOS);
-                        case "SCHOLAR" -> {
-                            long total = searchResponseDTOS.stream().map(SearchResponseDTO::getTempCount).findFirst().orElse(0L);
-                            res.setScholar(new CustomPaginationDTO<>(total, searchResponseDTOS));
-                        }
-                        case "UNIVERSITY" -> {
-                            long total = searchResponseDTOS.stream().map(SearchResponseDTO::getTempCount).findFirst().orElse(0L);
-                            res.setUniversity(new CustomPaginationDTO<>(total, searchResponseDTOS));
+                        case "SCHOLARSHIP" -> {
+                            res.setScholar(new CustomPaginationDTO<>(finalScholarshipTotalCount, searchResponseDTOS));
                         }
                         case "CONSULTING" -> {
-                            long total = searchResponseDTOS.stream().map(SearchResponseDTO::getTempCount).findFirst().orElse(0L);
-                            res.setConsulting(new CustomPaginationDTO<>(total, searchResponseDTOS));
+                            res.setConsulting(new CustomPaginationDTO<>(finalConsultingTotalCount, searchResponseDTOS));
+                        }
+                        case "UNIVERSITY" -> {
+                            res.setUniversity(new CustomPaginationDTO<>(finalUniversityTotalCount, searchResponseDTOS));
                         }
                     }
                 });
@@ -223,6 +108,7 @@ public class SearchRepository {
     }
 
     private SearchResponseDTO convert(Object[] object) {
+        // id, name, type, image_id, description
         String imageId = MapperUtil.getStringValue(object[3]);
         String description = MapperUtil.getStringValue(object[4]);
         return new SearchResponseDTO(
@@ -230,11 +116,186 @@ public class SearchRepository {
                 MapperUtil.getStringValue(object[1]),
                 MapperUtil.getStringValue(object[2]),
                 imageId == null ? null : attachService.getUrl(imageId),
-                description,
-                MapperUtil.getLongValue(object[5])
-        );
+                description);
     }
 
+    private String prepareSelectQuery(Boolean isQuery, SearchFilterResDTO dto, Map<String, Object> params) {
+        Set<String> searchingTableSet = new LinkedHashSet<>();
+        // ----------------------------------------------------------------------- SCHOLARSHIP Select
+        StringBuilder scholarQuery = new StringBuilder(" select scholar_ship.id   as id, " +
+                "       scholar_ship.name as name, " +
+                "       'SCHOLARSHIP' as type, " +
+                "       scholar_ship.compressed_photo_id as image_id, " +
+                "       scholar_ship.description as description " +
+                "from scholar_ship " +
+                "where visible is true ");
+        if (isQuery) {
+            scholarQuery.append(" and lower(scholar_ship.name) like lower(:query)");
+            searchingTableSet.add("SCHOLARSHIP");
+        }
+
+        scholarQuery.append(" limit :limit offset :offset ");
+        //--------------------------------------------------------------- CONSULTING
+        StringBuilder consultingQuery = new StringBuilder(" select consulting.id as id, " +
+                "       consulting.name as name, " +
+                "       'CONSULTING' as type, " +
+                "       consulting.compressed_photo_id as image_id, " +
+                "       consulting.about as description " +
+                " from consulting " +
+                " where visible is true ");
+        if (isQuery) {
+            consultingQuery.append(" and lower(consulting.name) like lower(:query) ");
+            searchingTableSet.add("CONSULTING");
+        }
+        consultingQuery.append(" limit :limit offset :offset ");
+        // ------------------------------------------------------------------------------ UNIVERSITY
+        StringBuilder universityQuery = new StringBuilder(" select cast(university.id as varchar) as id, " +
+                "       university.name as name, " +
+                "       'UNIVERSITY' AS type, " +
+                "       university.compressed_photo_id as image_id, " +
+                "       university.abbreviation " +
+                " from university " +
+                " where visible is true  ");
+        if (isQuery) {
+            universityQuery.append(" and lower(university.name) like lower(:query) ");
+            searchingTableSet.add("UNIVERSITY");
+        }
+        if (dto.getFacultyId() != null) {
+            universityQuery.append(" and university.id  in (select university_id from university_faculty where faculty_id = :facultyId) ");
+            params.put("facultyId", dto.getFacultyId());
+            searchingTableSet.add("UNIVERSITY");
+        }
+        if (dto.getContinentId() != null) {
+            universityQuery.append(" and university.country_id  in ( select country_id from continent_country where continent_id = :continentId) ");
+            params.put("continentId", dto.getFacultyId());
+            searchingTableSet.add("UNIVERSITY");
+        }
+        if (dto.getCountryId() != null) {
+            universityQuery.append(" and university.country_id = :countryId ");
+            params.put("countryId", dto.getFacultyId());
+            searchingTableSet.add("UNIVERSITY");
+        }
+        universityQuery.append(" limit :limit offset :offset ");
+        // ----------------------------------------------------------------------------
+        // id, name, type, image_id, description
+        StringBuilder sqlQuery = new StringBuilder();
+        if (dto.getSearchType() == null) {
+            StringJoiner joiner = new StringJoiner(" \n union ");
+            for (String searchingTable : searchingTableSet) {
+                if (searchingTable.equals("SCHOLARSHIP")) {
+                    joiner.add("select * from (" + scholarQuery + ") ");
+//                    sqlQuery.append("select * from (").append(scholarQuery).append(")");
+                } else if (searchingTable.equals("CONSULTING")) {
+                    joiner.add("select * from (" + consultingQuery + ") ");
+//                    sqlQuery.append("select * from (").append(consultingQuery).append(")");
+                } else if (searchingTable.equals("UNIVERSITY")) {
+//                    sqlQuery.append("select * from (").append(universityQuery).append(")");
+                    joiner.add("select * from (" + universityQuery + ") ");
+                }
+            }
+            return joiner.toString();
+           /* sqlQuery = new StringBuilder("""
+                          select * from (%s)
+                          union
+                          select * from (%s)
+                          union
+                          select * from (%s)
+                    """.formatted(scholarQuery, consultingQuery, universityQuery)
+            );*/
+        } else if (dto.getSearchType().equals("SCHOLARSHIP")) {
+            sqlQuery.append(scholarQuery);
+        } else if (dto.getSearchType().equals("CONSULTING")) {
+            sqlQuery.append(consultingQuery);
+        } else if (dto.getSearchType().equals("UNIVERSITY")) {
+            sqlQuery.append(universityQuery);
+        }
+        return sqlQuery.toString();
+    }
+
+    private String prepareCountQuery(Boolean isQuery, SearchFilterResDTO dto, Map<String, Object> params) {
+        Set<String> searchingTableSet = new LinkedHashSet<>();
+        // ----------------------------------------------------------------------- SCHOLARSHIP Count
+        StringBuilder scholarQuery = new StringBuilder(" select count(*) from scholar_ship where visible is true ");
+        if (isQuery) {
+            scholarQuery.append(" and lower(scholar_ship.name) like lower(:query)");
+            searchingTableSet.add("SCHOLARSHIP");
+        }
+        /*if (dto.getScholarShipId() != null) {
+            scholarQuery.append(" and scholar_ship.id =:scholarShipId");
+            params.put("scholarShipId", dto.getScholarShipId());
+            searchingTableSet.add("SCHOLARSHIP");
+        }*/
+        /*if (dto.getUniversityId() != null) {
+            scholarQuery.append(" and scholar_ship.university_id = :universityId ");
+            params.put("universityId", dto.getUniversityId());
+            searchingTableSet.add("SCHOLARSHIP");
+        }*/
+        //--------------------------------------------------------------- CONSULTING Count
+        StringBuilder consultingQuery = new StringBuilder("select count(*) from consulting where visible is true ");
+        if (isQuery) {
+            consultingQuery.append(" and lower(consulting.name) like lower(:query) ");
+            searchingTableSet.add("CONSULTING");
+        }
+       /* if (dto.getUniversityId() != null) {
+            consultingQuery.append(" and consulting.id in (select consulting_id from consulting_university where university_id = :universityId) ");
+            params.put("universityId", dto.getUniversityId());
+            searchingTableSet.add("CONSULTING");
+        }*/
+        // ------------------------------------------------------------------------------ UNIVERSITY Count
+        StringBuilder universityQuery = new StringBuilder(" select count(*) from university where visible is true ");
+        if (isQuery) {
+            universityQuery.append(" and lower(university.name) like lower(:query) ");
+            searchingTableSet.add("UNIVERSITY");
+        }
+        /*if (dto.getUniversityId() != null) {
+            universityQuery.append(" and university.id =:universityId");
+            params.put("universityId", dto.getUniversityId());
+            searchingTableSet.add("UNIVERSITY");
+        }*/
+        if (dto.getFacultyId() != null) {
+            universityQuery.append(" and university.id  in (select university_id from university_faculty where faculty_id = :facultyId) ");
+            params.put("facultyId", dto.getFacultyId());
+            searchingTableSet.add("UNIVERSITY");
+        }
+        if (dto.getContinentId() != null) {
+            universityQuery.append(" and university.country_id  in ( select country_id from continent_country where continent_id = :continentId) ");
+            params.put("continentId", dto.getFacultyId());
+            searchingTableSet.add("UNIVERSITY");
+        }
+        if (dto.getCountryId() != null) {
+            universityQuery.append(" and university.country_id = :countryId ");
+            params.put("countryId", dto.getFacultyId());
+            searchingTableSet.add("UNIVERSITY");
+        }
+        // ----------------------------------------------------------------------------
+        StringBuilder sqlQuery = new StringBuilder();
+        if (dto.getSearchType() == null) {
+            for (String searchingTable : searchingTableSet) {
+                if (searchingTable.equals("SCHOLARSHIP")) {
+                    sqlQuery.append("select * from (").append(scholarQuery).append(")");
+                } else if (searchingTable.equals("CONSULTING")) {
+                    sqlQuery.append("select * from (").append(consultingQuery).append(")");
+                } else if (searchingTable.equals("UNIVERSITY")) {
+                    sqlQuery.append("select * from (").append(universityQuery).append(")");
+                }
+            }
+            /*sqlQuery = new StringBuilder("""
+                          %s
+                          union ALL
+                          %s
+                          union ALL
+                          %s
+                    """.formatted(scholarQuery, consultingQuery, universityQuery)
+            );*/
+        } else if (dto.getSearchType().equals("SCHOLARSHIP")) {
+            sqlQuery.append(scholarQuery);
+        } else if (dto.getSearchType().equals("CONSULTING")) {
+            sqlQuery.append(consultingQuery);
+        } else if (dto.getSearchType().equals("UNIVERSITY")) {
+            sqlQuery.append(universityQuery);
+        }
+        return sqlQuery.toString();
+    }
 
     private Map<String, List<SearchResponseDTO>> parseToCustomPagination(List<SearchResponseDTO> resultList) {
         return resultList.stream().collect(Collectors.groupingBy(SearchResponseDTO::getType));

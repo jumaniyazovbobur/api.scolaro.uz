@@ -50,6 +50,15 @@ Content-Type: application/json
   "password": "123456"
 }
 
+### Admin (Profile) login
+POST https://api.scolaroconsult.uz/api/v1/auth/profile/login
+Content-Type: application/json
+
+{
+  "phone": "998938080831",
+  "password": "123456"
+}
+
 ### Reset password for profile
 POST http://localhost:8081/api/v1/auth/profile/reset-password
 Content-Type: application/json
@@ -149,7 +158,7 @@ Content-Type: application/json
 }
 
 ### PROD authenticate ADMIN
-POST http://api.app.mazgi.uz/api/v1/auth/profile/login
+POST https://api.scolaroconsult.uz/api/v1/auth/profile/login
 Content-Type: application/json
 
 {

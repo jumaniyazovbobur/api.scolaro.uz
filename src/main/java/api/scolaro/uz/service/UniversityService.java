@@ -56,9 +56,12 @@ public class UniversityService {
         entity.setWebSite(dto.getWebSite());
         entity.setCountryId(dto.getCountryId());
         entity.setPhotoId(dto.getPhotoId());
+        entity.setCompressedPhotoId(attachService.getImageCompressedImageId(dto.getPhotoId()));
         entity.setDescription(dto.getDescription());
+        entity.setAbbreviation(dto.getAbbreviation());
         entity.setCreatedId(EntityDetails.getCurrentUserId());
         entity.setLogoId(dto.getLogoId());
+        entity.setCompressedLogoId(attachService.getImageCompressedImageId(dto.getLogoId()));
         universityRepository.save(entity);
         universityDegreeService.merger(entity.getId(), dto.getDegreeList()); //merge university degreeType
         universityFacultyService.collectAndMerge(entity.getId(), dto.getFacultyIdList());
@@ -79,8 +82,11 @@ public class UniversityService {
         entity.setRating(dto.getRating());
         entity.setCountryId(dto.getCountryId());
         entity.setDescription(dto.getDescription());
+        entity.setAbbreviation(dto.getAbbreviation());
         entity.setPhotoId(dto.getPhotoId()); // Delete old photo.
+        entity.setCompressedPhotoId(attachService.getImageCompressedImageId(dto.getPhotoId()));
         entity.setLogoId(dto.getLogoId());
+        entity.setCompressedLogoId(attachService.getImageCompressedImageId(dto.getLogoId()));
         universityRepository.save(entity);
         universityDegreeService.merger(entity.getId(), dto.getDegreeList()); //merge university degreeType\
         universityFacultyService.collectAndMerge(entity.getId(), dto.getFacultyIdList());
@@ -110,9 +116,15 @@ public class UniversityService {
 
     public UniversityResponseDTO getByIdDetailResponse(Long id, AppLanguage appLanguage) {
         UniversityEntity entity = get(id);
-        UniversityResponseDTO responseDTO = toDTO(entity);
-        responseDTO.setDegreeList(universityDegreeService.getUniversityDegreeTypeList(id, appLanguage));
-        return responseDTO;
+//        UniversityResponseDTO responseDTO = toDTO(entity);
+        UniversityResponseDTO dto = new UniversityResponseDTO();
+        dto.setId(entity.getId());
+        dto.setName(entity.getName());
+        dto.setRating(entity.getRating());
+        dto.setCountryId(entity.getCountryId());
+        dto.setWebSite(entity.getWebSite());
+        //dto.setDegreeList(universityDegreeService.getUniversityDegreeTypeList(id, appLanguage));
+        return dto;
     }
 
     public PageImpl<UniversityResponseFilterDTO> filter(int page, int size, UniversityFilterDTO dto, AppLanguage language) {
@@ -140,6 +152,7 @@ public class UniversityService {
             dto.setLogo(attachService.getResponseAttach(entity.getLogoId()));
         }
         dto.setDescription(entity.getDescription());
+        dto.setAbbreviation(dto.getAbbreviation());
         return dto;
     }
 
@@ -152,12 +165,12 @@ public class UniversityService {
             dto.setCountry(countryService.getById(entity.getCountryId(), language));
         }
         dto.setWebSite(entity.getWebSite());
-        if (entity.getPhotoId() != null) {
-            AttachEntity photo = entity.getPhoto();
-            dto.setPhoto(attachService.getResponseAttach(photo.getCompressedId() != null ? photo.getCompressedId() : entity.getPhotoId()));
+        if (entity.getCompressedPhotoId() != null) {
+            dto.setPhoto(attachService.getResponseAttach(entity.getCompressedPhotoId()));
         }
         dto.setDegreeList(universityDegreeService.getUniversityDegreeTypeList(entity.getId(), language));
         dto.setDescription(entity.getDescription());
+        dto.setAbbreviation(dto.getAbbreviation());
         return dto;
     }
 
@@ -193,6 +206,13 @@ public class UniversityService {
         List<UniversityEntity> entityList = universityRepository.getUniversityListByConsultingId(consultingId);
         List<UniversityResponseDTO> dtoList = new LinkedList<>();
         for (UniversityEntity entity : entityList) {
+            UniversityResponseDTO dto = new UniversityResponseDTO();
+            if (entity.getCompressedPhotoId() != null) {
+                dto.setPhoto(attachService.getResponseAttach(entity.getCompressedPhotoId()));
+            }
+            if (entity.getCompressedLogoId() != null) {
+                dto.setLogo(attachService.getResponseAttach(entity.getCompressedLogoId()));
+            }
             dtoList.add(toDTO(entity));
         }
         return dtoList;

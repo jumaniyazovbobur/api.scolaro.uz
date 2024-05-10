@@ -20,8 +20,10 @@ import api.scolaro.uz.service.AttachService;
 import api.scolaro.uz.service.ProfileService;
 import api.scolaro.uz.service.ResourceMessageService;
 import api.scolaro.uz.service.UniversityService;
+import api.scolaro.uz.service.consulting.ConsultingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -44,6 +46,8 @@ public class ScholarShipService {
     private final ScholarShipFilterRepository scholarShipFilterRepository;
     private final ScholarShipDegreeService scholarShipDegreeService;
     private final UniversityService universityService;
+    @Autowired
+    private ConsultingService consultingService;
 
     public ApiResponse<?> create(ScholarShipRequestDTO dto) {
         UniversityEntity university = universityService.get(dto.getUniversityId());
@@ -52,6 +56,7 @@ public class ScholarShipService {
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
         entity.setPhotoId(dto.getPhotoId());
+        entity.setCompressedPhotoId(attachService.getImageCompressedImageId(dto.getPhotoId()));
         entity.setStartDate(dto.getStartDate());
         entity.setExpiredDate(dto.getExpiredDate());
         entity.setPrice(dto.getPrice());
@@ -64,14 +69,17 @@ public class ScholarShipService {
 
     public ApiResponse<?> getById(String id, AppLanguage language) {
         ScholarShipEntity entity = get(id);
-        return new ApiResponse<>(200, false, toDTO(entity, language));
+        return new ApiResponse<>(200, false, toDTO(entity, language, false));
     }
 
     public ApiResponse<?> getByIdDetail(String id, AppLanguage language) {
         ScholarShipEntity entity = get(id);
-        ScholarShipResponseDTO shipResponse = toDTO(entity, language);
+        ScholarShipResponseDTO shipResponse = toDTO(entity, language, false);
         UniversityResponseDTO university = universityService.getByIdDetailResponse(entity.getUniversityId(), language);
         shipResponse.setUniversity(university);
+        if (entity.getUniversityId() != null) {
+            shipResponse.setConsultingList(consultingService.getUniversityConsultingList(entity.getUniversityId()));  // university consulting list
+        }
         return new ApiResponse<>(200, false, shipResponse);
     }
 
@@ -86,10 +94,11 @@ public class ScholarShipService {
         entity.setUniversityId(dto.getUniversityId());
         if (dto.getPhotoId() != null) {
             entity.setPhotoId(dto.getPhotoId());
+            entity.setCompressedPhotoId(attachService.getImageCompressedImageId(dto.getPhotoId()));
         }
         scholarShipRepository.save(entity);
         scholarShipDegreeService.merger(entity.getId(), dto.getDegreeTypeList());
-        return new ApiResponse<>(200, false, toDTO(entity, language));
+        return new ApiResponse<>(200, false, toDTO(entity, language, false));
     }
 
     public ApiResponse<?> delete(String id) {
@@ -121,16 +130,14 @@ public class ScholarShipService {
         List<ScholarShipEntity> list = scholarShipRepository.getTopScholarShip();
         List<ScholarShipResponseDTO> dtoList = new LinkedList<>();
         for (ScholarShipEntity entity : list) {
-            ScholarShipResponseDTO dto = toDTO(entity, language);
+            ScholarShipResponseDTO dto = toDTO(entity, language, true);
             dto.setUniversity(universityService.toDTO(entity.getUniversity()));
-            if (entity.getPhotoId() != null && entity.getPhoto().getCompressedId() != null)
-                dto.setAttach(attachService.getResponseAttach(entity.getPhoto().getCompressedId()));
             dtoList.add(dto);
         }
         return new ApiResponse<>(200, false, dtoList);
     }
 
-    public ScholarShipResponseDTO toDTO(ScholarShipEntity entity, AppLanguage language) {
+    public ScholarShipResponseDTO toDTO(ScholarShipEntity entity, AppLanguage language, boolean useCompressedPhoto) {
         ScholarShipResponseDTO dto = new ScholarShipResponseDTO();
         dto.setId(entity.getId());
         dto.setPrice(entity.getPrice());
@@ -141,9 +148,12 @@ public class ScholarShipService {
         dto.setExpiredDate(entity.getExpiredDate());
         dto.setDegreeTypeList(scholarShipDegreeService.getScholarShipDegreeTypeList(entity.getId(), language));
         dto.setCreatedDate(entity.getCreatedDate());
-        if (entity.getPhotoId() != null) {
+        if (useCompressedPhoto && entity.getCompressedPhotoId() != null) {
+            dto.setAttach(attachService.getResponseAttach(entity.getCompressedPhotoId()));
+        } else if (entity.getPhotoId() != null) {
             dto.setAttach(attachService.getResponseAttach(entity.getPhotoId()));
         }
+
         return dto;
     }
 
@@ -151,7 +161,7 @@ public class ScholarShipService {
         List<ScholarShipEntity> list = scholarShipRepository.findAllByVisibleTrue();
         List<ScholarShipResponseDTO> dtoList = new LinkedList<>();
         for (ScholarShipEntity entity : list) {
-            ScholarShipResponseDTO dto = toDTO(entity, appLanguage);
+            ScholarShipResponseDTO dto = toDTO(entity, appLanguage, true);
             dto.setUniversity(universityService.toDTO(entity.getUniversity()));
             dtoList.add(dto);
         }

@@ -24,7 +24,7 @@ public class UniversityCustomRepository {
     private AttachService attachService;
 
     public FilterResultDTO<UniversityEntity> filterPagination(UniversityFilterDTO dto, Integer page, Integer size) {
-        StringBuilder selectBuilder = new StringBuilder("from UniversityEntity as u left join fetch u.photo");
+        StringBuilder selectBuilder = new StringBuilder("from UniversityEntity as u ");
         StringBuilder countBuilder = new StringBuilder("select count(u) from UniversityEntity as u");
         StringBuilder builder = new StringBuilder(" where u.visible=true");
         Map<String, Object> params = new LinkedHashMap<>();
@@ -69,14 +69,14 @@ public class UniversityCustomRepository {
         params.put("consultingId", consultingId);
         StringBuilder selectBuilder;
         if (consultingProfileId != null) {
-            selectBuilder = new StringBuilder("select u.id,u.name,u.logo_id, " +
+            selectBuilder = new StringBuilder("select u.id,u.name,u.compressed_logo_id, " +
                     "       (select count(*) from app_application where consulting_id =:consultingId and university_id = u.id and consulting_profile_id =:consultingProfileId and  visible = true) as studentCount " +
                     "from university as u " +
                     "where u.id in (select university_id from app_application where consulting_id =:consultingId " +
                     "               and consulting_profile_id =:consultingProfileId and visible = true group by university_id)");
             params.put("consultingProfileId", consultingProfileId);
         } else {
-            selectBuilder = new StringBuilder("select u.id,u.name,u.logo_id, " +
+            selectBuilder = new StringBuilder("select u.id,u.name,u.compressed_logo_id, " +
                     "       (select count(*) from app_application where consulting_id =:consultingId and university_id = u.id and visible = true) as studentCount " +
                     "from university as u " +
                     "where u.id in (select university_id from app_application where consulting_id =:consultingId " +

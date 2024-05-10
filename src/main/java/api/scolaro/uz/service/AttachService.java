@@ -301,6 +301,14 @@ public class AttachService {
         return id == null ? null : new AttachDTO(id, getUrl(id));
     }
 
+    public String getImageCompressedImageId(String id) {
+        if (id == null) {
+            return null;
+        }
+        Optional<AttachEntity> optional = attachRepository.findById(id);
+        return optional.map(AttachEntity::getCompressedId).orElse(null);
+    }
+
     public AttachDTO getResponseAttachWithExtension(String id, String extension) {
         return id == null ? null : new AttachDTO(id, getUrl(id), extension);
     }
@@ -308,5 +316,27 @@ public class AttachService {
     public ApiResponse<Boolean> stepLevelDeleteAttach(String attachId) {
         applicationLevelAttachService.deleteLevelAttachByAttachId(attachId);
         return ApiResponse.ok();
+    }
+
+    public String compressAllImage() {
+        List<AttachEntity> attachList = attachRepository.findAll();
+        for (AttachEntity attachEntity : attachList) {
+            if (!attachEntity.getIsCompressed() &&
+                    attachEntity.getCompressedId() != null &&
+                    imageExtensionMap.containsKey(attachEntity.getExtension().toLowerCase())) {
+                String path1 = getPath(attachEntity);
+                try {
+                    String compressedId = createCompressedImage(attachEntity.getExtension(),
+                            attachEntity.getOrigenName(),
+                            attachEntity.getSize(),
+                            new File(path1),
+                            attachEntity.getPath());
+                    attachRepository.updateCompressedId(attachEntity.getId(), compressedId);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return "DONE";
     }
 }

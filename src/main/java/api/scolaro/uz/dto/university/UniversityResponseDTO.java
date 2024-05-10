@@ -23,6 +23,7 @@ public class UniversityResponseDTO {
     private Long rating;
     private Long countryId;
     private String description;
+    private String abbreviation;
     private AttachDTO photo;
     private AttachDTO logo;
     private List<UniversityDegreeType> degreeTypeList;

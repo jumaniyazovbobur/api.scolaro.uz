@@ -23,13 +23,19 @@ public class UniversityEntity extends BaseIdentityEntity {
     private CountryEntity country;
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+    @Column(name = "abbreviation", columnDefinition = "TEXT")
+    private String abbreviation;
     @Column(name = "photo_id")
     private String photoId;
+    @Column(name = "compressed_photo_id")
+    private String compressedPhotoId;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_id", insertable = false, updatable = false)
     private AttachEntity photo;
     @Column(name = "logo_id")
     private String logoId;
+    @Column(name = "compressed_logo_id")
+    private String compressedLogoId;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "logo_id", insertable = false, updatable = false)
     private AttachEntity logo;

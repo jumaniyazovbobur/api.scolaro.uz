@@ -18,9 +18,7 @@ import lombok.NoArgsConstructor;
 public class SearchResponseDTO {
     private String id;
     private String name;
-    private String type; // UNIVERSITY,CONSULTING,COUNTRY,SCHOLAR
+    private String type; // UNIVERSITY,CONSULTING,COUNTRY,SCHOLARSHIP
     private String imageUrl;
     private String description;
-    @JsonIgnore
-    private Long tempCount;
 }

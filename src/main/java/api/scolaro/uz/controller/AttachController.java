@@ -64,7 +64,7 @@ public class AttachController {
     @PostMapping("/upload/simp-message/consulting")
     @Operation(summary = "Upload file to simple-message as consulting", description = "")
     public ResponseEntity<ApiResponse<SimpleMessageMapperDTO>> createSimpleMessageAttachAsConsulting(@RequestParam("file") MultipartFile file,
-                                                                                     @RequestParam("applicationId") String applicationId) {
+                                                                                                     @RequestParam("applicationId") String applicationId) {
         log.info("simple message attach as consulting  = {}", file.getOriginalFilename());
         return ResponseEntity.ok(attachService.createSimpleMessageAttachAsConsulting(file, applicationId));
     }
@@ -119,6 +119,12 @@ public class AttachController {
     public ResponseEntity<PageImpl<AttachDTO>> getAll(@RequestParam(value = "page", defaultValue = "1") int page,
                                                       @RequestParam(value = "size", defaultValue = "15") int size) {
         return ResponseEntity.ok(attachService.getAll(PaginationUtil.page(page), size));
+    }
+
+    @GetMapping("/delete-then")
+    @Operation(summary = "File get all api", description = "")
+    public ResponseEntity<String> compressTest() {
+        return ResponseEntity.ok(attachService.compressAllImage());
     }
 
 }

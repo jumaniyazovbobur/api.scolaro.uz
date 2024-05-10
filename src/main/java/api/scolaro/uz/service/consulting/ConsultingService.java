@@ -88,6 +88,7 @@ public class ConsultingService {
         consultingEntity.setName(dto.getName());
         consultingEntity.setAddress(dto.getAddress());
         consultingEntity.setPhotoId(dto.getPhotoId());
+        consultingEntity.setCompressedPhotoId(attachService.getImageCompressedImageId(dto.getPhotoId()));
         consultingEntity.setStatus(GeneralStatus.ACTIVE);
         consultingEntity.setAbout(dto.getAbout());
         consultingEntity.setBalance(0L);
@@ -113,13 +114,14 @@ public class ConsultingService {
         if (!dto.getPhotoId().equals(entity.getPhotoId())) { // delete old photo
             attachService.delete(entity.getPhotoId());
             entity.setPhotoId(dto.getPhotoId());
+            entity.setCompressedPhotoId(attachService.getImageCompressedImageId(dto.getPhotoId()));
         }
         entity.setName(dto.getName());
         entity.setAddress(dto.getAddress());
         entity.setAbout(dto.getAbout());
         // update
         consultingRepository.save(entity);
-        return ApiResponse.ok(toDTO(entity));
+        return ApiResponse.ok(toDTO(entity, false));
     }
 
     public ApiResponse<String> delete(String consultingId) {
@@ -133,6 +135,7 @@ public class ConsultingService {
         if (!dto.getPhotoId().equals(entity.getPhotoId())) { // delete old photo
             oldImageId = entity.getPhotoId();
             entity.setPhotoId(dto.getPhotoId());
+            entity.setCompressedPhotoId(attachService.getImageCompressedImageId(dto.getPhotoId()));
         }
         entity.setName(dto.getName());
         entity.setAddress(dto.getAddress());
@@ -140,7 +143,7 @@ public class ConsultingService {
         // update
         consultingRepository.save(entity);
         if (oldImageId != null) attachService.delete(oldImageId);
-        return ApiResponse.ok(toDTO(entity));
+        return ApiResponse.ok(toDTO(entity, false));
     }
 
     public ApiResponse<String> changeStatus(String id, GeneralStatus status) {
@@ -152,7 +155,7 @@ public class ConsultingService {
 
     public ApiResponse<ConsultingResponseDTO> getId(String id) {
         ConsultingEntity entity = get(id);
-        ConsultingResponseDTO dto = toDTO(entity);
+        ConsultingResponseDTO dto = toDTO(entity, false);
         ConsultingProfileEntity profile = consultingProfileService.getConsultingManagerByConsultingId(entity.getId());
         if (profile != null) {
             dto.setOwnerName(profile.getName());
@@ -164,7 +167,7 @@ public class ConsultingService {
 
     public ConsultingResponseDTO getById(String id) {
         ConsultingEntity entity = get(id);
-        return toDTO(entity);
+        return toDTO(entity, false);
     }
 
     public PageImpl<ConsultingResponseDTO> filter(ConsultingFilterDTO dto, int page, int size) {
@@ -228,12 +231,7 @@ public class ConsultingService {
         List<ConsultingEntity> list = consultingRepository.getTopConsulting(PageRequest.of(0, 6));
         List<ConsultingResponseDTO> dtoList = list
                 .stream()
-                .map(item -> {
-                    ConsultingResponseDTO dto = this.toDTO(item);
-                    if (item.getPhotoId() != null && item.getPhoto().getCompressedId() != null)
-                        dto.setPhoto(attachService.getResponseAttach(item.getPhoto().getCompressedId()));
-                    return dto;
-                })
+                .map(item -> this.toDTO(item, true))
                 .toList();
         return new ApiResponse<>(200, false, dtoList);
     }
@@ -245,7 +243,7 @@ public class ConsultingService {
                 .getContent()
                 .stream()
                 .map(item -> {
-                    ConsultingResponseDTO result = toDTO(item);
+                    ConsultingResponseDTO result = toDTO(item, true);
                     if (item.getPhotoId() != null && item.getPhoto().getCompressedId() != null)
                         result.setPhoto(attachService.getResponseAttach(item.getPhoto().getCompressedId()));
                     return result;
@@ -262,7 +260,8 @@ public class ConsultingService {
             dto.setName(entity.getName());
             dto.setAddress(entity.getAddress());
             dto.setAbout(entity.getAbout());
-            if (entity.getPhotoId() != null) dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
+            if (entity.getCompressedPhotoId() != null)
+                dto.setPhoto(attachService.getResponseAttach(entity.getCompressedPhotoId()));
             return dto;
         }).toList();
         return dtoList;
@@ -277,13 +276,17 @@ public class ConsultingService {
         return optional.get();
     }
 
-    private ConsultingResponseDTO toDTO(ConsultingEntity entity) {
+    private ConsultingResponseDTO toDTO(ConsultingEntity entity, boolean userCompressedPhoto) {
         ConsultingResponseDTO dto = new ConsultingResponseDTO();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setAddress(entity.getAddress());
         dto.setAbout(entity.getAbout());
-        if (entity.getPhotoId() != null) dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
+        if (userCompressedPhoto && entity.getCompressedPhotoId() != null) {
+            dto.setPhoto(attachService.getResponseAttach(entity.getCompressedPhotoId()));
+        } else if (entity.getPhotoId() != null) {
+            dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
+        }
         dto.setCreatedDate(entity.getCreatedDate());
         return dto;
     }

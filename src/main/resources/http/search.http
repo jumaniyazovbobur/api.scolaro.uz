@@ -1,0 +1,9 @@
+### Search
+POST http://localhost:8085/api/v1/search?page=1&size=5
+Content-Type: application/json
+
+
+{
+  "query": "a",
+  "searchType":"UNIVERSITY"
+}
