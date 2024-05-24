@@ -152,7 +152,7 @@ public class UniversityService {
             dto.setLogo(attachService.getResponseAttach(entity.getLogoId()));
         }
         dto.setDescription(entity.getDescription());
-        dto.setAbbreviation(dto.getAbbreviation());
+        dto.setAbbreviation(entity.getAbbreviation());
         return dto;
     }
 
@@ -170,7 +170,7 @@ public class UniversityService {
         }
         dto.setDegreeList(universityDegreeService.getUniversityDegreeTypeList(entity.getId(), language));
         dto.setDescription(entity.getDescription());
-        dto.setAbbreviation(dto.getAbbreviation());
+        dto.setAbbreviation(entity.getAbbreviation());
         return dto;
     }
 

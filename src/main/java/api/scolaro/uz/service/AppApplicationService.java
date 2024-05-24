@@ -238,9 +238,9 @@ public class AppApplicationService {
         return dto;
     }
 
-    public AppApplicationEntity getByStudentIdAndConsultingId(String studentId, String consultingId) { // TODO
-        Optional<AppApplicationEntity> appApplication = appApplicationRepository.findByStudentIdAndConsultingIdAndVisibleTrue(studentId, consultingId);
-        return appApplication.orElse(null);
+    public List<AppApplicationEntity> getByStudentIdAndConsultingId(String studentId, String consultingId) { // TODO
+        List<AppApplicationEntity> appApplicationList = appApplicationRepository.findByStudentIdAndConsultingIdAndVisibleTrue(studentId, consultingId);
+        return appApplicationList;
     }
 
     public AppApplicationEntity getByStudentIdAndConsultingIdAndUniversityId(String studentId, String consultingId, Long universityId) {

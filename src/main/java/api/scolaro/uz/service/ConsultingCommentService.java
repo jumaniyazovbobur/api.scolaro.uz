@@ -18,9 +18,7 @@ import api.scolaro.uz.service.consulting.ConsultingService;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -41,15 +39,15 @@ public class ConsultingCommentService {
 
 
     public ApiResponse<?> create(String consulting_id, ConsultingCommentCreateDTO dto) {
-        AppApplicationEntity appApplicationEntity = appApplicationService.getByStudentIdAndConsultingId(EntityDetails.getCurrentUserId(), consulting_id);
-        if (appApplicationEntity == null) {
+        List<AppApplicationEntity> appApplicationList = appApplicationService.getByStudentIdAndConsultingId(EntityDetails.getCurrentUserId(), consulting_id);
+        if (appApplicationList.size() == 0) {
             log.info("There is no application between student {} and consulting {}", EntityDetails.getCurrentUserId(), consulting_id);
             return new ApiResponse<>(resourceMessageService.getMessage("application.not.found"), 400, true);
         }
-        if (!appApplicationEntity.getStatus().equals(AppStatus.FINISHED)) {
+        /*if (!appApplicationEntity.getStatus().equals(AppStatus.FINISHED)) {
             log.info("Application status not FINISHED");
             return new ApiResponse<>(resourceMessageService.getMessage("application.status.not.FINISHED"), 400, true);
-        }
+        }*/
         ConsultingCommentEntity entity = new ConsultingCommentEntity();
         entity.setContent(dto.getContent());
         entity.setConsultingId(consulting_id);
@@ -58,22 +56,30 @@ public class ConsultingCommentService {
         return new ApiResponse<>(200, false, "Success");
     }
 
-    public ApiResponse<List<ConsultingCommentResponseDTO>> getByConsultingId(String consulting_id) {
-        List<ConsultingCommentEntity> consultingComment = consultingCommentRepository.getByConsultingId(consulting_id);
+    public ApiResponse<Page<ConsultingCommentResponseDTO>> getByConsultingId(String consulting_id, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate"));
+        Page<ConsultingCommentEntity> pageResult = consultingCommentRepository.getByConsultingIdAndVisibleTrue(consulting_id, pageable);
+
         List<ConsultingCommentResponseDTO> consultingCommentResponseDTO = new LinkedList<>();
-        for (ConsultingCommentEntity entity : consultingComment) {
+        for (ConsultingCommentEntity entity : pageResult.getContent()) {
             ConsultingCommentResponseDTO response = new ConsultingCommentResponseDTO();
             response.setId(entity.getId());
             response.setContent(entity.getContent());
             response.setCreatedDate(entity.getCreatedDate());
             response.setStudent(profileService.getProfileInfo(entity.getStudentId()));
+            consultingCommentResponseDTO.add(response);
         }
-        return new ApiResponse<>(200, false, consultingCommentResponseDTO);
+        Page<ConsultingCommentResponseDTO> pageObj = new PageImpl<>(consultingCommentResponseDTO, pageable, pageResult.getTotalElements());
+        return ApiResponse.ok(pageObj);
     }
 
     public ApiResponse<Page<ConsultingCommentFilterMapperDTO>> filterForAdmin(ConsultingCommentFilterDTO filter, int page, int size) {
         FilterResultDTO<ConsultingCommentFilterMapperDTO> filterResult = customConsultingCommentRepository.filterForAdmin(filter, page, size);
         Page<ConsultingCommentFilterMapperDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
         return ApiResponse.ok(pageObj);
+    }
+
+    public void delete(String consultingCommentId) {
+        consultingCommentRepository.deleteConsultingCommentId(consultingCommentId);
     }
 }

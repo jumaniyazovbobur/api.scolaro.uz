@@ -16,7 +16,7 @@ public interface AppApplicationRepository extends JpaRepository<AppApplicationEn
 
     Optional<AppApplicationEntity> findByIdAndVisibleTrue(String s);
 
-    Optional<AppApplicationEntity> findByStudentIdAndConsultingIdAndVisibleTrue(String studentId, String consultingId);
+    List<AppApplicationEntity> findByStudentIdAndConsultingIdAndVisibleTrue(String studentId, String consultingId);
 
     @Query("FROM AppApplicationEntity a join fetch a.consulting join fetch a.consultingStepLevel where a.studentId = ?1 order by a.createdDate desc ")
     List<AppApplicationEntity> findByStudentIdAndVisibleTrue(String studentId);

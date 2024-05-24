@@ -4,10 +4,12 @@ import api.scolaro.uz.dto.appApplication.AppApplicationFilterDTO;
 import api.scolaro.uz.dto.consultingComment.ConsultingCommentCreateDTO;
 import api.scolaro.uz.dto.consultingComment.ConsultingCommentFilterDTO;
 import api.scolaro.uz.service.ConsultingCommentService;
+import api.scolaro.uz.util.PaginationUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.support.PageableUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -31,9 +33,11 @@ public class ConsultingCommentController {
 
     @Operation(summary = "Consulting Comment get All", description = "Method user for Consulting Comment get All")
     @GetMapping("/{consultingId}")
-    public ResponseEntity<?> getAllCommentByConsultingId(@PathVariable("consultingId") String id) {
+    public ResponseEntity<?> getAllCommentByConsultingId(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                         @RequestParam(value = "size", defaultValue = "5") Integer size,
+                                                         @PathVariable("consultingId") String id) {
         log.info("Consulting Comment get By consultingId {}", id);
-        return ResponseEntity.ok(consultingCommentService.getByConsultingId(id));
+        return ResponseEntity.ok(consultingCommentService.getByConsultingId(id, PaginationUtil.page(page), size));
     }
 
     /**
@@ -46,7 +50,15 @@ public class ConsultingCommentController {
                                     @RequestParam(value = "size", defaultValue = "5") Integer size,
                                     @RequestBody ConsultingCommentFilterDTO dto) {
         log.info("Admin filtered appApplicationList  page={},size={}", page, size);
-        return ResponseEntity.ok(consultingCommentService.filterForAdmin(dto, page-1, size));
+        return ResponseEntity.ok(consultingCommentService.filterForAdmin(dto, PaginationUtil.page(page), size));
     }
 
+    @Operation(summary = "Delete consulting comment by cosultingCommentId", description = "")
+    @DeleteMapping("/comment/{consultingCommentId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> getAllCommentByConsultingId(@PathVariable("consultingCommentId") String consultingCommentId) {
+        log.info("Delete consulting comment {}", consultingCommentId);
+        consultingCommentService.delete(consultingCommentId);
+        return ResponseEntity.ok().build();
+    }
 }
