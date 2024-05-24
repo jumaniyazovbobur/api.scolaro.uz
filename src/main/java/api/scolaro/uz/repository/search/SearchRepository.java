@@ -130,7 +130,7 @@ public class SearchRepository {
                 "from scholar_ship " +
                 "where visible is true ");
         if (isQuery) {
-            scholarQuery.append(" and lower(scholar_ship.name) like lower(:query)");
+            scholarQuery.append(" and lower(scholar_ship.name) like lower(:query) ");
             searchingTableSet.add("SCHOLARSHIP");
         }
 
@@ -183,14 +183,14 @@ public class SearchRepository {
             StringJoiner joiner = new StringJoiner(" \n union ");
             for (String searchingTable : searchingTableSet) {
                 if (searchingTable.equals("SCHOLARSHIP")) {
-                    joiner.add("select * from (" + scholarQuery + ") ");
+                    joiner.add("select * from ( " + scholarQuery + " ) ");
 //                    sqlQuery.append("select * from (").append(scholarQuery).append(")");
                 } else if (searchingTable.equals("CONSULTING")) {
-                    joiner.add("select * from (" + consultingQuery + ") ");
+                    joiner.add("select * from ( " + consultingQuery + " ) ");
 //                    sqlQuery.append("select * from (").append(consultingQuery).append(")");
                 } else if (searchingTable.equals("UNIVERSITY")) {
 //                    sqlQuery.append("select * from (").append(universityQuery).append(")");
-                    joiner.add("select * from (" + universityQuery + ") ");
+                    joiner.add("select * from ( " + universityQuery + " ) ");
                 }
             }
             return joiner.toString();
@@ -217,7 +217,7 @@ public class SearchRepository {
         // ----------------------------------------------------------------------- SCHOLARSHIP Count
         StringBuilder scholarQuery = new StringBuilder(" select count(*) from scholar_ship where visible is true ");
         if (isQuery) {
-            scholarQuery.append(" and lower(scholar_ship.name) like lower(:query)");
+            scholarQuery.append(" and lower(scholar_ship.name) like lower(:query) ");
             searchingTableSet.add("SCHOLARSHIP");
         }
         /*if (dto.getScholarShipId() != null) {
@@ -270,23 +270,17 @@ public class SearchRepository {
         // ----------------------------------------------------------------------------
         StringBuilder sqlQuery = new StringBuilder();
         if (dto.getSearchType() == null) {
+            StringJoiner joiner = new StringJoiner(" \n union ");
             for (String searchingTable : searchingTableSet) {
                 if (searchingTable.equals("SCHOLARSHIP")) {
-                    sqlQuery.append("select * from (").append(scholarQuery).append(")");
+                    joiner.add("select * from ( " + scholarQuery +" )");
                 } else if (searchingTable.equals("CONSULTING")) {
-                    sqlQuery.append("select * from (").append(consultingQuery).append(")");
+                    joiner.add("select * from ( " + consultingQuery + " )");
                 } else if (searchingTable.equals("UNIVERSITY")) {
-                    sqlQuery.append("select * from (").append(universityQuery).append(")");
+                    joiner.add("select * from ( " + universityQuery +" )");
                 }
             }
-            /*sqlQuery = new StringBuilder("""
-                          %s
-                          union ALL
-                          %s
-                          union ALL
-                          %s
-                    """.formatted(scholarQuery, consultingQuery, universityQuery)
-            );*/
+           return joiner.toString();
         } else if (dto.getSearchType().equals("SCHOLARSHIP")) {
             sqlQuery.append(scholarQuery);
         } else if (dto.getSearchType().equals("CONSULTING")) {
