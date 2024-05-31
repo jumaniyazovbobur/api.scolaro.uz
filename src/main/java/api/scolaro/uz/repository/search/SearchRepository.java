@@ -270,7 +270,7 @@ public class SearchRepository {
         // ----------------------------------------------------------------------------
         StringBuilder sqlQuery = new StringBuilder();
         if (dto.getSearchType() == null) {
-            StringJoiner joiner = new StringJoiner(" \n union ");
+            StringJoiner joiner = new StringJoiner(" \n union all ");
             for (String searchingTable : searchingTableSet) {
                 if (searchingTable.equals("SCHOLARSHIP")) {
                     joiner.add("select * from ( " + scholarQuery +" )");

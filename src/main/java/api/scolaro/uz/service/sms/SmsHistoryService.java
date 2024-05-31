@@ -28,7 +28,7 @@ public class SmsHistoryService {
 
     public void sendRegistrationSms(String phoneNumber) {
         String smsCode = RandomUtil.getRandomSmsCode();
-        String text = "Scolaro ro'yhatdan o'tish tasdiqlash kodi: \n" + smsCode;
+        String text = "Scolaro.uz partali - ro'yhatdan o'tish tasdiqlash kodi: " + smsCode;
         sendMessage(phoneNumber, text, SmsType.REGISTRATION, smsCode);
     }
 
@@ -84,7 +84,7 @@ public class SmsHistoryService {
 
     public void sendResetSms(String phone) {
         String smsCode = RandomUtil.getRandomSmsCode();
-        String text = "Scolarodan parolni qayta tiklash uchun tasdiqlash kodi: \n" + smsCode;
+        String text = "Scolaro.uz partali - parolni qayta tiklash uchun tasdiqlash kodi: " + smsCode;
         sendMessage(phone, text, SmsType.RESET_PASSWORD, smsCode);
     }
 }

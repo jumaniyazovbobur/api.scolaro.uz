@@ -4,6 +4,5 @@ Content-Type: application/json
 
 
 {
-  "query": "a",
-  "searchType":"UNIVERSITY"
+  "query": "zzzzzzzzzzzz"
 }
