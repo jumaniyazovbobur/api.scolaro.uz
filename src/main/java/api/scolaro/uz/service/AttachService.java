@@ -24,6 +24,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,6 +38,7 @@ import javax.imageio.stream.ImageOutputStream;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -283,7 +286,7 @@ public class AttachService {
 
 
     public String getUrl(String fileName) {
-        return attachUrl + "/open/" + fileName;
+        return attachUrl + "/open/v2/" + fileName;
     }
 
     private AttachDTO toDTO(AttachEntity entity) {
@@ -338,5 +341,27 @@ public class AttachService {
             }
         }
         return "DONE";
+    }
+
+    public ResponseEntity<Resource> open_generalAsResource(String fileName) {
+        try {
+            AttachEntity entity = getEntity(fileName);
+            Path path = Paths.get(getPath(entity));
+            Resource resource = new UrlResource(path.toUri());
+            if (resource.exists() && resource.isReadable()) {
+                HttpHeaders headers = new HttpHeaders();
+                headers.add(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=\"" + entity.getOrigenName() + "\"");
+                return ResponseEntity.ok()
+                        .contentType(MediaType.IMAGE_PNG)
+                        .contentLength(Files.size(path))
+                        .headers(headers)
+                        .body(resource);
+            } else {
+                throw new FileNotFoundException("File not found or not readable: " + fileName);
+            }
+        } catch (Exception e) {
+            log.warn("Attach error : {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

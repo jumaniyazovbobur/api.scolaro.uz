@@ -87,6 +87,12 @@ public class AttachController {
         log.info("open attach  ={}", fileName);
         return attachService.open_general(fileName);
     }
+    @GetMapping(value = "/open/v2/{fileName}", produces = MediaType.IMAGE_PNG_VALUE)
+    @Operation(summary = "open file api", description = "")
+    public ResponseEntity<Resource> open_generalAsResource(@PathVariable("fileName") String fileName) {
+        log.info("open attach v2 = {}", fileName);
+        return attachService.open_generalAsResource(fileName);
+    }
 
     @GetMapping("/download/{fileName}")
     @Operation(summary = "download file api", description = "")

@@ -45,6 +45,7 @@ public class SecurityConfiguration {
             "/swagger-resources/**",
             "/api/v1/auth/**",
             "/api/v1/attach/open/*",
+            "/api/v1/attach/open/v2/*",
             "/api/v1/attach/download/**",
             "/api/v1/country/public/**",
             "/api/v1/university/filter",
