@@ -56,6 +56,7 @@ public class ScholarShipFilterRepository {
         StringBuilder selectBuilder = new StringBuilder("select s.id as sId, " +
                 "s.name as sName, " +
                 "s.description as sDescr, " + // TODO remove
+                "s.abbreviation as abbreviation, " +
                 "s.price as sPrise, " +
                 "s.start_date as sSDate, " +
                 "s.expired_date as sEDate, " +
@@ -91,15 +92,16 @@ public class ScholarShipFilterRepository {
             dto.setId(MapperUtil.getStringValue(object[0]));
             dto.setScholarShipName(MapperUtil.getStringValue(object[1]));
             dto.setDescription(MapperUtil.getStringValue(object[2]));
+            dto.setAbbreviation(MapperUtil.getStringValue(object[3]));
 
-            dto.setPrice(MapperUtil.getIntegerValue(object[3]));
-            dto.setStartDate(MapperUtil.getLocalDateValue(object[4]));
-            dto.setExpiredDate(MapperUtil.getLocalDateValue(object[5]));
-            dto.setAttachDTO(attachService.getResponseAttach(MapperUtil.getStringValue(object[6])));
+            dto.setPrice(MapperUtil.getIntegerValue(object[4]));
+            dto.setStartDate(MapperUtil.getLocalDateValue(object[5]));
+            dto.setExpiredDate(MapperUtil.getLocalDateValue(object[6]));
+            dto.setAttachDTO(attachService.getResponseAttach(MapperUtil.getStringValue(object[7])));
 
             UniversityResponseDTO university = new UniversityResponseDTO();
-            university.setId(MapperUtil.getLongValue(object[7]));
-            university.setName(MapperUtil.getStringValue(object[8]));
+            university.setId(MapperUtil.getLongValue(object[8]));
+            university.setName(MapperUtil.getStringValue(object[9]));
             dto.setUniversity(university);
             dto.setDegreeTypeList(scholarShipDegreeService.getScholarShipDegreeTypeList(MapperUtil.getStringValue(object[0]), language));
             mapperList.add(dto);

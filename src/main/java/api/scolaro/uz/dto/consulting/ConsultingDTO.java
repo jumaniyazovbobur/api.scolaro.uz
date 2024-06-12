@@ -20,6 +20,7 @@ public class ConsultingDTO {
     private String name;
     private String address;
     private String about;
+    private String abbreviation;
     private AttachDTO photo;
     private List<UniversityResponseDTO> universityList;
     private  List<ConsultingTariffResponseDTO> tariffList;

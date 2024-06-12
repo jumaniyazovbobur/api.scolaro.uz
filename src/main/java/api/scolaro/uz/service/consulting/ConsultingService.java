@@ -87,6 +87,7 @@ public class ConsultingService {
         ConsultingEntity consultingEntity = new ConsultingEntity();
         consultingEntity.setName(dto.getName());
         consultingEntity.setAddress(dto.getAddress());
+        consultingEntity.setAbbreviation(dto.getAbbreviation());
         consultingEntity.setPhotoId(dto.getPhotoId());
         consultingEntity.setCompressedPhotoId(attachService.getImageCompressedImageId(dto.getPhotoId()));
         consultingEntity.setStatus(GeneralStatus.ACTIVE);
@@ -119,6 +120,7 @@ public class ConsultingService {
         entity.setName(dto.getName());
         entity.setAddress(dto.getAddress());
         entity.setAbout(dto.getAbout());
+        entity.setAbbreviation(dto.getAbbreviation());
         // update
         consultingRepository.save(entity);
         return ApiResponse.ok(toDTO(entity, false));
@@ -140,6 +142,7 @@ public class ConsultingService {
         entity.setName(dto.getName());
         entity.setAddress(dto.getAddress());
         entity.setAbout(dto.getAbout());
+        entity.setAbbreviation(dto.getAbbreviation());
         // update
         consultingRepository.save(entity);
         if (oldImageId != null) attachService.delete(oldImageId);
@@ -193,6 +196,7 @@ public class ConsultingService {
             consultingDTO.setPhoto(attachService.getResponseAttach(details.getPhotoId()));
         }
         consultingDTO.setAddress(details.getAddress());
+        consultingDTO.setAbbreviation(details.getAbbreviation());
         consultingDTO.setAbout(details.getAbout());
         // get consulting university list
         List<UniversityResponseDTO> oldList = universityService.getConsultingUniversityList(consultingId);
@@ -223,6 +227,7 @@ public class ConsultingService {
         dto.setName(entity.getName());
         dto.setAddress(entity.getAddress());
         dto.setAbout(entity.getAbout());
+        dto.setAbbreviation(entity.getAbbreviation());
         dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
         return dto;
     }
@@ -260,6 +265,7 @@ public class ConsultingService {
             dto.setName(entity.getName());
             dto.setAddress(entity.getAddress());
             dto.setAbout(entity.getAbout());
+            dto.setAbbreviation(entity.getAbbreviation());
             if (entity.getCompressedPhotoId() != null)
                 dto.setPhoto(attachService.getResponseAttach(entity.getCompressedPhotoId()));
             return dto;
@@ -282,6 +288,7 @@ public class ConsultingService {
         dto.setName(entity.getName());
         dto.setAddress(entity.getAddress());
         dto.setAbout(entity.getAbout());
+        dto.setAbbreviation(entity.getAbbreviation());
         if (userCompressedPhoto && entity.getCompressedPhotoId() != null) {
             dto.setPhoto(attachService.getResponseAttach(entity.getCompressedPhotoId()));
         } else if (entity.getPhotoId() != null) {

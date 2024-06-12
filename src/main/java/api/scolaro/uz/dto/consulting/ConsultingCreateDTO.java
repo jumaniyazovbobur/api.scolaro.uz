@@ -22,6 +22,8 @@ public class ConsultingCreateDTO {
     @NotNull(message = "Photo is required")
     private String photoId;
     private String about;
+    @NotNull(message = "abbreviation is required")
+    private String abbreviation;
     private String fireBaseId;
 
 }

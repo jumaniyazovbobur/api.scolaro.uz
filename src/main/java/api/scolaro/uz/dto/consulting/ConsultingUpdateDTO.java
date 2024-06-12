@@ -19,4 +19,6 @@ public class ConsultingUpdateDTO {
 //    @NotBlank(message = "Owner surname is required")
 //    private String ownerSurname;
     private String about;
+    @NotNull(message = "Abbreviation is required")
+    private String abbreviation;
 }

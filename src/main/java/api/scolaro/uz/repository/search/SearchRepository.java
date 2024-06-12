@@ -126,7 +126,7 @@ public class SearchRepository {
                 "       scholar_ship.name as name, " +
                 "       'SCHOLARSHIP' as type, " +
                 "       scholar_ship.compressed_photo_id as image_id, " +
-                "       scholar_ship.description as description " +
+                "       scholar_ship.abbreviation as abbreviation " +
                 "from scholar_ship " +
                 "where visible is true ");
         if (isQuery) {
@@ -140,7 +140,7 @@ public class SearchRepository {
                 "       consulting.name as name, " +
                 "       'CONSULTING' as type, " +
                 "       consulting.compressed_photo_id as image_id, " +
-                "       consulting.about as description " +
+                "       consulting.abbreviation as abbreviation " +
                 " from consulting " +
                 " where visible is true ");
         if (isQuery) {

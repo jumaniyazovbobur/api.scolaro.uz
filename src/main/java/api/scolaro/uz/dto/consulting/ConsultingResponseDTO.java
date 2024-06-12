@@ -17,6 +17,7 @@ public class ConsultingResponseDTO {
     private String name;
     private String address;
     private String about;
+    private String abbreviation;
     private AttachDTO photo;
     private LocalDateTime createdDate;
     private String phone;

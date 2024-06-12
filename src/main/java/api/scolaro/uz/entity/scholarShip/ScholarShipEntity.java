@@ -21,6 +21,8 @@ public class ScholarShipEntity extends BaseEntity {
     private String name;
     @Column(name = "description", columnDefinition = "text")
     private String description;
+    @Column(name = "abbreviation", columnDefinition = "TEXT")
+    private String abbreviation;
     @Column(name = "expired_date")
     private LocalDate expiredDate;
     @Column(name = "start_date")

@@ -19,6 +19,8 @@ public class ScholarShipRequestDTO {
     private String name;
     @NotBlank(message = "description required")
     private String description;
+    @NotBlank(message = "abbreviation required")
+    private String abbreviation;
     @NotBlank(message = "photo required")
     private String photoId;
     @NotNull(message = "Expired date required")

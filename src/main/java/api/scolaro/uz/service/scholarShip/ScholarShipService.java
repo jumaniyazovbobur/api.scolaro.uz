@@ -55,6 +55,7 @@ public class ScholarShipService {
         ScholarShipEntity entity = new ScholarShipEntity();
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
+        entity.setAbbreviation(dto.getAbbreviation());
         entity.setPhotoId(dto.getPhotoId());
         entity.setCompressedPhotoId(attachService.getImageCompressedImageId(dto.getPhotoId()));
         entity.setStartDate(dto.getStartDate());
@@ -88,6 +89,7 @@ public class ScholarShipService {
         ScholarShipEntity entity = get(id);
         entity.setName(entity.getName());
         entity.setDescription(dto.getDescription());
+        entity.setAbbreviation(dto.getAbbreviation());
         entity.setStartDate(dto.getStartDate());
         entity.setExpiredDate(dto.getExpiredDate());
         entity.setPrice(dto.getPrice());
@@ -144,6 +146,7 @@ public class ScholarShipService {
         dto.setStartDate(entity.getStartDate());
         dto.setName(entity.getName());
         dto.setDescription(entity.getDescription());
+        dto.setAbbreviation(entity.getAbbreviation());
         dto.setUniversityId(entity.getUniversityId());
         dto.setExpiredDate(entity.getExpiredDate());
         dto.setDegreeTypeList(scholarShipDegreeService.getScholarShipDegreeTypeList(entity.getId(), language));

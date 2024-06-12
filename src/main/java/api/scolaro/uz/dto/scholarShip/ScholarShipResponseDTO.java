@@ -24,6 +24,7 @@ public class ScholarShipResponseDTO {
     private String id;
     private String name;
     private String description;
+    private String abbreviation;
     private AttachDTO attach;
     private LocalDate expiredDate;
     private LocalDate startDate;

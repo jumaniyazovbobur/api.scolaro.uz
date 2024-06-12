@@ -17,6 +17,7 @@ public class ScholarShipMapperDTO {
     private String id;
     private String scholarShipName;
     private String description;
+    private String abbreviation;
     private Integer price;
     private LocalDate startDate;
     private LocalDate expiredDate;
