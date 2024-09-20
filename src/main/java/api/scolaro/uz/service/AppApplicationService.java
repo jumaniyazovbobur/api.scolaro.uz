@@ -2,18 +2,23 @@ package api.scolaro.uz.service;
 
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelDTO;
+import api.scolaro.uz.dto.ConsultingStepLevel.ConsultingStepLevelResponseDTO;
 import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.appApplication.*;
 import api.scolaro.uz.entity.application.AppApplicationEntity;
 import api.scolaro.uz.entity.UniversityEntity;
+import api.scolaro.uz.entity.application.AppApplicationLevelStatusEntity;
 import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.entity.consulting.ConsultingStepEntity;
+import api.scolaro.uz.entity.consulting.ConsultingStepLevelEntity;
 import api.scolaro.uz.enums.*;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.mapper.AppApplicationFilterMapperDTO;
 import api.scolaro.uz.repository.appApplication.AppApplicationFilterRepository;
 import api.scolaro.uz.repository.appApplication.AppApplicationRepository;
 import api.scolaro.uz.service.consulting.*;
+import api.scolaro.uz.util.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +59,9 @@ public class AppApplicationService {
     private ConsultingTariffService consultingTariffService;
     @Autowired
     private ConsultingProfileService consultingProfileService;
+
+    @Autowired
+    private AppApplicationLevelStatusService applicationLevelStatusService;
 
     public ApiResponse<AppApplicationResponseDTO> create(AppApplicationRequestDTO dto) {
         String studentId = EntityDetails.getCurrentUserId();
@@ -149,6 +157,25 @@ public class AppApplicationService {
         }
 
         AppApplicationEntity entity = optional.get();
+        AppApplicationResponseDTO dto = new AppApplicationResponseDTO();
+
+        // ConsultingStepLevel
+        if (entity.getConsultingStepLevelId() != null) {
+            ConsultingStepLevelEntity consultingStepLevel = consultingStepLevelService.get(entity.getConsultingStepLevelId());
+            ConsultingStepLevelResponseDTO consultingStepLevelDTO = new ConsultingStepLevelResponseDTO();
+            consultingStepLevelDTO.setOrderNumber(consultingStepLevel.getOrderNumber());
+            dto.setStepLevel(consultingStepLevelDTO);
+        }
+
+        // AppApplicationLevelStatus
+        if (entity.getConsultingStepLevelStatusId() != null) {
+            AppApplicationLevelStatusEntity applicationLevelStatusEntity = applicationLevelStatusService.get(entity.getConsultingStepLevelStatusId());
+            AppApplicationLevelStatusDTO applicationLevelStatus = new AppApplicationLevelStatusDTO();
+            applicationLevelStatus.setApplicationStepLevelStatus(applicationLevelStatusEntity.getApplicationStepLevelStatus());
+            applicationLevelStatus.setApplicationStepLevelStatusName(applicationLevelStatusEntity.getApplicationStepLevelStatus().getName(lang));
+            dto.setApplicationLevelStatus(applicationLevelStatus);
+        }
+
         String requestedUserId = EntityDetails.getCurrentUserId();
         String consultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
 
@@ -165,7 +192,7 @@ public class AppApplicationService {
             return ApiResponse.forbidden("Your access denied for this Application!");
         }
 
-        AppApplicationResponseDTO dto = new AppApplicationResponseDTO();
+
         dto.setId(entity.getId());
         dto.setStatus(entity.getStatus());
         dto.setCreatedDate(entity.getCreatedDate());

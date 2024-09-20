@@ -1,13 +1,10 @@
 package api.scolaro.uz.config.details;
 
-import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.entity.ProfileEntity;
 import api.scolaro.uz.entity.consulting.ConsultingProfileEntity;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.repository.consulting.ConsultingProfileRepository;
 import api.scolaro.uz.repository.profile.PersonRoleRepository;
-
-import api.scolaro.uz.repository.consulting.ConsultingRepository;
 import api.scolaro.uz.repository.profile.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

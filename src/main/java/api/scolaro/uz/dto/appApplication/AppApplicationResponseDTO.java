@@ -8,6 +8,7 @@ import api.scolaro.uz.dto.consultingStep.ConsultingStepUpdateResponseDTO;
 import api.scolaro.uz.dto.consultingTariff.ConsultingTariffResponseDTO;
 import api.scolaro.uz.dto.profile.ProfileResponseDTO;
 import api.scolaro.uz.dto.university.UniversityResponseDTO;
+import api.scolaro.uz.entity.application.AppApplicationLevelStatusEntity;
 import api.scolaro.uz.enums.AppStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
@@ -30,6 +31,7 @@ public class AppApplicationResponseDTO {
     private ConsultingTariffResponseDTO tariff;
     private ConsultingStepResponseDTO step;
     private ConsultingStepLevelResponseDTO stepLevel;
+    private AppApplicationLevelStatusDTO applicationLevelStatus;
     private String studentId;
     private String consultingId;
     private Long universityId;

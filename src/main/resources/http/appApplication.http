@@ -81,8 +81,8 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDU0ODY0MzksImlkIjoiOTA5M
 
 ###------------------------------------------------- Genral
 ### Get AppAplication by id
-GET localhost:8081/api/v1/app-application/8080b7ef8bae722c018bae85c0cf0002
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDMyMjYyMjIsImlkIjoiNDAyODgwZTU4YzYxZjFmMDAxOGM2MWYzNjBhMTAwMDIxMSIsInBob25lIjoiOTk4OTE1NzIxMjEzIiwicm9sZXMiOiJST0xFX0NPTlNVTFRJTkcsUk9MRV9DT05TVUxUSU5HX01BTkFHRVIiLCJleHAiOjE3MDM4MzEwMjIsImlzcyI6IkphdmEgYmFja2VuZCJ9.Z_uIJJxAmQssaGBYq6wi4GAjntTB0rg9mTsoCXj0VQhZIYA03l-I-ytWWcbYupkGvvNr4_ZByJS02i9xQ_9Rzg
+GET localhost:8085/api/v1/app-application/325a4ffd8d7d68d7018d7dfa4d78002f
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MjY4MzMxNDMsImlkIjoiMzI1YTRmZmQ4ZDAyYjQwYTAxOGQwODIwMTE5YTA0NGUiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxNyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HLFJPTEVfQ09OU1VMVElOR19NQU5BR0VSIiwiZXhwIjoxNzI3NDM3OTQzLCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.n1LZiN5KFyyYNUhnnXqsLTPAn2nwk8woZ7OoGKRputmtMQ49Cm55YQFse6jgS4de4HJ29xDB-uTa9n_cipumlg
 
 
 

@@ -17,6 +17,7 @@ public class AppApplicationLevelStatusDTO {
     private String appApplicationId;
     private String consultingStepLevelId;
     private ApplicationStepLevelStatus applicationStepLevelStatus;
+    private String applicationStepLevelStatusName;
     private LocalDate deadline;
     private String description;
     private LocalDateTime createdDate;
