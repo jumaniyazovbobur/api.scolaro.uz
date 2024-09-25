@@ -8,6 +8,7 @@ import api.scolaro.uz.entity.notification.NotificationHistoryEntity;
 import api.scolaro.uz.enums.notification.NotificationType;
 import api.scolaro.uz.enums.transaction.ProfileType;
 import api.scolaro.uz.repository.notification.NotificationHistoryRepository;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.gson.Gson;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 
 import java.awt.geom.PathIterator;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,9 +49,7 @@ public class NotificationService {
         this.sendNotification(notification);
         // save history
         List<NotificationHistoryEntity> saveList = new ArrayList<>();
-        for (int i = 0; i < notification.getRegistrationIds().size(); i++) {
-            saveList.add(toEntity(notification, i));
-        }
+        for (int i = 0; i < notification.getRegistrationIds().size(); i++) saveList.add(toEntity(notification, i));
         notificationHistoryRepository.saveAll(saveList);
 
     }
@@ -75,7 +76,7 @@ public class NotificationService {
         ResponseEntity<String> responseEntity;
         try {
             log.info("Send notification body={}", requestJson);
-            responseEntity = restTemplate.postForEntity("/fcm/send", entity, String.class);
+            responseEntity = restTemplate.postForEntity("", entity, String.class);
         } catch (Exception e) {
             log.warn("Send notification error={}", e.getMessage());
             return;
