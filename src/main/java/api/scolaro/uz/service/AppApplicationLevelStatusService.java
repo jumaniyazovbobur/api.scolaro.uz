@@ -165,10 +165,10 @@ public class AppApplicationLevelStatusService {
         NotificationDTO dto = new NotificationDTO();
         dto.setTitle(resourceMessageService.getMessage("update.applicationStatus", lang));
         dto.setBody(resourceMessageService.getMessage("update.applicationStatus", lang));
-        dto.setProfiles(Collections.singletonList(new ProfileInfoDTO(
+        dto.setProfiles(new ProfileInfoDTO(
                 consultingProfileId, ProfileType.CONSULTING, studentId, ProfileType.PROFILE
-        )));
-        dto.getRegistrationIds().add(fireBaseId);
+        ));
+        dto.setToken(fireBaseId);
         dto.getData().put("applicationId", applicationId);
         dto.getData().put("type", NotificationType.STATUS.name());
 
@@ -196,7 +196,7 @@ public class AppApplicationLevelStatusService {
                 appApplicationLevelStatusRepository.updateApplicationStepLevelStatus(entity.getId(),
                         ApplicationStepLevelStatus.PAYMENT_SUCCESS, LocalDateTime.now());
                 return ApiResponse.ok(resourceMessageService.getMessage("payment.success", lang));
-            }else{
+            } else {
                 return ApiResponse.bad(resourceMessageService.getMessage("payment.failed", lang));
             }
         }

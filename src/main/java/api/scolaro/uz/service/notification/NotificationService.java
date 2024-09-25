@@ -47,25 +47,22 @@ public class NotificationService {
 
     public void sendTo(NotificationDTO notification) {
         this.sendNotification(notification);
-        // save history
-        List<NotificationHistoryEntity> saveList = new ArrayList<>();
-        for (int i = 0; i < notification.getRegistrationIds().size(); i++) saveList.add(toEntity(notification, i));
-        notificationHistoryRepository.saveAll(saveList);
+        notificationHistoryRepository.save(toEntity(notification));
 
     }
 
-    private NotificationHistoryEntity toEntity(NotificationDTO notification, int index) {
+    private NotificationHistoryEntity toEntity(NotificationDTO notification) {
         NotificationHistoryEntity entity = new NotificationHistoryEntity();
         entity.setTitle(notification.getTitle());
         entity.setBody(notification.getBody());
         entity.setType(notification.getType());
         entity.setData(notification.getData());
-        if (!notification.getProfiles().isEmpty()) {
-            entity.setToProfileId(notification.getProfiles().get(index).getToProfile());
-            entity.setToProfileType(notification.getProfiles().get(index).getToType());
-            entity.setFromProfileId(notification.getProfiles().get(index).getToProfile());
-            entity.setFromProfileType(notification.getProfiles().get(index).getToType());
-            entity.setFirebaseToken(notification.getRegistrationIds().get(index));
+        if (notification.getProfiles() != null) {
+            entity.setToProfileId(notification.getProfiles().getToProfile());
+            entity.setToProfileType(notification.getProfiles().getToType());
+            entity.setFromProfileId(notification.getProfiles().getToProfile());
+            entity.setFromProfileType(notification.getProfiles().getToType());
+            entity.setFirebaseToken(notification.getToken());
         }
         return entity;
     }
@@ -76,7 +73,7 @@ public class NotificationService {
         ResponseEntity<String> responseEntity;
         try {
             log.info("Send notification body={}", requestJson);
-            responseEntity = restTemplate.postForEntity("", entity, String.class);
+            responseEntity = restTemplate.postForEntity("/messages:send", entity, String.class);
         } catch (Exception e) {
             log.warn("Send notification error={}", e.getMessage());
             return;

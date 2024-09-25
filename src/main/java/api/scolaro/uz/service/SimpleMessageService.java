@@ -86,6 +86,7 @@ public class SimpleMessageService {
         }
         return forConsulting;
     }
+
     public ApiResponse<SimpleMessageMapperDTO> createForStudentWithAttach(SimpleMessageRequestDTO dto, String fileOriginName, String fileExtension) {
         ApiResponse<SimpleMessageMapperDTO> forConsulting = this.createForStudent(dto);
         if (!forConsulting.getIsError()) {
@@ -141,13 +142,12 @@ public class SimpleMessageService {
             notification.setType(NotificationType.CHAT);
             notification.setBody(resourceMessageService.getMessage("new.message", AppLanguage.uz));
             notification.setProfiles(
-                    Collections
-                            .singletonList(new ProfileInfoDTO(
-                                    entity.getMessageType().equals(MessageType.STUDENT) ? app.getConsultingProfileId() : app.getStudentId(), entity.getMessageType().equals(MessageType.STUDENT) ? ProfileType.CONSULTING : ProfileType.PROFILE,
-                                    EntityDetails.getCurrentUserId(), !entity.getMessageType().equals(MessageType.STUDENT) ? ProfileType.CONSULTING : ProfileType.PROFILE
-                            ))
+                    new ProfileInfoDTO(
+                            entity.getMessageType().equals(MessageType.STUDENT) ? app.getConsultingProfileId() : app.getStudentId(), entity.getMessageType().equals(MessageType.STUDENT) ? ProfileType.CONSULTING : ProfileType.PROFILE,
+                            EntityDetails.getCurrentUserId(), !entity.getMessageType().equals(MessageType.STUDENT) ? ProfileType.CONSULTING : ProfileType.PROFILE
+                    )
             );
-            notification.setRegistrationIds(Collections.singletonList(fireBaseId));
+            notification.setToken(fireBaseId);
             notificationService.sendTo(notification);
         }
     }

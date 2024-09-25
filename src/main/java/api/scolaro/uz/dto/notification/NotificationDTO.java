@@ -20,9 +20,9 @@ public class NotificationDTO {
     private String title;
     private String body;
     private String imageUrl;
-    private List<String> registrationIds = new ArrayList<>();
+    private String token;
     private Map<String, String> data = new HashMap<>();
-    private List<ProfileInfoDTO> profiles;
+    private ProfileInfoDTO profiles;
     private NotificationType type;
 
     {
@@ -32,15 +32,13 @@ public class NotificationDTO {
     public String toJson() {
         Map<String, Object> res = new HashMap<>();
 
-        res.put("registration_ids", this.registrationIds);
+        res.put("token", this.token);
         res.put("notification", Map.of(
                 "body", this.body,
                 "title", this.title,
-                "image", this.imageUrl != null ? this.imageUrl : "",
-                "android_channel_id", "scolaro_notification_id"
+                "image", this.imageUrl != null ? this.imageUrl : ""
         ));
         res.put("data", this.data);
-        res.put("priority", "high");
         return new Gson()
                 .toJson(Map.of("message", res));
     }
