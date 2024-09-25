@@ -22,33 +22,8 @@ public class RestTemplateConfig {
     @Value("${firebase.api.url}")
     private String url;
 
-    @Bean(name = "RestTemplateFirebase")
+    @Bean
     public RestTemplate restTemplateFirebase() {
-        return new RestTemplateBuilder()
-                .rootUri(url)
-                .defaultHeader("Content-Type", "application/json")
-                .defaultHeader("Authorization", "Bearer %s".formatted(getAccessToken()))
-                .build();
-    }
-
-    private static String getAccessToken() {
-        GoogleCredentials googleCredentials;
-        try {
-            ClassLoader classLoader = NotificationService.class.getClassLoader();
-            try (InputStream inputStream = classLoader.getResourceAsStream("firebase/scolaro-a0430-firebase-adminsdk-d4ooj-65d7fbb8a1.json")) {
-
-                if (inputStream == null) throw new IllegalArgumentException("File not found! Check the file path.");
-
-                googleCredentials = GoogleCredentials
-                        .fromStream(inputStream)
-                        .createScoped(List.of("https://www.googleapis.com/auth/firebase.messaging"));
-
-                googleCredentials.refresh();
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return googleCredentials.getAccessToken().getTokenValue();
+        return new RestTemplate();
     }
 }

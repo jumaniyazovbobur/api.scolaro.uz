@@ -13,8 +13,11 @@ import com.google.gson.Gson;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.support.DefaultBeanNameGenerator;
 import org.springframework.data.domain.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpEntity;
@@ -37,8 +40,9 @@ public class NotificationService {
 
     private final RestTemplate restTemplate;
     private final NotificationHistoryRepository notificationHistoryRepository;
-
-    NotificationService(@Qualifier("RestTemplateFirebase") RestTemplate restTemplate,
+    @Value("${firebase.api.url}")
+    private String url;
+    NotificationService( RestTemplate restTemplate,
                         NotificationHistoryRepository notificationHistoryRepository) {
         this.restTemplate = restTemplate;
         this.notificationHistoryRepository = notificationHistoryRepository;
@@ -69,11 +73,15 @@ public class NotificationService {
 
     private void sendNotification(NotificationDTO note) {
         String requestJson = note.toJson();
-        HttpEntity<String> entity = new HttpEntity<>(requestJson);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer %s".formatted(getAccessToken()));
+
+        HttpEntity<String> entity = new HttpEntity<>(requestJson,headers);
         ResponseEntity<String> responseEntity;
         try {
             log.info("Send notification body={}", requestJson);
-            responseEntity = restTemplate.postForEntity("/messages:send", entity, String.class);
+            responseEntity = restTemplate.postForEntity(url, entity, String.class);
         } catch (Exception e) {
             log.warn("Send notification error={}", e.getMessage());
             return;
@@ -87,6 +95,26 @@ public class NotificationService {
         return ApiResponse.ok();
     }
 
+    private static String getAccessToken() {
+        GoogleCredentials googleCredentials;
+        try {
+            ClassLoader classLoader = NotificationService.class.getClassLoader();
+            try (InputStream inputStream = classLoader.getResourceAsStream("firebase/scolaro-a0430-firebase-adminsdk-d4ooj-65d7fbb8a1.json")) {
+
+                if (inputStream == null) throw new IllegalArgumentException("File not found! Check the file path.");
+
+                googleCredentials = GoogleCredentials
+                        .fromStream(inputStream)
+                        .createScoped(List.of("https://www.googleapis.com/auth/firebase.messaging"));
+
+                googleCredentials.refresh();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return googleCredentials.getAccessToken().getTokenValue();
+    }
     public ApiResponse<PageImpl<NotificationResponseDTO>> findAllByIsReadFalse(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdDate"));
         String currentUserId = EntityDetails.getCurrentUserId();
