@@ -50,9 +50,12 @@ public interface ConsultingStepLevelRepository extends JpaRepository<ConsultingS
     ConsultingStepLevelEntity getNextStepLevelByStepIdAndStepLevelOrderNumber(@Param("consultingStepId") String consultingStepId,
                                                                               @Param("currentStepLevelOrderNumber") int currentStepLevelOrderNumber);
 
+    @Query(value = "select * from consulting_step_level c where c.consulting_step_id =:consultingStepId order by c.order_number asc limit 1", nativeQuery = true)
+    ConsultingStepLevelEntity getFirstConsultingStepLevelByConsultingStepId(@Param("consultingStepId") String consultingStepId);
+
+
     @Query(value = " select  count(*)  from consulting_step_level where consulting_step_id =:consultingStepId " +
             "   and visible=true  and  step_level_status !=: 'FINISHED'",
             nativeQuery = true)
     Long getApplicationNotFinishedStepLevelCount(@Param("consultingStepId") String consultingStepId);
-
 }

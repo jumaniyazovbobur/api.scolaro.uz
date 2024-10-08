@@ -42,7 +42,8 @@ public class NotificationService {
     private final NotificationHistoryRepository notificationHistoryRepository;
     @Value("${firebase.api.url}")
     private String url;
-    NotificationService( RestTemplate restTemplate,
+
+    NotificationService(RestTemplate restTemplate,
                         NotificationHistoryRepository notificationHistoryRepository) {
         this.restTemplate = restTemplate;
         this.notificationHistoryRepository = notificationHistoryRepository;
@@ -50,8 +51,12 @@ public class NotificationService {
 
 
     public void sendTo(NotificationDTO notification) {
-        this.sendNotification(notification);
-        notificationHistoryRepository.save(toEntity(notification));
+        try {
+            this.sendNotification(notification);
+            notificationHistoryRepository.save(toEntity(notification));
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -77,7 +82,7 @@ public class NotificationService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", "Bearer %s".formatted(getAccessToken()));
 
-        HttpEntity<String> entity = new HttpEntity<>(requestJson,headers);
+        HttpEntity<String> entity = new HttpEntity<>(requestJson, headers);
         ResponseEntity<String> responseEntity;
         try {
             log.info("Send notification body={}", requestJson);
@@ -99,9 +104,10 @@ public class NotificationService {
         GoogleCredentials googleCredentials;
         try {
             ClassLoader classLoader = NotificationService.class.getClassLoader();
-            try (InputStream inputStream = classLoader.getResourceAsStream("firebase/scolaro-a0430-firebase-adminsdk-d4ooj-65d7fbb8a1.json")) {
+            try (InputStream inputStream = classLoader.getResourceAsStream("firebase/scolaro-a0430-firebase-adminsdk-d4ooj-0db00f08b1.json")) {
 
-                if (inputStream == null) throw new IllegalArgumentException("File not found! Check the file path.");
+                if (inputStream == null)
+                    throw new IllegalArgumentException("Error ending using firebase. File not found..");
 
                 googleCredentials = GoogleCredentials
                         .fromStream(inputStream)
@@ -115,6 +121,7 @@ public class NotificationService {
 
         return googleCredentials.getAccessToken().getTokenValue();
     }
+
     public ApiResponse<PageImpl<NotificationResponseDTO>> findAllByIsReadFalse(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdDate"));
         String currentUserId = EntityDetails.getCurrentUserId();

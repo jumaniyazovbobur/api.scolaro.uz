@@ -68,16 +68,17 @@ public class AppApplicationFilterRepository {
                 "from app_application as a " +
                 "inner join profile as p on a.student_id=p.id " +
                 "inner join consulting as c on a.consulting_id=c.id " +
-                "inner join university as un on a.university_id=un.id " +
+                "left join university as un on a.university_id=un.id " +
                 "left join consulting_step_level as csl on a.consulting_step_level_id = csl.id " +
                 "where a.visible = true ");
         selectBuilder.append(stringBuilder);
+        selectBuilder.append(" order by a.created_date desc ");
 
         StringBuilder countBuilder = new StringBuilder("select count(*) " +
                 "from app_application as a " +
                 "inner join profile as p on a.student_id=p.id " +
                 "inner join consulting as c on a.consulting_id=c.id " +
-                "inner join university as un on a.university_id=un.id " +
+                "left join university as un on a.university_id=un.id " +
                 "where a.visible = true ");
         countBuilder.append(stringBuilder);
 
@@ -109,9 +110,11 @@ public class AppApplicationFilterRepository {
             dto.setConsulting(consulting);
 
             UniversityResponseDTO university = new UniversityResponseDTO();
-            university.setId(MapperUtil.getLongValue(object[8]));
-            university.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[9])));
-            university.setName(MapperUtil.getStringValue(object[7]));
+            if(object[8] != null){
+                university.setId(MapperUtil.getLongValue(object[8]));
+                university.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[9])));
+                university.setName(MapperUtil.getStringValue(object[7]));
+            }
             dto.setUniversity(university);
 
             ProfileDTO student = new ProfileDTO();
@@ -155,7 +158,7 @@ public class AppApplicationFilterRepository {
                 "         inner join consulting as c on a.consulting_id = c.id " +
                 "         left join university as un on a.university_id = un.id " +
                 "where a.visible = true and student_id=:studentId " +
-                "order by a.created_date;");
+                "order by a.created_date desc; ");
         selectBuilder.append(stringBuilder);
 
         StringBuilder countBuilder = new StringBuilder("select count(*) " +
@@ -281,8 +284,8 @@ public class AppApplicationFilterRepository {
                 "       ls.id as levelStatusId, ls.deadline, ls.description, ls.application_step_level_status " +
                 "from app_application as a " +
                 "left join university u on u.id = a.university_id " +
-                "inner join consulting_step_level csl on csl.id = a.consulting_step_level_id " +
-                "inner join app_application_level_status ls on ls.id = a.consulting_step_level_status_id " +
+                "left join consulting_step_level csl on csl.id = a.consulting_step_level_id " +
+                "left join app_application_level_status ls on ls.id = a.consulting_step_level_status_id " +
                 "where a.visible = true " +
                 "     and a.consulting_id =:consultingId  and a.student_id =:studentId ");
         selectBuilder.append(stringBuilder);
@@ -321,20 +324,23 @@ public class AppApplicationFilterRepository {
             university.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[4])));
             dto.setUniversity(university);
 
-            ConsultingStepLevelDTO consultingStepLevel = new ConsultingStepLevelDTO();
-            consultingStepLevel.setOrderNumber(MapperUtil.getIntegerValue(object[5]));
-            consultingStepLevel.setId(MapperUtil.getStringValue(object[6]));
-            dto.setConsultingStepLevel(consultingStepLevel);
-
-            AppApplicationLevelStatusDTO applicationLevelStatus = new AppApplicationLevelStatusDTO();
-            applicationLevelStatus.setId(MapperUtil.getStringValue(object[7]));
-            applicationLevelStatus.setDeadline(MapperUtil.getLocalDateValue(object[8]));
-            applicationLevelStatus.setDescription(MapperUtil.getStringValue(object[9]));
-            String applicationStepLevelStatus = MapperUtil.getStringValue(object[10]);
-            if (applicationStepLevelStatus != null) {
-                applicationLevelStatus.setApplicationStepLevelStatus(ApplicationStepLevelStatus.valueOf(applicationStepLevelStatus));
+            if(object[6] != null){
+                ConsultingStepLevelDTO consultingStepLevel = new ConsultingStepLevelDTO();
+                consultingStepLevel.setOrderNumber(MapperUtil.getIntegerValue(object[5]));
+                consultingStepLevel.setId(MapperUtil.getStringValue(object[6]));
+                dto.setConsultingStepLevel(consultingStepLevel);
             }
-            dto.setAppApplicationLevelStatus(applicationLevelStatus);
+            if(object[7] != null){
+                AppApplicationLevelStatusDTO applicationLevelStatus = new AppApplicationLevelStatusDTO();
+                applicationLevelStatus.setId(MapperUtil.getStringValue(object[7]));
+                applicationLevelStatus.setDeadline(MapperUtil.getLocalDateValue(object[8]));
+                applicationLevelStatus.setDescription(MapperUtil.getStringValue(object[9]));
+                String applicationStepLevelStatus = MapperUtil.getStringValue(object[10]);
+                if (applicationStepLevelStatus != null) {
+                    applicationLevelStatus.setApplicationStepLevelStatus(ApplicationStepLevelStatus.valueOf(applicationStepLevelStatus));
+                }
+                dto.setAppApplicationLevelStatus(applicationLevelStatus);
+            }
 
             mapperList.add(dto);
         }
@@ -384,7 +390,7 @@ public class AppApplicationFilterRepository {
                 "         inner join profile p on p.id = a.student_id " +
                 "where a.visible = true " +
                 "  and consulting_id = :consultingId ");
-        selectBuilder.append(stringBuilder).append(" order by a.created_date ");
+        selectBuilder.append(stringBuilder).append(" order by a.created_date desc ");
 
         StringBuilder countBuilder = new StringBuilder("select count(*) " +
                 "from app_application as a " +

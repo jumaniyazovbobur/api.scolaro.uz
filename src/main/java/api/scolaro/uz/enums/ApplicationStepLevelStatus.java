@@ -1,7 +1,7 @@
 package api.scolaro.uz.enums;
 
 public enum ApplicationStepLevelStatus {
-
+    PROCESS_STARTED("Jarayon boshlandi","The process has started","Процесс начался"),
     ACCEPTED("Ariza qabul qilindi", "Accepted", "Заявка принята"),
     REVISION("Ariza qayta koʻrib chiqish uchun qaytarildi", "Application returned for revision", "Заявка возвращена на доработку"),
     REWORK_COMPLETED("Qayta ko'rish yakunlandi", "Rework completed", "Доработка  завершена"),

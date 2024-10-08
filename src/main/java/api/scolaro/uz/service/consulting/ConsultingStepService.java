@@ -86,7 +86,7 @@ public class ConsultingStepService {
 
     public ApiResponse<List<ConsultingStepDTO>> getConsultingStepListByRequestedConsulting() {
         String consultingId = EntityDetails.getCurrentUserDetail().getProfileConsultingId();
-        List<ConsultingStepEntity> entityList = consultingStepRepository.getAllByConsultingId(consultingId);
+        List<ConsultingStepEntity> entityList = consultingStepRepository.getAllByConsultingId(consultingId, StepType.CONSULTING);
         List<ConsultingStepDTO> dtoList = new LinkedList<>();
         entityList.forEach(consultingStepEntity -> dtoList.add(toDTO(consultingStepEntity)));
         return new ApiResponse<>(200, false, dtoList);

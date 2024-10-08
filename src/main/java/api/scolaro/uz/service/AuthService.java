@@ -81,10 +81,10 @@ public class AuthService {
         userEntity.setPhone(dto.getPhoneNumber());
         userEntity.setPassword(MD5Util.getMd5(dto.getPassword()));
         userEntity.setStatus(GeneralStatus.NOT_ACTIVE);
-        userEntity.setAddress(dto.getAddress());
-        userEntity.setCountryId(dto.getCountryId());
-        userEntity.setGenderType(dto.getGender());
-        userEntity.setNickName(dto.getNickName());
+//        userEntity.setAddress(dto.getAddress());
+//        userEntity.setCountryId(dto.getCountryId());
+//        userEntity.setGenderType(dto.getGender());
+//        userEntity.setNickName(dto.getNickName());
         userEntity.setFireBaseId(dto.getFireBaseId());
         userEntity.setBalance(0L);
 
@@ -157,7 +157,7 @@ public class AuthService {
     private AuthResponseDTO getClientAuthorizationResponse(ProfileEntity entity, AppLanguage language) {
         AuthResponseDTO dto = new AuthResponseDTO();
         dto.setId(entity.getId());
-        dto.setNickName(entity.getNickName());
+        dto.setNickName(entity.getName());
         dto.setLang(entity.getLang());
         if (entity.getCountryId() != null) {
             dto.setCountry(countryService.getById(entity.getCountryId(), language));
@@ -351,73 +351,4 @@ public class AuthService {
         consultingProfileRepository.updatePassword(profile.getId(), MD5Util.getMd5(dto.getNewPassword()));
         return new ApiResponse<>(200, false, getClientAuthorizationResponse(profile));
     }
-
-//    public ProfileResponseDTO login(AuthDTO dto) {
-//        Optional<ProfileEntity> optional = profileRepository.findByPhone(dto.getPhone());
-//        if (optional.isEmpty()) {
-//            log.info("User not found.");
-//            throw new ItemNotFoundException("User not found.");
-//        }
-//        ProfileEntity entity = optional.get();
-//        if (!entity.getStatus().equals(GeneralStatus.ACTIVE)) {
-//            log.info("Wrong status!");
-//            throw new ArithmeticException("Wrong status!");
-//        }
-//        if (!entity.getPassword().equals(MD5Util.getMd5(dto.getPassword()))) {
-//            log.info("User not found.");
-//            throw new ItemNotFoundException("User not found.");
-//        }
-//        ProfileResponseDTO response = new ProfileResponseDTO();
-//        response.setName(entity.getName());
-//        response.setSurname(entity.getSurname());
-//        response.setPhone(entity.getPhone());
-//        List<RoleEnum> roleList = personRoleRepository.findPersonRoleEnumList(entity.getId());
-//        response.setRoles(roleList);
-//        response.setJwt(JwtUtil.encode(entity.getId(), entity.getPhone(), roleList));
-//        return null;
-//    }
-
-   /* public void resetPasswordRequest(ResetPasswordRequestDTO dto) {
-        if (!PhoneUtil.isValidPhone(dto.getPhone())) {
-            log.info("Not valid phone number");
-            throw new ItemNotFoundException("Not valid phone number");
-        }
-        Optional<UserEntity> optional = profileRepository.findByPhone(dto.getPhone());
-        if (optional.isEmpty()) {
-            log.info("Phone number not found");
-            throw new ItemNotFoundException("Phone number not found");
-        }
-        UserEntity profile = optional.get();
-        if (!profile.getStatus().equals(GeneralStatus.ACTIVE)) {
-            log.info("Profile not active.");
-            throw new ItemNotFoundException("Profile not active.");
-        }
-//        smsService.sendResetPasswordSms(dto.getPhone());
-    }
-
-    public void resetPasswordConfirm(ResetPasswordConfirmDTO dto) {
-//        if (!PhoneUtil.isValidPhone(dto.getPhone())) {
-//            log.info("Not valid phone number");
-//            throw new ItemNotFoundException("Not valid phone number");
-//        }
-//        Optional<UserEntity> optional = profileRepository.findByPhone(dto.getPhone());
-//        if (optional.isEmpty()) {
-//            log.info("Phone number not found");
-//            throw new ItemNotFoundException("Phone number not found");
-//        }
-//        UserEntity profile = optional.get();
-//        if (!profile.getStatus().equals(GeneralStatus.ACTIVE)) {
-//            log.info("Profile not active.");
-//            throw new ItemNotFoundException("Profile not active.");
-//        }
-//        if (!smsService.checkSmsCode(dto.getPhone(), dto.getSmsCode())) {
-//            log.info("Not valid sms code.");
-//            throw new AppBadRequestException("Not valid sms code.");
-//        }
-//        if (!dto.getNewPassword().equals(dto.getRepeatNewPassword()) || dto.getNewPassword().length()<5) {
-//            log.info("Not valid password");
-//            throw new AppBadRequestException("Not valid password");
-//        }
-//        profileRepository.updatePassword(profile.getId(), MD5Util.getMd5(dto.getNewPassword()));
-    }*/
 }

@@ -9,6 +9,7 @@ import api.scolaro.uz.dto.consultingStep.ConsultingStepLevelResponseDTO;
 import api.scolaro.uz.entity.consulting.ConsultingStepLevelEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.RoleEnum;
+import api.scolaro.uz.enums.StepLevelStatus;
 import api.scolaro.uz.enums.StepLevelType;
 import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
@@ -123,6 +124,16 @@ public class ConsultingStepLevelService {
     public boolean isApplicationAllStepLevelsFinished(String applicationStepId) {
         Long count = consultingStepLevelRepository.getApplicationNotFinishedStepLevelCount(applicationStepId);
         return count == 0;
+    }
+
+    // change first consultingStepLeve status to In_Progress of ConsultingStep
+    public void changeStatusTo_InProcess_ofFirstStepLevel_ofConsultingStep(String consultingStepId) {
+        ConsultingStepLevelEntity entity = consultingStepLevelRepository.getFirstConsultingStepLevelByConsultingStepId(consultingStepId);
+        if (entity != null) {
+            entity.setStepLevelStatus(StepLevelStatus.IN_PROCESS);
+            entity.setStartedDate(LocalDateTime.now());
+            consultingStepLevelRepository.save(entity);
+        }
     }
 
     public ConsultingStepLevelEntity get(String id) {

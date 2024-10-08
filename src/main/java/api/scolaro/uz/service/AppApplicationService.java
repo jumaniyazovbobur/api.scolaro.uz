@@ -315,6 +315,8 @@ public class AppApplicationService {
         ConsultingStepEntity applicationStep = consultingStepService.copyStepAndStepLevels(dto.getConsultingStepId(), StepType.APPLICATION);
         //update
         appApplicationRepository.updateConStepId(applicationId, applicationStep.getId());
+        // change first consultingStepLeve status to In_Progress of ConsultingStep
+        consultingStepLevelService.changeStatusTo_InProcess_ofFirstStepLevel_ofConsultingStep(applicationStep.getId());
         return new ApiResponse<>(200, false, "success");
     }
 

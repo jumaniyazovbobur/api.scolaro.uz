@@ -24,13 +24,13 @@ public class AuthRequestDTO {
     @NotBlank(message = "Password required")
     @Size(min = 6, message = "Password size min 6 chars.")
     private String password;
-    @NotBlank(message = "NickName required")
+//    @NotBlank(message = "NickName required")
     private String nickName;
-    @NotNull(message = "CountryId required")
+//    @NotNull(message = "CountryId required")
     private Long countryId;
-    @NotBlank(message = "Address required")
+//    @NotBlank(message = "Address required")
     private String address;
-    @NotNull(message = "Gender required")
+//    @NotNull(message = "Gender required")
     private GenderType gender;
     private String fireBaseId;
 }
