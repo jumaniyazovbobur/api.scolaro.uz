@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -62,12 +63,15 @@ public class AuthService {
             if (profileEntity.get().getStatus().equals(GeneralStatus.ACTIVE) || profileEntity.get().getStatus().equals(GeneralStatus.BLOCK)) {
                 log.warn("PhoneNumber already exist {}", dto.getPhoneNumber());
                 return new ApiResponse<>(resourceMessageService.getMessage("phone.already.exists"), 400, true);
+            } else {
+                // set status visible to false of uncompleted registrated profile
+                profileRepository.deletedUnCompletedRegistration(profileEntity.get().getId(), LocalDateTime.now());
             }
 
-            if (profileEntity.get().getVisible()) {
-                log.warn("PhoneNumber already exist. Visible true {}", dto.getPhoneNumber());
-                return new ApiResponse<>(resourceMessageService.getMessage("phone.already.exists"), 400, true);
-            }
+//            if (profileEntity.get().getVisible()) {
+//                log.warn("PhoneNumber already exist. Visible true {}", dto.getPhoneNumber());
+//                return new ApiResponse<>(resourceMessageService.getMessage("phone.already.exists"), 400, true);
+//            }
 //            if (profileEntity.get().getStatus().equals(GeneralStatus.NOT_ACTIVE)) {
 //                // send sms for complete registration
 //                smsHistoryService.sendRegistrationSms(dto.getPhoneNumber());
@@ -87,10 +91,11 @@ public class AuthService {
 //        userEntity.setNickName(dto.getNickName());
         userEntity.setFireBaseId(dto.getFireBaseId());
         userEntity.setBalance(0L);
+        userEntity.setSignature(dto.getSignature());
 
         profileRepository.save(userEntity);
         // send sms verification code
-        smsHistoryService.sendRegistrationSms(dto.getPhoneNumber());
+        smsHistoryService.sendRegistrationSms(dto.getPhoneNumber(), dto.getSignature());
         //client role
         personRoleService.create(userEntity.getId(), RoleEnum.ROLE_STUDENT);
         return new ApiResponse<>(200, false, "Success");
@@ -237,7 +242,7 @@ public class AuthService {
             return new ApiResponse<>(resourceMessageService.getMessage("client.status.blocked"), 400, true);
         }
 
-        smsHistoryService.sendResetSms(dto.getPhone());
+        smsHistoryService.sendResetSms(dto.getPhone(), profile.getSignature());
 
         return new ApiResponse<>(200, false, "Success");
 
@@ -292,7 +297,7 @@ public class AuthService {
             log.warn("Profile Not In Correct Status ! Phone = {}", phone);
             return new ApiResponse<>(resourceMessageService.getMessage("client.status.blocked", appLanguage), 400, true);
         }
-        smsHistoryService.sendRegistrationSms(phone);
+        smsHistoryService.sendRegistrationSms(phone, profile.getSignature());
         return new ApiResponse<>(200, false, "Success");
     }
 
@@ -316,7 +321,7 @@ public class AuthService {
             log.info("Consulting Status Blocked! Phone = {}", dto.getPhone());
             return new ApiResponse<>(resourceMessageService.getMessage("consulting.status.blocked"), 400, true);
         }
-        smsHistoryService.sendResetSms(dto.getPhone());
+        smsHistoryService.sendResetSms(dto.getPhone(), null);
         return new ApiResponse<>(200, false, "Success");
     }
 

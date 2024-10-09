@@ -58,4 +58,6 @@ public class ProfileEntity extends BaseEntity {
     @Column(name = "lang")
     @Enumerated(EnumType.STRING)
     private AppLanguage lang = AppLanguage.uz;
+    @Column(name = "signature")
+    private String signature;
 }

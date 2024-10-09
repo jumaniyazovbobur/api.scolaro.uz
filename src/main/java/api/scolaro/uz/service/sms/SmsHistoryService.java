@@ -26,9 +26,13 @@ public class SmsHistoryService {
     private final SmsSenderService smsSenderService;
     private static final int smsCountLimit = 3;
 
-    public void sendRegistrationSms(String phoneNumber) {
+    public void sendRegistrationSms(String phoneNumber, String signature) {
+        if (signature == null) {
+            signature = "";
+        }
         String smsCode = RandomUtil.getRandomSmsCode();
-        String text = "Scolaro.uz partali - ro'yhatdan o'tish tasdiqlash kodi: " + smsCode;
+//        String text = "Scolaro.uz partali - ro'yhatdan o'tish tasdiqlash kodi: " + smsCode + "\n" + signature;
+        String text = "<#>kitabu.uz partali. Ro'yxatdan o'tish uchun tasdiqlash kodi: " + smsCode + "\n" + signature;
         sendMessage(phoneNumber, text, SmsType.REGISTRATION, smsCode);
     }
 
@@ -82,9 +86,13 @@ public class SmsHistoryService {
         return new ApiResponse<>("Success!", 200, false);
     }
 
-    public void sendResetSms(String phone) {
+    public void sendResetSms(String phone, String signature) {
+        if (signature == null) {
+            signature = "";
+        }
         String smsCode = RandomUtil.getRandomSmsCode();
-        String text = "Scolaro.uz partali - parolni qayta tiklash uchun tasdiqlash kodi: " + smsCode;
+//        String text = "Scolaro.uz partali - parolni qayta tiklash uchun tasdiqlash kodi: " + smsCode;
+        String text = "kitabu.uz partali. Parolni o'zgartirish uchun tasdiqlash kodi: " + smsCode;
         sendMessage(phone, text, SmsType.RESET_PASSWORD, smsCode);
     }
 }

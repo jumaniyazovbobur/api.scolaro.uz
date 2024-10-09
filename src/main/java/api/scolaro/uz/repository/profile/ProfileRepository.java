@@ -73,6 +73,12 @@ public interface ProfileRepository extends JpaRepository<ProfileEntity, String> 
 
     @Transactional
     @Modifying
+    @Query("update ProfileEntity set visible=false, deletedDate=:date where id=:id")
+    int deletedUnCompletedRegistration(@Param("id") String id,
+                                       @Param("date") LocalDateTime date);
+
+    @Transactional
+    @Modifying
     @Query("update ProfileEntity set visible=false, deletedId=:deletedId, deletedDate=:date, status='NOT_ACTIVE' where id=:id")
     int deleteAccount(@Param("id") String id,
                       @Param("deletedId") String deletedId,
