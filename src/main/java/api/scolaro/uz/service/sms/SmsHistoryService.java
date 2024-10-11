@@ -92,7 +92,7 @@ public class SmsHistoryService {
         }
         String smsCode = RandomUtil.getRandomSmsCode();
 //        String text = "Scolaro.uz partali - parolni qayta tiklash uchun tasdiqlash kodi: " + smsCode;
-        String text = "kitabu.uz partali. Parolni o'zgartirish uchun tasdiqlash kodi: " + smsCode;
+        String text = "<#>kitabu.uz partali. Ro'yxatdan o'tish uchun tasdiqlash kodi: " + smsCode + "\n" + signature;
         sendMessage(phone, text, SmsType.RESET_PASSWORD, smsCode);
     }
 }

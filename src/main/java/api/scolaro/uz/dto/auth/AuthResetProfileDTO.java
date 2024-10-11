@@ -15,4 +15,6 @@ public class AuthResetProfileDTO {
     @NotNull(message = "Phone required")
     @Size(min = 9, max = 13, message = "Phone not valid")
     private String phone;
+
+    private String signature;
 }

@@ -121,7 +121,7 @@ public class AuthService {
 
         ApiResponse<String> smsResponse = smsHistoryService.checkSmsCode(dto.getPhone(), dto.getCode());
         if (smsResponse.getIsError()) {
-            return new ApiResponse<>(400, true, null);
+            return new ApiResponse<>(resourceMessageService.getMessage("sms.code.incorrect"),400, true);
         }
         // change client status
         profileRepository.updateStatus(profile.getId(), GeneralStatus.ACTIVE);
@@ -242,7 +242,7 @@ public class AuthService {
             return new ApiResponse<>(resourceMessageService.getMessage("client.status.blocked"), 400, true);
         }
 
-        smsHistoryService.sendResetSms(dto.getPhone(), profile.getSignature());
+        smsHistoryService.sendResetSms(dto.getPhone(), dto.getSignature());
 
         return new ApiResponse<>(200, false, "Success");
 
@@ -321,7 +321,7 @@ public class AuthService {
             log.info("Consulting Status Blocked! Phone = {}", dto.getPhone());
             return new ApiResponse<>(resourceMessageService.getMessage("consulting.status.blocked"), 400, true);
         }
-        smsHistoryService.sendResetSms(dto.getPhone(), null);
+        smsHistoryService.sendResetSms(dto.getPhone(), dto.getSignature());
         return new ApiResponse<>(200, false, "Success");
     }
 
