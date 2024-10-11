@@ -201,7 +201,7 @@ public class AppApplicationService {
         }
         dto.setConsulting(consultingService.getConsultingForApp(entity.getConsultingId()));
         dto.setStudent(profileService.getProfileForApp(entity.getStudentId()));
-        if (entity.getConsultingStepId() != null) {
+        if (entity.getConsultingStepId() != null) { // TODO
             dto.setStep(consultingStepService.getApplicationStep(entity.getConsultingStepId(), lang));
         }
         if (entity.getConsultingTariffId() != null) {
@@ -311,12 +311,21 @@ public class AppApplicationService {
             log.info("Consulting {}  do not have access to application {}", consultingId, applicationId);
             return ApiResponse.forbidden("Your access denied for this Application!");
         }
+        if (appApplication.getConsultingStepId() != null) { //
+            log.info("Can't update stepId . It is already exists. application: {} ", applicationId);
+            return ApiResponse.bad("Can't update stepId. It is already exists");
+
+        }
         // copy and save step and stepLevels
         ConsultingStepEntity applicationStep = consultingStepService.copyStepAndStepLevels(dto.getConsultingStepId(), StepType.APPLICATION);
         //update
         appApplicationRepository.updateConStepId(applicationId, applicationStep.getId());
         // change first consultingStepLeve status to In_Progress of ConsultingStep
-        consultingStepLevelService.changeStatusTo_InProcess_ofFirstStepLevel_ofConsultingStep(applicationStep.getId());
+        ConsultingStepLevelEntity cslEntity = consultingStepLevelService.changeStatusTo_InProcess_ofFirstStepLevel_ofConsultingStep(applicationStep.getId());
+        // update consulting_step_level_id
+        if (cslEntity != null) {
+            appApplicationRepository.updateConsultingStepLevelId(appApplication.getId(), cslEntity.getId()); // update application stepLevel id
+        }
         return new ApiResponse<>(200, false, "success");
     }
 

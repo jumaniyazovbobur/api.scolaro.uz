@@ -127,13 +127,15 @@ public class ConsultingStepLevelService {
     }
 
     // change first consultingStepLeve status to In_Progress of ConsultingStep
-    public void changeStatusTo_InProcess_ofFirstStepLevel_ofConsultingStep(String consultingStepId) {
+    public ConsultingStepLevelEntity changeStatusTo_InProcess_ofFirstStepLevel_ofConsultingStep(String consultingStepId) {
         ConsultingStepLevelEntity entity = consultingStepLevelRepository.getFirstConsultingStepLevelByConsultingStepId(consultingStepId);
         if (entity != null) {
             entity.setStepLevelStatus(StepLevelStatus.IN_PROCESS);
             entity.setStartedDate(LocalDateTime.now());
             consultingStepLevelRepository.save(entity);
+            return entity;
         }
+        return null;
     }
 
     public ConsultingStepLevelEntity get(String id) {

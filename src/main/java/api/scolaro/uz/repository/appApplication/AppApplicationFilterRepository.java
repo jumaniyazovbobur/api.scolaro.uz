@@ -324,7 +324,7 @@ public class AppApplicationFilterRepository {
             university.setPhoto(attachService.getResponseAttach(MapperUtil.getStringValue(object[4])));
             dto.setUniversity(university);
 
-            if(object[6] != null){
+            if(object[6] != null){ //TODO
                 ConsultingStepLevelDTO consultingStepLevel = new ConsultingStepLevelDTO();
                 consultingStepLevel.setOrderNumber(MapperUtil.getIntegerValue(object[5]));
                 consultingStepLevel.setId(MapperUtil.getStringValue(object[6]));
