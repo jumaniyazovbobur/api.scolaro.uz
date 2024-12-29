@@ -34,6 +34,7 @@ public interface ConsultingRepository extends JpaRepository<ConsultingEntity, St
 
     @Query(value = "select * from consulting where visible=true limit 6 ", nativeQuery = true)
     List<ConsultingEntity> getTopConsulting();
+
     @Query(value = "from ConsultingEntity c left join fetch c.photo WHERE c.visible = true")
     @Transactional(readOnly = true)
     List<ConsultingEntity> getTopConsulting(Pageable pageable);
@@ -50,4 +51,10 @@ public interface ConsultingRepository extends JpaRepository<ConsultingEntity, St
     @Transactional
     @Query("update ConsultingEntity set balance = balance + ?2 where id = ?1")
     int fillBalance(String consultingId, Long amount);
+
+    @Transactional
+    @Modifying
+    @Query("update ConsultingEntity set status =:status where id=:id")
+    int updateStatus(@Param("id") String id, @Param("status") GeneralStatus status);
+
 }

@@ -29,7 +29,7 @@ public class CustomConsultingRepository {
 
     public FilterResultDTO<ConsultingResponseDTO> filterPagination(ConsultingFilterDTO filter, Integer page, Integer size) {
         StringBuilder selectBuilder = new StringBuilder(" select c.id, c.name, c.address, c.photo_id, c.status, " +
-                "cp.name,cp.surname, cp.phone " +
+                "cp.name,cp.surname, cp.phone, c.status " +
                 "from consulting c " +
                 "left join  consulting_profile cp on c.manager_id = cp.id " +
                 "where c.visible =true ");
@@ -95,6 +95,9 @@ public class CustomConsultingRepository {
             dto.setOwnerName(MapperUtil.getStringValue(object[5]));
             dto.setOwnerSurname(MapperUtil.getStringValue(object[6]));
             dto.setPhone(MapperUtil.getStringValue(object[7]));
+            if (MapperUtil.getStringValue(object[8]) != null) {
+                dto.setStatus(GeneralStatus.valueOf(MapperUtil.getStringValue(object[7])));
+            }
             dtoList.add(dto);
         }
 
@@ -104,7 +107,7 @@ public class CustomConsultingRepository {
     public FilterResultDTO<ConsultingEntity> filterPaginationForTopConsulting(ConsultingTopFilterDTO dto, Integer page, Integer size) {
         StringBuilder selectBuilder = new StringBuilder(" from ConsultingEntity as c left join fetch c.photo ");
         StringBuilder countBuilder = new StringBuilder("select count(c) from ConsultingEntity as c ");
-        StringBuilder builder = new StringBuilder(" where c.visible=true ");
+        StringBuilder builder = new StringBuilder(" where c.visible=true and status = 'ACTIVE' ");
         Map<String, Object> params = new LinkedHashMap<>();
         if (dto.getName() != null && !dto.getName().isBlank()) {
             builder.append(" and lower(c.name) like :name ");

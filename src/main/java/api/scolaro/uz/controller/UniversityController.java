@@ -34,9 +34,10 @@ public class UniversityController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("")
     @Operation(summary = "Create university", description = "for admin")
-    public ResponseEntity<ApiResponse<UniversityResponseDTO>> create(@Valid @RequestBody UniversityCreateDTO dto) {
+    public ResponseEntity<ApiResponse<UniversityResponseDTO>> create(@Valid @RequestBody UniversityCreateDTO dto,
+                                                                     @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage appLanguage) {
         log.info("Create university");
-        return ResponseEntity.ok(universityService.create(dto));
+        return ResponseEntity.ok(universityService.create(dto, appLanguage));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -52,9 +53,10 @@ public class UniversityController {
     @PutMapping("/{id}")
     @Operation(summary = "Update university", description = "")
     public ResponseEntity<ApiResponse<?>> update(@PathVariable("id") Long id,
-                                                 @Valid @RequestBody UniversityUpdateDTO dto) {
+                                                 @Valid @RequestBody UniversityUpdateDTO dto,
+                                                 @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage appLanguage) {
         log.info("Update university {}", id);
-        return ResponseEntity.ok(universityService.update(id, dto));
+        return ResponseEntity.ok(universityService.update(id, dto, appLanguage));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

@@ -19,8 +19,14 @@ public class UniversityUpdateDTO {
     private Long rating;
     @NotNull(message = "Country is required")
     private Long countryId;
-    private String description;
-    private String abbreviation;
+//    private String description;
+    private String descriptionUz;
+    private String descriptionEn;
+    private String descriptionRu;
+//    private String abbreviation;
+    private String abbreviationUz;
+    private String abbreviationEn;
+    private String abbreviationRu;
     private String photoId;
     private String logoId;
     private List<UniversityDegreeType> degreeList;

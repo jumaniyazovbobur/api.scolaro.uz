@@ -31,8 +31,9 @@ public class SmsHistoryService {
             signature = "";
         }
         String smsCode = RandomUtil.getRandomSmsCode();
-//        String text = "Scolaro.uz partali - ro'yhatdan o'tish tasdiqlash kodi: " + smsCode + "\n" + signature;
-        String text = "<#>kitabu.uz partali. Ro'yxatdan o'tish uchun tasdiqlash kodi: " + smsCode + "\n" + signature;
+//        String text = "Scolaro.uz partali. Ro'yxatdan o'tish tasdiqlash kodi: " + smsCode + "\n" + signature;
+//        String text = "<#>kitabu.uz partali. Ro'yxatdan o'tish uchun tasdiqlash kodi: " + smsCode + "\n" + signature;
+        String text = "<#>Scolaro.uz partali. Ro'yxatdan o'tish uchun tasdiqlash kodi: " + smsCode + "\n" + signature;
         sendMessage(phoneNumber, text, SmsType.REGISTRATION, smsCode);
     }
 
@@ -91,8 +92,8 @@ public class SmsHistoryService {
             signature = "";
         }
         String smsCode = RandomUtil.getRandomSmsCode();
-//        String text = "Scolaro.uz partali - parolni qayta tiklash uchun tasdiqlash kodi: " + smsCode;
-        String text = "<#>kitabu.uz partali. Ro'yxatdan o'tish uchun tasdiqlash kodi: " + smsCode + "\n" + signature;
+        String text = "<#>Scolaro.uz partali - parolni qayta tiklash uchun tasdiqlash kodi: " + smsCode + "\n" + signature;
+//        String text = "<#>kitabu.uz partali. Ro'yxatdan o'tish uchun tasdiqlash kodi: " + smsCode + "\n" + signature;
         sendMessage(phone, text, SmsType.RESET_PASSWORD, smsCode);
     }
 }

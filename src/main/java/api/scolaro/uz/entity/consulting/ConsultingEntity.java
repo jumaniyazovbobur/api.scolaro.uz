@@ -39,4 +39,6 @@ public class ConsultingEntity extends BaseEntity {
     @JoinColumn(name = "manager_id", insertable = false, updatable = false)
     private ConsultingProfileEntity manager;
 
+
+
 }

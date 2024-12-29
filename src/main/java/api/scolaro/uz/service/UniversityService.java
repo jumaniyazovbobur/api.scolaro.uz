@@ -49,7 +49,7 @@ public class UniversityService {
     @Autowired
     private FacultyService facultyService;
 
-    public ApiResponse<UniversityResponseDTO> create(UniversityCreateDTO dto) {
+    public ApiResponse<UniversityResponseDTO> create(UniversityCreateDTO dto, AppLanguage appLanguage) {
         UniversityEntity entity = new UniversityEntity();
         entity.setName(dto.getName());
         entity.setRating(dto.getRating());
@@ -57,15 +57,21 @@ public class UniversityService {
         entity.setCountryId(dto.getCountryId());
         entity.setPhotoId(dto.getPhotoId());
         entity.setCompressedPhotoId(attachService.getImageCompressedImageId(dto.getPhotoId()));
-        entity.setDescription(dto.getDescription());
-        entity.setAbbreviation(dto.getAbbreviation());
+//        entity.setDescription(dto.getDescription());
+        entity.setDescriptionUz(dto.getDescriptionUz());
+        entity.setDescriptionEn(dto.getDescriptionEn());
+        entity.setDescriptionRu(dto.getDescriptionRu());
+//        entity.setAbbreviation(dto.getAbbreviation());
+        entity.setAbbreviationUz(dto.getAbbreviationUz());
+        entity.setAbbreviationEn(dto.getAbbreviationEn());
+        entity.setAbbreviationRu(dto.getAbbreviationRu());
         entity.setCreatedId(EntityDetails.getCurrentUserId());
         entity.setLogoId(dto.getLogoId());
         entity.setCompressedLogoId(attachService.getImageCompressedImageId(dto.getLogoId()));
         universityRepository.save(entity);
         universityDegreeService.merger(entity.getId(), dto.getDegreeList()); //merge university degreeType
         universityFacultyService.collectAndMerge(entity.getId(), dto.getFacultyIdList());
-        return ApiResponse.ok(toDTO(entity));
+        return ApiResponse.ok(toDTO(entity, appLanguage));
     }
 
     public ApiResponse<?> deleted(Long id) {
@@ -75,14 +81,20 @@ public class UniversityService {
         return ApiResponse.ok("Success");
     }
 
-    public ApiResponse<UniversityResponseDTO> update(Long id, UniversityUpdateDTO dto) {
+    public ApiResponse<UniversityResponseDTO> update(Long id, UniversityUpdateDTO dto, AppLanguage appLanguage) {
         UniversityEntity entity = get(id);
         entity.setName(dto.getName());
         entity.setWebSite(dto.getWebSite());
         entity.setRating(dto.getRating());
         entity.setCountryId(dto.getCountryId());
-        entity.setDescription(dto.getDescription());
-        entity.setAbbreviation(dto.getAbbreviation());
+//        entity.setDescription(dto.getDescription());
+        entity.setDescriptionUz(dto.getDescriptionUz());
+        entity.setDescriptionEn(dto.getDescriptionEn());
+        entity.setDescriptionRu(dto.getDescriptionRu());
+//        entity.setAbbreviation(dto.getAbbreviation());
+        entity.setAbbreviationUz(dto.getAbbreviationUz());
+        entity.setAbbreviationEn(dto.getAbbreviationEn());
+        entity.setAbbreviationRu(dto.getAbbreviationRu());
         entity.setPhotoId(dto.getPhotoId()); // Delete old photo.
         entity.setCompressedPhotoId(attachService.getImageCompressedImageId(dto.getPhotoId()));
         entity.setLogoId(dto.getLogoId());
@@ -90,23 +102,44 @@ public class UniversityService {
         universityRepository.save(entity);
         universityDegreeService.merger(entity.getId(), dto.getDegreeList()); //merge university degreeType\
         universityFacultyService.collectAndMerge(entity.getId(), dto.getFacultyIdList());
-        return ApiResponse.ok(toDTO(entity));
+        return ApiResponse.ok(toDTO(entity, appLanguage));
     }
 
     public ApiResponse<UniversityResponseDTO> getById(Long id, AppLanguage appLanguage) {
         UniversityEntity entity = get(id);
-        UniversityResponseDTO responseDTO = toDTO(entity);
+        UniversityResponseDTO responseDTO = toDTO(entity, appLanguage);
 //        responseDTO.setDegreeTypeList(universityDegreeService.getUniversityDegreeTypeList(id)); // get degree list
         responseDTO.setCountry(countryService.getById(entity.getCountryId(), appLanguage));
         responseDTO.setDegreeList(universityDegreeService.getUniversityDegreeTypeList(id, appLanguage));
 //        responseDTO.setFacultyList(facultyService.getFacultyTreeForUniversity(id, appLanguage));
         responseDTO.setFacultyIdList(universityFacultyRepository.getFacultyIdListByUniversityId(id)); // set faculty id list
-        return ApiResponse.ok(responseDTO);
+
+        // detail response
+        UniversityResponseDTO dto = new UniversityResponseDTO();
+        dto.setId(entity.getId());
+        dto.setName(entity.getName());
+        dto.setRating(entity.getRating());
+        dto.setCountryId(entity.getCountryId());
+        dto.setWebSite(entity.getWebSite());
+        if (entity.getPhotoId() != null) {
+            dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
+        }
+        if (entity.getLogoId() != null) {
+            dto.setLogo(attachService.getResponseAttach(entity.getLogoId()));
+        }
+        dto.setDescriptionEn(entity.getDescriptionEn());
+        dto.setAbbreviationEn(entity.getAbbreviationEn());
+        dto.setDescriptionUz(entity.getDescriptionUz());
+        dto.setAbbreviationUz(entity.getAbbreviationUz());
+        dto.setDescriptionRu(entity.getDescriptionRu());
+        dto.setAbbreviationRu(entity.getAbbreviationRu());
+
+        return ApiResponse.ok(dto);
     }
 
     public ApiResponse<UniversityResponseDTO> getByIdDetail(Long id, AppLanguage appLanguage) {
         UniversityEntity entity = get(id);
-        UniversityResponseDTO responseDTO = toDTO(entity);
+        UniversityResponseDTO responseDTO = toDTO(entity, appLanguage);
         responseDTO.setCountry(countryService.getById(entity.getCountryId(), appLanguage));
         responseDTO.setDegreeList(universityDegreeService.getUniversityDegreeTypeList(id, appLanguage));
         responseDTO.setFacultyList(universityFacultyService.getUniversityFacultyList(id, appLanguage));
@@ -138,7 +171,7 @@ public class UniversityService {
         return new PageImpl<>(dtoList, pageable, universityList.getTotalElement());
     }
 
-    public UniversityResponseDTO toDTO(UniversityEntity entity) {
+    public UniversityResponseDTO toDTO(UniversityEntity entity, AppLanguage language) {
         UniversityResponseDTO dto = new UniversityResponseDTO();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
@@ -151,8 +184,22 @@ public class UniversityService {
         if (entity.getLogoId() != null) {
             dto.setLogo(attachService.getResponseAttach(entity.getLogoId()));
         }
-        dto.setDescription(entity.getDescription());
-        dto.setAbbreviation(entity.getAbbreviation());
+//        dto.setDescription(entity.getDescription());
+//        dto.setAbbreviation(entity.getAbbreviation());
+        switch (language) {
+            case en -> {
+                dto.setDescription(entity.getDescriptionEn());
+                dto.setAbbreviation(entity.getAbbreviationEn());
+            }
+            case uz -> {
+                dto.setDescription(entity.getDescriptionUz());
+                dto.setAbbreviation(entity.getAbbreviationUz());
+            }
+            case ru -> {
+                dto.setDescription(entity.getDescriptionRu());
+                dto.setAbbreviation(entity.getAbbreviationRu());
+            }
+        }
         return dto;
     }
 
@@ -169,8 +216,23 @@ public class UniversityService {
             dto.setPhoto(attachService.getResponseAttach(entity.getCompressedPhotoId()));
         }
         dto.setDegreeList(universityDegreeService.getUniversityDegreeTypeList(entity.getId(), language));
-        dto.setDescription(entity.getDescription());
-        dto.setAbbreviation(entity.getAbbreviation());
+//        dto.setDescription(entity.getDescription());
+//        dto.setAbbreviation(entity.getAbbreviation());
+
+        switch (language) {
+            case en -> {
+                dto.setDescription(entity.getDescriptionEn());
+                dto.setAbbreviation(entity.getAbbreviationEn());
+            }
+            case uz -> {
+                dto.setDescription(entity.getDescriptionUz());
+                dto.setAbbreviation(entity.getAbbreviationUz());
+            }
+            case ru -> {
+                dto.setDescription(entity.getDescriptionRu());
+                dto.setAbbreviation(entity.getAbbreviationRu());
+            }
+        }
         return dto;
     }
 
@@ -202,7 +264,7 @@ public class UniversityService {
         return new ApiResponse<>(200, false, dtoList);
     }
 
-    public List<UniversityResponseDTO> getConsultingUniversityList(String consultingId) {
+    public List<UniversityResponseDTO> getConsultingUniversityList(String consultingId, AppLanguage appLanguage) {
         List<UniversityEntity> entityList = universityRepository.getUniversityListByConsultingId(consultingId);
         List<UniversityResponseDTO> dtoList = new LinkedList<>();
         for (UniversityEntity entity : entityList) {
@@ -213,7 +275,7 @@ public class UniversityService {
             if (entity.getCompressedLogoId() != null) {
                 dto.setLogo(attachService.getResponseAttach(entity.getCompressedLogoId()));
             }
-            dtoList.add(toDTO(entity));
+            dtoList.add(toDTO(entity, appLanguage));
         }
         return dtoList;
     }

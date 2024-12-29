@@ -2,6 +2,7 @@ package api.scolaro.uz.controller;
 
 import api.scolaro.uz.dto.scholarShip.ScholarShipRequestDTO;
 import api.scolaro.uz.dto.university.UniversityCreateDTO;
+import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.UniversityDegreeType;
 import api.scolaro.uz.service.UniversityService;
 import api.scolaro.uz.service.scholarShip.ScholarShipService;
@@ -30,7 +31,7 @@ public class InitController {
     @Autowired
     private ScholarShipService scholarShipService;
 
-    @GetMapping("/start")
+ /*   @GetMapping("/start")
     public void initUniversity(@RequestParam(value = "key", required = true) String key) {
         if (!key.equals("!a3(sdgdamdq.ewr,!a")) {
             return;
@@ -124,7 +125,7 @@ public class InitController {
         facultyList1.add("7933edfc-92dd-49ae-8e23-163bf2707e3c");
         university1.setFacultyIdList(facultyList1);
 
-        universityService.create(university1);
+        universityService.create(university1, AppLanguage.uz);
 
         // 2. Harvard
         UniversityCreateDTO university2 = new UniversityCreateDTO();
@@ -2142,6 +2143,6 @@ public class InitController {
 
     }
 
-
+*/
 
 }

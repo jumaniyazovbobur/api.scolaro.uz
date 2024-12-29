@@ -21,8 +21,14 @@ public class UniversityCreateDTO {
     private Long countryId;
     private String photoId;
     private String logoId;
-    private String description;
-    private String abbreviation;
+    private String description; // delete then
+    private String descriptionUz;
+    private String descriptionEn;
+    private String descriptionRu;
+    private String abbreviation; // delete then
+    private String abbreviationUz;
+    private String abbreviationEn;
+    private String abbreviationRu;
     private List<UniversityDegreeType> degreeList;
     private List<String> facultyIdList;
 }

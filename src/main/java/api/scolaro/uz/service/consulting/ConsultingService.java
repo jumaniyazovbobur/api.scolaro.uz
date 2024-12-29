@@ -186,6 +186,12 @@ public class ConsultingService {
         return ApiResponse.ok("Success");
     }
 
+    public ApiResponse<String> updateStatus(String id, GeneralStatus status) {
+        int result = consultingRepository.updateStatus(id, status);
+        if (result == 0) return ApiResponse.bad("Try again !");
+        return ApiResponse.ok("Success");
+    }
+
     public ApiResponse<ConsultingDTO> getConsultingDetail(String consultingId, AppLanguage language) {
         ConsultingEntity details = get(consultingId);
         ConsultingDTO consultingDTO = new ConsultingDTO();
@@ -199,7 +205,7 @@ public class ConsultingService {
         consultingDTO.setAbbreviation(details.getAbbreviation());
         consultingDTO.setAbout(details.getAbout());
         // get consulting university list
-        List<UniversityResponseDTO> oldList = universityService.getConsultingUniversityList(consultingId);
+        List<UniversityResponseDTO> oldList = universityService.getConsultingUniversityList(consultingId, language);
         consultingDTO.setUniversityList(oldList);
         // consulting tariff list
         List<ConsultingTariffResponseDTO> list = consultingTariffService.getAllByConsultingId(consultingId, language);

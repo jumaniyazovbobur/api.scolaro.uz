@@ -133,7 +133,7 @@ public class ScholarShipService {
         List<ScholarShipResponseDTO> dtoList = new LinkedList<>();
         for (ScholarShipEntity entity : list) {
             ScholarShipResponseDTO dto = toDTO(entity, language, true);
-            dto.setUniversity(universityService.toDTO(entity.getUniversity()));
+            dto.setUniversity(universityService.toDTO(entity.getUniversity(), language));
             dtoList.add(dto);
         }
         return new ApiResponse<>(200, false, dtoList);
@@ -165,7 +165,7 @@ public class ScholarShipService {
         List<ScholarShipResponseDTO> dtoList = new LinkedList<>();
         for (ScholarShipEntity entity : list) {
             ScholarShipResponseDTO dto = toDTO(entity, appLanguage, true);
-            dto.setUniversity(universityService.toDTO(entity.getUniversity()));
+            dto.setUniversity(universityService.toDTO(entity.getUniversity(), appLanguage));
             dtoList.add(dto);
         }
         return new ApiResponse<>(200, false, dtoList);

@@ -120,6 +120,15 @@ public class ConsultingController {
         return ResponseEntity.ok(consultingService.updateConsulting(id, dto));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/{id}/status")
+    @Operation(summary = "Update consulting status as admin", description = "")
+    public ResponseEntity<ApiResponse<String>> updateConsulting(@PathVariable("id") String id,
+                                                                @Valid @RequestBody ConsultingStatusUpdateDTO dto) {
+        log.info("Update consulting  status {}", dto);
+        return ResponseEntity.ok(consultingService.updateStatus(id, dto.getStatus()));
+    }
+
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/change-status/{id}")
