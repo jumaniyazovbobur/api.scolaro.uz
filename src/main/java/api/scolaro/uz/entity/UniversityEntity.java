@@ -1,6 +1,7 @@
 package api.scolaro.uz.entity;
 
 import api.scolaro.uz.entity.place.CountryEntity;
+import api.scolaro.uz.enums.GeneralStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -53,4 +54,7 @@ public class UniversityEntity extends BaseIdentityEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "logo_id", insertable = false, updatable = false)
     private AttachEntity logo;
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private GeneralStatus status;
 }

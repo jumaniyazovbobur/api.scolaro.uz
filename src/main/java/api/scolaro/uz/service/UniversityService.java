@@ -3,10 +3,13 @@ package api.scolaro.uz.service;
 import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.FilterResultDTO;
+import api.scolaro.uz.dto.country.CountryResponseDTO;
 import api.scolaro.uz.dto.university.*;
 import api.scolaro.uz.entity.AttachEntity;
 import api.scolaro.uz.entity.UniversityEntity;
+import api.scolaro.uz.entity.consulting.ConsultingEntity;
 import api.scolaro.uz.enums.AppLanguage;
+import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.mapper.AppApplicationFilterMapperDTO;
@@ -107,34 +110,28 @@ public class UniversityService {
 
     public ApiResponse<UniversityResponseDTO> getById(Long id, AppLanguage appLanguage) {
         UniversityEntity entity = get(id);
-        UniversityResponseDTO responseDTO = toDTO(entity, appLanguage);
-//        responseDTO.setDegreeTypeList(universityDegreeService.getUniversityDegreeTypeList(id)); // get degree list
+        UniversityResponseDTO responseDTO = new UniversityResponseDTO();
         responseDTO.setCountry(countryService.getById(entity.getCountryId(), appLanguage));
         responseDTO.setDegreeList(universityDegreeService.getUniversityDegreeTypeList(id, appLanguage));
-//        responseDTO.setFacultyList(facultyService.getFacultyTreeForUniversity(id, appLanguage));
         responseDTO.setFacultyIdList(universityFacultyRepository.getFacultyIdListByUniversityId(id)); // set faculty id list
-
-        // detail response
-        UniversityResponseDTO dto = new UniversityResponseDTO();
-        dto.setId(entity.getId());
-        dto.setName(entity.getName());
-        dto.setRating(entity.getRating());
-        dto.setCountryId(entity.getCountryId());
-        dto.setWebSite(entity.getWebSite());
+        responseDTO.setId(entity.getId());
+        responseDTO.setName(entity.getName());
+        responseDTO.setRating(entity.getRating());
+        responseDTO.setWebSite(entity.getWebSite());
         if (entity.getPhotoId() != null) {
-            dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
+            responseDTO.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
         }
         if (entity.getLogoId() != null) {
-            dto.setLogo(attachService.getResponseAttach(entity.getLogoId()));
+            responseDTO.setLogo(attachService.getResponseAttach(entity.getLogoId()));
         }
-        dto.setDescriptionEn(entity.getDescriptionEn());
-        dto.setAbbreviationEn(entity.getAbbreviationEn());
-        dto.setDescriptionUz(entity.getDescriptionUz());
-        dto.setAbbreviationUz(entity.getAbbreviationUz());
-        dto.setDescriptionRu(entity.getDescriptionRu());
-        dto.setAbbreviationRu(entity.getAbbreviationRu());
+        responseDTO.setDescriptionEn(entity.getDescriptionEn());
+        responseDTO.setAbbreviationEn(entity.getAbbreviationEn());
+        responseDTO.setDescriptionUz(entity.getDescriptionUz());
+        responseDTO.setAbbreviationUz(entity.getAbbreviationUz());
+        responseDTO.setDescriptionRu(entity.getDescriptionRu());
+        responseDTO.setAbbreviationRu(entity.getAbbreviationRu());
 
-        return ApiResponse.ok(dto);
+        return ApiResponse.ok(responseDTO);
     }
 
     public ApiResponse<UniversityResponseDTO> getByIdDetail(Long id, AppLanguage appLanguage) {
@@ -208,6 +205,7 @@ public class UniversityService {
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setRating(entity.getRating());
+        dto.setStatus(entity.getStatus());
         if (entity.getCountryId() != null) {
             dto.setCountry(countryService.getById(entity.getCountryId(), language));
         }
@@ -290,5 +288,11 @@ public class UniversityService {
         FilterResultDTO<UniversityResponseDTO> filterResult = customRepository.getApplicationUniversityListForConsulting_mobile(consultingId, filterByConsultingProfileId, page, size);
         Page<UniversityResponseDTO> pageObj = new PageImpl<>(filterResult.getContent(), PageRequest.of(page, size), filterResult.getTotalElement());
         return ApiResponse.ok(pageObj);
+    }
+
+    public ApiResponse<String> changeStatus(Long id, GeneralStatus status) {
+        int result = universityRepository.changeStatus(id, status);
+        if (result == 0) return ApiResponse.bad("Try again !");
+        return ApiResponse.ok("Success");
     }
 }

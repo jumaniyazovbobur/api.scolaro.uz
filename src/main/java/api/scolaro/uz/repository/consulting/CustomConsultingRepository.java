@@ -96,7 +96,7 @@ public class CustomConsultingRepository {
             dto.setOwnerSurname(MapperUtil.getStringValue(object[6]));
             dto.setPhone(MapperUtil.getStringValue(object[7]));
             if (MapperUtil.getStringValue(object[8]) != null) {
-                dto.setStatus(GeneralStatus.valueOf(MapperUtil.getStringValue(object[7])));
+                dto.setStatus(GeneralStatus.valueOf(MapperUtil.getStringValue(object[8])));
             }
             dtoList.add(dto);
         }

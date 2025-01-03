@@ -3,6 +3,7 @@ package api.scolaro.uz.controller;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.university.*;
 import api.scolaro.uz.enums.AppLanguage;
+import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.service.UniversityService;
 import api.scolaro.uz.util.PaginationUtil;
 import io.swagger.v3.oas.annotations.Operation;
@@ -110,4 +111,12 @@ public class UniversityController {
         return ResponseEntity.ok(universityService.getTopUniversity(appLanguage));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/change-status/{id}")
+    @Operation(summary = "Change university status api", description = "for admin")
+    public ResponseEntity<ApiResponse<String>> changeStatus(@PathVariable("id") Long id,
+                                                            @RequestParam("status") GeneralStatus status) {
+        log.info("Change status {}", id);
+        return ResponseEntity.ok(universityService.changeStatus(id, status));
+    }
 }

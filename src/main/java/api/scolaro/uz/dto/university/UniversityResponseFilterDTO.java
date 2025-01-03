@@ -3,6 +3,7 @@ package api.scolaro.uz.dto.university;
 import api.scolaro.uz.dto.KeyValueDTO;
 import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.dto.country.CountryResponseDTO;
+import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.UniversityDegreeType;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,4 +25,5 @@ public class UniversityResponseFilterDTO {
     private AttachDTO photo;
     private List<UniversityDegreeType> degreeTypeList;
     private List<KeyValueDTO> degreeList;
+    private GeneralStatus status;
 }

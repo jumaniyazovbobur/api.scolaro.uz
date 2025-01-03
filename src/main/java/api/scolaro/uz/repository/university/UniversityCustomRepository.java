@@ -26,7 +26,7 @@ public class UniversityCustomRepository {
     public FilterResultDTO<UniversityEntity> filterPagination(UniversityFilterDTO dto, Integer page, Integer size) {
         StringBuilder selectBuilder = new StringBuilder("from UniversityEntity as u ");
         StringBuilder countBuilder = new StringBuilder("select count(u) from UniversityEntity as u");
-        StringBuilder builder = new StringBuilder(" where u.visible=true");
+        StringBuilder builder = new StringBuilder(" where u.visible=true and status = 'ACTIVE' and ");
         Map<String, Object> params = new LinkedHashMap<>();
         if (dto.getName() != null && !dto.getName().isBlank()) {
             builder.append(" and lower(u.name) like :name");
