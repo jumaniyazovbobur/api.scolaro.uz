@@ -6,6 +6,7 @@ import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.dto.consulting.ConsultingResponseDTO;
 import api.scolaro.uz.dto.country.CountryDTO;
 import api.scolaro.uz.dto.country.CountryResponseDTO;
+import api.scolaro.uz.enums.GeneralStatus;
 import api.scolaro.uz.enums.UniversityDegreeType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
@@ -39,4 +40,5 @@ public class UniversityResponseDTO {
     private List<String> facultyIdList;
     private List<ConsultingResponseDTO> consultingList;
     private Long studentCount;
+    private GeneralStatus status;
 }

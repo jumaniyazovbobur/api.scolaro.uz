@@ -70,6 +70,7 @@ public class UniversityService {
         entity.setAbbreviationRu(dto.getAbbreviationRu());
         entity.setCreatedId(EntityDetails.getCurrentUserId());
         entity.setLogoId(dto.getLogoId());
+        entity.setStatus(GeneralStatus.ACTIVE);
         entity.setCompressedLogoId(attachService.getImageCompressedImageId(dto.getLogoId()));
         universityRepository.save(entity);
         universityDegreeService.merger(entity.getId(), dto.getDegreeList()); //merge university degreeType
@@ -130,6 +131,7 @@ public class UniversityService {
         responseDTO.setAbbreviationUz(entity.getAbbreviationUz());
         responseDTO.setDescriptionRu(entity.getDescriptionRu());
         responseDTO.setAbbreviationRu(entity.getAbbreviationRu());
+        responseDTO.setStatus(entity.getStatus());
 
         return ApiResponse.ok(responseDTO);
     }
