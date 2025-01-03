@@ -1,24 +1,18 @@
 package api.scolaro.uz;
 
-import api.scolaro.uz.dto.appApplication.AppApplicationFilterDTO;
-import api.scolaro.uz.dto.university.UniversityUpdateDTO;
-import api.scolaro.uz.enums.AppLanguage;
-import api.scolaro.uz.repository.appApplication.AppApplicationFilterRepository;
-import api.scolaro.uz.service.ResourceMessageService;
-import api.scolaro.uz.util.MD5Util;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.UUID;
 
 @SpringBootTest
 class ApplicationTests {
-    //    @Autowired
-//    private AppApplicationFilterRepository appApplicationFilterRepository;
+//    @Autowired
+//    private UniversityService universityService;
+
+    //    private AppApplicationFilterRepository appApplicationFilterRepository;
 //    private ResourceMessageService resourceMessageService;
     @Test
     void contextLoads() {
+//        universityService.getTopUniversity(AppLanguage.uz);
 //        AppApplicationFilterDTO dto = new AppApplicationFilterDTO();
 //        appApplicationFilterRepository.filterForAdmin(dto, 0, 30);
 //        System.out.println(MD5Util.getMd5("123456"));
