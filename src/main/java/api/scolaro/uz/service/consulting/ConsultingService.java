@@ -301,6 +301,7 @@ public class ConsultingService {
             dto.setPhoto(attachService.getResponseAttach(entity.getPhotoId()));
         }
         dto.setCreatedDate(entity.getCreatedDate());
+        dto.setStatus(entity.getStatus());
         return dto;
     }
 

@@ -35,7 +35,7 @@ public interface ConsultingRepository extends JpaRepository<ConsultingEntity, St
     @Query(value = "select * from consulting where visible=true limit 6 ", nativeQuery = true)
     List<ConsultingEntity> getTopConsulting();
 
-    @Query(value = "from ConsultingEntity c left join fetch c.photo WHERE c.visible = true")
+    @Query(value = "from ConsultingEntity c left join fetch c.photo WHERE c.visible = true and c.status = 'ACTIVE' ")
     @Transactional(readOnly = true)
     List<ConsultingEntity> getTopConsulting(Pageable pageable);
 
