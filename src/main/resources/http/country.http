@@ -1,6 +1,54 @@
 ### Get all country list
-GET http://localhost:8081/api/v1/country/public/get-all
+GET http://localhost:8081/api/v1/country
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDIxMDE0NDcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDI3MDYyNDcsImlzcyI6IkphdmEgYmFja2VuZCJ9._dbC_nhe3VnVZ3kGx7KXjv7aHYdJr1jLA4lzqHmV9BT5qA6vm76pK-13iUwYZ_toGF01GqV5qSRoQvOA59u1zA
 Accept-Language: ru
+
+### Get by id country
+GET http://localhost:8081/api/v1/country/51
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDIxMDE0NDcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDI3MDYyNDcsImlzcyI6IkphdmEgYmFja2VuZCJ9._dbC_nhe3VnVZ3kGx7KXjv7aHYdJr1jLA4lzqHmV9BT5qA6vm76pK-13iUwYZ_toGF01GqV5qSRoQvOA59u1zA
+
+
+### Get all country list language
+GET http://localhost:8081/api/v1/country/language
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDIxMDE0NDcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDI3MDYyNDcsImlzcyI6IkphdmEgYmFja2VuZCJ9._dbC_nhe3VnVZ3kGx7KXjv7aHYdJr1jLA4lzqHmV9BT5qA6vm76pK-13iUwYZ_toGF01GqV5qSRoQvOA59u1zA
+Accept-Language: ru
+
+### Get by id country  language
+GET http://localhost:8081/api/v1/country/language/51
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDIxMDE0NDcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDI3MDYyNDcsImlzcyI6IkphdmEgYmFja2VuZCJ9._dbC_nhe3VnVZ3kGx7KXjv7aHYdJr1jLA4lzqHmV9BT5qA6vm76pK-13iUwYZ_toGF01GqV5qSRoQvOA59u1zA
+Accept-Language: ru
+
+###CREATE COUNTRY
+POST http://localhost:8081/api/v1/country
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDIxMDE0NDcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDI3MDYyNDcsImlzcyI6IkphdmEgYmFja2VuZCJ9._dbC_nhe3VnVZ3kGx7KXjv7aHYdJr1jLA4lzqHmV9BT5qA6vm76pK-13iUwYZ_toGF01GqV5qSRoQvOA59u1zA
+
+{
+  "nameUz": "Qozag'istonUZ",
+  "nameRu": "Qozag'istonRU",
+  "nameEn": "Qozag'istonEn",
+  "attachId": "2c99f081959d988d01959d99a45d0000",
+  "orderNumber": 1
+}
+
+###UPDATE COUNTRY
+PUT http://localhost:8081/api/v1/country
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDIxMDE0NDcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDI3MDYyNDcsImlzcyI6IkphdmEgYmFja2VuZCJ9._dbC_nhe3VnVZ3kGx7KXjv7aHYdJr1jLA4lzqHmV9BT5qA6vm76pK-13iUwYZ_toGF01GqV5qSRoQvOA59u1zA
+
+{
+  "id": 51,
+  "nameUz": "Qozag'iston Update",
+  "nameRu": "Qozag'iston Update",
+  "nameEn": "Qozag'iston Update",
+  "attachId": "2c99f081959d988d01959d99a45d0000",
+  "orderNumber": 1
+}
+
+### DELETE COUNTRY
+DELETE http://localhost:8081/api/v1/country/51
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDIxMDE0NDcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDI3MDYyNDcsImlzcyI6IkphdmEgYmFja2VuZCJ9._dbC_nhe3VnVZ3kGx7KXjv7aHYdJr1jLA4lzqHmV9BT5qA6vm76pK-13iUwYZ_toGF01GqV5qSRoQvOA59u1zA
+
 
 ### Get country list with university count
 GET http://localhost:8081/api/v1/country/public/tree
@@ -8,20 +56,11 @@ Accept-Language: ru
 
 
 ### Get country list with university count by contynentId
-GET http://localhost:8081/api/v1/country/public/continent/4
+GET http://localhost:8081/api/v1/country/public/continent/51
 Accept-Language: ru
 
 
-###CREATE COUNTRY
-POST http://localhost:8081/api/v1/country
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2OTc4ODU5MTcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE2OTg0OTA3MTcsImlzcyI6IkphdmEgYmFja2VuZCJ9.1ioF_dbDfvk6oab5lwTMIl5Zav3nIy8LHi7TX6qyOSG-Zd0jKXi8QGK9xmTH8gSKFBrQWBQqe8qCwmCbB6zICw
 
-{
-  "nameUz": null,
-  "nameRu": "string",
-  "nameEn": "string"
-}
 
 
 ###UPDATE COUNTRY

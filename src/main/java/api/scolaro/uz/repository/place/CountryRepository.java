@@ -1,6 +1,7 @@
 package api.scolaro.uz.repository.place;
 
 import api.scolaro.uz.entity.place.CountryEntity;
+import api.scolaro.uz.entity.place.CountryFlagEntity;
 import api.scolaro.uz.mapper.CountryMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,11 +18,7 @@ import java.util.Optional;
 
 public interface CountryRepository extends JpaRepository<CountryEntity, Long> {
 
-    Iterable<CountryEntity> findAllByVisibleTrueOrderByNameUzAsc();
-
-    Iterable<CountryEntity> findAllByVisibleTrueOrderByNameRuAsc();
-
-    Iterable<CountryEntity> findAllByVisibleTrueOrderByNameEnAsc();
+    List<CountryEntity> findAllByVisibleTrue();
 
     Optional<CountryEntity> findByIdAndVisibleTrue(Long id);
 

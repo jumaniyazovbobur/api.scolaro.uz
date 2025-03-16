@@ -1,171 +1,126 @@
 package api.scolaro.uz.service.place;
 
-import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
-import api.scolaro.uz.dto.FilterResultDTO;
-import api.scolaro.uz.dto.country.*;
-import api.scolaro.uz.dto.university.UniversityResponseFilterDTO;
-import api.scolaro.uz.entity.UniversityEntity;
+import api.scolaro.uz.dto.country.CountryResponseDTO;
+import api.scolaro.uz.dto.countryFlag.CountryRequest;
+import api.scolaro.uz.dto.countryFlag.CountryResponse;
 import api.scolaro.uz.entity.place.CountryEntity;
 import api.scolaro.uz.enums.AppLanguage;
-import api.scolaro.uz.exp.AppBadRequestException;
 import api.scolaro.uz.exp.ItemNotFoundException;
-import api.scolaro.uz.mapper.CountryMapper;
-import api.scolaro.uz.repository.place.CountryFilterRepository;
 import api.scolaro.uz.repository.place.CountryRepository;
-import io.swagger.models.auth.In;
+import api.scolaro.uz.service.AttachService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 
-import java.time.LocalDateTime;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class CountryService {
 
-    private final CountryRepository countryRepository;
-    private final CountryFilterRepository countryFilterRepository;
+    private final CountryRepository repository;
+    private final AttachService attachService;
 
-    public ApiResponse<CountryResponseDTO> countryCreate(CountryRequestDTO countryDTO) {
-        CountryEntity countryEntity = new CountryEntity();
-        countryEntity.setCreatedId(EntityDetails.getCurrentUserId());
-        countryEntity.setNameEn(countryDTO.getNameEn());
-        countryEntity.setNameUz(countryDTO.getNameUz());
-        countryEntity.setNameRu(countryDTO.getNameRu());
-        countryRepository.save(countryEntity);
-        return new ApiResponse<>(200, false, toDTO(countryEntity));
+    public ApiResponse<String> create(CountryRequest request) {
+        CountryEntity entity = repository.save(toEntity(request));
+        return new ApiResponse<>("Create country flag: " + entity.getId(), 201, false);
     }
 
-    public ApiResponse<List<CountryResponseDTO>> getList(AppLanguage lang) {
-        List<CountryResponseDTO> dtoList = new LinkedList<>();
-        if (lang.equals(AppLanguage.uz)) {
-            Iterable<CountryEntity> all = countryRepository.findAllByVisibleTrueOrderByNameUzAsc();
-            all.forEach(country -> {
-                CountryResponseDTO dto = new CountryResponseDTO();
-                dto.setId(country.getId());
-                dto.setName(country.getNameUz());
-                dtoList.add(dto);
-            });
-        } else if (lang.equals(AppLanguage.ru)) {
-            Iterable<CountryEntity> all = countryRepository.findAllByVisibleTrueOrderByNameRuAsc();
-            all.forEach(country -> {
-                CountryResponseDTO dto = new CountryResponseDTO();
-                dto.setId(country.getId());
-                dto.setName(country.getNameRu());
-                dtoList.add(dto);
-            });
-        } else if (lang.equals(AppLanguage.en)) {
-            Iterable<CountryEntity> all = countryRepository.findAllByVisibleTrueOrderByNameEnAsc();
-            all.forEach(country -> {
-                CountryResponseDTO dto = new CountryResponseDTO();
-                dto.setId(country.getId());
-                dto.setName(country.getNameEn());
-                dtoList.add(dto);
-            });
-        }
-        return new ApiResponse<>(200, false, dtoList);
+    public ApiResponse<String> update(CountryRequest request) {
+        var country = repository.findById(request.id()).orElseThrow(() -> new ItemNotFoundException("Country not found " + request.id()));
+        mergerCountry(country, request);
+        repository.save(country);
+        return new ApiResponse<>("Update country flag: " + request.id(), 200, false);
     }
 
-    public ApiResponse<List<CountryResponseDTO>> getCountryListWithUniversityCount(AppLanguage lang) {
-        List<CountryMapper> entityList = countryRepository.getCountryWithUniversityCount(lang.name());
-        List<CountryResponseDTO> dtoList = new LinkedList<>();
-        entityList.forEach(mapper -> {
-            CountryResponseDTO dto = new CountryResponseDTO();
-            dto.setId(mapper.getId());
-            dto.setName(mapper.getName());
-            dto.setUniversityCount(mapper.getUniversityCount());
-            dtoList.add(dto);
-        });
-        return new ApiResponse<>(200, false, dtoList);
+    public ApiResponse<List<CountryResponse>> getAll() {
+        List<CountryResponse> responseList = repository.findAllByVisibleTrue().stream()
+                .map(entity -> toDTO(entity, null))
+                .collect(Collectors.toList());
+
+        return new ApiResponse<>("Country flags retrieved successfully", 200, false, responseList);
     }
 
-    public ApiResponse<List<CountryResponseDTO>> getCountryListWithUniversityCountByContinentId(Long continentId, AppLanguage language) {
-        List<CountryMapper> entityList = countryRepository.getCountryListWithUniversityCountByContinentId(continentId, language.name());
-        List<CountryResponseDTO> dtoList = new LinkedList<>();
-        entityList.forEach(mapper -> {
-            CountryResponseDTO dto = new CountryResponseDTO();
-            dto.setId(mapper.getId());
-            dto.setName(mapper.getName());
-            dto.setUniversityCount(mapper.getUniversityCount());
-            dtoList.add(dto);
-        });
-        return new ApiResponse<>(200, false, dtoList);
+
+    public ApiResponse<List<CountryResponse>> getAllLanguage(AppLanguage language) {
+        List<CountryResponse> responseList = repository.findAllByVisibleTrue().stream()
+                .map(entity -> toDTO(entity, language))
+                .collect(Collectors.toList());
+
+        return new ApiResponse<>("Country flags retrieved successfully", 200, false, responseList);
     }
 
-    public PageImpl<CountryResponseDTO> pagination(CountryFilterDTO dto, int page, int size) {
-//        Page<CountryEntity> all = countryFilterRepository.filterPagination(pageable,page,size);
-//        long totalElements = all.getTotalElements();
-//        int totalPages = all.getTotalPages();
-//        List<CountryResponseDTO> dtoList = all.stream().map(this::toDTO).toList();
-//        return new CountryPaginationDTO(totalElements, totalPages, dtoList);
-
-
-        Pageable pageable = PageRequest.of(page, size);
-        FilterResultDTO<CountryEntity> countryList = countryFilterRepository.filterPagination(dto, page, size);
-        List<CountryResponseDTO> dtoList = new LinkedList<>();
-        for (CountryEntity entity : countryList.getContent()) {
-            CountryResponseDTO dto1 = toDTO(entity);
-            dtoList.add(dto1);
-        }
-        return new PageImpl<>(dtoList, pageable, countryList.getTotalElement());
-    }
-
-    public ApiResponse<CountryResponseDTO> update(Long id, CountryRequestDTO dto) {
+    public ApiResponse<CountryResponse> getIdLanguage(Long id, AppLanguage language) {
         CountryEntity entity = get(id);
-        if (entity.getVisible().equals(Boolean.FALSE)) {
-            log.warn("Is visible false");
-            throw new AppBadRequestException("Is visible false");
-        }
-        entity.setNameUz(dto.getNameUz());
-        entity.setNameEn(dto.getNameEn());
-        entity.setNameRu(dto.getNameRu());
-        // update
-        countryRepository.save(entity);
-        return new ApiResponse<>(200, false, toDTO(entity));
-
+        return new ApiResponse<>("Country flag retrieved successfully", 200, false, toDTO(entity, language));
     }
 
-    public ApiResponse<Boolean> delete(Long id) {
+    public ApiResponse<CountryResponse> getId(Long id) {
         CountryEntity entity = get(id);
-        if (entity.getVisible().equals(Boolean.FALSE)) {
-            log.warn("Is visible false");
-            throw new AppBadRequestException("Is visible false");
-        }
-        int i = countryRepository.deleted(id, EntityDetails.getCurrentUserId(), LocalDateTime.now());
-        return new ApiResponse<>(200, false, i > 0);
+        return new ApiResponse<>("Country flag retrieved successfully", 200, false, toDTO(entity, null));
+    }
 
+    public ApiResponse<String> delete(Long id) {
+        CountryEntity entity = get(id);
+        entity.setVisible(false);
+        repository.save(entity);
+        return new ApiResponse<>("Update country flag: " + id, 200, false);
+    }
+
+
+    private void mergerCountry(CountryEntity country, CountryRequest request) {
+        country.setNameUz(request.nameUz());
+        country.setNameRu(request.nameRu());
+        country.setNameEn(request.nameEn());
+        country.setAttachId(request.attachId());
+        country.setOrderNumber(request.orderNumber());
+    }
+
+    public CountryEntity toEntity(CountryRequest request) {
+        return CountryEntity.builder()
+                .nameUz(request.nameUz())
+                .nameRu(request.nameRu())
+                .nameEn(request.nameEn())
+                .attachId(request.attachId())
+                .orderNumber(request.orderNumber())
+                .build();
+    }
+
+
+    public CountryResponse toDTO(CountryEntity entity, AppLanguage language) {
+        if (entity == null) return null;
+
+        String name = null;
+
+        if (language != null) {
+            name = switch (language) {
+                case uz -> entity.getNameUz();
+                case ru -> entity.getNameRu();
+                case en -> entity.getNameEn();
+            };
+        }
+        return new CountryResponse(
+                entity.getId(),
+                language == null ? entity.getNameUz() : null,
+                language == null ? entity.getNameRu() : null,
+                language == null ? entity.getNameEn() : null,
+                name,
+                attachService.getResponseAttach(entity.getAttachId()),
+                entity.getOrderNumber()
+        );
     }
 
     public CountryEntity get(Long id) {
-        return countryRepository.findById(id).orElseThrow(() -> {
-            log.warn("Country not found");
-            return new ItemNotFoundException("Country not found");
-        });
+        return repository.findByIdAndVisibleTrue(id).orElseThrow(() ->
+                new ItemNotFoundException("Country not found"));
     }
 
-    public List<CountryResponseDTO> search(String query, AppLanguage language) {
-        List<CountryEntity> entityList = countryRepository.searchByName("%"+query.toLowerCase()+"%");
-        List<CountryResponseDTO> dtoList = new LinkedList<>();
-        entityList.forEach(entity -> dtoList.add(toDTO(entity, language)));
-        return dtoList;
-    }
-
-    private CountryResponseDTO toDTO(CountryEntity entity) {
-        CountryResponseDTO dto = new CountryResponseDTO();
-        dto.setId(entity.getId());
-        dto.setNameUz(entity.getNameUz());
-        dto.setNameRu(entity.getNameRu());
-        dto.setNameEn(entity.getNameEn());
-        return dto;
-    }
-
-    private CountryResponseDTO toDTO(CountryEntity entity, AppLanguage language) {
+    // bu metodlar boshqa classlarda chaqirilgani uchun qoldi
+    private CountryResponseDTO toDTO1(CountryEntity entity, AppLanguage language) {
         CountryResponseDTO dto = new CountryResponseDTO();
         dto.setId(entity.getId());
         switch (language) {
@@ -178,7 +133,7 @@ public class CountryService {
 
     public CountryResponseDTO getById(Long id, AppLanguage language) {
         CountryEntity entity = get(id);
-        return toDTO(entity, language);
+        return toDTO1(entity, language);
     }
 
 }
