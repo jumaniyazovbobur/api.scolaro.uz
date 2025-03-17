@@ -2,8 +2,8 @@ package api.scolaro.uz.service.place;
 
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.country.CountryResponseDTO;
-import api.scolaro.uz.dto.countryFlag.CountryRequest;
-import api.scolaro.uz.dto.countryFlag.CountryResponse;
+import api.scolaro.uz.dto.country.CountryRequest;
+import api.scolaro.uz.dto.country.CountryResponse;
 import api.scolaro.uz.entity.place.CountryEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.exp.ItemNotFoundException;
@@ -68,7 +68,7 @@ public class CountryService {
         CountryEntity entity = get(id);
         entity.setVisible(false);
         repository.save(entity);
-        return new ApiResponse<>("Update country flag: " + id, 200, false);
+        return new ApiResponse<>("Delete country flag: " + id, 200, false);
     }
 
 

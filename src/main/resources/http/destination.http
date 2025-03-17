@@ -1,0 +1,51 @@
+### Get all destination list
+GET http://localhost:8081/api/v1/destination
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDIxOTYzMTcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDI4MDExMTcsImlzcyI6IkphdmEgYmFja2VuZCJ9.85WOkBcDWnF_3CwT8j262pPcrITREkiKmkg1Oe1wgipb-PlEBARZVUvXHIJqUA58E1pSgXZ76EZnTii9E8FSeA
+
+
+### Get by id destination
+GET http://localhost:8081/api/v1/destination/5
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDIxOTYzMTcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDI4MDExMTcsImlzcyI6IkphdmEgYmFja2VuZCJ9.85WOkBcDWnF_3CwT8j262pPcrITREkiKmkg1Oe1wgipb-PlEBARZVUvXHIJqUA58E1pSgXZ76EZnTii9E8FSeA
+
+
+### Get all destination list language
+GET http://localhost:8081/api/v1/destination/language
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDIxOTYzMTcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDI4MDExMTcsImlzcyI6IkphdmEgYmFja2VuZCJ9.85WOkBcDWnF_3CwT8j262pPcrITREkiKmkg1Oe1wgipb-PlEBARZVUvXHIJqUA58E1pSgXZ76EZnTii9E8FSeA
+Accept-Language: en
+
+### Get by id destination  language
+GET http://localhost:8081/api/v1/destination/language/2
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDIxOTYzMTcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDI4MDExMTcsImlzcyI6IkphdmEgYmFja2VuZCJ9.85WOkBcDWnF_3CwT8j262pPcrITREkiKmkg1Oe1wgipb-PlEBARZVUvXHIJqUA58E1pSgXZ76EZnTii9E8FSeA
+Accept-Language: ru
+
+###CREATE destination
+POST http://localhost:8081/api/v1/destination
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDIxOTYzMTcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDI4MDExMTcsImlzcyI6IkphdmEgYmFja2VuZCJ9.85WOkBcDWnF_3CwT8j262pPcrITREkiKmkg1Oe1wgipb-PlEBARZVUvXHIJqUA58E1pSgXZ76EZnTii9E8FSeA
+
+{
+  "nameUz": "Qirg'istonUZ 5",
+  "nameRu": "Qirg'istonRU 5",
+  "nameEn": "Qirg'istonEn 5",
+  "attachId": "2c99f081959d988d01959d99a45d0000",
+  "orderNumber": 5
+}
+
+###UPDATE destination
+PUT http://localhost:8081/api/v1/destination
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDIxOTYzMTcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDI4MDExMTcsImlzcyI6IkphdmEgYmFja2VuZCJ9.85WOkBcDWnF_3CwT8j262pPcrITREkiKmkg1Oe1wgipb-PlEBARZVUvXHIJqUA58E1pSgXZ76EZnTii9E8FSeA
+
+{
+  "id": 1,
+  "nameUz": "Qozag'iston Update",
+  "nameRu": "Qozag'iston Update",
+  "nameEn": "Qozag'iston Update",
+  "attachId": "2c99f081959d525001959d5ac6460001",
+  "orderNumber": 2
+}
+
+### DELETE destination
+DELETE http://localhost:8081/api/v1/destination/2
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDIxOTYzMTcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDI4MDExMTcsImlzcyI6IkphdmEgYmFja2VuZCJ9.85WOkBcDWnF_3CwT8j262pPcrITREkiKmkg1Oe1wgipb-PlEBARZVUvXHIJqUA58E1pSgXZ76EZnTii9E8FSeA
+
