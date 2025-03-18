@@ -1,19 +1,15 @@
 package api.scolaro.uz.controller;
 
 import api.scolaro.uz.dto.ApiResponse;
-import api.scolaro.uz.dto.country.*;
-import api.scolaro.uz.dto.countryFlag.CountryRequest;
-import api.scolaro.uz.dto.countryFlag.CountryResponse;
+import api.scolaro.uz.dto.country.CountryRequest;
+import api.scolaro.uz.dto.country.CountryResponse;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.place.CountryService;
-import api.scolaro.uz.util.PaginationUtil;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

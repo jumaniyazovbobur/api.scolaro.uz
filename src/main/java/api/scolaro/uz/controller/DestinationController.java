@@ -1,12 +1,8 @@
 package api.scolaro.uz.controller;
 
 import api.scolaro.uz.dto.ApiResponse;
-import api.scolaro.uz.dto.country.CountryRequest;
-import api.scolaro.uz.dto.country.CountryResponse;
 import api.scolaro.uz.dto.destination.DestinationRequest;
 import api.scolaro.uz.dto.destination.DestinationResponse;
-import api.scolaro.uz.dto.profile.ProfileFilterDTO;
-import api.scolaro.uz.dto.profile.ProfileResponseDTO;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.place.DestinationService;
 import api.scolaro.uz.util.PaginationUtil;
@@ -15,7 +11,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -78,7 +73,7 @@ public class DestinationController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/filter")
+    @GetMapping("/page")
     @Operation(summary = "Filter Destination api", description = "")
     public ResponseEntity<ApiResponse<List<DestinationResponse>>> filter(
             @RequestParam(value = "page", defaultValue = "1") int page,
