@@ -1,6 +1,7 @@
 package api.scolaro.uz.controller;
 
 import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.destination.DestinationLanguageResponse;
 import api.scolaro.uz.dto.destination.DestinationRequest;
 import api.scolaro.uz.dto.destination.DestinationResponse;
 import api.scolaro.uz.enums.AppLanguage;
@@ -39,25 +40,14 @@ public class DestinationController {
         return ResponseEntity.ok(service.update(request));
     }
 
-    @GetMapping()
-    @Operation(summary = "Get all Destination", description = "")
-    public ResponseEntity<ApiResponse<List<DestinationResponse>>> getAll() {
-        return ResponseEntity.ok(service.getAll());
-    }
 
     @GetMapping("/language")
-    @Operation(summary = "Get all Destination Language", description = "")
-    public ResponseEntity<ApiResponse<List<DestinationResponse>>> getAllLanguage(@RequestHeader(value = "Accept-Language",
+    @Operation(summary = "Get all destination by language", description = "")
+    public ResponseEntity<ApiResponse<List<DestinationLanguageResponse>>> allByLanguage(@RequestHeader(value = "Accept-Language",
             defaultValue = "uz") AppLanguage language) {
-        return ResponseEntity.ok(service.getAllLanguage(language));
+        return ResponseEntity.ok(service.getAllByLanguage(language));
     }
 
-    @GetMapping("/language/{id}")
-    @Operation(summary = "Get id Destination Language", description = "")
-    public ResponseEntity<ApiResponse<DestinationResponse>> getIdLanguage(@PathVariable("id") Long id,
-                                                                          @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
-        return ResponseEntity.ok(service.getIdLanguage(id, language));
-    }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get id Destination ", description = "")
@@ -73,7 +63,7 @@ public class DestinationController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/page")
+    @GetMapping("/filter")
     @Operation(summary = "Filter Destination api", description = "")
     public ResponseEntity<ApiResponse<List<DestinationResponse>>> filter(
             @RequestParam(value = "page", defaultValue = "1") int page,

@@ -34,7 +34,7 @@ public class DestinationEntity extends BaseIdentityEntity {
     @Column(name = "order_number")
     private Integer orderNumber;
 
-    @Column(name = "show_in_my_main_page")
-    private Boolean showInMyMainPage = Boolean.FALSE;
+    @Column(name = "show_in_main_page")
+    private Boolean showInMainPage = Boolean.FALSE;
 
 }

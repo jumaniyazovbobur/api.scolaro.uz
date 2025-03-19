@@ -26,6 +26,9 @@ public record DestinationRequest(
 
         @NotNull(message = "Type number bo'sh bo'lishi mumkin emas")
         @Min(value = 1, message = "Type number ning qiymati minimal 1 bo'lsin")
-        Integer orderNumber
+        Integer orderNumber,
+
+        @NotNull(message = "ShowInMainPage is required")
+        Boolean showInMainPage
 ) {
 }

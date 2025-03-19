@@ -16,5 +16,4 @@ public interface DestinationRepository extends JpaRepository<DestinationEntity, 
 
     Optional<DestinationEntity> findByIdAndVisibleTrue(Long id);
 
-
 }

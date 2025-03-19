@@ -1,8 +1,10 @@
 package api.scolaro.uz.controller;
 
 import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.country.CountryLanguageResponse;
 import api.scolaro.uz.dto.country.CountryRequest;
 import api.scolaro.uz.dto.country.CountryResponse;
+import api.scolaro.uz.dto.country.CountryResponseDTO;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.place.CountryService;
 import io.swagger.annotations.Api;
@@ -44,24 +46,19 @@ public class CountryController {
     }
 
     @GetMapping()
-    @Operation(summary = "Get all Country flag", description = "")
-    public ResponseEntity<ApiResponse<List<CountryResponse>>> getAll() {
-        return ResponseEntity.ok(service.getAll());
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Operation(summary = "Get all country for admin", description = "")
+    public ResponseEntity<ApiResponse<List<CountryResponse>>> allForAdmin() {
+        return ResponseEntity.ok(service.allForAdmin());
     }
 
     @GetMapping("/language")
-    @Operation(summary = "Get all Country flag Language", description = "")
-    public ResponseEntity<ApiResponse<List<CountryResponse>>> getAllLanguage(@RequestHeader(value = "Accept-Language",
+    @Operation(summary = "Get all country by language", description = "")
+    public ResponseEntity<ApiResponse<List<CountryResponseDTO>>> allByLanguage(@RequestHeader(value = "Accept-Language",
             defaultValue = "uz") AppLanguage language) {
-        return ResponseEntity.ok(service.getAllLanguage(language));
+        return ResponseEntity.ok(service.getAllByLanguage(language));
     }
 
-    @GetMapping("/language/{id}")
-    @Operation(summary = "Get id Country flag Language", description = "")
-    public ResponseEntity<ApiResponse<CountryResponse>> getIdLanguage(@PathVariable("id") Long id,
-                                                                      @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
-        return ResponseEntity.ok(service.getIdLanguage(id, language));
-    }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get id Country flag ", description = "")

@@ -1,6 +1,7 @@
 package api.scolaro.uz.service.place;
 
 import api.scolaro.uz.dto.ApiResponse;
+import api.scolaro.uz.dto.destination.DestinationLanguageResponse;
 import api.scolaro.uz.dto.destination.DestinationRequest;
 import api.scolaro.uz.dto.destination.DestinationResponse;
 import api.scolaro.uz.entity.place.DestinationEntity;
@@ -31,35 +32,27 @@ public class DestinationService {
 
     public ApiResponse<String> update(DestinationRequest request) {
         var country = repository.findById(request.id()).orElseThrow(() -> new ItemNotFoundException("Destination not found " + request.id()));
-        mergerCountry(country, request);
+        country.setNameUz(request.nameUz());
+        country.setNameRu(request.nameRu());
+        country.setNameEn(request.nameEn());
+        country.setAttachId(request.attachId());
+        country.setOrderNumber(request.orderNumber());
+        country.setShowInMainPage(request.showInMainPage());
         repository.save(country);
         return new ApiResponse<>("Update Destination: " + request.id(), 200, false);
     }
 
-    public ApiResponse<List<DestinationResponse>> getAll() {
-        List<DestinationResponse> responseList = repository.findAllByVisibleTrueOrderByOrderNumber().stream()
-                .map(entity -> toDTO(entity, null))
-                .collect(Collectors.toList());
-
-        return new ApiResponse<>("Destination retrieved successfully", 200, false, responseList);
-    }
-
-    public ApiResponse<List<DestinationResponse>> getAllLanguage(AppLanguage language) {
-        List<DestinationResponse> responseList = repository.findAllByVisibleTrueOrderByOrderNumber().stream()
+    public ApiResponse<List<DestinationLanguageResponse>> getAllByLanguage(AppLanguage language) {
+        List<DestinationLanguageResponse> responseList = repository.findAllByVisibleTrueOrderByOrderNumber().stream()
                 .map(entity -> toDTO(entity, language))
                 .collect(Collectors.toList());
 
         return new ApiResponse<>("Destination retrieved successfully", 200, false, responseList);
     }
 
-    public ApiResponse<DestinationResponse> getIdLanguage(Long id, AppLanguage language) {
-        DestinationEntity entity = get(id);
-        return new ApiResponse<>("Country flag retrieved successfully", 200, false, toDTO(entity, language));
-    }
-
     public ApiResponse<DestinationResponse> getId(Long id) {
         DestinationEntity entity = get(id);
-        return new ApiResponse<>("Country flag retrieved successfully", 200, false, toDTO(entity, null));
+        return new ApiResponse<>("Country flag retrieved successfully", 200, false, toDTO(entity));
     }
 
     public ApiResponse<String> delete(Long id) {
@@ -72,17 +65,8 @@ public class DestinationService {
     public ApiResponse<List<DestinationResponse>> filter(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<DestinationEntity> pageList = repository.findAllByVisibleTrueOrderByOrderNumber(pageable);
-        List<DestinationResponse> responseList = pageList.stream().map(entity -> toDTO(entity, null)).toList();
+        List<DestinationResponse> responseList = pageList.stream().map(entity -> toDTO(entity)).toList();
         return new ApiResponse<>("Destination retrieved successfully", 200, false, responseList);
-    }
-
-
-    private void mergerCountry(DestinationEntity country, DestinationRequest request) {
-        country.setNameUz(request.nameUz());
-        country.setNameRu(request.nameRu());
-        country.setNameEn(request.nameEn());
-        country.setAttachId(request.attachId());
-        country.setOrderNumber(request.orderNumber());
     }
 
     public DestinationEntity toEntity(DestinationRequest request) {
@@ -92,11 +76,26 @@ public class DestinationService {
                 .nameEn(request.nameEn())
                 .attachId(request.attachId())
                 .orderNumber(request.orderNumber())
+                .showInMainPage(request.showInMainPage())
                 .build();
     }
 
 
-    public DestinationResponse toDTO(DestinationEntity entity, AppLanguage language) {
+    public DestinationResponse toDTO(DestinationEntity entity) {
+        if (entity == null) return null;
+
+        return new DestinationResponse(
+                entity.getId(),
+                entity.getNameUz(),
+                entity.getNameRu(),
+                entity.getNameEn(),
+                null,
+                attachService.getResponseAttach(entity.getAttachId()),
+                entity.getOrderNumber()
+        );
+    }
+
+    public DestinationLanguageResponse toDTO(DestinationEntity entity, AppLanguage language) {
         if (entity == null) return null;
 
         String name = null;
@@ -108,11 +107,8 @@ public class DestinationService {
                 case en -> entity.getNameEn();
             };
         }
-        return new DestinationResponse(
+        return new DestinationLanguageResponse(
                 entity.getId(),
-                language == null ? entity.getNameUz() : null,
-                language == null ? entity.getNameRu() : null,
-                language == null ? entity.getNameEn() : null,
                 name,
                 attachService.getResponseAttach(entity.getAttachId()),
                 entity.getOrderNumber()
