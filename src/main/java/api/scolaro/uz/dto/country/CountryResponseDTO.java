@@ -1,5 +1,6 @@
 package api.scolaro.uz.dto.country;
 
+import api.scolaro.uz.dto.attach.AttachDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,4 +17,6 @@ public class CountryResponseDTO extends CountryRequestDTO {
     private Long id;
     private String name;
     private Integer universityCount;
+    private AttachDTO attach;
+    private Integer orderNumber;
 }
