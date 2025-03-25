@@ -3,11 +3,15 @@ package api.scolaro.uz.dto.program;
 import api.scolaro.uz.enums.ProgramType;
 import api.scolaro.uz.enums.StudyFormat;
 import api.scolaro.uz.enums.StudyMode;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
+
 @Data
 public class ProgramCreateDTO {
 
@@ -35,25 +39,40 @@ public class ProgramCreateDTO {
     @Size(min = 3, message = "Description length must be at least 3 characters")
     private String descriptionEN;
 
+    @NotBlank(message = "Start date cannot be blank")
     private LocalDate startDate;
 
+    @NotBlank(message = "End date cannot be blank")
     private LocalDate endDate;
 
+    @NotNull(message = " Price bo'sh bo'lishi mumkin emas")
+    @Min(value = 1, message = "Price ning qiymati minimal 1 bo'lsin")
     private Long price;
 
+    @NotBlank(message = "Symbol cannot be blank")
     private String symbol;
 
+    @NotNull(message = " University id bo'sh bo'lishi mumkin emas")
+    @Min(value = 1, message = "University id ning qiymati minimal 1 bo'lsin")
     private Long universityId;
 
+    @NotNull(message = " Destination id bo'sh bo'lishi mumkin emas")
+    @Min(value = 1, message = "Destination id ning qiymati minimal 1 bo'lsin")
     private Long destinationId;
 
+    @NotBlank(message = "Attach id  bo'sh bo'lishi mumkin emas")
     private String attachId;
 
     private Boolean published;
 
+    @NotBlank(message = "Study format  bo'sh bo'lishi mumkin emas")
     private StudyFormat studyFormat;
 
+    @NotBlank(message = "Study mode  bo'sh bo'lishi mumkin emas")
     private StudyMode studyMode;
 
+    @NotBlank(message = "Program type  bo'sh bo'lishi mumkin emas")
     private ProgramType type;
+
+    List<ProgramRequirementCreateDTO> programRequirementCreateDTOS;
 }
