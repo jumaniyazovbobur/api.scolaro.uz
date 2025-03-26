@@ -28,7 +28,7 @@ public class CountryService {
 
     public ApiResponse<String> create(CountryRequest request) {
         CountryEntity entity = repository.save(toEntity(request));
-        return new ApiResponse<>("Create country flag: " + entity.getId(), 201, false);
+        return new ApiResponse<>("Create country : " + entity.getId(), 201, false);
     }
 
     public ApiResponse<String> update(CountryRequest request) {
@@ -39,7 +39,7 @@ public class CountryService {
         country.setAttachId(request.attachId());
         country.setOrderNumber(request.orderNumber());
         repository.save(country);
-        return new ApiResponse<>("Update country flag: " + request.id(), 200, false);
+        return new ApiResponse<>("Update country : " + request.id(), 200, false);
     }
 
     public ApiResponse<List<CountryResponse>> allForAdmin() {
@@ -47,7 +47,7 @@ public class CountryService {
                 .map(entity -> toDTO(entity))
                 .collect(Collectors.toList());
 
-        return new ApiResponse<>("Country flags retrieved successfully", 200, false, responseList);
+        return new ApiResponse<>("Country  retrieved successfully", 200, false, responseList);
     }
 
 
@@ -56,20 +56,20 @@ public class CountryService {
                 .map(entity -> toDTO(entity, language))
                 .collect(Collectors.toList());
 
-        return new ApiResponse<>("Country flags retrieved successfully", 200, false, responseList);
+        return new ApiResponse<>("Country retrieved successfully", 200, false, responseList);
     }
 
 
     public ApiResponse<CountryResponse> getId(Long id) {
         CountryEntity entity = get(id);
-        return new ApiResponse<>("Country flag retrieved successfully", 200, false, toDTO(entity));
+        return new ApiResponse<>("Country  retrieved successfully", 200, false, toDTO(entity));
     }
 
     public ApiResponse<String> delete(Long id) {
         CountryEntity entity = get(id);
         entity.setVisible(false);
         repository.save(entity);
-        return new ApiResponse<>("Delete country flag: " + id, 200, false);
+        return new ApiResponse<>("Delete country : " + id, 200, false);
     }
 
     public CountryEntity toEntity(CountryRequest request) {

@@ -1,0 +1,66 @@
+### Create program
+POST http://localhost:8081/api/v1/program
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDI5NjgyMjgsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDM1NzMwMjksImlzcyI6IkphdmEgYmFja2VuZCJ9.Zk850e-bQfr5LHsvme-Db9JbP-Xeq8QeSvrqfeBInsxebMBPric4OfLIvp1sJqN0N0S83cYq4932rOq_lTx7dA
+Content-Type: application/json
+
+{
+  "titleUz": "FizikaUz",
+  "titleRu": "FizikaRu",
+  "titleEn": "FizikaEn",
+  "descriptionUz": "descriptionUz",
+  "descriptionRu": "descriptionRu",
+  "descriptionEN": "descriptionEN",
+  "startDate": "2025-04-15",
+  "endDate": "2025-06-15",
+  "price": 1500,
+  "symbol": "$",
+  "universityId": 1,
+  "destinationId": 1,
+  "attachId": "2c99f081959d988d01959d99a45d0000",
+  "published": false,
+  "studyFormat": "FULL_TIME",
+  "studyMode": "ONLINE",
+  "programType": "BACHELOR",
+  "programRequirementTypes": ["IELTS","TOEFL"]
+}
+
+### Update program
+PUT http://localhost:8081/api/v1/program
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDI5NjgyMjgsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDM1NzMwMjksImlzcyI6IkphdmEgYmFja2VuZCJ9.Zk850e-bQfr5LHsvme-Db9JbP-Xeq8QeSvrqfeBInsxebMBPric4OfLIvp1sJqN0N0S83cYq4932rOq_lTx7dA
+Content-Type: application/json
+
+{
+  "id": 1,
+  "titleUz": "FizikaUz",
+  "titleRu": "FizikaRu",
+  "titleEn": "FizikaEn",
+  "descriptionUz": "descriptionUz",
+  "descriptionRu": "descriptionRu",
+  "descriptionEN": "descriptionEN",
+  "startDate": "2025-04-15",
+  "endDate": "2025-06-15",
+  "price": 1500,
+  "symbol": "$",
+  "universityId": 1,
+  "destinationId": 1,
+  "attachId": "2c99f081959d988d01959d99a45d0000",
+  "published": true,
+  "studyFormat": "FULL_TIME",
+  "studyMode": "ONLINE",
+  "programType": "BACHELOR",
+  "programRequirementTypes": ["IELTS","TOEFL","GPA"]
+}
+
+###
+GET http://localhost:8081/api/v1/program/language
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDI5NjgyMjgsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDM1NzMwMjksImlzcyI6IkphdmEgYmFja2VuZCJ9.Zk850e-bQfr5LHsvme-Db9JbP-Xeq8QeSvrqfeBInsxebMBPric4OfLIvp1sJqN0N0S83cYq4932rOq_lTx7dA
+Accept-Language: en
+
+### Get by language
+GET http://localhost:8081/api/v1/program/1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDI5NjgyMjgsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDM1NzMwMjksImlzcyI6IkphdmEgYmFja2VuZCJ9.Zk850e-bQfr5LHsvme-Db9JbP-Xeq8QeSvrqfeBInsxebMBPric4OfLIvp1sJqN0N0S83cYq4932rOq_lTx7dA
+Accept-Language: uz
+
+### Delete program
+DELETE http://localhost:8085/api/v1/program/{{id}}
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDI5NjgyMjgsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDM1NzMwMjksImlzcyI6IkphdmEgYmFja2VuZCJ9.Zk850e-bQfr5LHsvme-Db9JbP-Xeq8QeSvrqfeBInsxebMBPric4OfLIvp1sJqN0N0S83cYq4932rOq_lTx7dA

@@ -45,7 +45,7 @@ public class ProgramEntity extends BaseIdentityEntity {
     @Column(name = "price")
     private Long price;
 
-    @Column(name = "symbol",length = 50,unique = true)
+    @Column(name = "symbol",length = 50)
     private String symbol;
 
     @Column(name = "university_id")
@@ -79,6 +79,6 @@ public class ProgramEntity extends BaseIdentityEntity {
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
-    private ProgramType type;
+    private ProgramType programType;
 
 }

@@ -2,7 +2,6 @@ package api.scolaro.uz.entity;
 
 
 import api.scolaro.uz.enums.ProgramRequirementType;
-import api.scolaro.uz.enums.ProgramType;
 import jakarta.persistence.*;
 import lombok.*;
 

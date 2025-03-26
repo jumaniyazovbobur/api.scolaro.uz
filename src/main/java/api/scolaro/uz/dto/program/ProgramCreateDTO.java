@@ -1,5 +1,6 @@
 package api.scolaro.uz.dto.program;
 
+import api.scolaro.uz.enums.ProgramRequirementType;
 import api.scolaro.uz.enums.ProgramType;
 import api.scolaro.uz.enums.StudyFormat;
 import api.scolaro.uz.enums.StudyMode;
@@ -14,6 +15,8 @@ import java.util.List;
 
 @Data
 public class ProgramCreateDTO {
+
+    private Long id;
 
     @NotBlank(message = "Title Uz bo‘sh bo‘lishi mumkin emas")
     @Size(min = 3, max = 100, message = "Berilgan Title (Title Uz) ning uzunligi 3 va 100 orasida bo‘lishi kerak") // Uzbek
@@ -39,10 +42,10 @@ public class ProgramCreateDTO {
     @Size(min = 3, message = "Description length must be at least 3 characters")
     private String descriptionEN;
 
-    @NotBlank(message = "Start date cannot be blank")
+    @NotNull(message = "Start date cannot be blank")
     private LocalDate startDate;
 
-    @NotBlank(message = "End date cannot be blank")
+    @NotNull(message = "End date cannot be blank")
     private LocalDate endDate;
 
     @NotNull(message = " Price bo'sh bo'lishi mumkin emas")
@@ -65,14 +68,15 @@ public class ProgramCreateDTO {
 
     private Boolean published;
 
-    @NotBlank(message = "Study format  bo'sh bo'lishi mumkin emas")
+    @NotNull(message = "Study format  bo'sh bo'lishi mumkin emas")
     private StudyFormat studyFormat;
 
-    @NotBlank(message = "Study mode  bo'sh bo'lishi mumkin emas")
+    @NotNull(message = "Study mode  bo'sh bo'lishi mumkin emas")
     private StudyMode studyMode;
 
-    @NotBlank(message = "Program type  bo'sh bo'lishi mumkin emas")
-    private ProgramType type;
+    @NotNull(message = "Program type  bo'sh bo'lishi mumkin emas")
+    private ProgramType programType;
 
-    List<ProgramRequirementCreateDTO> programRequirementCreateDTOS;
+    @NotNull(message = "Program Requirement Types null bo‘lishi mumkin emas")
+    List<ProgramRequirementType> programRequirementTypes;
 }
