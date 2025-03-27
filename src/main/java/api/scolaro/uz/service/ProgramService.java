@@ -29,16 +29,15 @@ public class ProgramService {
     @Transactional
     public ApiResponse<String> create(ProgramCreateDTO request) {
         ProgramEntity programEntity = repository.save(toEntity(request));
-        programRequirementService.saveType(programEntity.getId(), request.getProgramRequirementTypes());
+        programRequirementService.merge(programEntity.getId(), request.getProgramRequirementTypes());
         return new ApiResponse<>("Create program : " + programEntity.getId(), 201, false);
-
     }
 
     @Transactional
     public ApiResponse<String> update(ProgramCreateDTO request) {
         ProgramEntity entity = getId(request.getId());
         repository.save(updateEntity(request, entity));
-        programRequirementService.updateType(request.getId(), request.getProgramRequirementTypes());
+        programRequirementService.merge(request.getId(), request.getProgramRequirementTypes());
         return new ApiResponse<>("Update program : " + request.getId(), 201, false);
     }
 
@@ -46,7 +45,6 @@ public class ProgramService {
         ProgramEntity entity = getId(id);
         entity.setVisible(false);
         repository.save(entity);
-        programRequirementService.deleteType(id);
         return new ApiResponse<>("Delete program : " + id, 200, false);
     }
 
@@ -66,10 +64,9 @@ public class ProgramService {
 
 
     public ProgramEntity toEntity(ProgramCreateDTO request) {
-        destinationService.get(request.getDestinationId());
-        universityService.get(request.getUniversityId());
-        attachService.getEntity(request.getAttachId());
-
+//        destinationService.get(request.getDestinationId());
+//        universityService.get(request.getUniversityId());
+//        attachService.getEntity(request.getAttachId());
         return ProgramEntity.builder()
                 .titleUz(request.getTitleUz())
                 .titleRu(request.getTitleRu())
@@ -82,19 +79,23 @@ public class ProgramService {
                 .price(request.getPrice())
                 .symbol(request.getSymbol())
                 .universityId(request.getUniversityId())
-                .destinationId(request.getDestinationId())
+                .destinationId(request.getDestinationId()) // tipa kategoriya
                 .attachId(request.getAttachId())
                 .published(request.getPublished())
                 .studyFormat(request.getStudyFormat())
                 .studyMode(request.getStudyMode())
                 .programType(request.getProgramType())
                 .build();
+        // TODO  Стоимость обучения - tuitionFeesDescription,
+        //  Стипендия -  ScholarshipDescription,
+        //  Стоимость проживания - costOfLivingDescription
+
     }
 
     public ProgramEntity updateEntity(ProgramCreateDTO request, ProgramEntity entity) {
-        destinationService.get(request.getDestinationId());
-        universityService.get(request.getUniversityId());
-        attachService.getEntity(request.getAttachId());
+//        destinationService.get(request.getDestinationId());
+//        universityService.get(request.getUniversityId());
+//        attachService.getEntity(request.getAttachId());
 
         entity.setTitleUz(request.getTitleUz());
         entity.setTitleRu(request.getTitleRu());
@@ -137,7 +138,7 @@ public class ProgramService {
         }
         dto.setStartDate(entity.getStartDate());
         dto.setEndDate(entity.getEndDate());
-        dto.setDestinationLanguageResponse(destinationService.toDTO(entity.getDestination(),language));
+        dto.setDestinationLanguageResponse(destinationService.toDTO(entity.getDestination(), language));
         dto.setUniversityResponse(universityService.toDTO(entity.getUniversity(), language));
         dto.setAttach(attachService.getResponseAttach(entity.getAttachId()));
         dto.setProgramRequirementTypes(programRequirementService.typeList(entity.getId()));

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -16,20 +17,32 @@ public class ProgramRequirementService {
     private final ProgramRequirementRepository repository;
 
 
-    public void saveType(Long id, List<ProgramRequirementType> types) {
-        repository.saveAll(toEntity(id, types));
+    public void merge(Long programId, List<ProgramRequirementType> newList) {
+        if (newList == null) {
+            newList = new LinkedList<>();
+        }
+        List<ProgramRequirementType> oldList = repository.findRequirementTypeListByProgramId(programId);
+        // create
+        newList.stream()
+                .filter(newRole -> !oldList.contains(newRole))
+                .forEach(newRole -> create(programId, newRole));
+        // delete
+        List<ProgramRequirementType> finalNewList = newList;
+        oldList.stream()
+                .filter(oldRole -> !finalNewList.contains(oldRole))
+                .forEach(oldRole -> delete(programId, oldRole));
     }
 
-    public void updateType(Long id, List<ProgramRequirementType> types) {
-        deleteType(id);
-        repository.saveAll(toEntity(id, types));
+    public void create(Long programId, ProgramRequirementType type) {
+        ProgramRequirementEntity entity = new ProgramRequirementEntity();
+        entity.setProgramId(programId);
+        entity.setType(type);
+        repository.save(entity);
     }
 
-    public void deleteType(Long id) {
-        repository.deleteAllByProgramId(id);
+    public void delete(Long programId, ProgramRequirementType type) {
+        repository.deleteByProgramIdAndRequirementType(programId, type);
     }
-
-
 
     public List<ProgramRequirementType> typeList(Long id) {
         return repository.findAllByProgramId(id).stream().map(ProgramRequirementEntity::getType).toList();

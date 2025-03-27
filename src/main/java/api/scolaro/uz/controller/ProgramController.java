@@ -51,11 +51,11 @@ public class ProgramController {
         return ResponseEntity.ok(service.delete(id));
     }
 
-    @GetMapping("/language")
-    @Operation(summary = "Get all program by language", description = "")
-    public ResponseEntity<ApiResponse<List<ProgramResponseDTO>>> allByLanguage(@RequestHeader(value = "Accept-Language",defaultValue = "uz") AppLanguage language) {
-        return ResponseEntity.ok(service.getAllByLanguage(language));
-    }
+//    @GetMapping("/language")
+//    @Operation(summary = "Get all program by language", description = "")
+//    public ResponseEntity<ApiResponse<List<ProgramResponseDTO>>> allByLanguage(@RequestHeader(value = "Accept-Language",defaultValue = "uz") AppLanguage language) {
+//        return ResponseEntity.ok(service.getAllByLanguage(language));
+//    }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get id program ", description = "")
@@ -63,5 +63,8 @@ public class ProgramController {
                                                                  @RequestHeader(value = "Accept-Language",defaultValue = "uz") AppLanguage language) {
         return ResponseEntity.ok(service.getById(id,language));
     }
+    // publish-block
+    // filter user-lar + pagination
+    // filter admin  + pagination
 
 }
