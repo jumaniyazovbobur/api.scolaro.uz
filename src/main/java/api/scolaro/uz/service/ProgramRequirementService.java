@@ -48,16 +48,6 @@ public class ProgramRequirementService {
         return repository.findAllByProgramId(id).stream().map(ProgramRequirementEntity::getType).toList();
     }
 
-    public List<ProgramRequirementEntity> toEntity(Long id, List<ProgramRequirementType> types) {
-        List<ProgramRequirementEntity> entities = new ArrayList<>();
-        for (ProgramRequirementType type : types) {
-            ProgramRequirementEntity entity = new ProgramRequirementEntity();
-            entity.setProgramId(id);
-            entity.setType(type);
-            entities.add(entity);
-        }
-        return entities;
-    }
 
 
 }

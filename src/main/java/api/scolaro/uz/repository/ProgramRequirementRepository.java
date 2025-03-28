@@ -13,8 +13,6 @@ import java.util.Set;
 
 public interface ProgramRequirementRepository extends JpaRepository<ProgramRequirementEntity, Long> {
 
-    void deleteAllByProgramId(Long programId);
-
     List<ProgramRequirementEntity> findAllByProgramId(Long id);
 
     @Query("select  type From ProgramRequirementEntity where programId = ?1")

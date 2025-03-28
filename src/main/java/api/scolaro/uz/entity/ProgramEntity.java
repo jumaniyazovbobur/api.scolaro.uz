@@ -5,6 +5,7 @@ import api.scolaro.uz.enums.ProgramType;
 import api.scolaro.uz.enums.StudyFormat;
 import api.scolaro.uz.enums.StudyMode;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -35,6 +36,33 @@ public class ProgramEntity extends BaseIdentityEntity {
 
     @Column(name = "description_en", columnDefinition = "TEXT")
     private String descriptionEN;
+
+    @Column(name = "tuition_fees_description_uz")
+    private String tuitionFeesDescriptionUz;
+
+    @Column(name = "tuition_fees_description_ru")
+    private String tuitionFeesDescriptionRu;
+
+    @Column(name = "tuition_fees_description_en")
+    private String tuitionFeesDescriptionEn;
+
+    @Column(name = "scholarship_description_uz")
+    private String scholarshipDescriptionUz;
+
+    @Column(name = "scholarship_description_ru")
+    private String scholarshipDescriptionRu;
+
+    @Column(name = "scholarship_description_en")
+    private String scholarshipDescriptionEn;
+
+    @Column(name = "cost_of_living_description_uz")
+    private String costOfLivingDescriptionUz;
+
+    @Column(name = "cost_of_living_description_ru")
+    private String costOfLivingDescriptionRu;
+
+    @Column(name = "cost_of_living_description_en")
+    private String costOfLivingDescriptionEn;
 
     @Column(name = "start_date")
     private LocalDate startDate;
@@ -77,7 +105,7 @@ public class ProgramEntity extends BaseIdentityEntity {
     @Enumerated(EnumType.STRING)
     private StudyMode studyMode;
 
-    @Column(name = "type")
+    @Column(name = "program_type")
     @Enumerated(EnumType.STRING)
     private ProgramType programType;
 

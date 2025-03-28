@@ -4,14 +4,19 @@ import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.country.CountryResponse;
 import api.scolaro.uz.dto.country.CountryResponseDTO;
 import api.scolaro.uz.dto.program.ProgramCreateDTO;
+import api.scolaro.uz.dto.program.ProgramFilterDTO;
 import api.scolaro.uz.dto.program.ProgramResponseDTO;
+import api.scolaro.uz.dto.university.UniversityFilterDTO;
+import api.scolaro.uz.dto.university.UniversityResponseFilterDTO;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.service.ProgramService;
+import api.scolaro.uz.util.PaginationUtil;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -51,19 +56,30 @@ public class ProgramController {
         return ResponseEntity.ok(service.delete(id));
     }
 
-//    @GetMapping("/language")
-//    @Operation(summary = "Get all program by language", description = "")
-//    public ResponseEntity<ApiResponse<List<ProgramResponseDTO>>> allByLanguage(@RequestHeader(value = "Accept-Language",defaultValue = "uz") AppLanguage language) {
-//        return ResponseEntity.ok(service.getAllByLanguage(language));
-//    }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/publish/{id}")
+    @Operation(summary = "Publish program", description = "for admin")
+    public ResponseEntity<ApiResponse<String>> publishBlock(@PathVariable("id") Long id,
+                                                            @RequestParam(defaultValue = "false") Boolean published) {
+        return ResponseEntity.ok(service.publishBlock(id, published));
+    }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get id program ", description = "")
     public ResponseEntity<ApiResponse<ProgramResponseDTO>> getId(@PathVariable("id") Long id,
-                                                                 @RequestHeader(value = "Accept-Language",defaultValue = "uz") AppLanguage language) {
-        return ResponseEntity.ok(service.getById(id,language));
+                                                                 @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
+        return ResponseEntity.ok(service.getById(id, language));
     }
-    // publish-block
+
+    @GetMapping("/filter")
+    @Operation(summary = "Get program list filter", description = "")
+    public ResponseEntity<PageImpl<ProgramResponseDTO>> filter(@RequestBody ProgramFilterDTO dto,
+                                                                        @RequestParam(value = "page", defaultValue = "1") int page,
+                                                                        @RequestParam(value = "size", defaultValue = "30") int size,
+                                                                        @RequestHeader(value = "Accept-Language",
+                                                                                defaultValue = "uz") AppLanguage appLanguage) {
+        return ResponseEntity.ok(service.filter(PaginationUtil.page(page), size, dto, appLanguage));
+    }
     // filter user-lar + pagination
     // filter admin  + pagination
 

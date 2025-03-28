@@ -51,11 +51,24 @@ Content-Type: application/json
   "programRequirementTypes": ["IELTS","TOEFL","GPA"]
 }
 
-###
-GET http://localhost:8081/api/v1/program/language
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDI5NjgyMjgsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDM1NzMwMjksImlzcyI6IkphdmEgYmFja2VuZCJ9.Zk850e-bQfr5LHsvme-Db9JbP-Xeq8QeSvrqfeBInsxebMBPric4OfLIvp1sJqN0N0S83cYq4932rOq_lTx7dA
-Accept-Language: en
+### filter user-lar + pagination
+GET http://localhost:8081/api/v1/program/filter
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDMxNDAxNzYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDM3NDQ5NzYsImlzcyI6IkphdmEgYmFja2VuZCJ9.R4maQPM9_ID5T4RGQLPVcW1s95IyaLYsKkb6qlhYR1eGU5VqFKtcZ-DbhfqU0f1KdhSnzAf7K-YpKdxJRCEE8w
+Content-Type: application/json
+Accept-Language: uz
 
+{
+  "titleUz": null,
+  "titleRu": null,
+  "titleEn": null,
+  "destinationId": null,
+  "universityId": null,
+  "countryId": null,
+  "programType": null,
+  "studyFormat": null,
+  "studyMode": null,
+  "endDate": "2025-06-15"
+}
 ### Get by language
 GET http://localhost:8081/api/v1/program/1
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDI5NjgyMjgsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDM1NzMwMjksImlzcyI6IkphdmEgYmFja2VuZCJ9.Zk850e-bQfr5LHsvme-Db9JbP-Xeq8QeSvrqfeBInsxebMBPric4OfLIvp1sJqN0N0S83cYq4932rOq_lTx7dA
