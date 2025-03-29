@@ -27,7 +27,7 @@ public class CountryEntity extends BaseIdentityEntity {
 
     @Column(name = "attach_id")
     private String attachId;
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "attach_id", insertable = false, updatable = false)
     private AttachEntity attach;
 

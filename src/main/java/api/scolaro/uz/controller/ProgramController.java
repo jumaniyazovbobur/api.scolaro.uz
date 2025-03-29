@@ -6,6 +6,7 @@ import api.scolaro.uz.dto.country.CountryResponseDTO;
 import api.scolaro.uz.dto.program.ProgramCreateDTO;
 import api.scolaro.uz.dto.program.ProgramFilterDTO;
 import api.scolaro.uz.dto.program.ProgramResponseDTO;
+import api.scolaro.uz.dto.program.ProgramResponseFilterDTO;
 import api.scolaro.uz.dto.university.UniversityFilterDTO;
 import api.scolaro.uz.dto.university.UniversityResponseFilterDTO;
 import api.scolaro.uz.enums.AppLanguage;
@@ -66,21 +67,32 @@ public class ProgramController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get id program ", description = "")
-    public ResponseEntity<ApiResponse<ProgramResponseDTO>> getId(@PathVariable("id") Long id,
+    public ResponseEntity<ApiResponse<ProgramResponseFilterDTO>> getId(@PathVariable("id") Long id,
                                                                  @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         return ResponseEntity.ok(service.getById(id, language));
     }
 
+    // filter user-lar + pagination
     @GetMapping("/filter")
     @Operation(summary = "Get program list filter", description = "")
-    public ResponseEntity<PageImpl<ProgramResponseDTO>> filter(@RequestBody ProgramFilterDTO dto,
-                                                                        @RequestParam(value = "page", defaultValue = "1") int page,
-                                                                        @RequestParam(value = "size", defaultValue = "30") int size,
-                                                                        @RequestHeader(value = "Accept-Language",
+    public ResponseEntity<PageImpl<ProgramResponseFilterDTO>> filter(@RequestBody ProgramFilterDTO dto,
+                                                                     @RequestParam(value = "page", defaultValue = "1") int page,
+                                                                     @RequestParam(value = "size", defaultValue = "30") int size,
+                                                                     @RequestHeader(value = "Accept-Language",
                                                                                 defaultValue = "uz") AppLanguage appLanguage) {
         return ResponseEntity.ok(service.filter(PaginationUtil.page(page), size, dto, appLanguage));
     }
-    // filter user-lar + pagination
+
     // filter admin  + pagination
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/filter-admin")
+    @Operation(summary = "Get program list filter", description = "")
+    public ResponseEntity<PageImpl<ProgramResponseFilterDTO>> filterAdmin(@RequestBody ProgramFilterDTO dto,
+                                                                     @RequestParam(value = "page", defaultValue = "1") int page,
+                                                                     @RequestParam(value = "size", defaultValue = "30") int size,
+                                                                     @RequestHeader(value = "Accept-Language",
+                                                                             defaultValue = "uz") AppLanguage appLanguage) {
+        return ResponseEntity.ok(service.filter(PaginationUtil.page(page), size, dto, appLanguage));
+    }
 
 }

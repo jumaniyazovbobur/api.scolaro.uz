@@ -27,7 +27,7 @@ public class DestinationEntity extends BaseIdentityEntity {
 
     @Column(name = "attach_id")
     private String attachId;
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "attach_id", insertable = false, updatable = false)
     private AttachEntity attach;
 

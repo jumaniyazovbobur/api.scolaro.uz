@@ -2,15 +2,15 @@ package api.scolaro.uz.service;
 
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.FilterResultDTO;
-import api.scolaro.uz.dto.country.CountryResponseDTO;
 import api.scolaro.uz.dto.program.ProgramCreateDTO;
 import api.scolaro.uz.dto.program.ProgramFilterDTO;
 import api.scolaro.uz.dto.program.ProgramResponseDTO;
-import api.scolaro.uz.dto.university.UniversityResponseFilterDTO;
+import api.scolaro.uz.dto.program.ProgramResponseFilterDTO;
 import api.scolaro.uz.entity.ProgramEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.ProgramFilterRepository;
+import api.scolaro.uz.repository.ProgramFilterRepositoryFilter;
 import api.scolaro.uz.repository.ProgramRepository;
 import api.scolaro.uz.service.place.DestinationService;
 import lombok.RequiredArgsConstructor;
@@ -20,14 +20,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
 public class ProgramService {
     private final ProgramRepository repository;
     private final ProgramFilterRepository programFilterRepository;
+    private final ProgramFilterRepositoryFilter programFilterRepositoryFilter;
     private final ProgramRequirementService programRequirementService;
     private final DestinationService destinationService;
     private final UniversityService universityService;
@@ -63,21 +63,17 @@ public class ProgramService {
         return new ApiResponse<>("Publish program : " + id, 200, false);
     }
 
-    public ApiResponse<ProgramResponseDTO> getById(Long id, AppLanguage language) {
+    public ApiResponse<ProgramResponseFilterDTO> getById(Long id, AppLanguage language) {
         ProgramEntity entity = getId(id);
-        return new ApiResponse<>("Program retrieved successfully", 200, false, toDTO(entity,language));
+        ProgramResponseFilterDTO filterDTO = programFilterRepositoryFilter.getById(id, language.toString());
+        return new ApiResponse<>("Program retrieved successfully", 200, false, filterDTO);
     }
 
 
-    public PageImpl<ProgramResponseDTO> filter(int page, int size, ProgramFilterDTO dto, AppLanguage appLanguage) {
-        FilterResultDTO<ProgramEntity> programFilterPage = programFilterRepository.getProgramFilterPage(dto, page, size);
-        List<ProgramResponseDTO> dtoList = new ArrayList<>();
+    public PageImpl<ProgramResponseFilterDTO> filter(int page, int size, ProgramFilterDTO dto, AppLanguage appLanguage) {
+        FilterResultDTO<ProgramResponseFilterDTO> dtoList = programFilterRepositoryFilter.getProgramFilterPage(dto, appLanguage.toString(), page, size);
         Pageable pageable = PageRequest.of(page, size);
-        for (ProgramEntity entity:programFilterPage.getContent()){
-            ProgramResponseDTO programResponseDTO = toDTO(entity,appLanguage);
-            dtoList.add(programResponseDTO);
-        }
-        return new PageImpl<>(dtoList, pageable, programFilterPage.getTotalElement());
+        return new PageImpl<>(dtoList.getContent(), pageable, dtoList.getTotalElement());
     }
 
 
@@ -106,6 +102,7 @@ public class ProgramService {
                 .universityId(request.getUniversityId())
                 .destinationId(request.getDestinationId()) // tipa kategoriya
                 .attachId(request.getAttachId())
+                .published(false)
                 .studyFormat(request.getStudyFormat())
                 .studyMode(request.getStudyMode())
                 .programType(request.getProgramType())
@@ -141,48 +138,6 @@ public class ProgramService {
         entity.setStudyMode(request.getStudyMode());
         entity.setProgramType(request.getProgramType());
         return entity;
-    }
-
-    public ProgramResponseDTO toDTO(ProgramEntity entity, AppLanguage language) {
-        if (entity == null) return null;
-        ProgramResponseDTO dto = new ProgramResponseDTO();
-        dto.setId(entity.getId());
-
-        switch (language) {
-            case en -> {
-                dto.setTitle(entity.getTitleEn());
-                dto.setDescription(entity.getDescriptionEN());
-                dto.setTuitionFeesDescription(entity.getTuitionFeesDescriptionEn());
-                dto.setScholarshipDescription(entity.getScholarshipDescriptionEn());
-                dto.setCostOfLivingDescription(entity.getCostOfLivingDescriptionEn());
-            }
-            case uz -> {
-                dto.setTitle(entity.getTitleUz());
-                dto.setDescription(entity.getDescriptionUz());
-                dto.setTuitionFeesDescription(entity.getTuitionFeesDescriptionUz());
-                dto.setScholarshipDescription(entity.getScholarshipDescriptionUz());
-                dto.setCostOfLivingDescription(entity.getCostOfLivingDescriptionUz());
-            }
-            case ru -> {
-                dto.setTitle(entity.getTitleRu());
-                dto.setDescription(entity.getDescriptionRu());
-                dto.setTuitionFeesDescription(entity.getTuitionFeesDescriptionRu());
-                dto.setScholarshipDescription(entity.getScholarshipDescriptionRu());
-                dto.setCostOfLivingDescription(entity.getCostOfLivingDescriptionRu());
-            }
-        }
-        dto.setStartDate(entity.getStartDate());
-        dto.setEndDate(entity.getEndDate());
-        dto.setStudyFormat(entity.getStudyFormat());
-        dto.setStudyMode(entity.getStudyMode());
-        dto.setProgramType(entity.getProgramType());
-        dto.setPrice(entity.getPrice());
-        dto.setSymbol(entity.getSymbol());
-        dto.setDestinationLanguageResponse(destinationService.toDTO(entity.getDestination(), language));
-        dto.setUniversityResponse(universityService.toDTO(entity.getUniversity(), language));
-        dto.setAttach(attachService.getResponseAttach(entity.getAttachId()));
-        dto.setProgramRequirementTypes(programRequirementService.typeList(entity.getId()));
-        return dto;
     }
 
 

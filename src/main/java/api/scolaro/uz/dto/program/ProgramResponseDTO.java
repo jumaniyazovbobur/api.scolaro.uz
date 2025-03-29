@@ -1,16 +1,13 @@
 package api.scolaro.uz.dto.program;
 
 import api.scolaro.uz.dto.attach.AttachDTO;
-import api.scolaro.uz.dto.country.CountryResponseDTO;
 import api.scolaro.uz.dto.destination.DestinationLanguageResponse;
-import api.scolaro.uz.dto.destination.DestinationResponse;
 import api.scolaro.uz.dto.university.UniversityResponseDTO;
 import api.scolaro.uz.enums.ProgramRequirementType;
 import api.scolaro.uz.enums.ProgramType;
 import api.scolaro.uz.enums.StudyFormat;
 import api.scolaro.uz.enums.StudyMode;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 

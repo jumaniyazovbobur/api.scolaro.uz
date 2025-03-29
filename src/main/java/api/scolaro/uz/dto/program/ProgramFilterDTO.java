@@ -24,8 +24,8 @@ public class ProgramFilterDTO {
     private Long destinationId;
     private Long universityId;
     private Long countryId;
-    private ProgramType programType;
-    private StudyFormat studyFormat;
-    private StudyMode studyMode;
+    private String programType;
+    private String studyFormat;
+    private String studyMode;
     private LocalDate endDate;
 }

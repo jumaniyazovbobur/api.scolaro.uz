@@ -4,34 +4,42 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDI5NjgyMjgsImlkIjoiOTA5M
 Content-Type: application/json
 
 {
-  "titleUz": "FizikaUz",
-  "titleRu": "FizikaRu",
-  "titleEn": "FizikaEn",
-  "descriptionUz": "descriptionUz",
-  "descriptionRu": "descriptionRu",
-  "descriptionEN": "descriptionEN",
-  "startDate": "2025-04-15",
-  "endDate": "2025-06-15",
-  "price": 1500,
+  "titleUz": "MathUz1",
+  "titleRu": "MathRu1",
+  "titleEn": "MathEn1",
+  "descriptionUz": "descriptionUz1",
+  "descriptionRu": "descriptionRu1",
+  "descriptionEN": "descriptionEN1",
+  "tuitionFeesDescriptionUz": "tuitionFeesDescriptionUz1",
+  "tuitionFeesDescriptionRu": "tuitionFeesDescriptionRu1",
+  "tuitionFeesDescriptionEn": "tuitionFeesDescriptionEn1",
+  "scholarshipDescriptionUz": "scholarshipDescriptionUz1",
+  "scholarshipDescriptionRu": "scholarshipDescriptionRu1",
+  "scholarshipDescriptionEn": "scholarshipDescriptionEn1",
+  "costOfLivingDescriptionUz": "costOfLivingDescriptionUz",
+  "costOfLivingDescriptionRu": "costOfLivingDescriptionRu",
+  "costOfLivingDescriptionEn": "costOfLivingDescriptionEN",
+  "startDate": "2025-05-20",
+  "endDate": "2025-07-16",
+  "price": 1000,
   "symbol": "$",
   "universityId": 1,
   "destinationId": 1,
   "attachId": "2c99f081959d988d01959d99a45d0000",
-  "published": false,
-  "studyFormat": "FULL_TIME",
-  "studyMode": "ONLINE",
-  "programType": "BACHELOR",
+  "studyFormat": "DISTANCE_LEARNING",
+  "studyMode": "OFFLINE",
+  "programType": "PHD",
   "programRequirementTypes": ["IELTS","TOEFL"]
 }
 
 ### Update program
 PUT http://localhost:8081/api/v1/program
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDI5NjgyMjgsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDM1NzMwMjksImlzcyI6IkphdmEgYmFja2VuZCJ9.Zk850e-bQfr5LHsvme-Db9JbP-Xeq8QeSvrqfeBInsxebMBPric4OfLIvp1sJqN0N0S83cYq4932rOq_lTx7dA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDMxNDAxNzYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDM3NDQ5NzYsImlzcyI6IkphdmEgYmFja2VuZCJ9.R4maQPM9_ID5T4RGQLPVcW1s95IyaLYsKkb6qlhYR1eGU5VqFKtcZ-DbhfqU0f1KdhSnzAf7K-YpKdxJRCEE8w
 Content-Type: application/json
 
 {
   "id": 1,
-  "titleUz": "FizikaUz",
+  "titleUz": "MathUz",
   "titleRu": "FizikaRu",
   "titleEn": "FizikaEn",
   "descriptionUz": "descriptionUz",
@@ -52,7 +60,7 @@ Content-Type: application/json
 }
 
 ### filter user-lar + pagination
-GET http://localhost:8081/api/v1/program/filter
+GET http://localhost:8081/api/v1/program/filter-admin
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDMxNDAxNzYsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDM3NDQ5NzYsImlzcyI6IkphdmEgYmFja2VuZCJ9.R4maQPM9_ID5T4RGQLPVcW1s95IyaLYsKkb6qlhYR1eGU5VqFKtcZ-DbhfqU0f1KdhSnzAf7K-YpKdxJRCEE8w
 Content-Type: application/json
 Accept-Language: uz
@@ -64,10 +72,10 @@ Accept-Language: uz
   "destinationId": null,
   "universityId": null,
   "countryId": null,
-  "programType": null,
+  "programType": "PHD",
   "studyFormat": null,
   "studyMode": null,
-  "endDate": "2025-06-15"
+  "endDate": null
 }
 ### Get by language
 GET http://localhost:8081/api/v1/program/1
