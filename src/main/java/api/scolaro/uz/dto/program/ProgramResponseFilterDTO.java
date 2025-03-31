@@ -1,5 +1,7 @@
 package api.scolaro.uz.dto.program;
 
+import api.scolaro.uz.dto.country.CountryResponse;
+import api.scolaro.uz.dto.destination.DestinationResponse;
 import api.scolaro.uz.enums.ProgramRequirementType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
@@ -33,10 +35,14 @@ public class ProgramResponseFilterDTO {
     private String countryName;
     private String attachCountry;
 
+    private CountryResponse country; // TODO
+
     private Long destinationId;
     private String destinationName;
     private String attachDestinationId;
     private Boolean showInMainPageDestination;
+
+    private DestinationResponse destination; // TODO
 
     private List<String> requirements;
 }

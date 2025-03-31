@@ -24,7 +24,7 @@ public class ProgramFilterRepositoryFilter {
     private EntityManager entityManager;
 
 
-    public FilterResultDTO<ProgramResponseFilterDTO> getProgramFilterPage(ProgramFilterDTO programFilterDTO, String language, int page, int size) {
+    public FilterResultDTO<ProgramResponseFilterDTO> getProgramFilterPage(ProgramFilterDTO programFilterDTO, String language, int page, int size, boolean isAdmin) {
         Map<String, Object> params = new HashMap<>();
         StringBuilder query = new StringBuilder(" FROM program p ");
 
@@ -36,6 +36,9 @@ public class ProgramFilterRepositoryFilter {
         query.append(" WHERE p.visible = true ");
 
         // **Filter qo'shish**
+        if (!isAdmin) {
+            query.append(" AND p.published = true ");
+        }
         if (programFilterDTO.getUniversityId() != null) {
             query.append(" AND u.id = :universityId ");
             params.put("universityId", programFilterDTO.getUniversityId());
@@ -48,17 +51,9 @@ public class ProgramFilterRepositoryFilter {
             query.append(" AND c.id = :countryId ");
             params.put("countryId", programFilterDTO.getCountryId());
         }
-        if (programFilterDTO.getTitleUz() != null) {
-            query.append(" AND p.title_uz = :titleUz");
-            params.put("titleUz", programFilterDTO.getTitleUz());
-        }
-        if (programFilterDTO.getTitleRu() != null) {
-            query.append(" AND p.title_ru = :titleRu");
-            params.put("titleRu", programFilterDTO.getTitleRu());
-        }
-        if (programFilterDTO.getTitleEn() != null) {
-            query.append(" AND p.title_en = :titleEn");
-            params.put("titleEn", programFilterDTO.getTitleEn());
+        if (programFilterDTO.getQuery() != null) {
+            query.append(" and (lower(p.title_uz) like :query or lower(p.title_ru) like :query or lower(p.title_en) like :query) ");
+            params.put("query", "%" + programFilterDTO.getQuery().toLowerCase() + "%");
         }
         if (programFilterDTO.getProgramType() != null) {
             query.append(" AND p.program_type = :programType");
@@ -76,49 +71,33 @@ public class ProgramFilterRepositoryFilter {
             query.append(" AND p.end_date <= :endDate");
             params.put("endDate", programFilterDTO.getEndDate());
         }
-
-        // **Til bo‘yicha maydonlarni tanlash**
-        String programTitle, countryName, destinationName;
-        if ("uz".equals(language)) {
-            programTitle = "p.title_uz AS programTitle";
-            countryName = "c.name_uz AS countryName";
-            destinationName = "d.name_uz AS destinationName";
-        } else if ("ru".equals(language)) {
-            programTitle = "p.title_ru AS programTitle";
-            countryName = "c.name_ru AS countryName";
-            destinationName = "d.name_ru AS destinationName";
-        } else {
-            programTitle = "p.title_en AS programTitle";
-            countryName = "c.name_en AS countryName";
-            destinationName = "d.name_en AS destinationName";
+        if (programFilterDTO.getStartDate() != null) {
+            query.append(" AND p.start_date => :startDate");
+            params.put("startDate", programFilterDTO.getStartDate());
         }
 
-        // **REQUIREMENT LISTNI OLISH** (PostgreSQL uchun)
-        String requirementsField = " COALESCE(STRING_AGG(pr.type, ','), '') AS requirements ";
-
-// **Admin bo‘lsa, published maydonini olish**
-        boolean isAdmin = EntityDetails.hasRoleCurrentUser(RoleEnum.ROLE_ADMIN);
+//        String requirementsField = " COALESCE(STRING_AGG(pr.type, ','), '') AS requirements ";
 
         String selectSQL = "SELECT " +
                 " p.id AS programId, " +
-                programTitle + ", " +
-                (isAdmin ? " p.published, " : "") + // **Admin bo‘lsa qo‘shamiz, bo‘lmasa chiqarib tashlaymiz**
+                " CASE :lang WHEN 'uz' THEN p.title_uz WHEN 'en' THEN p.title_en else p.title_ru END AS programTitle, " +
+                " p.published, " +
                 " p.start_date, p.end_date, p.price, p.symbol, p.attach_id AS attachProgramId, " +
                 " p.study_format, p.study_mode, p.program_type, " +
                 " u.id AS universityId, u.name AS universityName, u.logo_id AS attachUniversityLogo, " +
                 " c.id AS countryId, " +
-                countryName + ", " +
+                " CASE :lang WHEN 'uz' THEN c.name_uz WHEN 'en' THEN c.name_en else c.name_ru END  AS countryName, " +
                 " c.attach_id AS attachCountry, " +
                 " d.id AS destinationId, " +
-                destinationName + ", " +
+                " CASE :lang WHEN 'uz' THEN d.name_uz WHEN 'en' THEN d.name_en else d.name_ru END AS countryName AS destinationName , " +
                 " d.attach_id AS attachDestinationId, d.show_in_main_page AS showInMainPageDestination, " +
-                requirementsField +
+                " STRING_AGG(pr.type, ',') AS requirements " +
                 query +
-                " GROUP BY p.id, u.id, d.id, c.id ";
+                " order by p.created_date desc ";
 
 
         // **COUNT query**
-        String countSQL = "SELECT COUNT(DISTINCT p.id) " + query; // DISTINCT qo‘shildi
+        String countSQL = "SELECT COUNT(*) " + query;
 
         Query selectQuery = entityManager.createNativeQuery(selectSQL);
         Query countQuery = entityManager.createNativeQuery(countSQL);
@@ -128,6 +107,7 @@ public class ProgramFilterRepositoryFilter {
             selectQuery.setParameter(entry.getKey(), entry.getValue());
             countQuery.setParameter(entry.getKey(), entry.getValue());
         }
+        selectQuery.setParameter("lang", language);
 
         // **Pagination**
         selectQuery.setFirstResult(page * size);
@@ -197,6 +177,7 @@ public class ProgramFilterRepositoryFilter {
     }
 
 
+    // {id,title, DestinitionDTO{id,name..}, UniversityDTO, CountiryDTO, AttachDTO{id,url}, Rasm jo'nataman shundagi ma'lumotlar berish kerak.}
     private ProgramResponseFilterDTO mapToDTO(Object[] row) {
         ProgramResponseFilterDTO dto = new ProgramResponseFilterDTO();
 
@@ -231,7 +212,6 @@ public class ProgramFilterRepositoryFilter {
 
         return dto;
     }
-
 
 
 }

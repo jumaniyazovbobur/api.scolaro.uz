@@ -1,5 +1,6 @@
 package api.scolaro.uz.service;
 
+import api.scolaro.uz.config.details.EntityDetails;
 import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.program.ProgramCreateDTO;
@@ -8,6 +9,7 @@ import api.scolaro.uz.dto.program.ProgramResponseDTO;
 import api.scolaro.uz.dto.program.ProgramResponseFilterDTO;
 import api.scolaro.uz.entity.ProgramEntity;
 import api.scolaro.uz.enums.AppLanguage;
+import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.exp.ItemNotFoundException;
 import api.scolaro.uz.repository.ProgramFilterRepository;
 import api.scolaro.uz.repository.ProgramFilterRepositoryFilter;
@@ -19,7 +21,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 
 @Service
@@ -71,11 +72,11 @@ public class ProgramService {
 
 
     public PageImpl<ProgramResponseFilterDTO> filter(int page, int size, ProgramFilterDTO dto, AppLanguage appLanguage) {
-        FilterResultDTO<ProgramResponseFilterDTO> dtoList = programFilterRepositoryFilter.getProgramFilterPage(dto, appLanguage.toString(), page, size);
+        boolean isAdmin = EntityDetails.hasRoleCurrentUser(RoleEnum.ROLE_ADMIN);
+        FilterResultDTO<ProgramResponseFilterDTO> dtoList = programFilterRepositoryFilter.getProgramFilterPage(dto, appLanguage.name(), page, size, isAdmin);
         Pageable pageable = PageRequest.of(page, size);
         return new PageImpl<>(dtoList.getContent(), pageable, dtoList.getTotalElement());
     }
-
 
 
     public ProgramEntity toEntity(ProgramCreateDTO request) {

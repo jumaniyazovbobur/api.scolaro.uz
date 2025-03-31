@@ -18,14 +18,13 @@ import java.util.List;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProgramFilterDTO {
-    private String titleUz;
-    private String titleRu;
-    private String titleEn;
+    private String query;
     private Long destinationId;
     private Long universityId;
     private Long countryId;
     private String programType;
     private String studyFormat;
     private String studyMode;
+    private LocalDate startDate;
     private LocalDate endDate;
 }
