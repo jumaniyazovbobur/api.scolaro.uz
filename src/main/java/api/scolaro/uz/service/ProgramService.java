@@ -5,13 +5,11 @@ import api.scolaro.uz.dto.ApiResponse;
 import api.scolaro.uz.dto.FilterResultDTO;
 import api.scolaro.uz.dto.program.ProgramCreateDTO;
 import api.scolaro.uz.dto.program.ProgramFilterDTO;
-import api.scolaro.uz.dto.program.ProgramResponseDTO;
 import api.scolaro.uz.dto.program.ProgramResponseFilterDTO;
 import api.scolaro.uz.entity.ProgramEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.enums.RoleEnum;
 import api.scolaro.uz.exp.ItemNotFoundException;
-import api.scolaro.uz.repository.ProgramFilterRepository;
 import api.scolaro.uz.repository.ProgramFilterRepositoryFilter;
 import api.scolaro.uz.repository.ProgramRepository;
 import api.scolaro.uz.service.place.DestinationService;
@@ -27,12 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ProgramService {
     private final ProgramRepository repository;
-    private final ProgramFilterRepository programFilterRepository;
     private final ProgramFilterRepositoryFilter programFilterRepositoryFilter;
     private final ProgramRequirementService programRequirementService;
-    private final DestinationService destinationService;
-    private final UniversityService universityService;
-    private final AttachService attachService;
 
 
     @Transactional

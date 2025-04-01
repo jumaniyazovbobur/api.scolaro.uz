@@ -1,7 +1,9 @@
 package api.scolaro.uz.dto.program;
 
+import api.scolaro.uz.dto.attach.AttachDTO;
 import api.scolaro.uz.dto.country.CountryResponse;
 import api.scolaro.uz.dto.destination.DestinationResponse;
+import api.scolaro.uz.dto.university.UniversityResponseDTO;
 import api.scolaro.uz.enums.ProgramRequirementType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
@@ -24,25 +26,12 @@ public class ProgramResponseFilterDTO {
     private String programType;
     private Long price;
     private String symbol;
-    private String attachProgramId;
+    private AttachDTO attachDTO;
     private Boolean published;
 
-    private Long universityId;
-    private String universityName;
-    private String attachUniversityLogo;
-
-    private Long countryId;
-    private String countryName;
-    private String attachCountry;
-
-    private CountryResponse country; // TODO
-
-    private Long destinationId;
-    private String destinationName;
-    private String attachDestinationId;
-    private Boolean showInMainPageDestination;
-
-    private DestinationResponse destination; // TODO
+    private UniversityResponseDTO university;
+    private CountryResponse country;
+    private DestinationResponse destination;
 
     private List<String> requirements;
 }
