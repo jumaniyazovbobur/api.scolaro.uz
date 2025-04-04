@@ -43,7 +43,7 @@ public class DestinationService {
     }
 
     public ApiResponse<List<DestinationLanguageResponse>> getAllByLanguage(AppLanguage language) {
-        List<DestinationLanguageResponse> responseList = repository.findAllByVisibleTrueOrderByOrderNumber().stream()
+        List<DestinationLanguageResponse> responseList = repository.findAllByVisibleTrueOrderByOrderNumberAsc().stream()
                 .map(entity -> toDTO(entity, language))
                 .collect(Collectors.toList());
 

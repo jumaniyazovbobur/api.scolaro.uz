@@ -43,7 +43,7 @@ public class CountryService {
     }
 
     public ApiResponse<List<CountryResponse>> allForAdmin() {
-        List<CountryResponse> responseList = repository.findAllByVisibleTrue().stream()
+        List<CountryResponse> responseList = repository.findAllByVisibleTrueOrderByOrderNumberAsc().stream()
                 .map(entity -> toDTO(entity))
                 .collect(Collectors.toList());
 
@@ -52,7 +52,8 @@ public class CountryService {
 
 
     public ApiResponse<List<CountryResponseDTO>> getAllByLanguage(AppLanguage language) {
-        List<CountryResponseDTO> responseList = repository.findAllByVisibleTrue().stream()
+        // TODO Program bor yoki qaysidir consulting xizmat ko'rsatadigan country-ni return qilamiz barchasini emas
+        List<CountryResponseDTO> responseList = repository.findAllByVisibleTrueOrderByOrderNumberAsc().stream()
                 .map(entity -> toDTO(entity, language))
                 .collect(Collectors.toList());
 

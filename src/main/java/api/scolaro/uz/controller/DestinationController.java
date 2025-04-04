@@ -41,7 +41,7 @@ public class DestinationController {
     }
 
 
-    @GetMapping("/language")
+    @GetMapping("/public/language")
     @Operation(summary = "Get all destination by language", description = "")
     public ResponseEntity<ApiResponse<List<DestinationLanguageResponse>>> allByLanguage(@RequestHeader(value = "Accept-Language",
             defaultValue = "uz") AppLanguage language) {

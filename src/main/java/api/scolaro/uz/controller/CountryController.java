@@ -50,7 +50,7 @@ public class CountryController {
         return ResponseEntity.ok(service.allForAdmin());
     }
 
-    @GetMapping("/language")
+    @GetMapping("/public/language")
     @Operation(summary = "Get all country by language", description = "")
     public ResponseEntity<ApiResponse<List<CountryResponseDTO>>> allByLanguage(@RequestHeader(value = "Accept-Language",
             defaultValue = "uz") AppLanguage language) {

@@ -1,57 +1,44 @@
-### Get all destination list
-GET http://localhost:8081/api/v1/destination
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDIxOTYzMTcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDI4MDExMTcsImlzcyI6IkphdmEgYmFja2VuZCJ9.85WOkBcDWnF_3CwT8j262pPcrITREkiKmkg1Oe1wgipb-PlEBARZVUvXHIJqUA58E1pSgXZ76EZnTii9E8FSeA
-
-
-### Get by id destination
-GET http://localhost:8081/api/v1/destination/5
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDIxOTYzMTcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDI4MDExMTcsImlzcyI6IkphdmEgYmFja2VuZCJ9.85WOkBcDWnF_3CwT8j262pPcrITREkiKmkg1Oe1wgipb-PlEBARZVUvXHIJqUA58E1pSgXZ76EZnTii9E8FSeA
-
-
-### Get all destination list language
-GET http://localhost:8081/api/v1/destination/language
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDIxOTYzMTcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDI4MDExMTcsImlzcyI6IkphdmEgYmFja2VuZCJ9.85WOkBcDWnF_3CwT8j262pPcrITREkiKmkg1Oe1wgipb-PlEBARZVUvXHIJqUA58E1pSgXZ76EZnTii9E8FSeA
-Accept-Language: en
-
-### Get by id destination  language
-GET http://localhost:8081/api/v1/destination/language/2
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDIxOTYzMTcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDI4MDExMTcsImlzcyI6IkphdmEgYmFja2VuZCJ9.85WOkBcDWnF_3CwT8j262pPcrITREkiKmkg1Oe1wgipb-PlEBARZVUvXHIJqUA58E1pSgXZ76EZnTii9E8FSeA
-Accept-Language: ru
-
-### Get all page
-GET http://localhost:8081/api/v1/destination/filter?
-    page=1&
-    size=3
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDIxOTYzMTcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDI4MDExMTcsImlzcyI6IkphdmEgYmFja2VuZCJ9.85WOkBcDWnF_3CwT8j262pPcrITREkiKmkg1Oe1wgipb-PlEBARZVUvXHIJqUA58E1pSgXZ76EZnTii9E8FSeA
-
-
-###CREATE destination
-POST http://localhost:8081/api/v1/destination
+### Create destination
+POST http://localhost:8085/api/v1/destination
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDI5NjgyMjgsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDM1NzMwMjksImlzcyI6IkphdmEgYmFja2VuZCJ9.Zk850e-bQfr5LHsvme-Db9JbP-Xeq8QeSvrqfeBInsxebMBPric4OfLIvp1sJqN0N0S83cYq4932rOq_lTx7dA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDM3NjcxNTQsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDQzNzE5NTQsImlzcyI6IkphdmEgYmFja2VuZCJ9.68UVOctyFBGYF8HgsEuEDz-A9ApKQsldjNw8cZsgqclVGqPTBGVrqOEVWOsJxoierKTP8eFiVfYBuWjlO6GH1g
 
 {
-  "nameUz": "Qirg'istonUZ 5",
-  "nameRu": "Qirg'istonRU 5",
-  "nameEn": "Qirg'istonEn 5",
-  "attachId": "2c99f081959d525001959d5ac6460001",
+  "nameUz": "Kompyuter fanlari",
+  "nameRu": "Компьютерные науки",
+  "nameEn": "Computer Science",
+  "attachId": "402880e89600e86501960115c0420014",
   "orderNumber": 6,
   "showInMainPage": false
 }
 
-###UPDATE destination
-PUT http://localhost:8081/api/v1/destination
+### UPDATE destination
+PUT http://localhost:8085/api/v1/destination
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDIxOTYzMTcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDI4MDExMTcsImlzcyI6IkphdmEgYmFja2VuZCJ9.85WOkBcDWnF_3CwT8j262pPcrITREkiKmkg1Oe1wgipb-PlEBARZVUvXHIJqUA58E1pSgXZ76EZnTii9E8FSeA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDM3NjcxNTQsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDQzNzE5NTQsImlzcyI6IkphdmEgYmFja2VuZCJ9.68UVOctyFBGYF8HgsEuEDz-A9ApKQsldjNw8cZsgqclVGqPTBGVrqOEVWOsJxoierKTP8eFiVfYBuWjlO6GH1g
 
-{
-  "id": 1,
-  "nameUz": "Qozag'iston Update",
-  "nameRu": "Qozag'iston Update",
-  "nameEn": "Qozag'iston Update",
-  "attachId": "2c99f081959d525001959d5ac6460001",
-  "orderNumber": 2
+{  "id":4,
+  "nameUz": "Arxitektura",
+  "nameRu": "Архитектура",
+  "nameEn": "Architecture",
+  "attachId": "402880e89600e8650196010e4a8c0010",
+  "orderNumber": 2,
+  "showInMainPage": true
 }
+
+
+### Get all destination list language
+GET http://localhost:8085/api/v1/destination/public/language
+Accept-Language: en
+
+### Get by id destination
+GET http://localhost:8085/api/v1/destination/5
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDM3NjcxNTQsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDQzNzE5NTQsImlzcyI6IkphdmEgYmFja2VuZCJ9.68UVOctyFBGYF8HgsEuEDz-A9ApKQsldjNw8cZsgqclVGqPTBGVrqOEVWOsJxoierKTP8eFiVfYBuWjlO6GH1g
+
+
+### Get all as admin
+GET http://localhost:8085/api/v1/destination/filter?page=1&size=3
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDM3NjcxNTQsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDQzNzE5NTQsImlzcyI6IkphdmEgYmFja2VuZCJ9.68UVOctyFBGYF8HgsEuEDz-A9ApKQsldjNw8cZsgqclVGqPTBGVrqOEVWOsJxoierKTP8eFiVfYBuWjlO6GH1g
 
 ### DELETE destination
 DELETE http://localhost:8081/api/v1/destination/2

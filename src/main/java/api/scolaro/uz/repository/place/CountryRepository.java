@@ -16,7 +16,7 @@ import java.util.Optional;
 
 public interface CountryRepository extends JpaRepository<CountryEntity, Long> {
 
-    List<CountryEntity> findAllByVisibleTrue();
+    List<CountryEntity> findAllByVisibleTrueOrderByOrderNumberAsc();
 
     Optional<CountryEntity> findByIdAndVisibleTrue(Long id);
 

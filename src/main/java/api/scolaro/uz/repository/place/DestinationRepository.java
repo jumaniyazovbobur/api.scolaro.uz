@@ -11,7 +11,7 @@ import java.util.Set;
 
 public interface DestinationRepository extends JpaRepository<DestinationEntity, Long> {
 
-    List<DestinationEntity> findAllByVisibleTrueOrderByOrderNumber();
+    List<DestinationEntity> findAllByVisibleTrueOrderByOrderNumberAsc();
 
     Page<DestinationEntity> findAllByVisibleTrueOrderByOrderNumber(Pageable pageable);
 
