@@ -7,8 +7,6 @@ import jakarta.validation.constraints.Size;
 
 public record DestinationRequest(
 
-        Long id,
-
         @NotBlank(message = "Name Uz  bo'sh bo'lishi mumkin emas")
         @Size(min = 3, max = 50, message = "Berilgan Type (Name Uz) ning uzunligi 3 va 50 orasida bo'lishi kerak")
          String nameUz,
