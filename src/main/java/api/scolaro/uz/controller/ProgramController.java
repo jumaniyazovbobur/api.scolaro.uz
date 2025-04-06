@@ -68,7 +68,7 @@ public class ProgramController {
     @GetMapping("/{id}")
     @Operation(summary = "Get id program ", description = "")
     public ResponseEntity<ApiResponse<ProgramResponseFilterDTO>> getId(@PathVariable("id") Long id,
-                                                                 @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
+                                                                       @RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         return ResponseEntity.ok(service.getById(id, language));
     }
 
@@ -79,7 +79,7 @@ public class ProgramController {
                                                                      @RequestParam(value = "page", defaultValue = "1") int page,
                                                                      @RequestParam(value = "size", defaultValue = "30") int size,
                                                                      @RequestHeader(value = "Accept-Language",
-                                                                                defaultValue = "uz") AppLanguage appLanguage) {
+                                                                             defaultValue = "uz") AppLanguage appLanguage) {
         return ResponseEntity.ok(service.filter(PaginationUtil.page(page), size, dto, appLanguage));
     }
 
@@ -88,10 +88,10 @@ public class ProgramController {
     @GetMapping("/filter-admin")
     @Operation(summary = "Get program list filter", description = "")
     public ResponseEntity<PageImpl<ProgramResponseFilterDTO>> filterAdmin(@RequestBody ProgramFilterDTO dto,
-                                                                     @RequestParam(value = "page", defaultValue = "1") int page,
-                                                                     @RequestParam(value = "size", defaultValue = "30") int size,
-                                                                     @RequestHeader(value = "Accept-Language",
-                                                                             defaultValue = "uz") AppLanguage appLanguage) {
+                                                                          @RequestParam(value = "page", defaultValue = "1") int page,
+                                                                          @RequestParam(value = "size", defaultValue = "30") int size,
+                                                                          @RequestHeader(value = "Accept-Language",
+                                                                                  defaultValue = "uz") AppLanguage appLanguage) {
         return ResponseEntity.ok(service.filter(PaginationUtil.page(page), size, dto, appLanguage));
     }
 

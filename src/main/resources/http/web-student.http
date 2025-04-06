@@ -1,0 +1,47 @@
+### Create web Student admin
+POST http://localhost:8081/api/v1/web-student
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDM5Mzk4MDIsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDQ1NDQ2MDIsImlzcyI6IkphdmEgYmFja2VuZCJ9.l-0ZWIaCAqHyLbysnfreWP6yI9EvOGdyVKp1JdkQEjqd3K4cuDH8pVIBuQh46VVpp6zs7-qizrAy3_qpxpXDOw
+
+{
+  "fullName": "Ali 5",
+  "aboutUz": "Ali voy zo'r Uz",
+  "aboutRu": "Ali voy zo'r Ru",
+  "aboutEn": "Ali voy zo'r En",
+  "photoId": "2c99f081959d988d01959d99a45d0000",
+  "orderNumber": 1
+}
+
+### Update web Student admin
+PUT http://localhost:8081/api/v1/web-student/2c9eb081960ae96801960aeaa53c0000
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDM5Mzk4MDIsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDQ1NDQ2MDIsImlzcyI6IkphdmEgYmFja2VuZCJ9.l-0ZWIaCAqHyLbysnfreWP6yI9EvOGdyVKp1JdkQEjqd3K4cuDH8pVIBuQh46VVpp6zs7-qizrAy3_qpxpXDOw
+
+
+{
+  "fullName": "Ali Update",
+  "aboutUz": "Ali voy zo'r Uz",
+  "aboutRu": "Ali voy zo'r Ru",
+  "aboutEn": "Ali voy zo'r En",
+  "photoId": "2c99f081959d988d01959d99a45d0000",
+  "orderNumber": 1
+}
+
+### Get By Id web Student admin
+GET http://localhost:8081/api/v1/web-student/2c9eb081960ae96801960aee27700005
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDM5Mzk4MDIsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDQ1NDQ2MDIsImlzcyI6IkphdmEgYmFja2VuZCJ9.l-0ZWIaCAqHyLbysnfreWP6yI9EvOGdyVKp1JdkQEjqd3K4cuDH8pVIBuQh46VVpp6zs7-qizrAy3_qpxpXDOw
+
+### Get All web Student admin
+GET http://localhost:8081/api/v1/web-student
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDM5Mzk4MDIsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDQ1NDQ2MDIsImlzcyI6IkphdmEgYmFja2VuZCJ9.l-0ZWIaCAqHyLbysnfreWP6yI9EvOGdyVKp1JdkQEjqd3K4cuDH8pVIBuQh46VVpp6zs7-qizrAy3_qpxpXDOw
+
+### Delete web student admin
+DELETE http://localhost:8081/api/v1/web-student/2c9eb081960ae96801960aee27700005
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDM5Mzk4MDIsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDQ1NDQ2MDIsImlzcyI6IkphdmEgYmFja2VuZCJ9.l-0ZWIaCAqHyLbysnfreWP6yI9EvOGdyVKp1JdkQEjqd3K4cuDH8pVIBuQh46VVpp6zs7-qizrAy3_qpxpXDOw
+
+
+### Get all language User
+GET http://localhost:8081/api/v1/web-student/language
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDM5Mzk4MDIsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDQ1NDQ2MDIsImlzcyI6IkphdmEgYmFja2VuZCJ9.l-0ZWIaCAqHyLbysnfreWP6yI9EvOGdyVKp1JdkQEjqd3K4cuDH8pVIBuQh46VVpp6zs7-qizrAy3_qpxpXDOw
+Accept-Language: en
