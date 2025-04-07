@@ -38,6 +38,8 @@ public class ConsultingEntity extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id", insertable = false, updatable = false)
     private ConsultingProfileEntity manager;
+    @Column(name = "order_number")
+    private Integer orderNumber;
 
 
 

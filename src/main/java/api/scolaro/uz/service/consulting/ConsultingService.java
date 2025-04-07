@@ -93,6 +93,7 @@ public class ConsultingService {
         consultingEntity.setStatus(GeneralStatus.ACTIVE);
         consultingEntity.setAbout(dto.getAbout());
         consultingEntity.setBalance(0L);
+        consultingEntity.setOrderNumber(dto.getOrderNumber());
         consultingRepository.save(consultingEntity);// save
 
         ConsultingProfileEntity consultingProfile = new ConsultingProfileEntity();
@@ -131,7 +132,7 @@ public class ConsultingService {
         return ApiResponse.ok("Success");
     }
 
-    public ApiResponse<ConsultingResponseDTO> updateConsulting(String id, ConsultingUpdateDTO dto) {
+    public ApiResponse<ConsultingResponseDTO> updateConsulting(String id, ConsultingDetailUpdateDTO dto) {
         ConsultingEntity entity = get(id);
         String oldImageId = null;
         if (!dto.getPhotoId().equals(entity.getPhotoId())) { // delete old photo
@@ -143,6 +144,7 @@ public class ConsultingService {
         entity.setAddress(dto.getAddress());
         entity.setAbout(dto.getAbout());
         entity.setAbbreviation(dto.getAbbreviation());
+        entity.setOrderNumber(dto.getOrderNUmber());
         // update
         consultingRepository.save(entity);
         if (oldImageId != null) attachService.delete(oldImageId);
@@ -255,8 +257,8 @@ public class ConsultingService {
                 .stream()
                 .map(item -> {
                     ConsultingResponseDTO result = toDTO(item, true);
-                    if (item.getPhotoId() != null && item.getPhoto().getCompressedId() != null)
-                        result.setPhoto(attachService.getResponseAttach(item.getPhoto().getCompressedId()));
+//                    if (item.getPhotoId() != null && item.getPhoto().getCompressedId() != null)
+//                        result.setPhoto(attachService.getResponseAttach(item.getPhoto().getCompressedId()));
                     return result;
                 })
                 .toList(),
@@ -302,6 +304,7 @@ public class ConsultingService {
         }
         dto.setCreatedDate(entity.getCreatedDate());
         dto.setStatus(entity.getStatus());
+        dto.setOrderNumber(entity.getOrderNumber());
         return dto;
     }
 

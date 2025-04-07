@@ -105,6 +105,7 @@ public class CustomConsultingRepository {
     }
 
     public FilterResultDTO<ConsultingEntity> filterPaginationForTopConsulting(ConsultingTopFilterDTO dto, Integer page, Integer size) {
+        // TODO add countryId and countryName
         StringBuilder selectBuilder = new StringBuilder(" from ConsultingEntity as c left join fetch c.photo ");
         StringBuilder countBuilder = new StringBuilder("select count(c) from ConsultingEntity as c ");
         StringBuilder builder = new StringBuilder(" where c.visible=true and status = 'ACTIVE' ");
@@ -114,7 +115,7 @@ public class CustomConsultingRepository {
             params.put("name", "%" + dto.getName().toLowerCase() + "%");
         }
         countBuilder.append(builder);
-        builder.append(" order by c.createdDate ");
+        builder.append(" order by c.orderNumber asc ");
         selectBuilder.append(builder);
         Query selectQuery = entityManager.createQuery(selectBuilder.toString());
         Query countQuery = entityManager.createQuery(countBuilder.toString());

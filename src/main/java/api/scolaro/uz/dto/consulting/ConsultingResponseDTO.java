@@ -24,4 +24,5 @@ public class ConsultingResponseDTO {
     private String ownerName;
     private String ownerSurname;
     private GeneralStatus status;
+    private Integer orderNumber;
 }

@@ -38,7 +38,7 @@ public class ConsultingController {
         return ResponseEntity.ok(consultingService.getConsultingDetail(consultingId, language));
     }
 
-    @GetMapping("/top-consulting")
+    @GetMapping("/top-consulting") // TODO remove later
     @Operation(summary = "Get by id api", description = "for admin")
     public ResponseEntity<ApiResponse<List<ConsultingResponseDTO>>> getTopConsulting() {
         log.info("Get top consulting ");
@@ -115,7 +115,7 @@ public class ConsultingController {
     @PutMapping("/{id}")
     @Operation(summary = "Update consulting detail as admin", description = "")
     public ResponseEntity<ApiResponse<ConsultingResponseDTO>> updateConsulting(@PathVariable("id") String id,
-                                                                               @Valid @RequestBody ConsultingUpdateDTO dto) {
+                                                                               @Valid @RequestBody ConsultingDetailUpdateDTO dto) {
         log.info("Update consulting detail {}", dto.getName());
         return ResponseEntity.ok(consultingService.updateConsulting(id, dto));
     }

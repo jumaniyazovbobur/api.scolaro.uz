@@ -8,5 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ConsultingTopFilterDTO {
-    private String name;
+    private String countryName;
+    private String name; // used in old version
+    private Integer countryId;
 }
