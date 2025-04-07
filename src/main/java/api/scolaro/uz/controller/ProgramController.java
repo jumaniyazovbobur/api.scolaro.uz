@@ -73,7 +73,7 @@ public class ProgramController {
     }
 
     // filter user-lar + pagination
-    @GetMapping("/filter")
+    @GetMapping("/public/filter")
     @Operation(summary = "Get program list filter", description = "")
     public ResponseEntity<PageImpl<ProgramResponseFilterDTO>> filter(@RequestBody ProgramFilterDTO dto,
                                                                      @RequestParam(value = "page", defaultValue = "1") int page,
