@@ -32,29 +32,4 @@ public interface WebStudentRepository extends JpaRepository<WebStudentEntity,Str
     ORDER BY order_number
     """, nativeQuery = true)
     List<Map<String, Object>> findAllByLang(@Param("lang") String lang);
-
-//    @Query("""
-//    SELECT new api.scolaro.uz.dto.webStudent.WebStudentResponseDTO(
-//        w.id,
-//        w.fullName,
-//        CASE
-//            WHEN :lang = 'uz' THEN w.aboutUz
-//            WHEN :lang = 'ru' THEN w.aboutRu
-//            WHEN :lang = 'en' THEN w.aboutEn
-//            ELSE w.aboutUz
-//        END,
-//        null,  -- aboutUz
-//        null,  -- aboutRu
-//        null,  -- aboutEn
-//        w.photoId,
-//        w.orderNumber
-//    )
-//    FROM WebStudentEntity AS w
-//    ORDER BY w.orderNumber
-//""")
-//    List<WebStudentResponseDTO> findAllByLang(@Param("lang") String lang);
-
-
-
-
 }

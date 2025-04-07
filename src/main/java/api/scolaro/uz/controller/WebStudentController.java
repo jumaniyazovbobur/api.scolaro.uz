@@ -54,7 +54,7 @@ public class WebStudentController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping()
-    @Operation(summary = "Get by list web student", description = "for admin")
+    @Operation(summary = "Get web-student list", description = "for admin")
     public ResponseEntity<ApiResponse<List<WebStudentResponseDTO>>> getAll() {
         return ResponseEntity.ok(service.getAll());
     }
@@ -66,8 +66,8 @@ public class WebStudentController {
         return ResponseEntity.ok(service.delete(id));
     }
 
-    @GetMapping("/language")
-    @Operation(summary = "Get by list lang web student", description = "for admin")
+    @GetMapping("/public/language")
+    @Operation(summary = "Get list by lang", description = "")
     public ResponseEntity<ApiResponse<List<WebStudentResponseDTO>>> getAllLanguage(@RequestHeader(value = "Accept-Language", defaultValue = "uz") AppLanguage language) {
         return ResponseEntity.ok(service.getAllLanguage(language));
     }

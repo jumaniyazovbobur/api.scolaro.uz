@@ -24,7 +24,7 @@ public class WebStudentService {
     public ApiResponse<String> create(WebStudentCreateDTO request) {
         WebStudentEntity entity = toEntity(request);
         WebStudentEntity save = repository.save(entity);
-        return new ApiResponse<>("Create web student : " + save.getId(), 201, false);
+        return new ApiResponse<>("Create web student : " + save.getId(), 200, false);
     }
 
     public ApiResponse<String> update(String id, WebStudentCreateDTO request) {
@@ -34,6 +34,7 @@ public class WebStudentService {
         entity.setAboutRu(request.getAboutRu());
         entity.setAboutEn(request.getAboutEn());
         entity.setPhotoId(request.getPhotoId());
+        // delete old photoId
         entity.setOrderNumber(request.getOrderNumber());
         WebStudentEntity save = repository.save(entity);
         return new ApiResponse<>("Update web student : " + save.getId(), 200, false);
@@ -99,6 +100,5 @@ public class WebStudentService {
         return repository.findByIdAndVisibleTrue(id).orElseThrow(() ->
                 new ItemNotFoundException("Web student  not found  " + id));
     }
-
 
 }
