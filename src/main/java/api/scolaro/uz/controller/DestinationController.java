@@ -34,10 +34,11 @@ public class DestinationController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping()
+    @PutMapping("/{id}")
     @Operation(summary = "Update Destination", description = "for admin")
-    public ResponseEntity<ApiResponse<String>> update(@Valid @RequestBody DestinationRequest request) {
-        return ResponseEntity.ok(service.update(request));
+    public ResponseEntity<ApiResponse<String>> update(@PathVariable("id") Long id,
+                                                      @Valid @RequestBody DestinationRequest request) {
+        return ResponseEntity.ok(service.update(id,request));
     }
 
 

@@ -171,8 +171,6 @@ public class ProgramFilterRepositoryFilter {
     }
 
 
-
-
     // {id,title, DestinitionDTO{id,name..}, UniversityDTO, CountiryDTO, AttachDTO{id,url}, Rasm jo'nataman shundagi ma'lumotlar berish kerak.}
     private ProgramResponseFilterDTO mapToDTO(Object[] row) {
         ProgramResponseFilterDTO dto = new ProgramResponseFilterDTO();
@@ -189,13 +187,13 @@ public class ProgramFilterRepositoryFilter {
         dto.setStudyMode((String) row[9]); // p.study_mode
         dto.setProgramType((String) row[10]); // p.program_type
 
-        UniversityResponseDTO universityResponseDTO=new UniversityResponseDTO();
+        UniversityResponseDTO universityResponseDTO = new UniversityResponseDTO();
         universityResponseDTO.setId((row[11] != null) ? (Long) row[11] : null);
         universityResponseDTO.setName((String) row[12]);
         universityResponseDTO.setLogo(attachService.getResponseAttach((String) row[13]));
         dto.setUniversity(universityResponseDTO);
 
-        CountryResponse countryResponse =new CountryResponse(
+        CountryResponse countryResponse = new CountryResponse(
                 (row[14] != null) ? (Long) row[14] : null,
                 null,
                 null,
@@ -207,7 +205,7 @@ public class ProgramFilterRepositoryFilter {
         dto.setCountry(countryResponse);
 
 
-        DestinationResponse destinationResponse =new DestinationResponse(
+        DestinationResponse destinationResponse = new DestinationResponse(
                 (row[17] != null) ? (Long) row[17] : null,
                 null,
                 null,

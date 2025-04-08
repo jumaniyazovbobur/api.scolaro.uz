@@ -61,6 +61,7 @@ public class SecurityConfiguration {
             "/api/v1/faculty/public/**",
             "/api/v1/consulting/public/**",
             "/api/v1/destination/public/**",
+            "/api/v1/web-student/public/**",
     };
 
 

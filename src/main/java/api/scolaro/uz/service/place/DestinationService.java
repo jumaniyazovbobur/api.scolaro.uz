@@ -30,8 +30,8 @@ public class DestinationService {
     }
 
 
-    public ApiResponse<String> update(DestinationRequest request) {
-        var country = repository.findById(request.id()).orElseThrow(() -> new ItemNotFoundException("Destination not found " + request.id()));
+    public ApiResponse<String> update(Long id,DestinationRequest request) {
+        var country = repository.findById(id).orElseThrow(() -> new ItemNotFoundException("Destination not found " + id));
         country.setNameUz(request.nameUz());
         country.setNameRu(request.nameRu());
         country.setNameEn(request.nameEn());
@@ -39,7 +39,7 @@ public class DestinationService {
         country.setOrderNumber(request.orderNumber());
         country.setShowInMainPage(request.showInMainPage());
         repository.save(country);
-        return new ApiResponse<>("Update Destination: " + request.id(), 200, false);
+        return new ApiResponse<>("Update Destination: " + id, 200, false);
     }
 
     public ApiResponse<List<DestinationLanguageResponse>> getAllByLanguage(AppLanguage language) {
