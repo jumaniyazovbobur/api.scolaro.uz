@@ -8,10 +8,12 @@ import api.scolaro.uz.entity.ProgramEntity;
 import api.scolaro.uz.entity.WebStudentEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.exp.ItemNotFoundException;
+import api.scolaro.uz.mapper.WebStudentMapper;
 import api.scolaro.uz.repository.WebStudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -59,16 +61,18 @@ public class WebStudentService {
     }
 
     public ApiResponse<List<WebStudentResponseDTO>> getAllLanguage(AppLanguage language) {
-        List<Map<String, Object>> rawlist = repository.findAllByLang(language.name());
-        List<WebStudentResponseDTO> list = rawlist.stream().map(map -> {
+        List<WebStudentMapper> mapperList = repository.findAllByLang(language.name());
+        List<WebStudentResponseDTO> list = new ArrayList<>();
+
+        for (WebStudentMapper mapper : mapperList) {
             WebStudentResponseDTO dto = new WebStudentResponseDTO();
-            dto.setId((String) map.get("id"));
-            dto.setFullName((String) map.get("full_name"));
-            dto.setAbout((String) map.get("about"));
-            dto.setAttachDTO(attachService.getResponseAttach((String) map.get("photo_id")));
-            dto.setOrderNumber(map.get("order_number") != null ? ((Number) map.get("order_number")).intValue() : null);
-            return dto;
-        }).toList();
+            dto.setId(mapper.getId());
+            dto.setFullName(mapper.getFullName());
+            dto.setOrderNumber(mapper.getOrderNumber());
+            dto.setAttachDTO(attachService.getResponseAttach(mapper.getPhotoId()));
+            dto.setAbout(mapper.getAbout());
+            list.add(dto);
+        }
         return new ApiResponse<>(200, false, list);
 
     }
