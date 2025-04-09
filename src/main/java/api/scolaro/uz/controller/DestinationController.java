@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j
-@Api(tags = "Destination api")
+@Api(tags = "Destination (Направления) api")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/destination")

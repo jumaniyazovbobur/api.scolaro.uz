@@ -13,7 +13,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "destination")
+@Table(name = "destination") // Направления
 public class DestinationEntity extends BaseIdentityEntity {
 
     @Column(name = "name_uz",length = 50,unique = true)

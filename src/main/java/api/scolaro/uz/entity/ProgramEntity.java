@@ -81,7 +81,7 @@ public class ProgramEntity extends BaseIdentityEntity {
     private Long universityId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "university_id", insertable = false, updatable = false)
-    private UniversityEntity university;
+    private UniversityEntity university; // TODO change to Institute
 
     @Column(name = "destination_id")
     private Long destinationId;
