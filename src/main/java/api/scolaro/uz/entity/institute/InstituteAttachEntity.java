@@ -7,18 +7,18 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-//@Getter
-//@Setter
-//@Entity
-//@Table(name = "institute_attach")  //  Направления Университета - universitet yo'nalishlari
+@Getter
+@Setter
+@Entity
+@Table(name = "institute_attach")  //  Направления Университета - universitet yo'nalishlari
 public class InstituteAttachEntity extends BaseEntity {
     @Column(name = "institute_id")
-    private String instituteId;
+    private Long instituteId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "institute_id", insertable = false, updatable = false)
     private InstituteEntity institute;
 
-    // agar instituteAttachYype.ATTACH bo'lsa bunda qiymat bo'ladi
+    // agar instituteAttachType.ATTACH bo'lsa bunda qiymat bo'ladi
     @Column(name = "attach_id")
     private String attachId;
     @ManyToOne

@@ -20,9 +20,9 @@ public interface WebStudentRepository extends JpaRepository<WebStudentEntity,Str
     @Query(value = """
     SELECT
         id,
-        full_name As FullName,
-        order_number As OrderNumber,
-        photo_id As PhotoId,
+        full_name As fullName,
+        order_number As orderNumber,
+        photo_id As photoId,
         CASE
             WHEN :lang = 'uz' THEN about_uz
             WHEN :lang = 'ru' THEN about_ru

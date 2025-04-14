@@ -6,19 +6,19 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-//@Getter
-//@Setter
-//@Entity
-//@Table(name = "institute_destination")  //  Направления Университета - universitet yo'nalishlari
+@Getter
+@Setter
+@Entity
+@Table(name = "institute_destination")  //  Направления Университета - universitet yo'nalishlari
 public class InstituteDestinationEntity extends BaseEntity {
     @Column(name = "destination_id")
-    private String destinationId;
+    private Long destinationId;
     @ManyToOne
     @JoinColumn(name = "destination_id", insertable = false, updatable = false)
     private DestinationEntity destination;
 
     @Column(name = "institute_id")
-    private String instituteId;
+    private Long instituteId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "institute_id", insertable = false, updatable = false)
     private InstituteEntity institute;

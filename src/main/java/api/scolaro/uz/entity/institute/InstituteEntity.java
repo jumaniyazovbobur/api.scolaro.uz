@@ -8,10 +8,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-//@Getter
-//@Setter
-//@Entity
-//@Table(name = "institute")
+@Getter
+@Setter
+@Entity
+@Table(name = "institute")
 public class InstituteEntity extends BaseIdentityEntity {
     private String name;
 
@@ -26,20 +26,29 @@ public class InstituteEntity extends BaseIdentityEntity {
     private Long rating;
 
     // Об университете
+    @Column(name = "about_uz", columnDefinition = "TEXT")
     private String aboutUz;
+    @Column(name = "about_en", columnDefinition = "TEXT")
     private String aboutEn;
+    @Column(name = "about_ru", columnDefinition = "TEXT")
     private String aboutRu;
 
     // abbreviation ?
 
     // Территория
+    @Column(name = "territory_uz")
     private String territoryUz;
+    @Column(name = "territory_ru")
     private String territoryEn;
+    @Column(name = "territory_en")
     private String territoryRu;
 
     // Обучение
+    @Column(name = "education_en")
     private String educationUz;
+    @Column(name = "education_en")
     private String educationEn;
+    @Column(name = "education_en")
     private String educationRu;
 
     // Программы  Shu universitetga bo'glangan programmalarni programmani ichida ko'rsatiladi. Bunda emas
@@ -50,7 +59,9 @@ public class InstituteEntity extends BaseIdentityEntity {
     // Направления -> InstituteDestinationEntity  merge method yozish kerak.
 
     // Контакты
+    @Column(name = "phone_number_1")
     private String phoneNumber1;
+    @Column(name = "phone_number_2")
     private String phoneNumber2;
     @Column(name = "web_site")
     private String webSite;

@@ -1,10 +1,8 @@
 package api.scolaro.uz.service;
 
 import api.scolaro.uz.dto.ApiResponse;
-import api.scolaro.uz.dto.program.ProgramCreateDTO;
 import api.scolaro.uz.dto.webStudent.WebStudentCreateDTO;
 import api.scolaro.uz.dto.webStudent.WebStudentResponseDTO;
-import api.scolaro.uz.entity.ProgramEntity;
 import api.scolaro.uz.entity.WebStudentEntity;
 import api.scolaro.uz.enums.AppLanguage;
 import api.scolaro.uz.exp.ItemNotFoundException;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -74,7 +71,6 @@ public class WebStudentService {
             list.add(dto);
         }
         return new ApiResponse<>(200, false, list);
-
     }
 
     public WebStudentEntity toEntity(WebStudentCreateDTO dto) {
