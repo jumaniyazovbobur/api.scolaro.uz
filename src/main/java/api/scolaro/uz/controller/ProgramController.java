@@ -73,7 +73,7 @@ public class ProgramController {
     }
 
     // filter user-lar + pagination
-    @GetMapping("/public/filter")
+    @PostMapping("/public/filter")
     @Operation(summary = "Get program list filter", description = "")
     public ResponseEntity<PageImpl<ProgramResponseFilterDTO>> filter(@RequestBody ProgramFilterDTO dto,
                                                                      @RequestParam(value = "page", defaultValue = "1") int page,
@@ -85,7 +85,7 @@ public class ProgramController {
 
     // filter admin  + pagination
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/filter-admin")
+    @PostMapping("/filter-admin")
     @Operation(summary = "Get program list filter", description = "")
     public ResponseEntity<PageImpl<ProgramResponseFilterDTO>> filterAdmin(@RequestBody ProgramFilterDTO dto,
                                                                           @RequestParam(value = "page", defaultValue = "1") int page,
