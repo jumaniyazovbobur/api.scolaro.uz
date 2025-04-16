@@ -8,6 +8,7 @@ public record DestinationLanguageResponse(
         Long id,
         String name,
         AttachDTO attach,
+        AttachDTO icon,
         Integer orderNumber
 ) {
 }

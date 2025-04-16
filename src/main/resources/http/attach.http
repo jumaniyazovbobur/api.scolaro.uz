@@ -1,12 +1,13 @@
 ### Upload a file
-POST http://localhost:8085/api/v1/attach/upload
+#POST http://localhost:8085/api/v1/attach/upload
+POST https://api.scolaro.uz/api/v1/attach/upload
 Content-Type: multipart/form-data; boundary=WebAppBoundary
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTUzNjAyNzcsImlkIjoiMzI1YTRmZmQ4ZDAyYjQwYTAxOGQwODIwMTE5YTA0NGUiLCJwaG9uZSI6Ijk5ODkxNTcyMTIxNyIsInJvbGVzIjoiUk9MRV9DT05TVUxUSU5HLFJPTEVfQ09OU1VMVElOR19NQU5BR0VSIiwiZXhwIjoxNzE1OTY1MDc3LCJpc3MiOiJKYXZhIGJhY2tlbmQifQ.Dl-DXPMysP0G7bFyt9sMLTNUwTcy4D7tvzlNZlPAHQmsEUlMgjThmU-ScSeaQnzSkT15QSCLy3Cj97RJascNtQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDQ4MDE3MTcsImlkIjoiOTA5MTMzZmUtODFhZC00YWExLWI1ZmUtMzBkNDJkNzViYjNkIiwicGhvbmUiOiI5OTg5MzgwODA4MzEiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJleHAiOjE3NDU0MDY1MTcsImlzcyI6IkphdmEgYmFja2VuZCJ9.Zgm5N69fm2vppkhPZ6GCXwB6F3I_pgCit_uox9oF-MRtCMgUAejRAWZW4ogu_7S_4m-RQMfFo63nGBRtCfht_g
 
 --WebAppBoundary
-Content-Disposition: form-data; name="file"; filename="pexels-iurii-ivashchenko-3498323.jpg"
+Content-Disposition: form-data; name="file"; filename="medical-cross.png"
 
-< C:\Users\Bobur_Jumaniyazov\Desktop\images\pexels-iurii-ivashchenko-3498323.jpg
+< C:\Users\Bobur_Jumaniyazov\Desktop\icon de\medical-cross.png
 
 ### Get all attach
 GET http://localhost:8081/api/v1/attach/get-all

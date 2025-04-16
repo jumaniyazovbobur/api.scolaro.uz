@@ -212,6 +212,7 @@ public class ProgramFilterRepositoryFilter {
                 null,
                 (String) row[18],
                 attachService.getResponseAttach((String) row[19]),
+                null,
                 null
         );
         dto.setDestination(destinationResponse);

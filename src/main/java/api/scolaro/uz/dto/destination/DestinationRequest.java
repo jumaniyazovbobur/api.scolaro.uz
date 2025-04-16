@@ -21,7 +21,8 @@ public record DestinationRequest(
 
         @NotBlank(message = "Attach id  bo'sh bo'lishi mumkin emas")
         String attachId,
-
+        @NotBlank(message = "Icon id bo'sh bo'lishi mumkin emas")
+        String iconId,
         @NotNull(message = "Type number bo'sh bo'lishi mumkin emas")
         @Min(value = 1, message = "Type number ning qiymati minimal 1 bo'lsin")
         Integer orderNumber,

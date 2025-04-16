@@ -11,6 +11,7 @@ public record DestinationResponse(
         String nameEn,
         String name,
         AttachDTO attach,
+        AttachDTO icon,
         Integer orderNumber
 ) {
 }

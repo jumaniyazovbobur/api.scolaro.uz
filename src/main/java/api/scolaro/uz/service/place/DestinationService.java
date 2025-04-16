@@ -36,6 +36,7 @@ public class DestinationService {
         country.setNameRu(request.nameRu());
         country.setNameEn(request.nameEn());
         country.setAttachId(request.attachId());
+        country.setIconId(request.iconId());
         country.setOrderNumber(request.orderNumber());
         country.setShowInMainPage(request.showInMainPage());
         repository.save(country);
@@ -75,6 +76,7 @@ public class DestinationService {
                 .nameRu(request.nameRu())
                 .nameEn(request.nameEn())
                 .attachId(request.attachId())
+                .iconId(request.iconId())
                 .orderNumber(request.orderNumber())
                 .showInMainPage(request.showInMainPage())
                 .build();
@@ -91,6 +93,7 @@ public class DestinationService {
                 entity.getNameEn(),
                 null,
                 attachService.getResponseAttach(entity.getAttachId()),
+                attachService.getResponseAttach(entity.getIconId()),
                 entity.getOrderNumber()
         );
     }
@@ -111,8 +114,10 @@ public class DestinationService {
                 entity.getId(),
                 name,
                 attachService.getResponseAttach(entity.getAttachId()),
+                attachService.getResponseAttach(entity.getIconId()),
                 entity.getOrderNumber()
         );
+
     }
 
     public DestinationEntity get(Long id) {

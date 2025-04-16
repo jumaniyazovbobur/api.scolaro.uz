@@ -31,6 +31,12 @@ public class DestinationEntity extends BaseIdentityEntity {
     @JoinColumn(name = "attach_id", insertable = false, updatable = false)
     private AttachEntity attach;
 
+    @Column(name = "icon_id")
+    private String iconId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "icon_id", insertable = false, updatable = false)
+    private AttachEntity icon;
+
     @Column(name = "order_number")
     private Integer orderNumber;
 
