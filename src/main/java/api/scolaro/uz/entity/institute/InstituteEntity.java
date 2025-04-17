@@ -44,19 +44,12 @@ public class InstituteEntity extends BaseIdentityEntity {
     private String territoryRu;
 
     // Обучение
-    @Column(name = "education_en")
+    @Column(name = "education_uz")
     private String educationUz;
     @Column(name = "education_en")
     private String educationEn;
-    @Column(name = "education_en")
+    @Column(name = "education_ru")
     private String educationRu;
-
-    // Программы  Shu universitetga bo'glangan programmalarni programmani ichida ko'rsatiladi. Bunda emas
-
-    // Медия  photo+video(link)   InstituteAttachEntity - merge method yozish kerak
-    // List<InstituteAttachEntity> ...
-
-    // Направления -> InstituteDestinationEntity  merge method yozish kerak.
 
     // Контакты
     @Column(name = "phone_number_1")
@@ -98,5 +91,11 @@ public class InstituteEntity extends BaseIdentityEntity {
     @Enumerated(EnumType.STRING)
     private GeneralStatus status;
 
+    // Программы  Shu universitetga bo'glangan programmalarni programmani ichida ko'rsatiladi. Bunda emas
+
+    // Медия  photo+video(link)   InstituteAttachEntity - merge method yozish kerak
+    // List<InstituteAttachEntity> ...
+
+    // Направления -> InstituteDestinationEntity  merge method yozish kerak.
 
 }
