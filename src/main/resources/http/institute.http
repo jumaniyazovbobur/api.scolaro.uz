@@ -1,0 +1,63 @@
+###
+POST http://localhost:8081/api/v1/institute
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Toshkent Axborot Texnologiyalari Universiteti",
+  "countryId": 1,
+  "cityName": "Toshkent",
+  "rating": 1,
+  "aboutUz": "Bu O'zbekistondagi yetakchi axborot texnologiyalari universiteti.",
+  "aboutEn": "This is the leading IT university in Uzbekistan.",
+  "aboutRu": "Это ведущий университет информационных технологий в Узбекистане.",
+  "territoryUz": "Universitet hududi keng va zamonaviy.",
+  "territoryEn": "The campus is wide and modern.",
+  "territoryRu": "Территория университета просторная и современная.",
+  "educationUz": "Bakalavr, magistratura, va doktorantura dasturlari mavjud.",
+  "educationEn": "Bachelor's, Master's and PhD programs are available.",
+  "educationRu": "Доступны программы бакалавриата, магистратуры и аспирантуры.",
+  "phoneNumber1": "+998901234567",
+  "phoneNumber2": "+998998765432",
+  "webSite": "https://tuit.uz",
+  "instagramUrl": "https://instagram.com/tuit_uz",
+  "facebookUrl": "https://facebook.com/tuit.uz",
+  "email": "info@tuit.uz",
+  "photoId": "2c9eb08196449e6e0196449f24640000",
+  "compressedPhotoId": "2c9eb08196449e6e0196449f24640000",
+  "logoId": "2c9eb08196449e6e0196449f24640000",
+  "compressedLogoId": "2c9eb08196449e6e0196449f24640000",
+  "masterDegree": true,
+  "doctoralDegree": true,
+  "status": "ACTIVE",
+
+  "instituteAttachRequestDTOS": [
+    {
+      "instituteId": 1,
+      "attachId": "2c9eb08196449e6e0196449f24640000",
+      "videoLink": "https://www.youtube.com/watch?v=example",
+      "instituteAttachType": "PHOTO"
+    },
+    {
+      "instituteId": 1,
+      "attachId": "2c9eb08196449e6e0196449f24640000",
+      "videoLink": "https://youtu.be/sample-video",
+      "instituteAttachType": "VIDEO"
+    }
+  ],
+
+  "instituteDestinationRequestDTOS": [
+    {
+      "destinationId": 1,
+      "instituteId": 1
+    },
+    {
+      "destinationId": 2,
+      "instituteId": 1
+    }
+  ]
+}
+
+
+
+

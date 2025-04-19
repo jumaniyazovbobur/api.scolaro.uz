@@ -45,6 +45,16 @@ public class InstituteController {
         return ResponseEntity.ok(service.create(dto));
     }
 
+
+        @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/{instituteId}")
+    @Operation(summary = "Update institute", description = "")
+    public ResponseEntity<ApiResponse<InstituteResponseAdminDTO>> update(@PathVariable("instituteId") Long instituteId,
+                                                 @Valid @RequestBody InstituteRequestDTO dto) {
+        log.info("Update institute {}", instituteId);
+        return ResponseEntity.ok(service.update(instituteId, dto));
+    }
+
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
 //    @GetMapping("/{id}")
 //    @Operation(summary = "Get institute for admin", description = "")

@@ -19,7 +19,7 @@ import java.util.List;
 public class InstituteAttachService {
     private final InstituteAttachRepository repository;
 
-    @Transactional
+
     public List<InstituteAttachResponseDTO> merge(Long instituteId, List<InstituteAttachRequestDTO> newList) {
         if (newList == null) {
             newList = new LinkedList<>();

@@ -97,7 +97,8 @@ public class InstituteRequestDTO {
     private List<InstituteAttachRequestDTO> instituteAttachRequestDTOS;
 
     // Направления -> InstituteDestinationEntity  merge method yozish kerak.
-    @NotNull(message = "Institute Destination Request DTO null bo‘lishi mumkin emas")
-    private List<InstituteDestinationRequestDTO> instituteDestinationRequestDTOS;
+    @NotNull(message = " Destination id bo'sh bo'lishi mumkin emas")
+    @Min(value = 1, message = "Destination id ning qiymati minimal 1 bo'lsin")
+    private List<Long> destinationIds;
 
 }
